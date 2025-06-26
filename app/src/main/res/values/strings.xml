@@ -24,7 +24,8 @@
     <string name="enable_web">Enable Web</string>
     <string name="key_target_web" translatable="false">key_target_web</string>
     <string name="target_title_web">Target Web URL</string>
-    <string name="target_summary_web">Example: https://site.com/api\nThis app will send POST request on receive SMS, request body example:\n{ "from": "10000", "message": "Hello" }</string>
+    <string name="target_summary_web">Example: https://site.com/api\nThis app will send POST request
+        on receive SMS, request body example:\n{ "from": "10000", "message": "Hello" }</string>
 
     <!-- Email -->
     <string name="key_enable_email" translatable="false">key_enable_email</string>
@@ -48,4 +49,14 @@
     <string name="smtp_password_summary">Sender’s password for submitting emails to sent</string>
     <string name="smtp_username_style">Username style</string>
     <string name="smtp_username_style_summary">Full address or local part</string>
+
+    <!-- Test & Debug -->
+    <string name="key_test_message" translatable="false">key_test_message</string>
+    <string name="header_test">Test &amp; Debug</string>
+    <string name="test_message_title">Send Test Message</string>
+    <string name="test_message_summary">Send a test message to verify forwarding setup</string>
+    <string name="test_message_sent">Test message sent successfully!</string>
+    <string name="test_message_error">Failed to send test message: %s</string>
+    <string name="test_message_no_forwarders">No forwarders enabled. Please enable at least one
+        forwarding method.</string>
 </resources>

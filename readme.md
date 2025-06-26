@@ -24,9 +24,15 @@ Calls can be forwarded to a single phone thanks to carriers' call forwarding ser
 - Shows exact received date/time
 - Formatted as "Received at: dd/MM/yyyy HH:mm:ss"
 
+✅ **Testing and debugging:**
+
+- Built-in test message feature
+- Verify forwarding setup instantly
+- Debug each platform individually
+
 ✅ **Minimal and efficient:**
 
-- Small APK size (~6MB)
+- Small APK size (~1.9MB)
 - Low battery consumption
 - No unnecessary permissions
 
@@ -95,7 +101,12 @@ gradlew.bat assembleRelease
    - **Email**: Configure SMTP server settings
    - **Web**: Set webhook URL endpoint
 
-4. **Usage:**
+4. **Test Your Setup:**
+   - Go to "Test & Debug" section in settings
+   - Tap "Send Test Message" to verify configuration
+   - Check if test message arrives on your target platforms
+
+5. **Usage:**
    - Keep the Android phone charged and connected
    - Incoming SMS will be forwarded automatically
    - Send reverse SMS with format: `To [number]:\n[message]`
@@ -169,7 +180,7 @@ HTTP POST to configured webhook:
 - **Package Name**: `com.keremgok.smsforward`
 - **Minimum Android**: API Level 25 (Android 7.0)
 - **Target Android**: API Level 34 (Android 14)
-- **App Version**: 1.1.0
+- **App Version**: 1.2.0
 - **Architecture**: Java with Android Gradle Plugin 8.7.3
 
 ## Project Structure

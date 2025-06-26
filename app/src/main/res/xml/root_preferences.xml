@@ -110,7 +110,7 @@
             android:entries="@array/option_smtp_username_style_titles"
             android:entryValues="@array/option_smtp_username_style_values"
             app:iconSpaceReserved="false"
-            />
+        />
         <EditTextPreference
             android:defaultValue=""
             android:inputType="textPassword"
@@ -118,6 +118,18 @@
             android:summary="@string/smtp_password_summary"
             android:title="@string/smtp_password"
             app:iconSpaceReserved="false" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
+        app:title="@string/header_test">
+
+        <Preference
+            android:key="@string/key_test_message"
+            android:title="@string/test_message_title"
+            android:summary="@string/test_message_summary"
+            app:iconSpaceReserved="false" />
+
     </PreferenceCategory>
 
 </PreferenceScreen>

@@ -5,7 +5,7 @@
 ### Critical Features
 
 - [ ] **Retry Mechanism** - Auto-retry failed forwards (3 attempts)
-- [ ] **Test Message Button** - Quick functionality test
+- [x] **Test Message Button** - Quick functionality test ✅ *Completed in v1.2.0*
 - [ ] **Connection Status Indicator** - Show online/offline status
 - [ ] **Offline Message Queue** - Store failed messages for retry
 - [ ] **Number Whitelist** - Only forward from specific numbers
