@@ -66,13 +66,13 @@ public class SmsReceiver extends BroadcastReceiver {
 
         ArrayList<Forwarder> forwarders = new ArrayList<>(1);
         if (enableSms && !targetNumber.isEmpty()) {
-            forwarders.add(new SmsForwarder(targetNumber));
+            forwarders.add(new RetryableForwarder(new SmsForwarder(targetNumber)));
         }
         if (enableTelegram && !targetTelegram.isEmpty() && !telegramToken.isEmpty()) {
-            forwarders.add(new TelegramForwarder(targetTelegram, telegramToken));
+            forwarders.add(new RetryableForwarder(new TelegramForwarder(targetTelegram, telegramToken)));
         }
         if (enableWeb && !targetWeb.isEmpty()) {
-            forwarders.add(new JsonWebForwarder(targetWeb));
+            forwarders.add(new RetryableForwarder(new JsonWebForwarder(targetWeb)));
         }
         if (enableEmail && !fromEmailAddress.isEmpty() && !toEmailAddress.isEmpty() &&
                 !smtpHost.isEmpty() && smtpPort != 0 && !smtpPassword.isEmpty()) {
@@ -87,14 +87,14 @@ public class SmsReceiver extends BroadcastReceiver {
             String username = "full".equals(smtpUsernameStyle)
                     ? fromAddress.getAddress()
                     : fromAddress.getAddress().substring(0, fromAddress.getAddress().indexOf("@"));
-            forwarders.add(new EmailForwarder(
+            forwarders.add(new RetryableForwarder(new EmailForwarder(
                     fromAddress,
                     toAddresses,
                     smtpHost,
                     smtpPort,
                     username,
                     smtpPassword
-            ));
+            )));
         }
 
         if (senderNumber.equals(targetNumber)) {

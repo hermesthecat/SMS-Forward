@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
                 if (smsEnabled) {
                     String target = prefs.getString(getString(R.string.key_target_sms), "");
                     if (!target.isEmpty()) {
-                        forwarders.add(new SmsForwarder(target));
+                        forwarders.add(new RetryableForwarder(new SmsForwarder(target)));
                     }
                 }
                 
@@ -90,14 +90,14 @@ public class MainActivity extends AppCompatActivity {
                     String targetId = prefs.getString(getString(R.string.key_target_telegram), "");
                     String apiKey = prefs.getString(getString(R.string.key_telegram_apikey), "");
                     if (!targetId.isEmpty() && !apiKey.isEmpty()) {
-                        forwarders.add(new TelegramForwarder(targetId, apiKey));
+                        forwarders.add(new RetryableForwarder(new TelegramForwarder(targetId, apiKey)));
                     }
                 }
                 
                 if (webEnabled) {
                     String targetUrl = prefs.getString(getString(R.string.key_target_web), "");
                     if (!targetUrl.isEmpty()) {
-                        forwarders.add(new JsonWebForwarder(targetUrl));
+                        forwarders.add(new RetryableForwarder(new JsonWebForwarder(targetUrl)));
                     }
                 }
                 
@@ -122,8 +122,8 @@ public class MainActivity extends AppCompatActivity {
                             String username = usernameStyle.equals("full") ? fromAddress : 
                                             (fromAddress.contains("@") ? fromAddress.substring(0, fromAddress.indexOf("@")) : fromAddress);
                             
-                            forwarders.add(new EmailForwarder(from, to, host, 
-                                                            (short) portInt, username, password));
+                            forwarders.add(new RetryableForwarder(new EmailForwarder(from, to, host, 
+                                                            (short) portInt, username, password)));
                         } catch (NumberFormatException e) {
                             // Skip email forwarder if port is invalid
                         } catch (jakarta.mail.internet.AddressException e) {
@@ -147,7 +147,10 @@ public class MainActivity extends AppCompatActivity {
                         forwarder.forward(testPhoneNumber, testMessage, currentTime);
                         successCount++;
                     } catch (Exception e) {
-                        errorMessages.append(forwarder.getClass().getSimpleName())
+                        String forwarderName = (forwarder instanceof RetryableForwarder) 
+                            ? ((RetryableForwarder) forwarder).getDelegateName()
+                            : forwarder.getClass().getSimpleName();
+                        errorMessages.append(forwarderName)
                                    .append(": ").append(e.getMessage()).append("\n");
                     }
                 }

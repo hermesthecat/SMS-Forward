@@ -16,7 +16,7 @@ SMS Forward is a minimal, efficient Android application for forwarding SMS messa
 
 #### 1.1 Error Handling & Reliability
 
-- [ ] **Retry Mechanism** for failed forwards
+- [x] **Retry Mechanism** for failed forwards ✅ *Completed v1.3.0*
 - [ ] **Offline Message Queue** with SQLite storage
 - [ ] **Connection Timeout Handling** (configurable)
 - [ ] **Graceful Error Recovery** without crashes
@@ -47,7 +47,7 @@ public class RetryableForwarder {
 
 #### 1.2 Basic UI Enhancements
 
-- [ ] **Test Message Button** in settings
+- [x] **Test Message Button** in settings
 - [ ] **Connection Status Indicator** (green/red)
 - [ ] **Last Forward Status** display
 - [ ] **Message Counter** (daily/total)

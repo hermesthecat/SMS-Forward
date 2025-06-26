@@ -59,4 +59,8 @@
     <string name="test_message_error">Failed to send test message: %s</string>
     <string name="test_message_no_forwarders">No forwarders enabled. Please enable at least one
         forwarding method.</string>
+
+    <!-- Retry Mechanism -->
+    <string name="retry_mechanism_info">Automatic retry enabled for all forwarding methods (3
+        attempts with exponential backoff)</string>
 </resources>

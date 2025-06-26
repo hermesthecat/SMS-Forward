@@ -24,6 +24,12 @@ Calls can be forwarded to a single phone thanks to carriers' call forwarding ser
 - Shows exact received date/time
 - Formatted as "Received at: dd/MM/yyyy HH:mm:ss"
 
+✅ **Reliability and resilience:**
+
+- Automatic retry mechanism (3 attempts)
+- Exponential backoff between retries
+- Detailed logging for troubleshooting
+
 ✅ **Testing and debugging:**
 
 - Built-in test message feature
@@ -113,6 +119,23 @@ gradlew.bat assembleRelease
 
 ## Usage Examples
 
+### Automatic Retry Mechanism
+
+All forwarding attempts automatically retry on failure:
+
+```bash
+# First attempt fails -> Retry in 1 second
+# Second attempt fails -> Retry in 2 seconds  
+# Third attempt fails -> Give up and log error
+```
+
+Retry timing follows exponential backoff:
+
+- Attempt 1: Immediate
+- Attempt 2: 1 second delay
+- Attempt 3: 2 second delay
+- After 3 failures: Error logged and message dropped
+
 ### Incoming Message Forwarding
 
 When SMS is received on Android phone:
@@ -180,7 +203,7 @@ HTTP POST to configured webhook:
 - **Package Name**: `com.keremgok.smsforward`
 - **Minimum Android**: API Level 25 (Android 7.0)
 - **Target Android**: API Level 34 (Android 14)
-- **App Version**: 1.2.0
+- **App Version**: 1.3.0
 - **Architecture**: Java with Android Gradle Plugin 8.7.3
 
 ## Project Structure
@@ -190,6 +213,7 @@ app/src/main/java/com/keremgok/smsforward/
 ├── MainActivity.java          # Settings UI
 ├── SmsReceiver.java           # SMS broadcast receiver
 ├── Forwarder.java             # Interface for all forwarders
+├── RetryableForwarder.java    # Retry mechanism wrapper
 ├── SmsForwarder.java          # SMS forwarding implementation
 ├── TelegramForwarder.java     # Telegram Bot API integration
 ├── EmailForwarder.java        # SMTP email forwarding
