@@ -1,0 +1,51 @@
+<resources>
+    <string name="app_name">SMS Forward</string>
+
+    <!-- SMS -->
+    <string name="key_enable_sms" translatable="false">key_enable_sms</string>
+    <string name="header_sms">Forward via SMS</string>
+    <string name="enable_sms">Enable SMS</string>
+    <string name="key_target_sms" translatable="false">key_sms_target</string>
+    <string name="target_title_sms">Target phone number</string>
+    <string name="target_summary_sms">Example: +86 10000</string>
+
+    <!-- Telegram -->
+    <string name="key_enable_telegram" translatable="false">key_enable_telegram</string>
+    <string name="header_telegram">Forward via Telegram</string>
+    <string name="enable_telegram">Enable Telegram</string>
+    <string name="key_target_telegram" translatable="false">key_target_telegram</string>
+    <string name="key_telegram_apikey" translatable="false">key_telegram_apikey</string>
+    <string name="target_title_telegram">Target Telegram ID</string>
+    <string name="title_telegram_apikey">Telegram API token</string>
+
+    <!-- Web -->
+    <string name="key_enable_web" translatable="false">key_enable_web</string>
+    <string name="header_web">Forward via Web</string>
+    <string name="enable_web">Enable Web</string>
+    <string name="key_target_web" translatable="false">key_target_web</string>
+    <string name="target_title_web">Target Web URL</string>
+    <string name="target_summary_web">Example: https://site.com/api\nThis app will send POST request on receive SMS, request body example:\n{ "from": "10000", "message": "Hello" }</string>
+
+    <!-- Email -->
+    <string name="key_enable_email" translatable="false">key_enable_email</string>
+    <string name="key_email_from_address" translatable="false">key_email_from_address</string>
+    <string name="key_email_to_address" translatable="false">key_email_to_address</string>
+    <string name="key_email_submit_host" translatable="false">key_email_submit_host</string>
+    <string name="key_email_submit_port" translatable="false">key_email_submit_port</string>
+    <string name="key_email_submit_password" translatable="false">key_email_submit_password</string>
+    <string name="key_email_username_style" translatable="false">key_email_username_style</string>
+    <string name="header_email">Forward via Email</string>
+    <string name="enable_email">Enable Email</string>
+    <string name="from_address">Sender address</string>
+    <string name="from_address_summary">Example: from@example.com</string>
+    <string name="to_address">Recipient address</string>
+    <string name="to_address_summary">Example: to@example.com</string>
+    <string name="smtp_submission_server">SMTP submission server</string>
+    <string name="smtp_submission_server_summary">Example: smtp.example.com</string>
+    <string name="smtp_submission_port">SMTP submission port</string>
+    <string name="smtp_submission_port_summary">Usually 465 or 587</string>
+    <string name="smtp_password">Password</string>
+    <string name="smtp_password_summary">Sender’s password for submitting emails to sent</string>
+    <string name="smtp_username_style">Username style</string>
+    <string name="smtp_username_style_summary">Full address or local part</string>
+</resources>
