@@ -92,6 +92,24 @@ build-release.bat
 clean-build.bat
 ```
 
+### GitHub Actions CI/CD
+
+Automated building and releasing with GitHub Actions:
+
+```bash
+# Automatic builds triggered by:
+- Push to main/develop branches
+- Pull requests to main
+- Git tags (v*)
+
+# Build outputs:
+- Debug APK: Pull requests and develop branch
+- Release APK: Main branch and tags
+- GitHub Releases: Automatic release creation on tags
+```
+
+See [.github/SETUP.md](.github/SETUP.md) for detailed CI/CD setup instructions.
+
 ### Manual Build
 
 ```batch

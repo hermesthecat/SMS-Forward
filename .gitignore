@@ -6,3 +6,14 @@
 /build
 /captures
 .externalNativeBuild
+
+# APK Signing (CI/CD)
+*.jks
+*.keystore
+keystore-base64.txt
+release.properties
+
+# GitHub Actions Artifacts
+*.apk
+!app-debug.apk
+SHA256SUMS
