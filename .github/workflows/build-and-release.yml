@@ -2,10 +2,10 @@ name: Build and Release APK
 
 on:
   push:
-    branches: [ main, develop ]
-    tags: [ 'v*' ]
+    branches: [main, develop]
+    tags: ["v*"]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 env:
   # Build configuration
@@ -18,39 +18,39 @@ jobs:
   test:
     name: Run Unit Tests
     runs-on: ubuntu-latest
-    
+
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Set up JDK 17
-      uses: actions/setup-java@v4
-      with:
-        java-version: '17'
-        distribution: 'temurin'
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: "17"
+          distribution: "temurin"
 
-    - name: Cache Gradle packages
-      uses: actions/cache@v4
-      with:
-        path: |
-          ~/.gradle/caches
-          ~/.gradle/wrapper
-        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-        restore-keys: |
-          ${{ runner.os }}-gradle-
+      - name: Cache Gradle packages
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
 
-    - name: Grant execute permission for gradlew
-      run: chmod +x gradlew
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
 
-    - name: Run unit tests
-      run: ./gradlew test --stacktrace
+      - name: Run unit tests
+        run: ./gradlew test --stacktrace
 
-    - name: Upload test results
-      uses: actions/upload-artifact@v4
-      if: always()
-      with:
-        name: test-results
-        path: app/build/reports/tests/
+      - name: Upload test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: test-results
+          path: app/build/reports/tests/
 
   build-debug:
     name: Build Debug APK
@@ -59,115 +59,117 @@ jobs:
     if: github.event_name == 'pull_request' || (github.event_name == 'push' && github.ref == 'refs/heads/develop')
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Set up JDK 17
-      uses: actions/setup-java@v4
-      with:
-        java-version: '17'
-        distribution: 'temurin'
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: "17"
+          distribution: "temurin"
 
-    - name: Cache Gradle packages
-      uses: actions/cache@v4
-      with:
-        path: |
-          ~/.gradle/caches
-          ~/.gradle/wrapper
-        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-        restore-keys: |
-          ${{ runner.os }}-gradle-
+      - name: Cache Gradle packages
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
 
-    - name: Grant execute permission for gradlew
-      run: chmod +x gradlew
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
 
-    - name: Build debug APK
-      run: ./gradlew assembleDebug --stacktrace
+      - name: Build debug APK
+        run: ./gradlew assembleDebug --stacktrace
 
-    - name: Upload debug APK
-      uses: actions/upload-artifact@v4
-      with:
-        name: debug-apk
-        path: app/build/outputs/apk/debug/app-debug.apk
+      - name: Upload debug APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: debug-apk
+          path: app/build/outputs/apk/debug/app-debug.apk
 
   build-release:
     name: Build Release APK
     runs-on: ubuntu-latest
     needs: test
     if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v'))
+    env:
+      KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+      KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+      KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+      KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Set up JDK 17
-      uses: actions/setup-java@v4
-      with:
-        java-version: '17'
-        distribution: 'temurin'
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: "17"
+          distribution: "temurin"
 
-    - name: Cache Gradle packages
-      uses: actions/cache@v4
-      with:
-        path: |
-          ~/.gradle/caches
-          ~/.gradle/wrapper
-        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-        restore-keys: |
-          ${{ runner.os }}-gradle-
+      - name: Cache Gradle packages
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
 
-    - name: Grant execute permission for gradlew
-      run: chmod +x gradlew
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
 
-    - name: Create keystore from secrets
-      run: |
-        echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > app/keystore.jks
-      if: ${{ secrets.KEYSTORE_BASE64 != '' }}
+      - name: Create keystore from secrets
+        run: |
+          echo "$KEYSTORE_BASE64" | base64 -d > app/keystore.jks
+        if: env.KEYSTORE_BASE64 != ''
 
-    - name: Build release APK (unsigned)
-      run: ./gradlew assembleRelease --stacktrace
-      if: ${{ secrets.KEYSTORE_BASE64 == '' }}
+      - name: Build release APK (unsigned)
+        run: ./gradlew assembleRelease --stacktrace
+        if: env.KEYSTORE_BASE64 == ''
 
-    - name: Build release APK (signed)
-      run: ./gradlew assembleRelease --stacktrace
-      if: ${{ secrets.KEYSTORE_BASE64 != '' }}
-      env:
-        KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
-        KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
-        KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+      - name: Build release APK (signed)
+        run: ./gradlew assembleRelease --stacktrace
+        if: env.KEYSTORE_BASE64 != ''
+        
 
-    - name: Get version name
-      id: version
-      run: |
-        VERSION=$(grep "versionName" app/build.gradle | sed 's/.*"\(.*\)".*/\1/')
-        echo "version=$VERSION" >> $GITHUB_OUTPUT
-        echo "Version: $VERSION"
+      - name: Get version name
+        id: version
+        run: |
+          VERSION=$(grep "versionName" app/build.gradle | sed 's/.*"\(.*\)".*/\1/')
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Version: $VERSION"
 
-    - name: Rename APK file
-      run: |
-        mkdir -p release-apk
-        if [ -f "app/build/outputs/apk/release/app-release.apk" ]; then
-          cp app/build/outputs/apk/release/app-release.apk release-apk/SMS-Forward-v${{ steps.version.outputs.version }}.apk
-        elif [ -f "app/build/outputs/apk/release/app-release-unsigned.apk" ]; then
-          cp app/build/outputs/apk/release/app-release-unsigned.apk release-apk/SMS-Forward-v${{ steps.version.outputs.version }}-unsigned.apk
-        fi
+      - name: Rename APK file
+        run: |
+          mkdir -p release-apk
+          if [ -f "app/build/outputs/apk/release/app-release.apk" ]; then
+            cp app/build/outputs/apk/release/app-release.apk release-apk/SMS-Forward-v${{ steps.version.outputs.version }}.apk
+          elif [ -f "app/build/outputs/apk/release/app-release-unsigned.apk" ]; then
+            cp app/build/outputs/apk/release/app-release-unsigned.apk release-apk/SMS-Forward-v${{ steps.version.outputs.version }}-unsigned.apk
+          fi
 
-    - name: Upload release APK
-      uses: actions/upload-artifact@v4
-      with:
-        name: release-apk
-        path: release-apk/*.apk
+      - name: Upload release APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-apk
+          path: release-apk/*.apk
 
-    - name: Calculate APK hash
-      id: apk-hash
-      run: |
-        if [ -f "release-apk/SMS-Forward-v${{ steps.version.outputs.version }}.apk" ]; then
-          sha256sum release-apk/SMS-Forward-v${{ steps.version.outputs.version }}.apk > release-apk/SHA256SUMS
-          echo "hash=$(sha256sum release-apk/SMS-Forward-v${{ steps.version.outputs.version }}.apk | cut -d' ' -f1)" >> $GITHUB_OUTPUT
-        elif [ -f "release-apk/SMS-Forward-v${{ steps.version.outputs.version }}-unsigned.apk" ]; then
-          sha256sum release-apk/SMS-Forward-v${{ steps.version.outputs.version }}-unsigned.apk > release-apk/SHA256SUMS
-          echo "hash=$(sha256sum release-apk/SMS-Forward-v${{ steps.version.outputs.version }}-unsigned.apk | cut -d' ' -f1)" >> $GITHUB_OUTPUT
-        fi
+      - name: Calculate APK hash
+        id: apk-hash
+        run: |
+          if [ -f "release-apk/SMS-Forward-v${{ steps.version.outputs.version }}.apk" ]; then
+            sha256sum release-apk/SMS-Forward-v${{ steps.version.outputs.version }}.apk > release-apk/SHA256SUMS
+            echo "hash=$(sha256sum release-apk/SMS-Forward-v${{ steps.version.outputs.version }}.apk | cut -d' ' -f1)" >> $GITHUB_OUTPUT
+          elif [ -f "release-apk/SMS-Forward-v${{ steps.version.outputs.version }}-unsigned.apk" ]; then
+            sha256sum release-apk/SMS-Forward-v${{ steps.version.outputs.version }}-unsigned.apk > release-apk/SHA256SUMS
+            echo "hash=$(sha256sum release-apk/SMS-Forward-v${{ steps.version.outputs.version }}-unsigned.apk | cut -d' ' -f1)" >> $GITHUB_OUTPUT
+          fi
 
   create-release:
     name: Create GitHub Release
@@ -176,79 +178,79 @@ jobs:
     if: startsWith(github.ref, 'refs/tags/v')
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Download release APK
-      uses: actions/download-artifact@v4
-      with:
-        name: release-apk
-        path: release-apk/
+      - name: Download release APK
+        uses: actions/download-artifact@v4
+        with:
+          name: release-apk
+          path: release-apk/
 
-    - name: Get version info
-      id: version
-      run: |
-        VERSION=${GITHUB_REF#refs/tags/v}
-        echo "version=$VERSION" >> $GITHUB_OUTPUT
-        echo "tag=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+      - name: Get version info
+        id: version
+        run: |
+          VERSION=${GITHUB_REF#refs/tags/v}
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "tag=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
 
-    - name: Generate release notes
-      id: release-notes
-      run: |
-        cat > release-notes.md << 'EOF'
-        ## 🚀 SMS Forward v${{ steps.version.outputs.version }}
+      - name: Generate release notes
+        id: release-notes
+        run: |
+          cat > release-notes.md << 'EOF'
+          ## 🚀 SMS Forward v${{ steps.version.outputs.version }}
 
-        ### 📱 Download
-        - **Production APK**: SMS-Forward-v${{ steps.version.outputs.version }}.apk
-        - **File size**: ~2MB
-        - **Android version**: 7.0+ (API 25+)
+          ### 📱 Download
+          - **Production APK**: SMS-Forward-v${{ steps.version.outputs.version }}.apk
+          - **File size**: ~2MB
+          - **Android version**: 7.0+ (API 25+)
 
-        ### ✅ Key Features
-        - Multi-platform SMS forwarding (SMS, Telegram, Email, Web API)
-        - Automatic retry mechanism with exponential backoff
-        - Offline message queue with persistent storage
-        - Rate limiting protection (10 SMS/minute)
-        - Real-time connection monitoring
-        - Daily/total message statistics
-        - Dark mode support with Material Design 3
-        - Bidirectional messaging support
+          ### ✅ Key Features
+          - Multi-platform SMS forwarding (SMS, Telegram, Email, Web API)
+          - Automatic retry mechanism with exponential backoff
+          - Offline message queue with persistent storage
+          - Rate limiting protection (10 SMS/minute)
+          - Real-time connection monitoring
+          - Daily/total message statistics
+          - Dark mode support with Material Design 3
+          - Bidirectional messaging support
 
-        ### 🔧 Installation
-        1. Download the APK file below
-        2. Enable "Install from unknown sources" in Android settings
-        3. Install the APK
-        4. Grant SMS and Internet permissions
-        5. Configure your forwarding methods in settings
+          ### 🔧 Installation
+          1. Download the APK file below
+          2. Enable "Install from unknown sources" in Android settings
+          3. Install the APK
+          4. Grant SMS and Internet permissions
+          5. Configure your forwarding methods in settings
 
-        ### 🛡️ Security
-        - Rate limiting prevents spam abuse
-        - Local data storage only
-        - No cloud dependencies
-        - Open source and auditable
+          ### 🛡️ Security
+          - Rate limiting prevents spam abuse
+          - Local data storage only
+          - No cloud dependencies
+          - Open source and auditable
 
-        ### 📋 Changelog
-        See [DEVELOPMENT_ROADMAP.md](https://github.com/${{ github.repository }}/blob/main/DEVELOPMENT_ROADMAP.md) for detailed changes.
+          ### 📋 Changelog
+          See [DEVELOPMENT_ROADMAP.md](https://github.com/${{ github.repository }}/blob/main/DEVELOPMENT_ROADMAP.md) for detailed changes.
 
-        ### 🔍 Verification
-        SHA256 hash is provided in SHA256SUMS file for security verification.
+          ### 🔍 Verification
+          SHA256 hash is provided in SHA256SUMS file for security verification.
 
-        ### 🐛 Issues & Support
-        Report issues on [GitHub Issues](https://github.com/${{ github.repository }}/issues)
-        EOF
+          ### 🐛 Issues & Support
+          Report issues on [GitHub Issues](https://github.com/${{ github.repository }}/issues)
+          EOF
 
-    - name: Create Release
-      uses: softprops/action-gh-release@v1
-      with:
-        tag_name: ${{ steps.version.outputs.tag }}
-        name: SMS Forward v${{ steps.version.outputs.version }}
-        body_path: release-notes.md
-        draft: false
-        prerelease: false
-        files: |
-          release-apk/*.apk
-          release-apk/SHA256SUMS
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ steps.version.outputs.tag }}
+          name: SMS Forward v${{ steps.version.outputs.version }}
+          body_path: release-notes.md
+          draft: false
+          prerelease: false
+          files: |
+            release-apk/*.apk
+            release-apk/SHA256SUMS
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   cleanup:
     name: Cleanup
@@ -257,7 +259,7 @@ jobs:
     if: always()
 
     steps:
-    - name: Delete temporary files
-      run: |
-        echo "Cleanup completed"
-        # Additional cleanup steps can be added here if needed 
+      - name: Delete temporary files
+        run: |
+          echo "Cleanup completed"
+          # Additional cleanup steps can be added here if needed
