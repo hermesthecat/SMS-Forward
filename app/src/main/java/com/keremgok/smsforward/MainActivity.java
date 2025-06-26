@@ -90,6 +90,21 @@ public class MainActivity extends AppCompatActivity {
                 // Update connection status summary
                 updateConnectionStatusSummary();
             }
+
+            // Set up message counter display
+            Preference messageCounterPreference = findPreference(getString(R.string.key_message_counter));
+            if (messageCounterPreference != null) {
+                messageCounterPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                    @Override
+                    public boolean onPreferenceClick(Preference preference) {
+                        showMessageCounter();
+                        return true;
+                    }
+                });
+
+                // Update message counter summary
+                updateMessageCounterSummary(messageCounterPreference);
+            }
         }
 
         @Override
@@ -207,6 +222,9 @@ public class MainActivity extends AppCompatActivity {
                     return;
                 }
 
+                // Initialize stats helper for test messages
+                MessageStatsDbHelper statsHelper = new MessageStatsDbHelper(getContext());
+
                 // Send test message through all enabled forwarders
                 int successCount = 0;
                 StringBuilder errorMessages = new StringBuilder();
@@ -215,12 +233,22 @@ public class MainActivity extends AppCompatActivity {
                     try {
                         forwarder.forward(testPhoneNumber, testMessage, currentTime);
                         successCount++;
+                        
+                        // Record test success in stats (use actual forwarder name)
+                        String forwarderName = (forwarder instanceof RetryableForwarder)
+                                ? ((RetryableForwarder) forwarder).getDelegateName()
+                                : forwarder.getClass().getSimpleName();
+                        statsHelper.recordForwardSuccess(forwarderName);
+                        
                     } catch (Exception e) {
                         String forwarderName = (forwarder instanceof RetryableForwarder)
                                 ? ((RetryableForwarder) forwarder).getDelegateName()
                                 : forwarder.getClass().getSimpleName();
                         errorMessages.append(forwarderName)
                                 .append(": ").append(e.getMessage()).append("\n");
+                                
+                        // Record test failure in stats
+                        statsHelper.recordForwardFailure(forwarderName);
                     }
                 }
 
@@ -345,6 +373,93 @@ public class MainActivity extends AppCompatActivity {
 
             } catch (Exception e) {
                 connectionStatusPreference.setSummary("Error reading connection status");
+            }
+        }
+
+        private void showMessageCounter() {
+            try {
+                MessageStatsDbHelper statsHelper = new MessageStatsDbHelper(getContext());
+                
+                // Get today's stats
+                MessageStatsDbHelper.DailyStats todayStats = statsHelper.getTodayStats();
+                
+                // Get total stats
+                MessageStatsDbHelper.TotalStats totalStats = statsHelper.getTotalStats();
+                
+                StringBuilder message = new StringBuilder();
+                
+                // Today's statistics
+                message.append("📊 Today's Messages:\n");
+                if (todayStats != null && todayStats.totalCount > 0) {
+                    message.append(String.format("  Total: %d\n", todayStats.totalCount));
+                    message.append(String.format("  Success: %d (%.1f%%)\n", 
+                            todayStats.successCount, todayStats.getSuccessRate()));
+                    message.append(String.format("  Failed: %d\n", todayStats.failedCount));
+                    
+                    if (todayStats.smsCount > 0) message.append(String.format("  📱 SMS: %d\n", todayStats.smsCount));
+                    if (todayStats.telegramCount > 0) message.append(String.format("  📢 Telegram: %d\n", todayStats.telegramCount));
+                    if (todayStats.emailCount > 0) message.append(String.format("  📧 Email: %d\n", todayStats.emailCount));
+                    if (todayStats.webCount > 0) message.append(String.format("  🌐 Web API: %d\n", todayStats.webCount));
+                } else {
+                    message.append("  No messages forwarded today\n");
+                }
+                
+                message.append("\n");
+                
+                // Total statistics
+                message.append("📈 All Time:\n");
+                if (totalStats.totalCount > 0) {
+                    message.append(String.format("  Total: %d\n", totalStats.totalCount));
+                    message.append(String.format("  Success: %d (%.1f%%)\n", 
+                            totalStats.successCount, totalStats.getSuccessRate()));
+                    message.append(String.format("  Failed: %d\n", totalStats.failedCount));
+                    message.append(String.format("  Active Days: %d\n", totalStats.activeDays));
+                    message.append(String.format("  Daily Avg: %.1f\n", totalStats.getAveragePerDay()));
+                    
+                    message.append("\n  Platform Breakdown:\n");
+                    if (totalStats.smsCount > 0) message.append(String.format("  📱 SMS: %d\n", totalStats.smsCount));
+                    if (totalStats.telegramCount > 0) message.append(String.format("  📢 Telegram: %d\n", totalStats.telegramCount));
+                    if (totalStats.emailCount > 0) message.append(String.format("  📧 Email: %d\n", totalStats.emailCount));
+                    if (totalStats.webCount > 0) message.append(String.format("  🌐 Web API: %d\n", totalStats.webCount));
+                } else {
+                    message.append("  No messages forwarded yet\n");
+                }
+                
+                Toast.makeText(getContext(), message.toString(), Toast.LENGTH_LONG).show();
+                
+                // Update the preference summary
+                Preference messageCounterPreference = findPreference(getString(R.string.key_message_counter));
+                if (messageCounterPreference != null) {
+                    updateMessageCounterSummary(messageCounterPreference);
+                }
+                
+            } catch (Exception e) {
+                Toast.makeText(getContext(), "Error reading message statistics: " + e.getMessage(),
+                        Toast.LENGTH_LONG).show();
+            }
+        }
+
+        private void updateMessageCounterSummary(Preference preference) {
+            try {
+                MessageStatsDbHelper statsHelper = new MessageStatsDbHelper(getContext());
+                MessageStatsDbHelper.DailyStats todayStats = statsHelper.getTodayStats();
+                MessageStatsDbHelper.TotalStats totalStats = statsHelper.getTotalStats();
+                
+                String summary;
+                if (todayStats != null && todayStats.totalCount > 0) {
+                    summary = String.format("Today: %d | Total: %d (%.1f%% success)", 
+                            todayStats.totalCount, totalStats.totalCount, totalStats.getSuccessRate());
+                } else if (totalStats.totalCount > 0) {
+                    summary = String.format("Today: 0 | Total: %d (%.1f%% success)", 
+                            totalStats.totalCount, totalStats.getSuccessRate());
+                } else {
+                    summary = "No messages forwarded yet";
+                }
+                
+                preference.setSummary(summary);
+                
+            } catch (Exception e) {
+                preference.setSummary("Error reading statistics");
             }
         }
     }

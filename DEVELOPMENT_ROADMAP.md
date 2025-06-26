@@ -4,7 +4,7 @@
 
 SMS Forward is a minimal, efficient Android application for forwarding SMS messages across multiple platforms. This document outlines future development suggestions and improvements.
 
-**Current Version**: 1.1.0  
+**Current Version**: 1.6.0  
 **Package Name**: `com.keremgok.smsforward`  
 **Target**: Production-ready SMS forwarding solution
 
@@ -47,10 +47,10 @@ public class RetryableForwarder {
 
 #### 1.2 Basic UI Enhancements
 
-- [x] **Test Message Button** in settings
+- [x] **Test Message Button** in settings ✅ *Completed v1.2.0*
 - [x] **Connection Status Indicator** (green/red) ✅ *Completed v1.5.0*
+- [x] **Message Counter** (daily/total) ✅ *Completed v1.6.0*
 - [ ] **Last Forward Status** display
-- [ ] **Message Counter** (daily/total)
 
 #### 1.3 Essential Security
 
@@ -98,8 +98,8 @@ public class SmartNotificationManager {
 
 #### 2.3 Statistics & Monitoring
 
-- [ ] **Daily/Weekly/Monthly** forwarding statistics
-- [ ] **Platform Success Rates** dashboard
+- [x] **Daily/Weekly/Monthly** forwarding statistics ✅ *Basic version completed v1.6.0*
+- [x] **Platform Success Rates** dashboard ✅ *Basic version completed v1.6.0*
 - [ ] **Message History** (last 100 messages)
 - [ ] **Export Statistics** to CSV/JSON
 

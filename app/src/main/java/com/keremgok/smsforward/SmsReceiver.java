@@ -27,6 +27,7 @@ public class SmsReceiver extends BroadcastReceiver {
 
     private final Executor forwarderExecutor = Executors.newCachedThreadPool();
     private static MessageQueueProcessor queueProcessor;
+    private static MessageStatsDbHelper statsDbHelper;
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -36,6 +37,11 @@ public class SmsReceiver extends BroadcastReceiver {
         if (queueProcessor == null) {
             queueProcessor = new MessageQueueProcessor(context);
             queueProcessor.start();
+        }
+        
+        // Initialize stats helper if not already done
+        if (statsDbHelper == null) {
+            statsDbHelper = new MessageStatsDbHelper(context);
         }
 
         // Large message might be broken into several parts.
@@ -74,15 +80,21 @@ public class SmsReceiver extends BroadcastReceiver {
         ArrayList<Forwarder> forwarders = new ArrayList<>(1);
         if (enableSms && !targetNumber.isEmpty()) {
             SmsForwarder smsForwarder = new SmsForwarder(targetNumber);
-            forwarders.add(new RetryableForwarder(smsForwarder, queueProcessor));
+            RetryableForwarder retryableForwarder = new RetryableForwarder(smsForwarder, queueProcessor);
+            retryableForwarder.setStatsHelper(statsDbHelper);
+            forwarders.add(retryableForwarder);
         }
         if (enableTelegram && !targetTelegram.isEmpty() && !telegramToken.isEmpty()) {
             TelegramForwarder telegramForwarder = new TelegramForwarder(targetTelegram, telegramToken);
-            forwarders.add(new RetryableForwarder(telegramForwarder, queueProcessor));
+            RetryableForwarder retryableForwarder = new RetryableForwarder(telegramForwarder, queueProcessor);
+            retryableForwarder.setStatsHelper(statsDbHelper);
+            forwarders.add(retryableForwarder);
         }
         if (enableWeb && !targetWeb.isEmpty()) {
             JsonWebForwarder webForwarder = new JsonWebForwarder(targetWeb);
-            forwarders.add(new RetryableForwarder(webForwarder, queueProcessor));
+            RetryableForwarder retryableForwarder = new RetryableForwarder(webForwarder, queueProcessor);
+            retryableForwarder.setStatsHelper(statsDbHelper);
+            forwarders.add(retryableForwarder);
         }
         if (enableEmail && !fromEmailAddress.isEmpty() && !toEmailAddress.isEmpty() &&
                 !smtpHost.isEmpty() && smtpPort != 0 && !smtpPassword.isEmpty()) {
@@ -105,7 +117,9 @@ public class SmsReceiver extends BroadcastReceiver {
                     username,
                     smtpPassword
             );
-            forwarders.add(new RetryableForwarder(emailForwarder, queueProcessor));
+            RetryableForwarder retryableForwarder = new RetryableForwarder(emailForwarder, queueProcessor);
+            retryableForwarder.setStatsHelper(statsDbHelper);
+            forwarders.add(retryableForwarder);
         }
 
         if (senderNumber.equals(targetNumber)) {

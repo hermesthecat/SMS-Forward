@@ -33,6 +33,7 @@ public class MessageQueueProcessor {
     private final MessageQueueDbHelper dbHelper;
     private final ScheduledExecutorService queueExecutor;
     private final NetworkStatusManager networkStatusManager;
+    private final MessageStatsDbHelper statsHelper;
     private volatile boolean isRunning = false;
 
     public MessageQueueProcessor(Context context) {
@@ -40,6 +41,7 @@ public class MessageQueueProcessor {
         this.dbHelper = new MessageQueueDbHelper(context);
         this.queueExecutor = Executors.newSingleThreadScheduledExecutor();
         this.networkStatusManager = NetworkStatusManager.getInstance(context);
+        this.statsHelper = new MessageStatsDbHelper(context);
     }
 
     /**
@@ -66,7 +68,11 @@ public class MessageQueueProcessor {
 
         // Schedule periodic cleanup
         queueExecutor.scheduleWithFixedDelay(
-                () -> dbHelper.cleanupOldMessages(),
+                () -> {
+                    dbHelper.cleanupOldMessages();
+                    // Also cleanup old stats (keep 90 days)
+                    statsHelper.cleanupOldStats(90);
+                },
                 1, // Initial delay of 1 hour
                 24, // Cleanup every 24 hours
                 TimeUnit.HOURS);
@@ -164,8 +170,9 @@ public class MessageQueueProcessor {
             forwarder.forward(queuedMessage.fromNumber, queuedMessage.messageContent,
                     queuedMessage.timestamp);
 
-            // Success - remove from queue
+            // Success - remove from queue and record stats
             dbHelper.markMessageSuccess(queuedMessage.id);
+            statsHelper.recordForwardSuccess(queuedMessage.forwarderType);
             Log.i(TAG, "Successfully processed queued message ID " + queuedMessage.id +
                     " via " + queuedMessage.forwarderType);
 
@@ -177,8 +184,9 @@ public class MessageQueueProcessor {
                     " (attempt " + newRetryCount + "): " + e.getMessage());
 
             if (newRetryCount >= MAX_QUEUE_RETRY_ATTEMPTS) {
-                // Max retries reached - mark as permanently failed
+                // Max retries reached - mark as permanently failed and record stats
                 dbHelper.markMessageFailed(queuedMessage.id, newRetryCount);
+                statsHelper.recordForwardFailure(queuedMessage.forwarderType);
                 Log.e(TAG, "Message ID " + queuedMessage.id + " permanently failed after " +
                         newRetryCount + " queue retry attempts");
             } else {

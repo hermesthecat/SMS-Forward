@@ -75,6 +75,11 @@
     <string name="key_connection_status" translatable="false">key_connection_status</string>
     <string name="connection_status_title">Connection Status</string>
     <string name="connection_status_summary">Current network connectivity status</string>
+    
+    <!-- Message Counter -->
+    <string name="key_message_counter">message_counter</string>
+    <string name="message_counter_title">Message Counter</string>
+    <string name="message_counter_summary">View daily and total forwarded message statistics</string>
     <string name="connection_online">%1$s Online (%2$s)</string>
     <string name="connection_offline">🔴 Offline</string>
     <string name="connection_unknown">❓ Unknown</string>

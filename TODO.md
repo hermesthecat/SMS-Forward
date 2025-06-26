@@ -12,7 +12,7 @@
 
 ### UI Improvements
 
-- [ ] **Message Counter** - Show daily forwarded count
+- [x] **Message Counter** - Show daily forwarded count ✅ *Completed in v1.6.0*
 - [ ] **Last Status Display** - Show last forward result
 - [ ] **Better Error Messages** - User-friendly error descriptions
 - [ ] **Dark Mode Support** - System theme following
@@ -28,7 +28,7 @@
 
 ### Features
 
-- [ ] **Statistics Dashboard** - Daily/weekly stats
+- [x] **Statistics Dashboard** - Daily/weekly stats ✅ *Basic version completed in v1.6.0*
 - [ ] **Export/Import Settings** - Backup configuration
 - [ ] **Message History** - Last 50 forwarded messages
 - [ ] **Custom Message Templates** - Personalize message format
@@ -73,9 +73,9 @@
 
 ## 🚀 **Quick Wins (Easy Implementation)**
 
-1. **Test Message Button** - 1 day
-2. **Message Counter** - 1 day  
-3. **Connection Status** - 2 days
+1. ~~**Test Message Button** - 1 day~~ ✅ *Completed*
+2. ~~**Message Counter** - 1 day~~ ✅ *Completed*
+3. ~~**Connection Status** - 2 days~~ ✅ *Completed*
 4. **Dark Mode** - 1 day
 5. **Better Error Messages** - 2 days
 

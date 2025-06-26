@@ -36,6 +36,7 @@ Calls can be forwarded to a single phone thanks to carriers' call forwarding ser
 
 - Built-in test message feature
 - Real-time connection status indicator
+- Daily and total message counter with success rates
 - Verify forwarding setup instantly
 - Debug each platform individually
 
@@ -115,6 +116,7 @@ gradlew.bat assembleRelease
    - Check "Connection Status" to view real-time network connectivity
    - Tap "Send Test Message" to verify configuration
    - Check "Message Queue Status" to view offline queue statistics
+   - Check "Message Counter" to view daily/total forwarding statistics
    - Check if test message arrives on your target platforms
 
 5. **Usage:**
@@ -179,6 +181,46 @@ Status indicators:
 - Network quality assessment
 - Forwarding capability status
 - Automatic UI updates on network changes
+
+### Message Counter Statistics
+
+Track daily and total forwarding performance:
+
+```bash
+# Daily Statistics Example
+📊 Today's Messages:
+  Total: 15
+  Success: 14 (93.3%)
+  Failed: 1
+  📱 SMS: 8
+  📢 Telegram: 4
+  📧 Email: 2
+  🌐 Web API: 1
+
+# All Time Statistics
+📈 All Time:
+  Total: 1,247
+  Success: 1,201 (96.3%)
+  Failed: 46
+  Active Days: 28
+  Daily Avg: 44.5
+
+  Platform Breakdown:
+  📱 SMS: 890
+  📢 Telegram: 245
+  📧 Email: 78
+  🌐 Web API: 34
+```
+
+Features:
+
+- Daily and total message counts
+- Success rate percentages
+- Platform-specific breakdowns
+- Active days tracking
+- Daily average calculations
+- Automatic data retention (90 days)
+- Real-time updates during forwarding
 
 ### Incoming Message Forwarding
 
@@ -247,19 +289,20 @@ HTTP POST to configured webhook:
 - **Package Name**: `com.keremgok.smsforward`
 - **Minimum Android**: API Level 25 (Android 7.0)
 - **Target Android**: API Level 34 (Android 14)
-- **App Version**: 1.5.0
+- **App Version**: 1.6.0
 - **Architecture**: Java with Android Gradle Plugin 8.7.3
 
 ## Project Structure
 
 ```bash
 app/src/main/java/com/keremgok/smsforward/
-├── MainActivity.java          # Settings UI with queue/connection status
+├── MainActivity.java          # Settings UI with stats/queue/connection status
 ├── SmsReceiver.java           # SMS broadcast receiver
 ├── Forwarder.java             # Interface for all forwarders
 ├── RetryableForwarder.java    # Retry mechanism wrapper
 ├── MessageQueueDbHelper.java  # SQLite database for offline queue
 ├── MessageQueueProcessor.java # Background queue processing service
+├── MessageStatsDbHelper.java  # SQLite database for message statistics
 ├── NetworkStatusManager.java  # Real-time network connectivity monitor
 ├── SmsForwarder.java          # SMS forwarding implementation
 ├── TelegramForwarder.java     # Telegram Bot API integration

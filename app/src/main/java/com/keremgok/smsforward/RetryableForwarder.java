@@ -20,6 +20,7 @@ public class RetryableForwarder implements Forwarder {
     private final Forwarder delegate;
     private final ScheduledExecutorService retryExecutor;
     private final MessageQueueProcessor queueProcessor;
+    private MessageStatsDbHelper statsHelper;
     
     public RetryableForwarder(Forwarder delegate) {
         this.delegate = delegate;
@@ -31,6 +32,13 @@ public class RetryableForwarder implements Forwarder {
         this.delegate = delegate;
         this.retryExecutor = Executors.newScheduledThreadPool(2);
         this.queueProcessor = queueProcessor;
+    }
+    
+    /**
+     * Set the stats helper for tracking forwarding statistics
+     */
+    public void setStatsHelper(MessageStatsDbHelper statsHelper) {
+        this.statsHelper = statsHelper;
     }
     
     @Override
@@ -57,7 +65,11 @@ public class RetryableForwarder implements Forwarder {
             // Try to forward the message
             delegate.forward(fromNumber, content, timestamp);
             
-            // Success - log if this was a retry
+            // Success - record in stats and log if this was a retry
+            if (statsHelper != null) {
+                statsHelper.recordForwardSuccess(delegate.getClass().getSimpleName());
+            }
+            
             if (attempt > 1) {
                 Log.i(TAG, String.format("Forward succeeded on attempt %d for %s via %s", 
                     attempt, fromNumber, delegate.getClass().getSimpleName()));
@@ -79,7 +91,11 @@ public class RetryableForwarder implements Forwarder {
                 }, delay, TimeUnit.MILLISECONDS);
                 
             } else {
-                // All retry attempts exhausted - add to offline queue if available
+                // All retry attempts exhausted - record failure in stats and add to offline queue if available
+                if (statsHelper != null) {
+                    statsHelper.recordForwardFailure(delegate.getClass().getSimpleName());
+                }
+                
                 Log.e(TAG, String.format("All %d retry attempts failed for %s via %s. Final error: %s", 
                     MAX_RETRY_ATTEMPTS, fromNumber, delegate.getClass().getSimpleName(), e.getMessage()));
                 
