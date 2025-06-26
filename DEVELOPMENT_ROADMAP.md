@@ -48,7 +48,7 @@ public class RetryableForwarder {
 #### 1.2 Basic UI Enhancements
 
 - [x] **Test Message Button** in settings
-- [ ] **Connection Status Indicator** (green/red)
+- [x] **Connection Status Indicator** (green/red) ✅ *Completed v1.5.0*
 - [ ] **Last Forward Status** display
 - [ ] **Message Counter** (daily/total)
 

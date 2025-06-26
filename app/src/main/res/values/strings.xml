@@ -63,11 +63,24 @@
     <!-- Retry Mechanism -->
     <string name="retry_mechanism_info">Automatic retry enabled for all forwarding methods (3
         attempts with exponential backoff)</string>
-    
+
     <!-- Offline Message Queue -->
     <string name="key_queue_status" translatable="false">key_queue_status</string>
     <string name="queue_status_title">Message Queue Status</string>
     <string name="queue_status_summary">View offline message queue statistics</string>
     <string name="queue_stats_format">Total: %1$d | Pending: %2$d | Failed: %3$d</string>
     <string name="queue_empty">No messages in queue</string>
+
+    <!-- Connection Status -->
+    <string name="key_connection_status" translatable="false">key_connection_status</string>
+    <string name="connection_status_title">Connection Status</string>
+    <string name="connection_status_summary">Current network connectivity status</string>
+    <string name="connection_online">%1$s Online (%2$s)</string>
+    <string name="connection_offline">🔴 Offline</string>
+    <string name="connection_unknown">❓ Unknown</string>
+    <string name="connection_quality_good">Network Quality: Good</string>
+    <string name="connection_quality_moderate">Network Quality: Moderate</string>
+    <string name="connection_quality_poor">Network Quality: Poor</string>
+    <string name="connection_can_forward">✅ Ready to forward messages</string>
+    <string name="connection_cannot_forward">❌ Cannot forward messages (offline)</string>
 </resources>

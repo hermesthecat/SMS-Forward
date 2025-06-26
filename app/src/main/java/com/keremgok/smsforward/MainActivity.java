@@ -24,7 +24,8 @@ public class MainActivity extends AppCompatActivity {
 
         requestPermissions(new String[] {
                 Manifest.permission.SEND_SMS,
-                Manifest.permission.INTERNET
+                Manifest.permission.INTERNET,
+                Manifest.permission.ACCESS_NETWORK_STATE
         }, 0);
 
         if (savedInstanceState == null) {
@@ -35,11 +36,19 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public static class SettingsFragment extends PreferenceFragmentCompat {
+    public static class SettingsFragment extends PreferenceFragmentCompat
+            implements NetworkStatusManager.NetworkStatusListener {
+
+        private NetworkStatusManager networkStatusManager;
+        private Preference connectionStatusPreference;
+
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
             setPreferencesFromResource(R.xml.root_preferences, rootKey);
-            
+
+            // Initialize network status manager
+            networkStatusManager = NetworkStatusManager.getInstance(getContext());
+
             // Set up test message button
             Preference testMessagePreference = findPreference(getString(R.string.key_test_message));
             if (testMessagePreference != null) {
@@ -51,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
             }
-            
+
             // Set up queue status display
             Preference queueStatusPreference = findPreference(getString(R.string.key_queue_status));
             if (queueStatusPreference != null) {
@@ -62,45 +71,87 @@ public class MainActivity extends AppCompatActivity {
                         return true;
                     }
                 });
-                
+
                 // Update queue status summary
                 updateQueueStatusSummary(queueStatusPreference);
             }
+
+            // Set up connection status display
+            connectionStatusPreference = findPreference(getString(R.string.key_connection_status));
+            if (connectionStatusPreference != null) {
+                connectionStatusPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                    @Override
+                    public boolean onPreferenceClick(Preference preference) {
+                        showConnectionStatus();
+                        return true;
+                    }
+                });
+
+                // Update connection status summary
+                updateConnectionStatusSummary();
+            }
         }
-        
+
+        @Override
+        public void onResume() {
+            super.onResume();
+            if (networkStatusManager != null) {
+                networkStatusManager.startMonitoring();
+                networkStatusManager.addListener(this);
+            }
+        }
+
+        @Override
+        public void onPause() {
+            super.onPause();
+            if (networkStatusManager != null) {
+                networkStatusManager.removeListener(this);
+            }
+        }
+
+        @Override
+        public void onNetworkStatusChanged(boolean isConnected, String connectionType) {
+            // Update UI on main thread
+            if (getActivity() != null) {
+                getActivity().runOnUiThread(() -> {
+                    updateConnectionStatusSummary();
+                });
+            }
+        }
+
         private void sendTestMessage() {
             try {
                 // Get preferences
                 android.content.SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
-                
+
                 // Check if any forwarder is enabled
                 boolean smsEnabled = prefs.getBoolean(getString(R.string.key_enable_sms), false);
                 boolean telegramEnabled = prefs.getBoolean(getString(R.string.key_enable_telegram), false);
                 boolean webEnabled = prefs.getBoolean(getString(R.string.key_enable_web), false);
                 boolean emailEnabled = prefs.getBoolean(getString(R.string.key_enable_email), false);
-                
+
                 if (!smsEnabled && !telegramEnabled && !webEnabled && !emailEnabled) {
-                    Toast.makeText(getContext(), getString(R.string.test_message_no_forwarders), 
-                                 Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), getString(R.string.test_message_no_forwarders),
+                            Toast.LENGTH_LONG).show();
                     return;
                 }
-                
+
                 // Create test message data
                 String testPhoneNumber = "+1234567890";
                 String testMessage = "This is a test message from SMS Forward app. " +
-                                   "If you receive this, your forwarding setup is working correctly!";
+                        "If you receive this, your forwarding setup is working correctly!";
                 long currentTime = System.currentTimeMillis();
-                
+
                 // Create forwarders list
                 List<Forwarder> forwarders = new ArrayList<>();
-                
+
                 if (smsEnabled) {
                     String target = prefs.getString(getString(R.string.key_target_sms), "");
                     if (!target.isEmpty()) {
                         forwarders.add(new RetryableForwarder(new SmsForwarder(target)));
                     }
                 }
-                
+
                 if (telegramEnabled) {
                     String targetId = prefs.getString(getString(R.string.key_target_telegram), "");
                     String apiKey = prefs.getString(getString(R.string.key_telegram_apikey), "");
@@ -108,14 +159,14 @@ public class MainActivity extends AppCompatActivity {
                         forwarders.add(new RetryableForwarder(new TelegramForwarder(targetId, apiKey)));
                     }
                 }
-                
+
                 if (webEnabled) {
                     String targetUrl = prefs.getString(getString(R.string.key_target_web), "");
                     if (!targetUrl.isEmpty()) {
                         forwarders.add(new RetryableForwarder(new JsonWebForwarder(targetUrl)));
                     }
                 }
-                
+
                 if (emailEnabled) {
                     String fromAddress = prefs.getString(getString(R.string.key_email_from_address), "");
                     String toAddress = prefs.getString(getString(R.string.key_email_to_address), "");
@@ -123,22 +174,25 @@ public class MainActivity extends AppCompatActivity {
                     String port = prefs.getString(getString(R.string.key_email_submit_port), "587");
                     String password = prefs.getString(getString(R.string.key_email_submit_password), "");
                     String usernameStyle = prefs.getString(getString(R.string.key_email_username_style), "full");
-                    
-                    if (!fromAddress.isEmpty() && !toAddress.isEmpty() && 
-                        !host.isEmpty() && !password.isEmpty()) {
+
+                    if (!fromAddress.isEmpty() && !toAddress.isEmpty() &&
+                            !host.isEmpty() && !password.isEmpty()) {
                         try {
                             int portInt = Integer.parseInt(port);
-                            
+
                             // Create InternetAddress objects as required by EmailForwarder constructor
-                            jakarta.mail.internet.InternetAddress from = new jakarta.mail.internet.InternetAddress(fromAddress);
-                            jakarta.mail.internet.InternetAddress[] to = {new jakarta.mail.internet.InternetAddress(toAddress)};
-                            
+                            jakarta.mail.internet.InternetAddress from = new jakarta.mail.internet.InternetAddress(
+                                    fromAddress);
+                            jakarta.mail.internet.InternetAddress[] to = {
+                                    new jakarta.mail.internet.InternetAddress(toAddress) };
+
                             // Determine username based on style
-                            String username = usernameStyle.equals("full") ? fromAddress : 
-                                            (fromAddress.contains("@") ? fromAddress.substring(0, fromAddress.indexOf("@")) : fromAddress);
-                            
-                            forwarders.add(new RetryableForwarder(new EmailForwarder(from, to, host, 
-                                                            (short) portInt, username, password)));
+                            String username = usernameStyle.equals("full") ? fromAddress
+                                    : (fromAddress.contains("@") ? fromAddress.substring(0, fromAddress.indexOf("@"))
+                                            : fromAddress);
+
+                            forwarders.add(new RetryableForwarder(new EmailForwarder(from, to, host,
+                                    (short) portInt, username, password)));
                         } catch (NumberFormatException e) {
                             // Skip email forwarder if port is invalid
                         } catch (jakarta.mail.internet.AddressException e) {
@@ -146,103 +200,152 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 }
-                
+
                 if (forwarders.isEmpty()) {
-                    Toast.makeText(getContext(), "Please complete the configuration for enabled forwarders", 
-                                 Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), "Please complete the configuration for enabled forwarders",
+                            Toast.LENGTH_LONG).show();
                     return;
                 }
-                
+
                 // Send test message through all enabled forwarders
                 int successCount = 0;
                 StringBuilder errorMessages = new StringBuilder();
-                
+
                 for (Forwarder forwarder : forwarders) {
                     try {
                         forwarder.forward(testPhoneNumber, testMessage, currentTime);
                         successCount++;
                     } catch (Exception e) {
-                        String forwarderName = (forwarder instanceof RetryableForwarder) 
-                            ? ((RetryableForwarder) forwarder).getDelegateName()
-                            : forwarder.getClass().getSimpleName();
+                        String forwarderName = (forwarder instanceof RetryableForwarder)
+                                ? ((RetryableForwarder) forwarder).getDelegateName()
+                                : forwarder.getClass().getSimpleName();
                         errorMessages.append(forwarderName)
-                                   .append(": ").append(e.getMessage()).append("\n");
+                                .append(": ").append(e.getMessage()).append("\n");
                     }
                 }
-                
+
                 // Show result
                 if (successCount > 0) {
-                    String message = getString(R.string.test_message_sent) + 
-                                   " (" + successCount + "/" + forwarders.size() + " forwarders)";
+                    String message = getString(R.string.test_message_sent) +
+                            " (" + successCount + "/" + forwarders.size() + " forwarders)";
                     Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
-                    
+
                     if (errorMessages.length() > 0) {
-                        Toast.makeText(getContext(), "Some errors occurred:\n" + errorMessages.toString(), 
-                                     Toast.LENGTH_LONG).show();
+                        Toast.makeText(getContext(), "Some errors occurred:\n" + errorMessages.toString(),
+                                Toast.LENGTH_LONG).show();
                     }
                 } else {
-                    String errorMsg = String.format(getString(R.string.test_message_error), 
-                                                  errorMessages.toString());
+                    String errorMsg = String.format(getString(R.string.test_message_error),
+                            errorMessages.toString());
                     Toast.makeText(getContext(), errorMsg, Toast.LENGTH_LONG).show();
                 }
-                
+
             } catch (Exception e) {
                 String errorMsg = String.format(getString(R.string.test_message_error), e.getMessage());
                 Toast.makeText(getContext(), errorMsg, Toast.LENGTH_LONG).show();
             }
         }
-        
+
         private void showQueueStatus() {
             try {
                 MessageQueueDbHelper dbHelper = new MessageQueueDbHelper(getContext());
                 MessageQueueDbHelper.QueueStats stats = dbHelper.getQueueStats();
-                
+
                 String message;
                 if (stats.totalCount == 0) {
                     message = getString(R.string.queue_empty);
                 } else {
                     message = String.format(getString(R.string.queue_stats_format),
-                                          stats.totalCount, stats.pendingCount, stats.failedCount);
-                    
+                            stats.totalCount, stats.pendingCount, stats.failedCount);
+
                     if (stats.oldestPendingAge > 0) {
                         long hours = stats.oldestPendingAge / (1000 * 60 * 60);
                         long minutes = (stats.oldestPendingAge / (1000 * 60)) % 60;
                         message += String.format("\nOldest pending: %dh %dm ago", hours, minutes);
                     }
                 }
-                
+
                 Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
-                
+
                 // Update the preference summary
                 Preference queueStatusPreference = findPreference(getString(R.string.key_queue_status));
                 if (queueStatusPreference != null) {
                     updateQueueStatusSummary(queueStatusPreference);
                 }
-                
+
             } catch (Exception e) {
-                Toast.makeText(getContext(), "Error reading queue status: " + e.getMessage(), 
-                             Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), "Error reading queue status: " + e.getMessage(),
+                        Toast.LENGTH_LONG).show();
             }
         }
-        
+
         private void updateQueueStatusSummary(Preference preference) {
             try {
                 MessageQueueDbHelper dbHelper = new MessageQueueDbHelper(getContext());
                 MessageQueueDbHelper.QueueStats stats = dbHelper.getQueueStats();
-                
+
                 String summary;
                 if (stats.totalCount == 0) {
                     summary = getString(R.string.queue_empty);
                 } else {
                     summary = String.format(getString(R.string.queue_stats_format),
-                                          stats.totalCount, stats.pendingCount, stats.failedCount);
+                            stats.totalCount, stats.pendingCount, stats.failedCount);
                 }
-                
+
                 preference.setSummary(summary);
-                
+
             } catch (Exception e) {
                 preference.setSummary("Error reading queue status");
             }
         }
+
+        private void showConnectionStatus() {
+            if (networkStatusManager == null) {
+                Toast.makeText(getContext(), "Network status manager not available",
+                        Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            networkStatusManager.updateNetworkStatus();
+
+            StringBuilder message = new StringBuilder();
+            message.append("Status: ").append(networkStatusManager.getConnectionStatus()).append("\n");
+            message.append("Quality: ").append(networkStatusManager.getNetworkQuality()).append("\n");
+
+            if (networkStatusManager.canForwardMessages()) {
+                message.append(getString(R.string.connection_can_forward));
+            } else {
+                message.append(getString(R.string.connection_cannot_forward));
+            }
+
+            Toast.makeText(getContext(), message.toString(), Toast.LENGTH_LONG).show();
+
+            // Update the preference summary
+            updateConnectionStatusSummary();
+        }
+
+        private void updateConnectionStatusSummary() {
+            if (connectionStatusPreference == null || networkStatusManager == null) {
+                return;
+            }
+
+            try {
+                String emoji = networkStatusManager.getStatusEmoji();
+                String connectionType = networkStatusManager.getConnectionType();
+                boolean isConnected = networkStatusManager.isConnected();
+
+                String summary;
+                if (isConnected) {
+                    summary = String.format(getString(R.string.connection_online), emoji, connectionType);
+                } else {
+                    summary = getString(R.string.connection_offline);
+                }
+
+                connectionStatusPreference.setSummary(summary);
+
+            } catch (Exception e) {
+                connectionStatusPreference.setSummary("Error reading connection status");
+            }
+        }
     }
-} 
+}

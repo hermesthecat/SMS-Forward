@@ -136,6 +136,12 @@
             android:summary="@string/queue_status_summary"
             app:iconSpaceReserved="false" />
 
+        <Preference
+            android:key="@string/key_connection_status"
+            android:title="@string/connection_status_title"
+            android:summary="@string/connection_status_summary"
+            app:iconSpaceReserved="false" />
+
     </PreferenceCategory>
 
 </PreferenceScreen>

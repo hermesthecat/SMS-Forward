@@ -6,7 +6,7 @@
 
 - [x] **Retry Mechanism** - Auto-retry failed forwards (3 attempts) ✅ *Completed in v1.3.0*
 - [x] **Test Message Button** - Quick functionality test ✅ *Completed in v1.2.0*
-- [ ] **Connection Status Indicator** - Show online/offline status
+- [x] **Connection Status Indicator** - Show online/offline status ✅ *Completed in v1.5.0*
 - [x] **Offline Message Queue** - Store failed messages for retry ✅ *Completed in v1.4.0*
 - [ ] **Number Whitelist** - Only forward from specific numbers
 
