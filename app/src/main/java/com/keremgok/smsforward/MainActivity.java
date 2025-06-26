@@ -51,6 +51,21 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
             }
+            
+            // Set up queue status display
+            Preference queueStatusPreference = findPreference(getString(R.string.key_queue_status));
+            if (queueStatusPreference != null) {
+                queueStatusPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                    @Override
+                    public boolean onPreferenceClick(Preference preference) {
+                        showQueueStatus();
+                        return true;
+                    }
+                });
+                
+                // Update queue status summary
+                updateQueueStatusSummary(queueStatusPreference);
+            }
         }
         
         private void sendTestMessage() {
@@ -174,6 +189,59 @@ public class MainActivity extends AppCompatActivity {
             } catch (Exception e) {
                 String errorMsg = String.format(getString(R.string.test_message_error), e.getMessage());
                 Toast.makeText(getContext(), errorMsg, Toast.LENGTH_LONG).show();
+            }
+        }
+        
+        private void showQueueStatus() {
+            try {
+                MessageQueueDbHelper dbHelper = new MessageQueueDbHelper(getContext());
+                MessageQueueDbHelper.QueueStats stats = dbHelper.getQueueStats();
+                
+                String message;
+                if (stats.totalCount == 0) {
+                    message = getString(R.string.queue_empty);
+                } else {
+                    message = String.format(getString(R.string.queue_stats_format),
+                                          stats.totalCount, stats.pendingCount, stats.failedCount);
+                    
+                    if (stats.oldestPendingAge > 0) {
+                        long hours = stats.oldestPendingAge / (1000 * 60 * 60);
+                        long minutes = (stats.oldestPendingAge / (1000 * 60)) % 60;
+                        message += String.format("\nOldest pending: %dh %dm ago", hours, minutes);
+                    }
+                }
+                
+                Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
+                
+                // Update the preference summary
+                Preference queueStatusPreference = findPreference(getString(R.string.key_queue_status));
+                if (queueStatusPreference != null) {
+                    updateQueueStatusSummary(queueStatusPreference);
+                }
+                
+            } catch (Exception e) {
+                Toast.makeText(getContext(), "Error reading queue status: " + e.getMessage(), 
+                             Toast.LENGTH_LONG).show();
+            }
+        }
+        
+        private void updateQueueStatusSummary(Preference preference) {
+            try {
+                MessageQueueDbHelper dbHelper = new MessageQueueDbHelper(getContext());
+                MessageQueueDbHelper.QueueStats stats = dbHelper.getQueueStats();
+                
+                String summary;
+                if (stats.totalCount == 0) {
+                    summary = getString(R.string.queue_empty);
+                } else {
+                    summary = String.format(getString(R.string.queue_stats_format),
+                                          stats.totalCount, stats.pendingCount, stats.failedCount);
+                }
+                
+                preference.setSummary(summary);
+                
+            } catch (Exception e) {
+                preference.setSummary("Error reading queue status");
             }
         }
     }

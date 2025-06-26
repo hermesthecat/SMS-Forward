@@ -130,6 +130,12 @@
             android:summary="@string/test_message_summary"
             app:iconSpaceReserved="false" />
 
+        <Preference
+            android:key="@string/key_queue_status"
+            android:title="@string/queue_status_title"
+            android:summary="@string/queue_status_summary"
+            app:iconSpaceReserved="false" />
+
     </PreferenceCategory>
 
 </PreferenceScreen>

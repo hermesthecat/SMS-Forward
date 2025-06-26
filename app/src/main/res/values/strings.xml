@@ -63,4 +63,11 @@
     <!-- Retry Mechanism -->
     <string name="retry_mechanism_info">Automatic retry enabled for all forwarding methods (3
         attempts with exponential backoff)</string>
+    
+    <!-- Offline Message Queue -->
+    <string name="key_queue_status" translatable="false">key_queue_status</string>
+    <string name="queue_status_title">Message Queue Status</string>
+    <string name="queue_status_summary">View offline message queue statistics</string>
+    <string name="queue_stats_format">Total: %1$d | Pending: %2$d | Failed: %3$d</string>
+    <string name="queue_empty">No messages in queue</string>
 </resources>

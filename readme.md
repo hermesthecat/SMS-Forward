@@ -27,7 +27,9 @@ Calls can be forwarded to a single phone thanks to carriers' call forwarding ser
 ✅ **Reliability and resilience:**
 
 - Automatic retry mechanism (3 attempts)
-- Exponential backoff between retries
+- Exponential backoff between retries  
+- Offline message queue with SQLite storage
+- Automatic reprocessing when connectivity restored
 - Detailed logging for troubleshooting
 
 ✅ **Testing and debugging:**
@@ -110,6 +112,7 @@ gradlew.bat assembleRelease
 4. **Test Your Setup:**
    - Go to "Test & Debug" section in settings
    - Tap "Send Test Message" to verify configuration
+   - Check "Message Queue Status" to view offline queue statistics
    - Check if test message arrives on your target platforms
 
 5. **Usage:**
@@ -134,7 +137,26 @@ Retry timing follows exponential backoff:
 - Attempt 1: Immediate
 - Attempt 2: 1 second delay
 - Attempt 3: 2 second delay
-- After 3 failures: Error logged and message dropped
+- After 3 failures: Message stored in offline queue
+
+### Offline Message Queue
+
+Failed messages are automatically stored and retried:
+
+```bash
+# Message fails after 3 retry attempts -> Stored in SQLite database
+# Queue processor runs every 30 seconds checking connectivity
+# When online -> Messages reprocessed automatically  
+# Up to 5 additional queue retry attempts per message
+```
+
+Queue processing features:
+
+- Persistent SQLite storage survives app restarts
+- Automatic connectivity detection
+- Background processing every 30 seconds
+- Statistics available in "Test & Debug" section
+- Automatic cleanup of old successful messages (24h)
 
 ### Incoming Message Forwarding
 
@@ -203,17 +225,19 @@ HTTP POST to configured webhook:
 - **Package Name**: `com.keremgok.smsforward`
 - **Minimum Android**: API Level 25 (Android 7.0)
 - **Target Android**: API Level 34 (Android 14)
-- **App Version**: 1.3.0
+- **App Version**: 1.4.0
 - **Architecture**: Java with Android Gradle Plugin 8.7.3
 
 ## Project Structure
 
 ```bash
 app/src/main/java/com/keremgok/smsforward/
-├── MainActivity.java          # Settings UI
+├── MainActivity.java          # Settings UI with queue status
 ├── SmsReceiver.java           # SMS broadcast receiver
 ├── Forwarder.java             # Interface for all forwarders
 ├── RetryableForwarder.java    # Retry mechanism wrapper
+├── MessageQueueDbHelper.java  # SQLite database for offline queue
+├── MessageQueueProcessor.java # Background queue processing service
 ├── SmsForwarder.java          # SMS forwarding implementation
 ├── TelegramForwarder.java     # Telegram Bot API integration
 ├── EmailForwarder.java        # SMTP email forwarding

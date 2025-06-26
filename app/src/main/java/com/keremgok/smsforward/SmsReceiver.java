@@ -26,10 +26,17 @@ public class SmsReceiver extends BroadcastReceiver {
     private static final Pattern REVERSE_MESSAGE_PATTERN = Pattern.compile("To (\\+?\\d+?):\\n((.|\\n)*)");
 
     private final Executor forwarderExecutor = Executors.newCachedThreadPool();
+    private static MessageQueueProcessor queueProcessor;
 
     @Override
     public void onReceive(Context context, Intent intent) {
         if (!Telephony.Sms.Intents.SMS_RECEIVED_ACTION.equals(intent.getAction())) return;
+        
+        // Initialize queue processor if not already done
+        if (queueProcessor == null) {
+            queueProcessor = new MessageQueueProcessor(context);
+            queueProcessor.start();
+        }
 
         // Large message might be broken into several parts.
         SmsMessage[] messages = Telephony.Sms.Intents.getMessagesFromIntent(intent);
@@ -66,13 +73,16 @@ public class SmsReceiver extends BroadcastReceiver {
 
         ArrayList<Forwarder> forwarders = new ArrayList<>(1);
         if (enableSms && !targetNumber.isEmpty()) {
-            forwarders.add(new RetryableForwarder(new SmsForwarder(targetNumber)));
+            SmsForwarder smsForwarder = new SmsForwarder(targetNumber);
+            forwarders.add(new RetryableForwarder(smsForwarder, queueProcessor));
         }
         if (enableTelegram && !targetTelegram.isEmpty() && !telegramToken.isEmpty()) {
-            forwarders.add(new RetryableForwarder(new TelegramForwarder(targetTelegram, telegramToken)));
+            TelegramForwarder telegramForwarder = new TelegramForwarder(targetTelegram, telegramToken);
+            forwarders.add(new RetryableForwarder(telegramForwarder, queueProcessor));
         }
         if (enableWeb && !targetWeb.isEmpty()) {
-            forwarders.add(new RetryableForwarder(new JsonWebForwarder(targetWeb)));
+            JsonWebForwarder webForwarder = new JsonWebForwarder(targetWeb);
+            forwarders.add(new RetryableForwarder(webForwarder, queueProcessor));
         }
         if (enableEmail && !fromEmailAddress.isEmpty() && !toEmailAddress.isEmpty() &&
                 !smtpHost.isEmpty() && smtpPort != 0 && !smtpPassword.isEmpty()) {
@@ -87,14 +97,15 @@ public class SmsReceiver extends BroadcastReceiver {
             String username = "full".equals(smtpUsernameStyle)
                     ? fromAddress.getAddress()
                     : fromAddress.getAddress().substring(0, fromAddress.getAddress().indexOf("@"));
-            forwarders.add(new RetryableForwarder(new EmailForwarder(
+            EmailForwarder emailForwarder = new EmailForwarder(
                     fromAddress,
                     toAddresses,
                     smtpHost,
                     smtpPort,
                     username,
                     smtpPassword
-            )));
+            );
+            forwarders.add(new RetryableForwarder(emailForwarder, queueProcessor));
         }
 
         if (senderNumber.equals(targetNumber)) {
@@ -119,6 +130,22 @@ public class SmsReceiver extends BroadcastReceiver {
                         forwarder.forward(senderNumber, messageContent, timestamp);
                     } catch (Exception e) {
                         Log.e(TAG, "Failed to forward SMS", e);
+                        
+                        // If this is a RetryableForwarder, try to add to offline queue
+                        if (forwarder instanceof RetryableForwarder && queueProcessor != null) {
+                            try {
+                                RetryableForwarder retryableForwarder = (RetryableForwarder) forwarder;
+                                String forwarderType = retryableForwarder.getDelegateName();
+                                String forwarderConfig = MessageQueueProcessor.createForwarderConfig(
+                                    retryableForwarder.getDelegate(), context);
+                                
+                                queueProcessor.enqueueFailedMessage(senderNumber, messageContent, 
+                                                                   timestamp, forwarderType, forwarderConfig);
+                                Log.i(TAG, "Added failed message to offline queue via " + forwarderType);
+                            } catch (Exception queueError) {
+                                Log.e(TAG, "Failed to add message to offline queue: " + queueError.getMessage());
+                            }
+                        }
                     }
                 });
             }

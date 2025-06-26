@@ -19,10 +19,18 @@ public class RetryableForwarder implements Forwarder {
     
     private final Forwarder delegate;
     private final ScheduledExecutorService retryExecutor;
+    private final MessageQueueProcessor queueProcessor;
     
     public RetryableForwarder(Forwarder delegate) {
         this.delegate = delegate;
         this.retryExecutor = Executors.newScheduledThreadPool(2);
+        this.queueProcessor = null; // Will be set later via constructor or setter
+    }
+    
+    public RetryableForwarder(Forwarder delegate, MessageQueueProcessor queueProcessor) {
+        this.delegate = delegate;
+        this.retryExecutor = Executors.newScheduledThreadPool(2);
+        this.queueProcessor = queueProcessor;
     }
     
     @Override
@@ -71,9 +79,21 @@ public class RetryableForwarder implements Forwarder {
                 }, delay, TimeUnit.MILLISECONDS);
                 
             } else {
-                // All retry attempts exhausted
+                // All retry attempts exhausted - add to offline queue if available
                 Log.e(TAG, String.format("All %d retry attempts failed for %s via %s. Final error: %s", 
                     MAX_RETRY_ATTEMPTS, fromNumber, delegate.getClass().getSimpleName(), e.getMessage()));
+                
+                if (queueProcessor != null) {
+                    try {
+                        String forwarderType = delegate.getClass().getSimpleName();
+                        String forwarderConfig = createForwarderConfig();
+                        queueProcessor.enqueueFailedMessage(fromNumber, content, timestamp, 
+                                                          forwarderType, forwarderConfig);
+                        Log.i(TAG, "Added failed message to offline queue for later retry");
+                    } catch (Exception queueError) {
+                        Log.e(TAG, "Failed to add message to offline queue: " + queueError.getMessage());
+                    }
+                }
             }
         }
     }
@@ -90,6 +110,15 @@ public class RetryableForwarder implements Forwarder {
      */
     public String getDelegateName() {
         return delegate.getClass().getSimpleName();
+    }
+    
+    /**
+     * Create configuration JSON for the delegate forwarder
+     */
+    private String createForwarderConfig() {
+        // For now, return empty config - the MessageQueueProcessor will create proper config
+        // when processing from SmsReceiver context
+        return "{}";
     }
     
     /**

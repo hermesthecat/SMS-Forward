@@ -17,7 +17,7 @@ SMS Forward is a minimal, efficient Android application for forwarding SMS messa
 #### 1.1 Error Handling & Reliability
 
 - [x] **Retry Mechanism** for failed forwards ✅ *Completed v1.3.0*
-- [ ] **Offline Message Queue** with SQLite storage
+- [x] **Offline Message Queue** with SQLite storage ✅ *Completed v1.4.0*
 - [ ] **Connection Timeout Handling** (configurable)
 - [ ] **Graceful Error Recovery** without crashes
 
