@@ -13,9 +13,9 @@
 ### UI Improvements
 
 - [x] **Message Counter** - Show daily forwarded count ✅ *Completed in v1.6.0*
+- [x] **Dark Mode Support** - System theme following ✅ *Completed in v1.7.0*
 - [ ] **Last Status Display** - Show last forward result
 - [ ] **Better Error Messages** - User-friendly error descriptions
-- [ ] **Dark Mode Support** - System theme following
 
 ## 🔧 **Medium Priority**
 
@@ -76,7 +76,7 @@
 1. ~~**Test Message Button** - 1 day~~ ✅ *Completed*
 2. ~~**Message Counter** - 1 day~~ ✅ *Completed*
 3. ~~**Connection Status** - 2 days~~ ✅ *Completed*
-4. **Dark Mode** - 1 day
+4. ~~**Dark Mode** - 1 day~~ ✅ *Completed*
 5. **Better Error Messages** - 2 days
 
 ## 📝 **Implementation Notes**

@@ -4,7 +4,7 @@
 
 SMS Forward is a minimal, efficient Android application for forwarding SMS messages across multiple platforms. This document outlines future development suggestions and improvements.
 
-**Current Version**: 1.6.0  
+**Current Version**: 1.7.0  
 **Package Name**: `com.keremgok.smsforward`  
 **Target**: Production-ready SMS forwarding solution
 
@@ -65,11 +65,11 @@ public class RetryableForwarder {
 
 #### 2.1 Advanced Settings UI
 
+- [x] **Dark Mode Support** ✅ *Completed v1.7.0*
+- [x] **Material Design 3** implementation ✅ *Completed v1.7.0*
 - [ ] **Settings Categories** (General, Security, Advanced)
 - [ ] **Import/Export Configuration**
 - [ ] **Quick Setup Wizard** for first-time users
-- [ ] **Dark Mode Support**
-- [ ] **Material Design 3** implementation
 
 #### 2.2 Notification System
 

@@ -122,6 +122,21 @@
 
     <PreferenceCategory
         app:iconSpaceReserved="false"
+        app:title="@string/header_appearance">
+
+        <ListPreference
+            android:key="@string/key_theme_mode"
+            android:title="@string/theme_mode_title"
+            android:summary="@string/theme_mode_summary"
+            android:defaultValue="system"
+            android:entries="@array/theme_mode_entries"
+            android:entryValues="@array/theme_mode_values"
+            app:iconSpaceReserved="false" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
         app:title="@string/header_test">
 
         <Preference

@@ -40,6 +40,13 @@ Calls can be forwarded to a single phone thanks to carriers' call forwarding ser
 - Verify forwarding setup instantly
 - Debug each platform individually
 
+✅ **Modern user interface:**
+
+- Material Design 3 theming
+- Dark mode support with system theme following
+- Automatic theme switching based on system settings
+- Elegant light and dark color schemes
+
 ✅ **Minimal and efficient:**
 
 - Small APK size (~1.9MB)
@@ -105,13 +112,18 @@ gradlew.bat assembleRelease
    - SMS receive and send permissions
    - Internet permission (for web forwarding)
 
-3. **Configure Forwarding Methods:**
+3. **Configure Appearance (Optional):**
+   - Go to "Appearance" section in settings
+   - Choose theme: Light, Dark, or System default
+   - System default automatically follows device theme settings
+
+4. **Configure Forwarding Methods:**
    - **SMS**: Enter target phone number (e.g., +1234567890)
    - **Telegram**: Set Bot Token and Chat ID
    - **Email**: Configure SMTP server settings
    - **Web**: Set webhook URL endpoint
 
-4. **Test Your Setup:**
+5. **Test Your Setup:**
    - Go to "Test & Debug" section in settings
    - Check "Connection Status" to view real-time network connectivity
    - Tap "Send Test Message" to verify configuration
@@ -119,7 +131,7 @@ gradlew.bat assembleRelease
    - Check "Message Counter" to view daily/total forwarding statistics
    - Check if test message arrives on your target platforms
 
-5. **Usage:**
+6. **Usage:**
    - Keep the Android phone charged and connected
    - Incoming SMS will be forwarded automatically
    - Send reverse SMS with format: `To [number]:\n[message]`
@@ -222,6 +234,31 @@ Features:
 - Automatic data retention (90 days)
 - Real-time updates during forwarding
 
+### Dark Mode and Theme Support
+
+Automatic theme switching with modern Material Design 3:
+
+```bash
+# Theme Options
+🌞 Light Mode     # Always light theme
+🌙 Dark Mode      # Always dark theme  
+🔄 System Default # Follows device setting
+
+# Automatic Features
+✓ Instant theme switching
+✓ Material Design 3 colors
+✓ System theme detection
+✓ Battery saver fallback (Android 9-)
+```
+
+Theme behavior:
+
+- **Android 10+**: Full system theme detection
+- **Android 9 and below**: Uses battery saver mode as fallback
+- **Instant switching**: No app restart required
+- **Persistent setting**: Remembers user preference
+- **Elegant colors**: Professional light and dark color schemes
+
 ### Incoming Message Forwarding
 
 When SMS is received on Android phone:
@@ -289,7 +326,7 @@ HTTP POST to configured webhook:
 - **Package Name**: `com.keremgok.smsforward`
 - **Minimum Android**: API Level 25 (Android 7.0)
 - **Target Android**: API Level 34 (Android 14)
-- **App Version**: 1.6.0
+- **App Version**: 1.7.0
 - **Architecture**: Java with Android Gradle Plugin 8.7.3
 
 ## Project Structure
@@ -304,6 +341,7 @@ app/src/main/java/com/keremgok/smsforward/
 ├── MessageQueueProcessor.java # Background queue processing service
 ├── MessageStatsDbHelper.java  # SQLite database for message statistics
 ├── NetworkStatusManager.java  # Real-time network connectivity monitor
+├── ThemeManager.java          # Dark mode and theme switching manager
 ├── SmsForwarder.java          # SMS forwarding implementation
 ├── TelegramForwarder.java     # Telegram Bot API integration
 ├── EmailForwarder.java        # SMTP email forwarding

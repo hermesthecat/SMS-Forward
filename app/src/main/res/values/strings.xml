@@ -80,6 +80,13 @@
     <string name="key_message_counter">message_counter</string>
     <string name="message_counter_title">Message Counter</string>
     <string name="message_counter_summary">View daily and total forwarded message statistics</string>
+    
+    <!-- Appearance -->
+    <string name="header_appearance">Appearance</string>
+    <string name="key_theme_mode">theme_mode</string>
+    <string name="theme_mode_title">Theme</string>
+    <string name="theme_mode_summary">Choose light, dark, or system theme</string>
+    <string name="theme_system_fallback">System mode uses battery saver on Android 9 and below</string>
     <string name="connection_online">%1$s Online (%2$s)</string>
     <string name="connection_offline">🔴 Offline</string>
     <string name="connection_unknown">❓ Unknown</string>

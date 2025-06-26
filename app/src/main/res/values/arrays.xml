@@ -8,4 +8,16 @@
         <item>full</item>
         <item>local</item>
     </string-array>
+    
+    <!-- Theme mode options -->
+    <string-array name="theme_mode_entries">
+        <item>🌞 Light</item>
+        <item>🌙 Dark</item>
+        <item>🔄 System default</item>
+    </string-array>
+    <string-array name="theme_mode_values">
+        <item>light</item>
+        <item>dark</item>
+        <item>system</item>
+    </string-array>
 </resources>

@@ -19,6 +19,9 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // Initialize theme before calling super.onCreate()
+        ThemeManager.initializeTheme(this);
+        
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -41,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
 
         private NetworkStatusManager networkStatusManager;
         private Preference connectionStatusPreference;
+        private ThemeManager themeManager;
 
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
@@ -48,6 +52,9 @@ public class MainActivity extends AppCompatActivity {
 
             // Initialize network status manager
             networkStatusManager = NetworkStatusManager.getInstance(getContext());
+            
+            // Initialize theme manager
+            themeManager = new ThemeManager(getContext());
 
             // Set up test message button
             Preference testMessagePreference = findPreference(getString(R.string.key_test_message));
@@ -104,6 +111,33 @@ public class MainActivity extends AppCompatActivity {
 
                 // Update message counter summary
                 updateMessageCounterSummary(messageCounterPreference);
+            }
+
+            // Set up theme preference listener
+            androidx.preference.ListPreference themePreference = findPreference(getString(R.string.key_theme_mode));
+            if (themePreference != null) {
+                // Set initial summary
+                updateThemeSummary(themePreference);
+                
+                themePreference.setOnPreferenceChangeListener(new androidx.preference.Preference.OnPreferenceChangeListener() {
+                    @Override
+                    public boolean onPreferenceChange(androidx.preference.Preference preference, Object newValue) {
+                        String newTheme = (String) newValue;
+                        
+                        // Apply the new theme
+                        themeManager.setThemeMode(newTheme);
+                        
+                        // Update summary
+                        updateThemeSummary((androidx.preference.ListPreference) preference);
+                        
+                        // Recreate activity to apply theme immediately
+                        if (getActivity() != null) {
+                            getActivity().recreate();
+                        }
+                        
+                        return true;
+                    }
+                });
             }
         }
 
@@ -460,6 +494,19 @@ public class MainActivity extends AppCompatActivity {
                 
             } catch (Exception e) {
                 preference.setSummary("Error reading statistics");
+            }
+        }
+
+        private void updateThemeSummary(androidx.preference.ListPreference preference) {
+            if (themeManager == null) {
+                return;
+            }
+            
+            try {
+                String description = themeManager.getCurrentThemeDescription();
+                preference.setSummary(description);
+            } catch (Exception e) {
+                preference.setSummary("Error reading theme setting");
             }
         }
     }
