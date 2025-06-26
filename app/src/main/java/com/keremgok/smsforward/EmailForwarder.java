@@ -57,6 +57,11 @@ public final class EmailForwarder implements Forwarder {
 
     @Override
     public void forward(String fromNumber, String content) throws MessagingException {
+        forward(fromNumber, content, System.currentTimeMillis());
+    }
+
+    @Override
+    public void forward(String fromNumber, String content, long timestamp) throws MessagingException {
         Matcher senderNameMatcher = SENDER_NAME_PATTERN.matcher(content);
         String senderName = senderNameMatcher.matches() ? senderNameMatcher.group(1) : fromNumber;
         InternetAddress prettyFromAddress;
@@ -65,12 +70,17 @@ public final class EmailForwarder implements Forwarder {
         } catch (UnsupportedEncodingException e) {
             prettyFromAddress = fromAddress;
         }
+        
+        java.text.SimpleDateFormat dateFormat = new java.text.SimpleDateFormat("dd/MM/yyyy HH:mm:ss", java.util.Locale.getDefault());
+        String formattedDate = dateFormat.format(new java.util.Date(timestamp));
+        String emailBody = content + "\n\nReceived at: " + formattedDate;
+        
         Session session = Session.getInstance(props, authenticator);
         MimeMessage message = new MimeMessage(session);
         message.setFrom(prettyFromAddress);
         message.addRecipients(Message.RecipientType.TO, toAddresses);
         message.setSubject("SMS from: " + fromNumber);
-        message.setText(content, "UTF-8");
+        message.setText(emailBody, "UTF-8");
         Transport.send(message);
     }
 } 

@@ -10,7 +10,7 @@ import java.net.URL;
 
 public abstract class AbstractWebForwarder implements Forwarder {
     private final String TAG = getClass().getSimpleName();
-    private final URL endpoint;
+    protected final URL endpoint;
 
     public AbstractWebForwarder(String endpoint) {
         try {
@@ -25,7 +25,12 @@ public abstract class AbstractWebForwarder implements Forwarder {
     }
 
     @Override
-    public void forward(String fromNumber, String content) throws IOException {
+    public void forward(String fromNumber, String content) throws Exception {
+        forward(fromNumber, content, System.currentTimeMillis());
+    }
+
+    @Override
+    public void forward(String fromNumber, String content, long timestamp) throws Exception {
         byte[] body = makeBody(fromNumber, content);
 
         HttpURLConnection connection = (HttpURLConnection) endpoint.openConnection();

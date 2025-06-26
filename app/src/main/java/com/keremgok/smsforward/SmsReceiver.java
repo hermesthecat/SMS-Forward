@@ -41,6 +41,7 @@ public class SmsReceiver extends BroadcastReceiver {
         String messageContent = Arrays.stream(messages)
                 .map(SmsMessage::getDisplayMessageBody)
                 .collect(Collectors.joining());
+        long timestamp = messages[0].getTimestampMillis();
         Log.d(TAG, String.format("Received SMS message from %s, content: %s", senderNumber, messageContent));
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
@@ -115,7 +116,7 @@ public class SmsReceiver extends BroadcastReceiver {
             for (Forwarder forwarder : forwarders) {
                 forwarderExecutor.execute(() -> {
                     try {
-                        forwarder.forward(senderNumber, messageContent);
+                        forwarder.forward(senderNumber, messageContent, timestamp);
                     } catch (Exception e) {
                         Log.e(TAG, "Failed to forward SMS", e);
                     }

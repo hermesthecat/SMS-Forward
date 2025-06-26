@@ -18,6 +18,12 @@ Calls can be forwarded to a single phone thanks to carriers' call forwarding ser
 - Forward incoming SMS to target destinations
 - Send SMS remotely through the Android device
 
+✅ **Enhanced message information:**
+
+- Includes original SMS timestamp
+- Shows exact received date/time
+- Formatted as "Received at: dd/MM/yyyy HH:mm:ss"
+
 ✅ **Minimal and efficient:**
 
 - Small APK size (~6MB)
@@ -102,7 +108,9 @@ When SMS is received on Android phone:
 
 ```bash
 Original: "Hello from John"
-Forwarded: "From +1234567890:\nHello from John"
+Forwarded: "From +1234567890:
+Hello from John
+Received at: 26/06/2025 20:29:15"
 ```
 
 ### Reverse Message Sending
@@ -115,14 +123,44 @@ Send to Android phone:
 
 Android phone will send "Meeting at 3pm" to +9876543210
 
-### Web API Format
+### Platform-Specific Formats
+
+#### SMS Forwarding
+
+```cmd
+From +1234567890:
+Hello from John
+Received at: 26/06/2025 20:29:15
+```
+
+#### Telegram Forwarding
+
+```cmd
+Message from +1234567890:
+Hello from John
+Received at: 26/06/2025 20:29:15
+```
+
+#### Email Forwarding
+
+```cmd
+Subject: SMS from: +1234567890
+Body:
+Hello from John
+
+Received at: 26/06/2025 20:29:15
+```
+
+#### Web API Format
 
 HTTP POST to configured webhook:
 
 ```json
 {
   "from": "+1234567890",
-  "message": "Hello from John"
+  "message": "Hello from John",
+  "received_at": "26/06/2025 20:29:15",
+  "timestamp": 1735224555000
 }
 ```
 
@@ -131,7 +169,7 @@ HTTP POST to configured webhook:
 - **Package Name**: `com.keremgok.smsforward`
 - **Minimum Android**: API Level 25 (Android 7.0)
 - **Target Android**: API Level 34 (Android 14)
-- **App Version**: 1.0.2
+- **App Version**: 1.1.0
 - **Architecture**: Java with Android Gradle Plugin 8.7.3
 
 ## Project Structure
