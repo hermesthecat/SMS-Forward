@@ -113,6 +113,21 @@ public class MainActivity extends AppCompatActivity {
                 updateMessageCounterSummary(messageCounterPreference);
             }
 
+            // Set up rate limit status display
+            Preference rateLimitStatusPreference = findPreference(getString(R.string.key_rate_limit_status));
+            if (rateLimitStatusPreference != null) {
+                rateLimitStatusPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                    @Override
+                    public boolean onPreferenceClick(Preference preference) {
+                        showRateLimitStatus();
+                        return true;
+                    }
+                });
+
+                // Update rate limit status summary
+                updateRateLimitStatusSummary(rateLimitStatusPreference);
+            }
+
             // Set up theme preference listener
             androidx.preference.ListPreference themePreference = findPreference(getString(R.string.key_theme_mode));
             if (themePreference != null) {
@@ -507,6 +522,79 @@ public class MainActivity extends AppCompatActivity {
                 preference.setSummary(description);
             } catch (Exception e) {
                 preference.setSummary("Error reading theme setting");
+            }
+        }
+
+        private void showRateLimitStatus() {
+            try {
+                RateLimiter rateLimiter = RateLimiter.getInstance();
+                
+                int currentCount = rateLimiter.getCurrentForwardCount();
+                long timeUntilNext = rateLimiter.getTimeUntilNextSlot();
+                
+                StringBuilder message = new StringBuilder();
+                message.append("🚦 Rate Limiting Status:\n\n");
+                message.append(String.format("Current usage: %d/10 SMS per minute\n", currentCount));
+                
+                if (timeUntilNext > 0) {
+                    long seconds = timeUntilNext / 1000;
+                    message.append(String.format("Next slot available in: %d seconds\n", seconds));
+                } else {
+                    message.append("✅ Slots available immediately\n");
+                }
+                
+                if (currentCount >= 10) {
+                    message.append("\n⚠️ Rate limit reached! SMS forwarding temporarily blocked.");
+                } else if (currentCount >= 7) {
+                    message.append("\n⚠️ Approaching rate limit. Be careful not to exceed 10 SMS per minute.");
+                } else {
+                    message.append("\n✅ Within safe limits for SMS forwarding.");
+                }
+                
+                // Check if rate limiting is enabled
+                android.content.SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+                boolean rateLimitEnabled = prefs.getBoolean(getString(R.string.key_enable_rate_limiting), true);
+                
+                if (!rateLimitEnabled) {
+                    message.append("\n\n⚠️ Rate limiting is currently DISABLED in settings.");
+                }
+                
+                Toast.makeText(getContext(), message.toString(), Toast.LENGTH_LONG).show();
+                
+                // Update the preference summary
+                Preference rateLimitStatusPreference = findPreference(getString(R.string.key_rate_limit_status));
+                if (rateLimitStatusPreference != null) {
+                    updateRateLimitStatusSummary(rateLimitStatusPreference);
+                }
+                
+            } catch (Exception e) {
+                Toast.makeText(getContext(), "Error reading rate limit status: " + e.getMessage(),
+                        Toast.LENGTH_LONG).show();
+            }
+        }
+
+        private void updateRateLimitStatusSummary(Preference preference) {
+            try {
+                RateLimiter rateLimiter = RateLimiter.getInstance();
+                
+                int currentCount = rateLimiter.getCurrentForwardCount();
+                long timeUntilNext = rateLimiter.getTimeUntilNextSlot();
+                
+                String nextSlotText;
+                if (timeUntilNext > 0) {
+                    long seconds = timeUntilNext / 1000;
+                    nextSlotText = String.format(getString(R.string.rate_limit_seconds), seconds);
+                } else {
+                    nextSlotText = getString(R.string.rate_limit_available_now);
+                }
+                
+                String summary = String.format(getString(R.string.rate_limit_status_format), 
+                        currentCount, nextSlotText);
+                        
+                preference.setSummary(summary);
+                
+            } catch (Exception e) {
+                preference.setSummary("Error reading rate limit status");
             }
         }
     }

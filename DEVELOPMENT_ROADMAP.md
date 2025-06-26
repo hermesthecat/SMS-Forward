@@ -4,7 +4,7 @@
 
 SMS Forward is a minimal, efficient Android application for forwarding SMS messages across multiple platforms. This document outlines future development suggestions and improvements.
 
-**Current Version**: 1.7.0  
+**Current Version**: 1.8.0  
 **Package Name**: `com.keremgok.smsforward`  
 **Target**: Production-ready SMS forwarding solution
 
@@ -22,26 +22,41 @@ SMS Forward is a minimal, efficient Android application for forwarding SMS messa
 - [ ] **Graceful Error Recovery** without crashes
 
 ```java
-// Implementation Example: Retry System
-public class RetryableForwarder {
-    private static final int MAX_RETRIES = 3;
-    private static final long RETRY_DELAY = 5000; // 5 seconds
+// Implementation Example: Rate Limiting System ✅ COMPLETED
+public class RateLimiter {
+    private static final int MAX_SMS_PER_MINUTE = 10;
+    private static final long ONE_MINUTE_MS = 60 * 1000;
     
-    public void forwardWithRetry(Forwarder forwarder, String from, String content) {
-        for (int attempt = 1; attempt <= MAX_RETRIES; attempt++) {
-            try {
-                forwarder.forward(from, content);
-                return; // Success
-            } catch (Exception e) {
-                if (attempt == MAX_RETRIES) {
-                    Log.e(TAG, "All retry attempts failed", e);
-                    OfflineQueue.add(from, content, System.currentTimeMillis());
-                } else {
-                    SystemClock.sleep(RETRY_DELAY * attempt);
-                }
+    private final Queue<Long> forwardingTimestamps = new LinkedList<>();
+    private final Object lock = new Object();
+    
+    public boolean isForwardingAllowed() {
+        synchronized (lock) {
+            long currentTime = System.currentTimeMillis();
+            
+            // Remove timestamps older than 1 minute
+            while (!forwardingTimestamps.isEmpty() && 
+                   (currentTime - forwardingTimestamps.peek()) > ONE_MINUTE_MS) {
+                forwardingTimestamps.poll();
             }
+            
+            return forwardingTimestamps.size() < MAX_SMS_PER_MINUTE;
         }
     }
+    
+    public void recordForwarding() {
+        synchronized (lock) {
+            forwardingTimestamps.offer(System.currentTimeMillis());
+        }
+    }
+}
+
+// Integration in SmsReceiver ✅ COMPLETED
+if (enableRateLimiting && !rateLimiter.isForwardingAllowed()) {
+    // Queue message for later processing when rate limit resets
+    queueProcessor.enqueueFailedMessage(senderNumber, messageContent, 
+                                       timestamp, forwarderType, forwarderConfig);
+    return; // Skip forwarding due to rate limit
 }
 ```
 
@@ -55,7 +70,7 @@ public class RetryableForwarder {
 #### 1.3 Essential Security
 
 - [ ] **Number Whitelist/Blacklist** functionality
-- [ ] **Rate Limiting** (max SMS per minute)
+- [x] **Rate Limiting** (max SMS per minute) ✅ *Completed v1.8.0*
 - [ ] **Input Validation** for all settings
 - [ ] **Secure Storage** for sensitive data
 
@@ -259,6 +274,42 @@ public class ForwardingService {
 }
 ```
 
+### Rate Limiting Architecture ✅ COMPLETED
+
+```java
+// Singleton pattern ensures consistent rate limiting across all components
+public class RateLimiter {
+    private static volatile RateLimiter instance;
+    private final Queue<Long> forwardingTimestamps = new LinkedList<>();
+    
+    // Thread-safe singleton implementation
+    public static RateLimiter getInstance() {
+        if (instance == null) {
+            synchronized (RateLimiter.class) {
+                if (instance == null) {
+                    instance = new RateLimiter();
+                }
+            }
+        }
+        return instance;
+    }
+    
+    // Integration points:
+    // 1. SmsReceiver - checks before forwarding normal/reverse messages
+    // 2. MessageQueueProcessor - checks during queue processing
+    // 3. MainActivity - displays real-time status to user
+}
+```
+
+Features implemented:
+
+- **Sliding window algorithm**: 60-second rolling window
+- **10 SMS per minute limit**: Configurable maximum
+- **User preference control**: Enable/disable via settings
+- **Queue integration**: Rate-limited messages queued for later
+- **Real-time monitoring**: Live status display in UI
+- **Thread safety**: Synchronized access for concurrent operations
+
 ### Database Schema (SQLite)
 
 ```sql
@@ -326,7 +377,8 @@ public void testSmsForwarderWithTimestamp() {
 - ✅ Retry mechanism implementation
 - ✅ Basic UI improvements (test button, status indicator)
 - ✅ SQLite offline queue
-- ✅ Number whitelist/blacklist
+- ✅ Rate limiting system (spam prevention)
+- [ ] Number whitelist/blacklist
 
 ### Q2 2025: Enhancement
 

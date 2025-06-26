@@ -30,6 +30,7 @@ Calls can be forwarded to a single phone thanks to carriers' call forwarding ser
 - Exponential backoff between retries  
 - Offline message queue with SQLite storage
 - Automatic reprocessing when connectivity restored
+- Rate limiting to prevent spam (10 SMS/minute)
 - Detailed logging for troubleshooting
 
 ✅ **Testing and debugging:**
@@ -37,6 +38,7 @@ Calls can be forwarded to a single phone thanks to carriers' call forwarding ser
 - Built-in test message feature
 - Real-time connection status indicator
 - Daily and total message counter with success rates
+- Rate limiting status monitor with real-time usage
 - Verify forwarding setup instantly
 - Debug each platform individually
 
@@ -46,6 +48,13 @@ Calls can be forwarded to a single phone thanks to carriers' call forwarding ser
 - Dark mode support with system theme following
 - Automatic theme switching based on system settings
 - Elegant light and dark color schemes
+
+✅ **Security and spam prevention:**
+
+- Rate limiting prevents spam (10 SMS/minute maximum)
+- Sliding window algorithm for precise control
+- User-configurable enable/disable toggle
+- Rate-limited messages queued for later processing
 
 ✅ **Minimal and efficient:**
 
@@ -129,6 +138,7 @@ gradlew.bat assembleRelease
    - Tap "Send Test Message" to verify configuration
    - Check "Message Queue Status" to view offline queue statistics
    - Check "Message Counter" to view daily/total forwarding statistics
+   - Check "Rate Limit Status" to view current usage and spam protection
    - Check if test message arrives on your target platforms
 
 6. **Usage:**
@@ -234,6 +244,44 @@ Features:
 - Automatic data retention (90 days)
 - Real-time updates during forwarding
 
+### Rate Limiting and Spam Prevention
+
+Automatic protection against SMS forwarding abuse:
+
+```bash
+# Rate Limiting Status Examples
+🚦 Current usage: 3/10 SMS per minute
+✅ Slots available immediately
+
+🚦 Current usage: 8/10 SMS per minute  
+⚠️ Approaching rate limit. Be careful not to exceed 10 SMS per minute.
+
+🚦 Current usage: 10/10 SMS per minute
+⚠️ Rate limit reached! SMS forwarding temporarily blocked.
+Next slot available in: 45 seconds
+```
+
+Protection features:
+
+- **Sliding window algorithm**: Tracks last 60 seconds of activity
+- **10 SMS per minute limit**: Prevents spam and abuse
+- **Graceful handling**: Rate-limited messages queued for later
+- **User control**: Can be disabled in settings if not needed
+- **Real-time monitoring**: View current usage anytime
+- **Thread-safe**: Works reliably with multiple simultaneous messages
+
+Rate limiting behavior:
+
+```bash
+# Normal operation
+SMS 1-10: ✅ Forwarded immediately
+SMS 11+:  ⏳ Queued until rate limit window resets
+
+# After 60 seconds
+Oldest SMS timestamp expires → New slot available
+Queued messages processed automatically
+```
+
 ### Dark Mode and Theme Support
 
 Automatic theme switching with modern Material Design 3:
@@ -333,8 +381,9 @@ HTTP POST to configured webhook:
 
 ```bash
 app/src/main/java/com/keremgok/smsforward/
-├── MainActivity.java          # Settings UI with stats/queue/connection status
-├── SmsReceiver.java           # SMS broadcast receiver
+├── MainActivity.java          # Settings UI with stats/queue/connection/rate limit status
+├── SmsReceiver.java           # SMS broadcast receiver with rate limiting
+├── RateLimiter.java           # Rate limiting and spam prevention system
 ├── Forwarder.java             # Interface for all forwarders
 ├── RetryableForwarder.java    # Retry mechanism wrapper
 ├── MessageQueueDbHelper.java  # SQLite database for offline queue

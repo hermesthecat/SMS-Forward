@@ -81,6 +81,18 @@
     <string name="message_counter_title">Message Counter</string>
     <string name="message_counter_summary">View daily and total forwarded message statistics</string>
     
+    <!-- Rate Limiting -->
+    <string name="key_enable_rate_limiting" translatable="false">key_enable_rate_limiting</string>
+    <string name="header_rate_limiting">Rate Limiting</string>
+    <string name="enable_rate_limiting">Enable Rate Limiting</string>
+    <string name="rate_limiting_summary">Prevent spam by limiting to 10 SMS forwards per minute</string>
+    <string name="key_rate_limit_status" translatable="false">key_rate_limit_status</string>
+    <string name="rate_limit_status_title">Rate Limit Status</string>
+    <string name="rate_limit_status_summary">View current rate limiting status</string>
+    <string name="rate_limit_status_format">Current: %1$d/10 | Next slot: %2$s</string>
+    <string name="rate_limit_available_now">available now</string>
+    <string name="rate_limit_seconds">%d seconds</string>
+    
     <!-- Appearance -->
     <string name="header_appearance">Appearance</string>
     <string name="key_theme_mode">theme_mode</string>

@@ -22,7 +22,7 @@
 ### Security
 
 - [ ] **PIN Protection** - Lock app with PIN/biometric
-- [ ] **Rate Limiting** - Prevent spam (max 10 SMS/minute)
+- [x] **Rate Limiting** - Prevent spam (max 10 SMS/minute) ✅ *Completed in v1.8.0*
 - [ ] **Secure Storage** - Encrypt sensitive settings
 - [ ] **Input Validation** - Validate all user inputs
 
@@ -119,6 +119,27 @@ public class StatsManager {
     public WeeklyStats getThisWeek();
 }
 ```
+
+---
+
+## ✅ **Recently Completed**
+
+### Version 1.8.0 - Rate Limiting System
+
+- [x] **RateLimiter Class** - Singleton pattern with sliding window algorithm
+- [x] **SMS Forward Rate Control** - Maximum 10 SMS per minute
+- [x] **User Interface Integration** - Rate limit status display in settings
+- [x] **Preference Control** - Enable/disable toggle for rate limiting
+- [x] **Queue Integration** - Rate-limited messages queued for later processing
+- [x] **Real-time Monitoring** - Live usage tracking and status updates
+- [x] **Thread Safety** - Synchronized access for concurrent operations
+
+Implementation details:
+
+- **Sliding window**: 60-second rolling time window
+- **Graceful handling**: Excess messages queued instead of dropped
+- **User control**: Can be completely disabled via preferences
+- **Integration points**: SmsReceiver, MessageQueueProcessor, MainActivity
 
 ---
 

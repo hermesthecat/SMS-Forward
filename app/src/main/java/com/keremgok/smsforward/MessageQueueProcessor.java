@@ -34,6 +34,7 @@ public class MessageQueueProcessor {
     private final ScheduledExecutorService queueExecutor;
     private final NetworkStatusManager networkStatusManager;
     private final MessageStatsDbHelper statsHelper;
+    private final RateLimiter rateLimiter;
     private volatile boolean isRunning = false;
 
     public MessageQueueProcessor(Context context) {
@@ -42,6 +43,7 @@ public class MessageQueueProcessor {
         this.queueExecutor = Executors.newSingleThreadScheduledExecutor();
         this.networkStatusManager = NetworkStatusManager.getInstance(context);
         this.statsHelper = new MessageStatsDbHelper(context);
+        this.rateLimiter = RateLimiter.getInstance();
     }
 
     /**
@@ -138,8 +140,19 @@ public class MessageQueueProcessor {
                 return;
             }
 
+            // Check if rate limiting is enabled
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+            boolean enableRateLimiting = prefs.getBoolean(context.getString(R.string.key_enable_rate_limiting), true);
+
             for (MessageQueueDbHelper.QueuedMessage queuedMessage : pendingMessages) {
-                processQueuedMessage(queuedMessage);
+                // Check rate limit before processing each message if enabled
+                if (enableRateLimiting && !rateLimiter.isForwardingAllowed()) {
+                    Log.d(TAG, String.format("Rate limit reached during queue processing. " +
+                            "Current count: %d/10. Skipping remaining messages in this cycle.", 
+                            rateLimiter.getCurrentForwardCount()));
+                    break; // Stop processing this cycle, will retry in next cycle
+                }
+                processQueuedMessage(queuedMessage, enableRateLimiting);
             }
 
         } catch (Exception e) {
@@ -150,7 +163,7 @@ public class MessageQueueProcessor {
     /**
      * Process a single queued message
      */
-    private void processQueuedMessage(MessageQueueDbHelper.QueuedMessage queuedMessage) {
+    private void processQueuedMessage(MessageQueueDbHelper.QueuedMessage queuedMessage, boolean enableRateLimiting) {
         try {
             // Mark as processing
             dbHelper.updateMessage(queuedMessage.id, MessageQueueDbHelper.STATUS_PROCESSING,
@@ -170,9 +183,12 @@ public class MessageQueueProcessor {
             forwarder.forward(queuedMessage.fromNumber, queuedMessage.messageContent,
                     queuedMessage.timestamp);
 
-            // Success - remove from queue and record stats
+            // Success - remove from queue, record stats, and update rate limiter if enabled
             dbHelper.markMessageSuccess(queuedMessage.id);
             statsHelper.recordForwardSuccess(queuedMessage.forwarderType);
+            if (enableRateLimiting) {
+                rateLimiter.recordForwarding();
+            }
             Log.i(TAG, "Successfully processed queued message ID " + queuedMessage.id +
                     " via " + queuedMessage.forwarderType);
 

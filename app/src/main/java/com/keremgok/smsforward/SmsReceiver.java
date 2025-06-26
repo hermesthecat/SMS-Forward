@@ -28,6 +28,7 @@ public class SmsReceiver extends BroadcastReceiver {
     private final Executor forwarderExecutor = Executors.newCachedThreadPool();
     private static MessageQueueProcessor queueProcessor;
     private static MessageStatsDbHelper statsDbHelper;
+    private static RateLimiter rateLimiter;
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -42,6 +43,11 @@ public class SmsReceiver extends BroadcastReceiver {
         // Initialize stats helper if not already done
         if (statsDbHelper == null) {
             statsDbHelper = new MessageStatsDbHelper(context);
+        }
+        
+        // Initialize rate limiter if not already done
+        if (rateLimiter == null) {
+            rateLimiter = RateLimiter.getInstance();
         }
 
         // Large message might be broken into several parts.
@@ -72,6 +78,7 @@ public class SmsReceiver extends BroadcastReceiver {
         short smtpPort = Short.parseShort(preferences.getString(context.getString(R.string.key_email_submit_port), "0"));
         String smtpPassword = preferences.getString(context.getString(R.string.key_email_submit_password), "");
         String smtpUsernameStyle = preferences.getString(context.getString(R.string.key_email_username_style), "full");
+        boolean enableRateLimiting = preferences.getBoolean(context.getString(R.string.key_enable_rate_limiting), true);
 
         // TODO: add a dedicated preference item for reverse forwarding
         // Disables reverse forwarding too if no forwarders is enabled.
@@ -123,7 +130,15 @@ public class SmsReceiver extends BroadcastReceiver {
         }
 
         if (senderNumber.equals(targetNumber)) {
-            // Reverse message
+            // Reverse message - check rate limit first if enabled
+            if (enableRateLimiting && !rateLimiter.isForwardingAllowed()) {
+                Log.w(TAG, String.format("Rate limit exceeded for reverse SMS to %s. Current count: %d/10. " +
+                        "Time until next slot: %d seconds", 
+                        senderNumber, rateLimiter.getCurrentForwardCount(), 
+                        rateLimiter.getTimeUntilNextSlot() / 1000));
+                return; // Skip reverse forwarding due to rate limit
+            }
+            
             Matcher matcher = REVERSE_MESSAGE_PATTERN.matcher(messageContent);
             if (matcher.matches()) {
                 String forwardNumber = matcher.replaceFirst("$1");
@@ -131,17 +146,53 @@ public class SmsReceiver extends BroadcastReceiver {
                 forwarderExecutor.execute(() -> {
                     try {
                         SmsForwarder.sendSmsTo(forwardNumber, forwardContent);
+                        // Record successful reverse forwarding for rate limiting if enabled
+                        if (enableRateLimiting) {
+                            rateLimiter.recordForwarding();
+                        }
                     } catch (RuntimeException e) {
                         Log.e(TAG, "Failed to send SMS", e);
                     }
                 });
             }
         } else {
-            // Normal message, forwarded
+            // Normal message, forwarded - check rate limit first if enabled
+            if (enableRateLimiting && !rateLimiter.isForwardingAllowed()) {
+                Log.w(TAG, String.format("Rate limit exceeded for SMS from %s. Current count: %d/10. " +
+                        "Time until next slot: %d seconds", 
+                        senderNumber, rateLimiter.getCurrentForwardCount(), 
+                        rateLimiter.getTimeUntilNextSlot() / 1000));
+                
+                // Optionally add to queue for later processing when rate limit resets
+                if (queueProcessor != null) {
+                    for (Forwarder forwarder : forwarders) {
+                        if (forwarder instanceof RetryableForwarder) {
+                            try {
+                                RetryableForwarder retryableForwarder = (RetryableForwarder) forwarder;
+                                String forwarderType = retryableForwarder.getDelegateName();
+                                String forwarderConfig = MessageQueueProcessor.createForwarderConfig(
+                                    retryableForwarder.getDelegate(), context);
+                                
+                                queueProcessor.enqueueFailedMessage(senderNumber, messageContent, 
+                                                                   timestamp, forwarderType, forwarderConfig);
+                                Log.i(TAG, "Added rate-limited message to offline queue via " + forwarderType);
+                            } catch (Exception queueError) {
+                                Log.e(TAG, "Failed to add rate-limited message to offline queue: " + queueError.getMessage());
+                            }
+                        }
+                    }
+                }
+                return; // Skip forwarding due to rate limit
+            }
+            
             for (Forwarder forwarder : forwarders) {
                 forwarderExecutor.execute(() -> {
                     try {
                         forwarder.forward(senderNumber, messageContent, timestamp);
+                        // Record successful forwarding for rate limiting if enabled
+                        if (enableRateLimiting) {
+                            rateLimiter.recordForwarding();
+                        }
                     } catch (Exception e) {
                         Log.e(TAG, "Failed to forward SMS", e);
                         

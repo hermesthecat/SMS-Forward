@@ -122,6 +122,25 @@
 
     <PreferenceCategory
         app:iconSpaceReserved="false"
+        app:title="@string/header_rate_limiting">
+
+        <SwitchPreferenceCompat
+            android:key="@string/key_enable_rate_limiting"
+            android:title="@string/enable_rate_limiting"
+            android:summary="@string/rate_limiting_summary"
+            android:defaultValue="true"
+            app:iconSpaceReserved="false" />
+
+        <Preference
+            android:key="@string/key_rate_limit_status"
+            android:title="@string/rate_limit_status_title"
+            android:summary="@string/rate_limit_status_summary"
+            app:iconSpaceReserved="false" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
         app:title="@string/header_appearance">
 
         <ListPreference
