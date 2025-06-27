@@ -21,6 +21,7 @@ public class RetryableForwarder implements Forwarder {
     private final ScheduledExecutorService retryExecutor;
     private final MessageQueueProcessor queueProcessor;
     private MessageStatsDbHelper statsHelper;
+    private MessageHistoryDbHelper historyHelper;
     
     public RetryableForwarder(Forwarder delegate) {
         this.delegate = delegate;
@@ -39,6 +40,13 @@ public class RetryableForwarder implements Forwarder {
      */
     public void setStatsHelper(MessageStatsDbHelper statsHelper) {
         this.statsHelper = statsHelper;
+    }
+    
+    /**
+     * Set the history helper for tracking message history
+     */
+    public void setHistoryHelper(MessageHistoryDbHelper historyHelper) {
+        this.historyHelper = historyHelper;
     }
     
     @Override
@@ -65,9 +73,14 @@ public class RetryableForwarder implements Forwarder {
             // Try to forward the message
             delegate.forward(fromNumber, content, timestamp);
             
-            // Success - record in stats and log if this was a retry
+            // Success - record in stats and history
             if (statsHelper != null) {
                 statsHelper.recordForwardSuccess(delegate.getClass().getSimpleName());
+            }
+            
+            if (historyHelper != null) {
+                historyHelper.recordForwardSuccess(fromNumber, content, 
+                    delegate.getClass().getSimpleName(), timestamp);
             }
             
             if (attempt > 1) {
@@ -91,9 +104,14 @@ public class RetryableForwarder implements Forwarder {
                 }, delay, TimeUnit.MILLISECONDS);
                 
             } else {
-                // All retry attempts exhausted - record failure in stats and add to offline queue if available
+                // All retry attempts exhausted - record failure in stats and history
                 if (statsHelper != null) {
                     statsHelper.recordForwardFailure(delegate.getClass().getSimpleName());
+                }
+                
+                if (historyHelper != null) {
+                    historyHelper.recordForwardFailure(fromNumber, content, 
+                        delegate.getClass().getSimpleName(), e.getMessage(), timestamp);
                 }
                 
                 Log.e(TAG, String.format("All %d retry attempts failed for %s via %s. Final error: %s", 

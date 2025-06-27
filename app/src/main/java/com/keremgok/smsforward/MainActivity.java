@@ -1,10 +1,13 @@
 package com.keremgok.smsforward;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AlertDialog;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -50,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
         private Preference connectionStatusPreference;
         private ThemeManager themeManager;
         private SettingsBackupManager backupManager;
+        private MessageHistoryDbHelper historyDbHelper;
         
         // Activity result launchers for file operations
         private ActivityResultLauncher<Intent> exportLauncher;
@@ -67,6 +71,9 @@ public class MainActivity extends AppCompatActivity {
             
             // Initialize backup manager
             backupManager = new SettingsBackupManager(getContext());
+            
+            // Initialize message history helper
+            historyDbHelper = new MessageHistoryDbHelper(getContext());
             
             // Initialize file operation launchers
             initializeFileLaunchers();
@@ -189,6 +196,33 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public boolean onPreferenceClick(Preference preference) {
                         importSettings();
+                        return true;
+                    }
+                });
+            }
+
+            // Set up message history
+            Preference messageHistoryPreference = findPreference(getString(R.string.key_message_history));
+            if (messageHistoryPreference != null) {
+                messageHistoryPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                    @Override
+                    public boolean onPreferenceClick(Preference preference) {
+                        showMessageHistory();
+                        return true;
+                    }
+                });
+                
+                // Update message history summary
+                updateMessageHistorySummary(messageHistoryPreference);
+            }
+
+            // Set up clear history
+            Preference clearHistoryPreference = findPreference(getString(R.string.key_clear_history));
+            if (clearHistoryPreference != null) {
+                clearHistoryPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                    @Override
+                    public boolean onPreferenceClick(Preference preference) {
+                        showClearHistoryConfirmation();
                         return true;
                     }
                 });
@@ -786,8 +820,186 @@ public class MainActivity extends AppCompatActivity {
                 // Update connection status summary
                 updateConnectionStatusSummary();
                 
+                // Update message history summary
+                Preference messageHistoryPreference = findPreference(getString(R.string.key_message_history));
+                if (messageHistoryPreference != null) {
+                    updateMessageHistorySummary(messageHistoryPreference);
+                }
+                
             } catch (Exception e) {
                 // Ignore errors during summary refresh
+            }
+        }
+
+        /**
+         * Show message history dialog
+         */
+        private void showMessageHistory() {
+            try {
+                List<MessageHistoryDbHelper.HistoryRecord> history = historyDbHelper.getMessageHistory(100);
+                
+                if (history.isEmpty()) {
+                    Toast.makeText(getContext(), getString(R.string.history_empty), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                
+                // Build message history display
+                StringBuilder historyText = new StringBuilder();
+                MessageHistoryDbHelper.HistoryStats stats = historyDbHelper.getHistoryStats();
+                
+                // Add header with statistics
+                historyText.append("📊 History Statistics:\n");
+                historyText.append(String.format(getString(R.string.history_stats_format), 
+                    stats.totalCount, stats.successCount, stats.getSuccessRate(), stats.failedCount));
+                historyText.append("\n");
+                historyText.append("📅 Time span: ").append(stats.getTimeSpanDescription()).append("\n\n");
+                
+                // Add recent messages (show last 20 for better readability)
+                historyText.append("📋 Recent Messages (Last 20):\n\n");
+                
+                int displayCount = Math.min(history.size(), 20);
+                for (int i = 0; i < displayCount; i++) {
+                    MessageHistoryDbHelper.HistoryRecord record = history.get(i);
+                    
+                    historyText.append(record.getStatusEmoji()).append(" ")
+                              .append(record.getPlatformEmoji()).append(" ")
+                              .append(record.platform.toUpperCase()).append("\n");
+                    
+                    historyText.append("From: ").append(record.fromNumber).append("\n");
+                    
+                    // Truncate long messages for display
+                    String displayMessage = record.messageContent;
+                    if (displayMessage.length() > 100) {
+                        displayMessage = displayMessage.substring(0, 100) + "...";
+                    }
+                    historyText.append("Message: ").append(displayMessage).append("\n");
+                    
+                    historyText.append("Time: ").append(record.getFormattedForwardTimestamp()).append("\n");
+                    
+                    if (record.isFailed() && record.errorMessage != null) {
+                        historyText.append("Error: ").append(record.errorMessage).append("\n");
+                    }
+                    
+                    historyText.append("\n");
+                }
+                
+                if (history.size() > 20) {
+                    historyText.append("... and ").append(history.size() - 20).append(" more messages\n");
+                }
+                
+                // Show in dialog
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setTitle("Message History")
+                       .setMessage(historyText.toString())
+                       .setPositiveButton("OK", null)
+                       .setNeutralButton("View All", new DialogInterface.OnClickListener() {
+                           @Override
+                           public void onClick(DialogInterface dialog, int which) {
+                               showFullMessageHistory();
+                           }
+                       })
+                       .show();
+                
+            } catch (Exception e) {
+                Toast.makeText(getContext(), "Error loading message history: " + e.getMessage(),
+                        Toast.LENGTH_LONG).show();
+            }
+        }
+
+        /**
+         * Show full message history in a separate dialog
+         */
+        private void showFullMessageHistory() {
+            try {
+                List<MessageHistoryDbHelper.HistoryRecord> history = historyDbHelper.getMessageHistory(100);
+                
+                StringBuilder fullHistoryText = new StringBuilder();
+                fullHistoryText.append("📋 Complete Message History (Last 100):\n\n");
+                
+                for (MessageHistoryDbHelper.HistoryRecord record : history) {
+                    fullHistoryText.append(record.getStatusEmoji()).append(" ")
+                                  .append(record.getPlatformEmoji()).append(" ")
+                                  .append(record.platform.toUpperCase()).append(" - ")
+                                  .append(record.getFormattedForwardTimestamp()).append("\n");
+                    
+                    fullHistoryText.append("From: ").append(record.fromNumber).append("\n");
+                    fullHistoryText.append("Content: ").append(record.messageContent).append("\n");
+                    
+                    if (record.isFailed() && record.errorMessage != null) {
+                        fullHistoryText.append("Error: ").append(record.errorMessage).append("\n");
+                    }
+                    
+                    fullHistoryText.append("────────────────────\n");
+                }
+                
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setTitle("Complete Message History")
+                       .setMessage(fullHistoryText.toString())
+                       .setPositiveButton("OK", null)
+                       .show();
+                
+            } catch (Exception e) {
+                Toast.makeText(getContext(), "Error loading full history: " + e.getMessage(),
+                        Toast.LENGTH_LONG).show();
+            }
+        }
+
+        /**
+         * Show confirmation dialog before clearing history
+         */
+        private void showClearHistoryConfirmation() {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+            builder.setTitle("Clear Message History")
+                   .setMessage(getString(R.string.clear_history_confirmation))
+                   .setPositiveButton("Clear", new DialogInterface.OnClickListener() {
+                       @Override
+                       public void onClick(DialogInterface dialog, int which) {
+                           clearMessageHistory();
+                       }
+                   })
+                   .setNegativeButton("Cancel", null)
+                   .show();
+        }
+
+        /**
+         * Clear all message history
+         */
+        private void clearMessageHistory() {
+            try {
+                historyDbHelper.clearHistory();
+                Toast.makeText(getContext(), getString(R.string.history_cleared), Toast.LENGTH_SHORT).show();
+                
+                // Update summary after clearing
+                Preference messageHistoryPreference = findPreference(getString(R.string.key_message_history));
+                if (messageHistoryPreference != null) {
+                    updateMessageHistorySummary(messageHistoryPreference);
+                }
+                
+            } catch (Exception e) {
+                Toast.makeText(getContext(), "Error clearing history: " + e.getMessage(),
+                        Toast.LENGTH_LONG).show();
+            }
+        }
+
+        /**
+         * Update message history preference summary
+         */
+        private void updateMessageHistorySummary(Preference preference) {
+            try {
+                MessageHistoryDbHelper.HistoryStats stats = historyDbHelper.getHistoryStats();
+                
+                String summary;
+                if (stats.totalCount > 0) {
+                    summary = String.format("Last %d messages | Success: %.1f%% | %s", 
+                            stats.totalCount, stats.getSuccessRate(), stats.getTimeSpanDescription());
+                } else {
+                    summary = "No message history available";
+                }
+                
+                preference.setSummary(summary);
+                
+            } catch (Exception e) {
+                preference.setSummary("Error reading message history");
             }
         }
     }

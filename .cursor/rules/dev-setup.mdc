@@ -3,6 +3,8 @@ description:
 globs: 
 alwaysApply: true
 ---
-always examine TODO.md, DEVELOPMENT_ROADMAP.md and Readme.md files first.
+Always examine TODO.md, DEVELOPMENT_ROADMAP.md and Readme.md files first.
 
 For build APK, please use build.bat, clean-build.bat and build-release.bat files.
+
+If you update TODO.md, please always update TODO.md, DEVELOPMENT_ROADMAP.md and Readme.md files.

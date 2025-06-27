@@ -4,7 +4,7 @@
 
 SMS Forward is a minimal, efficient Android application for forwarding SMS messages across multiple platforms. This document outlines future development suggestions and improvements.
 
-**Current Version**: 1.9.0  
+**Current Version**: 1.10.0  
 **Package Name**: `com.keremgok.smsforward`  
 **Target**: Production-ready SMS forwarding solution
 
@@ -115,7 +115,7 @@ public class SmartNotificationManager {
 
 - [x] **Daily/Weekly/Monthly** forwarding statistics ✅ *Basic version completed v1.6.0*
 - [x] **Platform Success Rates** dashboard ✅ *Basic version completed v1.6.0*
-- [ ] **Message History** (last 100 messages)
+- [x] **Message History** (last 100 messages) ✅ *Completed v1.10.0*
 - [ ] **Export Statistics** to CSV/JSON
 
 ---
@@ -387,6 +387,66 @@ Integration points:
 3. **ActivityResultLauncher**: Modern file operation handling
 4. **ThemeManager**: Automatic theme application after import
 
+### Message History System ✅ COMPLETED
+
+```java
+// Complete message history tracking and retrieval system
+public class MessageHistoryDbHelper extends SQLiteOpenHelper {
+    private static final int MAX_HISTORY_RECORDS = 100;
+    private static final String TABLE_MESSAGE_HISTORY = "message_history";
+    
+    // Record successful message forwards
+    public void recordForwardSuccess(String fromNumber, String messageContent, 
+                                   String platform, long originalTimestamp) {
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_FROM_NUMBER, fromNumber);
+        values.put(COLUMN_MESSAGE_CONTENT, truncateMessage(messageContent));
+        values.put(COLUMN_PLATFORM, platform);
+        values.put(COLUMN_STATUS, STATUS_SUCCESS);
+        values.put(COLUMN_TIMESTAMP, originalTimestamp);
+        values.put(COLUMN_FORWARD_TIMESTAMP, System.currentTimeMillis());
+        
+        db.insert(TABLE_MESSAGE_HISTORY, null, values);
+        cleanupOldRecords(db); // Maintain 100 record limit
+    }
+    
+    // Record failed message forwards with error details
+    public void recordForwardFailure(String fromNumber, String messageContent, 
+                                   String platform, String errorMessage, long originalTimestamp) {
+        // Similar to success but with error details and FAILED status
+    }
+    
+    // Retrieve message history with rich statistics
+    public List<HistoryRecord> getMessageHistory(int limit) {
+        // Query with ORDER BY forward_timestamp DESC
+        // Returns records with status emojis and platform indicators
+    }
+    
+    // Get comprehensive history statistics
+    public HistoryStats getHistoryStats() {
+        // Success rate, platform distribution, time span analysis
+        // Returns formatted statistics for UI display
+    }
+}
+```
+
+Features implemented:
+
+- **SQLite storage**: Persistent message history with automatic cleanup
+- **100 message limit**: Automatic deletion of oldest records
+- **Rich metadata**: Status, platform, timestamps, error messages
+- **Smart UI integration**: Recent (20) vs complete (100) view modes
+- **Memory optimization**: Message content truncated to 500 characters
+- **Performance optimization**: Database indexing for fast queries
+- **Thread safety**: Proper transaction handling for concurrent access
+
+Integration points:
+
+1. **RetryableForwarder**: Automatic logging for all forward attempts
+2. **SmsReceiver**: History helper initialization and distribution
+3. **MainActivity**: User interface for viewing and clearing history
+4. **UI Components**: Rich display with emojis and formatted timestamps
+
 ### Database Schema (SQLite)
 
 ```sql
@@ -594,6 +654,30 @@ This project is released under the **MIT License**. All contributions must be co
 ---
 
 ## 📋 **Recent Version History**
+
+### Version 1.10.0 (June 2025) ✅ COMPLETED
+
+**Major Features:**
+- ✅ **Message History System**: Complete forwarding history tracking
+- ✅ **SQLite Storage**: Persistent message history with 100 record limit
+- ✅ **Rich Metadata**: Status, platform, timestamps, error messages
+- ✅ **Smart UI Integration**: Recent (20) vs complete (100) view modes
+- ✅ **Memory Optimization**: Message content truncated to 500 characters
+- ✅ **Performance Optimization**: Database indexing for fast queries
+
+**Technical Implementation:**
+- New `MessageHistoryDbHelper` class with automatic cleanup
+- Integration with `RetryableForwarder` for automatic logging
+- Thread-safe database operations with proper transaction handling
+- Rich statistics calculation (success rates, platform distribution)
+- UI components with status emojis and formatted timestamps
+
+**User Experience:**
+- View Message History preference in statistics section
+- Clear Message History option with confirmation dialog
+- Rich display with success/failure indicators
+- Formatted timestamps for better readability
+- Comprehensive statistics dashboard integration
 
 ### Version 1.9.0 (June 2025) ✅ COMPLETED
 

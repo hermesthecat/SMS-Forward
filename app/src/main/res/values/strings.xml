@@ -121,4 +121,16 @@
     <string name="import_success">%s</string>
     <string name="import_error">Import failed: %s</string>
     <string name="backup_file_description">SMS Forward Settings Backup</string>
+    
+    <!-- Message History -->
+    <string name="key_message_history" translatable="false">key_message_history</string>
+    <string name="key_clear_history" translatable="false">key_clear_history</string>
+    <string name="message_history_title">Message History</string>
+    <string name="message_history_summary">View last 100 forwarded messages</string>
+    <string name="clear_history_title">Clear History</string>
+    <string name="clear_history_summary">Delete all message history records</string>
+    <string name="clear_history_confirmation">Are you sure you want to delete all message history? This action cannot be undone.</string>
+    <string name="history_cleared">Message history cleared successfully</string>
+    <string name="history_empty">No message history available</string>
+    <string name="history_stats_format">Total: %1$d | Success: %2$d (%.1f%%) | Failed: %3$d</string>
 </resources>

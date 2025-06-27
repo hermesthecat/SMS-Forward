@@ -57,6 +57,14 @@ Calls can be forwarded to a single phone thanks to carriers' call forwarding ser
 - Version compatibility protection
 - Automatic preference refresh after import
 
+✅ **Message history and tracking:**
+
+- Complete forwarding history (last 100 messages)
+- Success/failure status tracking
+- Rich metadata (timestamps, platforms, error messages)
+- Memory-optimized display with automatic cleanup
+- Integrated statistics dashboard
+
 ✅ **Security and spam prevention:**
 
 - Rate limiting prevents spam (10 SMS/minute maximum)
@@ -172,6 +180,7 @@ gradlew.bat assembleRelease
    - Check "Message Queue Status" to view offline queue statistics
    - Check "Message Counter" to view daily/total forwarding statistics
    - Check "Rate Limit Status" to view current usage and spam protection
+   - Check "View Message History" to see recent forwarding activity
    - Check if test message arrives on your target platforms
 
 7. **Usage:**
@@ -305,6 +314,79 @@ After testing: Import to restore original configuration
 - **Key Whitelisting**: Only known settings are imported
 - **Metadata Tracking**: Shows backup creation date and app version
 - **Error Handling**: Detailed feedback for failed imports
+
+### Message History & Tracking
+
+Complete forwarding history system with persistent storage:
+
+```bash
+# Recent Message History (Last 20)
+📨 Recent Messages:
+  15:34:21 ✅ +1234567890 → Telegram (120 chars)
+  15:33:45 ❌ +5555555555 → Email (Failed: Invalid SMTP)
+  15:32:10 ✅ +9876543210 → SMS (85 chars)
+  15:30:55 ✅ +1111111111 → Web API (200 chars)
+  
+# Complete Message History (Last 100)
+📊 Message Statistics:
+  Total Records: 87
+  Success Rate: 94.3% (82/87)
+  Failed Messages: 5
+  
+  Platform Distribution:
+  📱 SMS: 45 messages (91.1% success)
+  📢 Telegram: 28 messages (96.4% success)
+  📧 Email: 10 messages (90.0% success)  
+  🌐 Web API: 4 messages (100% success)
+  
+  Time Span: Last 7 days
+  Average: 12.4 messages/day
+```
+
+#### Message History Features
+
+- **Persistent SQLite Storage**: Messages saved between app restarts
+- **100 Message Limit**: Automatic cleanup of oldest records
+- **Rich Metadata**: Status, platform, timestamps, error details
+- **Smart Views**: Recent (20) vs complete (100) display modes
+- **Memory Optimized**: Message content truncated to 500 characters
+- **Success/Failure Tracking**: Visual indicators with status emojis
+- **Error Logging**: Detailed failure reasons for troubleshooting
+
+#### Message History Examples
+
+**Successful Forward:**
+```bash
+✅ 15:34:21 | +1234567890 → Telegram
+"Hello from customer support team..."
+Platform: Telegram Bot API
+Status: Success (HTTP 200)
+```
+
+**Failed Forward:**
+```bash
+❌ 15:33:45 | +5555555555 → Email  
+"Urgent: Server maintenance tonight..."
+Platform: SMTP Email
+Status: Failed - Authentication failed (535)
+Error: Invalid username or password
+```
+
+#### Clearing Message History
+
+- **Manual Clear**: "Clear Message History" preference
+- **Confirmation Dialog**: Prevents accidental deletion
+- **Immediate Effect**: History cleared instantly
+- **Statistics Reset**: Success rates recalculated
+- **Fresh Start**: Useful for testing or privacy
+
+#### History Integration
+
+- **Automatic Logging**: All forwards logged automatically
+- **Real-time Updates**: New messages appear instantly
+- **Thread-Safe Operations**: Concurrent access protection
+- **Performance Optimized**: Fast database queries with indexing
+- **Background Processing**: No UI blocking during logging
 
 ### Connection Status Monitoring
 
@@ -496,7 +578,7 @@ HTTP POST to configured webhook:
 - **Package Name**: `com.keremgok.smsforward`
 - **Minimum Android**: API Level 25 (Android 7.0)
 - **Target Android**: API Level 34 (Android 14)
-- **App Version**: 1.9.0
+- **App Version**: 1.10.0
 - **Architecture**: Java with Android Gradle Plugin 8.7.3
 
 ## Project Structure
@@ -507,6 +589,7 @@ app/src/main/java/com/keremgok/smsforward/
 ├── SmsReceiver.java           # SMS broadcast receiver with rate limiting
 ├── RateLimiter.java           # Rate limiting and spam prevention system
 ├── SettingsBackupManager.java # Export/Import settings in JSON format
+├── MessageHistoryDbHelper.java # SQLite database for forwarding history
 ├── Forwarder.java             # Interface for all forwarders
 ├── RetryableForwarder.java    # Retry mechanism wrapper
 ├── MessageQueueDbHelper.java  # SQLite database for offline queue
@@ -527,7 +610,6 @@ app/src/main/java/com/keremgok/smsforward/
 
 - AndroidX AppCompat & Material Design
 - AndroidX Preferences
-- Jakarta Mail API for email
 
 ### Build System
 

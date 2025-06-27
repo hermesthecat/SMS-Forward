@@ -30,7 +30,7 @@
 
 - [x] **Statistics Dashboard** - Daily/weekly stats ✅ *Basic version completed in v1.6.0*
 - [x] **Export/Import Settings** - Backup configuration ✅ *Completed in v1.9.0*
-- [ ] **Message History** - Last 50 forwarded messages
+- [x] **Message History** - Last 100 forwarded messages ✅ *Completed in v1.10.0*
 - [ ] **Custom Message Templates** - Personalize message format
 
 ### New Platforms
@@ -77,7 +77,8 @@
 2. ~~**Message Counter** - 1 day~~ ✅ *Completed*
 3. ~~**Connection Status** - 2 days~~ ✅ *Completed*
 4. ~~**Dark Mode** - 1 day~~ ✅ *Completed*
-5. **Better Error Messages** - 2 days
+5. ~~**Message History** - 2 days~~ ✅ *Completed*
+6. **Better Error Messages** - 2 days
 
 ## 📝 **Implementation Notes**
 
@@ -120,9 +121,62 @@ public class StatsManager {
 }
 ```
 
+### Message History
+
+```java
+// Message history tracking ✅ COMPLETED
+public class MessageHistoryDbHelper {
+    private static final int MAX_HISTORY_RECORDS = 100;
+    
+    public void recordForwardSuccess(String fromNumber, String messageContent, 
+                                   String platform, long originalTimestamp) {
+        // Store successful forward with full details
+    }
+    
+    public void recordForwardFailure(String fromNumber, String messageContent, 
+                                   String platform, String errorMessage, long originalTimestamp) {
+        // Store failed forward with error details
+    }
+    
+    public List<HistoryRecord> getMessageHistory(int limit) {
+        // Retrieve last N messages with status, platform, timestamps
+        // Automatic cleanup maintains 100 record limit
+    }
+    
+    public HistoryStats getHistoryStats() {
+        // Get success rate, time span, platform distribution
+    }
+}
+```
+
 ---
 
 ## ✅ **Recently Completed**
+
+### Version 1.10.0 - Message History System
+
+- [x] **MessageHistoryDbHelper Class** - SQLite-based message history storage
+- [x] **Last 100 Messages** - Automatic storage and retrieval of forwarded messages
+- [x] **Success/Failure Tracking** - Complete status and error message logging
+- [x] **Platform Identification** - Track which platform each message was sent via
+- [x] **User Interface Integration** - View history and clear history options in settings
+- [x] **Automatic Cleanup** - Maintains 100 record limit with oldest-first deletion
+- [x] **Rich Statistics** - Success rates, time spans, platform distribution
+- [x] **Detailed Display** - Emoji status indicators, formatted timestamps
+
+Implementation details:
+
+- **SQLite storage**: Persistent message history with indexed queries
+- **Automatic logging**: All RetryableForwarder operations recorded
+- **Smart UI**: Separate views for recent (20) and complete (100) history
+- **Memory efficient**: Message content truncated to 500 characters
+- **Thread safe**: Database operations with proper transaction handling
+
+Integration points:
+
+- **RetryableForwarder**: Records success/failure for all forwarding attempts
+- **SmsReceiver**: Initializes history helper and passes to all forwarders
+- **MainActivity**: History viewing, statistics display, and clear functionality
 
 ### Version 1.8.0 - Rate Limiting System
 

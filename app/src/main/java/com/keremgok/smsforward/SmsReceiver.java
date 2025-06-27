@@ -28,6 +28,7 @@ public class SmsReceiver extends BroadcastReceiver {
     private final Executor forwarderExecutor = Executors.newCachedThreadPool();
     private static MessageQueueProcessor queueProcessor;
     private static MessageStatsDbHelper statsDbHelper;
+    private static MessageHistoryDbHelper historyDbHelper;
     private static RateLimiter rateLimiter;
 
     @Override
@@ -43,6 +44,11 @@ public class SmsReceiver extends BroadcastReceiver {
         // Initialize stats helper if not already done
         if (statsDbHelper == null) {
             statsDbHelper = new MessageStatsDbHelper(context);
+        }
+        
+        // Initialize history helper if not already done
+        if (historyDbHelper == null) {
+            historyDbHelper = new MessageHistoryDbHelper(context);
         }
         
         // Initialize rate limiter if not already done
@@ -89,18 +95,21 @@ public class SmsReceiver extends BroadcastReceiver {
             SmsForwarder smsForwarder = new SmsForwarder(targetNumber);
             RetryableForwarder retryableForwarder = new RetryableForwarder(smsForwarder, queueProcessor);
             retryableForwarder.setStatsHelper(statsDbHelper);
+            retryableForwarder.setHistoryHelper(historyDbHelper);
             forwarders.add(retryableForwarder);
         }
         if (enableTelegram && !targetTelegram.isEmpty() && !telegramToken.isEmpty()) {
             TelegramForwarder telegramForwarder = new TelegramForwarder(targetTelegram, telegramToken);
             RetryableForwarder retryableForwarder = new RetryableForwarder(telegramForwarder, queueProcessor);
             retryableForwarder.setStatsHelper(statsDbHelper);
+            retryableForwarder.setHistoryHelper(historyDbHelper);
             forwarders.add(retryableForwarder);
         }
         if (enableWeb && !targetWeb.isEmpty()) {
             JsonWebForwarder webForwarder = new JsonWebForwarder(targetWeb);
             RetryableForwarder retryableForwarder = new RetryableForwarder(webForwarder, queueProcessor);
             retryableForwarder.setStatsHelper(statsDbHelper);
+            retryableForwarder.setHistoryHelper(historyDbHelper);
             forwarders.add(retryableForwarder);
         }
         if (enableEmail && !fromEmailAddress.isEmpty() && !toEmailAddress.isEmpty() &&
@@ -126,6 +135,7 @@ public class SmsReceiver extends BroadcastReceiver {
             );
             RetryableForwarder retryableForwarder = new RetryableForwarder(emailForwarder, queueProcessor);
             retryableForwarder.setStatsHelper(statsDbHelper);
+            retryableForwarder.setHistoryHelper(historyDbHelper);
             forwarders.add(retryableForwarder);
         }
 

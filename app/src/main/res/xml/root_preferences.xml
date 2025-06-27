@@ -200,6 +200,18 @@
             android:summary="@string/message_counter_summary"
             app:iconSpaceReserved="false" />
 
+        <Preference
+            android:key="@string/key_message_history"
+            android:title="@string/message_history_title"
+            android:summary="@string/message_history_summary"
+            app:iconSpaceReserved="false" />
+
+        <Preference
+            android:key="@string/key_clear_history"
+            android:title="@string/clear_history_title"
+            android:summary="@string/clear_history_summary"
+            app:iconSpaceReserved="false" />
+
     </PreferenceCategory>
 
 </PreferenceScreen>
