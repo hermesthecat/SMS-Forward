@@ -12,6 +12,7 @@
 *.keystore
 keystore-base64.txt
 release.properties
+gradle.properties
 
 # GitHub Actions Artifacts
 *.apk

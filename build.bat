@@ -1,7 +1,7 @@
 @echo off
 echo Setting Android SDK paths...
-set ANDROID_SDK_ROOT=C:\Users\kerem\AppData\Local\Android\Sdk
-set ANDROID_HOME=C:\Users\kerem\AppData\Local\Android\Sdk
+set ANDROID_SDK_ROOT=C:\Users\%USERNAME%\AppData\Local\Android\Sdk
+set ANDROID_HOME=C:\Users\%USERNAME%\AppData\Local\Android\Sdk
 
 echo Building SMS Forward project...
 gradlew.bat assembleDebug
