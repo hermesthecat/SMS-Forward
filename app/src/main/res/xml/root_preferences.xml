@@ -144,6 +144,15 @@
         app:title="@string/header_appearance">
 
         <ListPreference
+            android:key="@string/key_language"
+            android:title="@string/language_title"
+            android:summary="@string/language_summary"
+            android:defaultValue="system"
+            android:entries="@array/language_entries"
+            android:entryValues="@array/language_values"
+            app:iconSpaceReserved="false" />
+
+        <ListPreference
             android:key="@string/key_theme_mode"
             android:title="@string/theme_mode_title"
             android:summary="@string/theme_mode_summary"

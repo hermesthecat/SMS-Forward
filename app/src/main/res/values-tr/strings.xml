@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SMS İletici</string>
+
+    <!-- SMS -->
+    <string name="header_sms">SMS ile İletim</string>
+    <string name="enable_sms">SMS Etkinleştir</string>
+    <string name="target_title_sms">Hedef telefon numarası</string>
+    <string name="target_summary_sms">Örnek: +90 555 123 4567</string>
+
+    <!-- Telegram -->
+    <string name="header_telegram">Telegram ile İletim</string>
+    <string name="enable_telegram">Telegram Etkinleştir</string>
+    <string name="target_title_telegram">Hedef Telegram ID</string>
+    <string name="title_telegram_apikey">Telegram API anahtarı</string>
+
+    <!-- Web -->
+    <string name="header_web">Web ile İletim</string>
+    <string name="enable_web">Web Etkinleştir</string>
+    <string name="target_title_web">Hedef Web URL</string>
+    <string name="target_summary_web">Örnek: https://site.com/api\nBu uygulama SMS alındığında POST isteği gönderecek, istek gövdesi örneği:\n{ "from": "10000", "message": "Merhaba" }</string>
+
+    <!-- Email -->
+    <string name="header_email">E-posta ile İletim</string>
+    <string name="enable_email">E-posta Etkinleştir</string>
+    <string name="from_address">Gönderen adresi</string>
+    <string name="from_address_summary">Örnek: gonderici@ornek.com</string>
+    <string name="to_address">Alıcı adresi</string>
+    <string name="to_address_summary">Örnek: alici@ornek.com</string>
+    <string name="smtp_submission_server">SMTP sunucusu</string>
+    <string name="smtp_submission_server_summary">Örnek: smtp.ornek.com</string>
+    <string name="smtp_submission_port">SMTP portu</string>
+    <string name="smtp_submission_port_summary">Genellikle 465 veya 587</string>
+    <string name="smtp_password">Şifre</string>
+    <string name="smtp_password_summary">E-posta göndermek için gönderenin şifresi</string>
+    <string name="smtp_username_style">Kullanıcı adı stili</string>
+    <string name="smtp_username_style_summary">Tam adres veya yerel kısım</string>
+
+    <!-- Test & Debug -->
+    <string name="header_test">Test ve Hata Ayıklama</string>
+    <string name="test_message_title">Test Mesajı Gönder</string>
+    <string name="test_message_summary">İletim kurulumunu doğrulamak için test mesajı gönder</string>
+    <string name="test_message_sent">Test mesajı başarıyla gönderildi!</string>
+    <string name="test_message_error">Test mesajı gönderme başarısız: %s</string>
+    <string name="test_message_no_forwarders">Hiçbir iletici etkinleştirilmemiş. Lütfen en az bir iletim yöntemini etkinleştirin.</string>
+
+    <!-- Retry Mechanism -->
+    <string name="retry_mechanism_info">Tüm iletim yöntemleri için otomatik yeniden deneme etkin (üstel geri çekilme ile 3 deneme)</string>
+
+    <!-- Offline Message Queue -->
+    <string name="queue_status_title">Mesaj Kuyruğu Durumu</string>
+    <string name="queue_status_summary">Çevrimdışı mesaj kuyruğu istatistiklerini görüntüle</string>
+    <string name="queue_stats_format">Toplam: %1$d | Bekleyen: %2$d | Başarısız: %3$d</string>
+    <string name="queue_empty">Kuyrukta mesaj yok</string>
+
+    <!-- Connection Status -->
+    <string name="connection_status_title">Bağlantı Durumu</string>
+    <string name="connection_status_summary">Mevcut ağ bağlantısı durumu</string>
+    
+    <!-- Message Counter -->
+    <string name="message_counter_title">Mesaj Sayacı</string>
+    <string name="message_counter_summary">Günlük ve toplam iletilen mesaj istatistiklerini görüntüle</string>
+    
+    <!-- Rate Limiting -->
+    <string name="header_rate_limiting">Hız Sınırlaması</string>
+    <string name="enable_rate_limiting">Hız Sınırlaması Etkinleştir</string>
+    <string name="rate_limiting_summary">Dakikada 10 SMS ile sınırlayarak spam\'ı önle</string>
+    <string name="rate_limit_status_title">Hız Sınırı Durumu</string>
+    <string name="rate_limit_status_summary">Mevcut hız sınırlaması durumunu görüntüle</string>
+    <string name="rate_limit_status_format">Mevcut: %1$d/10 | Sonraki slot: %2$s</string>
+    <string name="rate_limit_available_now">şimdi mevcut</string>
+    <string name="rate_limit_seconds">%d saniye</string>
+    
+    <!-- Appearance -->
+    <string name="header_appearance">Görünüm</string>
+    <string name="theme_mode_title">Tema</string>
+    <string name="theme_mode_summary">Açık, koyu veya sistem teması seç</string>
+    <string name="theme_system_fallback">Sistem modu Android 9 ve altında pil tasarrufu kullanır</string>
+    
+    <!-- Language -->
+    <string name="language_title">Dil</string>
+    <string name="language_summary">Uygulama dilini seçin</string>
+    <string name="language_restart_required">Dil değişikliğinin etkili olması için uygulama yeniden başlatılmalıdır</string>
+    <string name="connection_online">%1$s Çevrimiçi (%2$s)</string>
+    <string name="connection_offline">🔴 Çevrimdışı</string>
+    <string name="connection_unknown">❓ Bilinmiyor</string>
+    <string name="connection_quality_good">Ağ Kalitesi: İyi</string>
+    <string name="connection_quality_moderate">Ağ Kalitesi: Orta</string>
+    <string name="connection_quality_poor">Ağ Kalitesi: Zayıf</string>
+    <string name="connection_can_forward">✅ Mesaj iletmeye hazır</string>
+    <string name="connection_cannot_forward">❌ Mesaj iletilemez (çevrimdışı)</string>
+    
+    <!-- Backup & Restore -->
+    <string name="header_backup">Yedekleme ve Geri Yükleme</string>
+    <string name="export_settings_title">Ayarları Dışa Aktar</string>
+    <string name="export_settings_summary">Konfigürasyonunuzu bir dosyaya yedekleyin</string>
+    <string name="import_settings_title">Ayarları İçe Aktar</string>
+    <string name="import_settings_summary">Yedek dosyasından konfigürasyonu geri yükleyin</string>
+    <string name="export_success">Ayarlar başarıyla dışa aktarıldı!</string>
+    <string name="export_error">Ayarları dışa aktarma başarısız: %s</string>
+    <string name="import_success">%s</string>
+    <string name="import_error">İçe aktarma başarısız: %s</string>
+    <string name="backup_file_description">SMS İletici Ayarları Yedeği</string>
+    
+    <!-- Message History -->
+    <string name="message_history_title">Mesaj Geçmişi</string>
+    <string name="message_history_summary">Son 100 iletilen mesajı görüntüle</string>
+    <string name="clear_history_title">Geçmişi Temizle</string>
+    <string name="clear_history_summary">Tüm mesaj geçmişi kayıtlarını sil</string>
+    <string name="clear_history_confirmation">Tüm mesaj geçmişini silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.</string>
+    <string name="history_cleared">Mesaj geçmişi başarıyla temizlendi</string>
+    <string name="history_empty">Mesaj geçmişi mevcut değil</string>
+    <string name="history_stats_format" formatted="false">Toplam: %1$d | Başarılı: %2$d (%.1f%%) | Başarısız: %3$d</string>
+    
+    <!-- Message Formats -->
+    <string name="sms_message_format">%1$s\'den:\n%2$s\nAlındığı zaman: %3$s</string>
+    <string name="telegram_message_format">%1$s\'den mesaj:\n%2$s\nAlındığı zaman: %3$s</string>
+    <string name="email_subject_format">SMS: %1$s</string>
+    <string name="email_body_format">%1$s\n\nAlındığı zaman: %2$s</string>
+</resources> 

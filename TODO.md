@@ -14,6 +14,7 @@
 
 - [x] **Message Counter** - Show daily forwarded count ✅ _Completed in v1.6.0_
 - [x] **Dark Mode Support** - System theme following ✅ _Completed in v1.7.0_
+- [x] **Multi-language Support** - Turkish and English localization ✅ _Completed in v1.11.0_
 - [ ] **Last Status Display** - Show last forward result
 - [ ] **Better Error Messages** - User-friendly error descriptions
 
@@ -153,6 +154,30 @@ public class MessageHistoryDbHelper {
 
 ## ✅ **Recently Completed**
 
+### Version 1.11.0 - Multi-language Support
+
+- [x] **Turkish Localization** - Complete Turkish translation of all UI elements
+- [x] **English Localization** - Refined English strings with proper formatting
+- [x] **Language Manager** - Runtime language switching functionality
+- [x] **Message Format Localization** - SMS, Telegram, and Email message formats in both languages
+- [x] **Preference Integration** - Language selection in app settings
+- [x] **Application Class** - Proper language initialization at app startup
+- [x] **Context-aware Forwarders** - All forwarder classes support localized messages
+
+Implementation details:
+
+- **Complete i18n support**: All user-facing strings moved to resources
+- **Runtime language switching**: Users can change language without reinstalling
+- **Message localization**: SMS/Email/Telegram messages respect selected language
+- **Backward compatibility**: All existing functionality preserved
+- **System integration**: Respects system language as default option
+
+Language support:
+
+- **Turkish (TR)**: Complete translation with cultural adaptations
+- **English (EN)**: Default language with improved messaging
+- **System default**: Follows device language settings
+
 ### Version 1.10.0 - Message History System
 
 - [x] **MessageHistoryDbHelper Class** - SQLite-based message history storage
@@ -197,5 +222,4 @@ Implementation details:
 
 ---
 
-**Last Updated**: December 26, 2024  
 **Priority Review**: Weekly basis

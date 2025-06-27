@@ -1,5 +1,6 @@
 package com.keremgok.smsforward;
 
+import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
 
@@ -12,6 +13,7 @@ public final class TelegramForwarder extends AbstractWebForwarder {
     private static final String TAG = "TelegramForwarder";
 
     private final String chatId;
+    private final Context context;
 
     public TelegramForwarder(String token, String chatId) {
         super(new Uri.Builder()
@@ -22,6 +24,19 @@ public final class TelegramForwarder extends AbstractWebForwarder {
                 .build()
                 .toString());
         this.chatId = chatId;
+        this.context = null; // For backward compatibility
+    }
+
+    public TelegramForwarder(String token, String chatId, Context context) {
+        super(new Uri.Builder()
+                .scheme("https")
+                .authority("api.telegram.org")
+                .appendPath("bot" + token)
+                .appendPath("sendMessage")
+                .build()
+                .toString());
+        this.chatId = chatId;
+        this.context = context;
     }
 
     @Override
@@ -35,8 +50,16 @@ public final class TelegramForwarder extends AbstractWebForwarder {
             java.text.SimpleDateFormat dateFormat = new java.text.SimpleDateFormat("dd/MM/yyyy HH:mm:ss", java.util.Locale.getDefault());
             String formattedDate = dateFormat.format(new java.util.Date(timestamp));
             
+            String message;
+            if (context != null) {
+                message = context.getString(R.string.telegram_message_format, fromNumber, content, formattedDate);
+            } else {
+                // Fallback for backward compatibility
+                message = String.format("Message from %s:\n%s\nReceived at: %s", fromNumber, content, formattedDate);
+            }
+            
             body.put("chat_id", chatId);
-            body.put("text", String.format("Message from %s:\n%s\nReceived at: %s", fromNumber, content, formattedDate));
+            body.put("text", message);
         } catch (JSONException e) {
             Log.wtf(TAG, e);
             throw new RuntimeException(e);

@@ -223,12 +223,12 @@ public class MessageQueueProcessor {
             switch (forwarderType) {
                 case "SmsForwarder":
                     String targetNumber = config.getString("targetNumber");
-                    return new SmsForwarder(targetNumber);
+                    return new SmsForwarder(targetNumber, context);
 
                 case "TelegramForwarder":
                     String targetId = config.getString("targetId");
                     String apiKey = config.getString("apiKey");
-                    return new TelegramForwarder(targetId, apiKey);
+                    return new TelegramForwarder(targetId, apiKey, context);
 
                 case "JsonWebForwarder":
                     String targetUrl = config.getString("targetUrl");
@@ -245,7 +245,7 @@ public class MessageQueueProcessor {
                     InternetAddress from = new InternetAddress(fromAddress);
                     InternetAddress[] to = { new InternetAddress(toAddress) };
 
-                    return new EmailForwarder(from, to, host, (short) port, username, password);
+                    return new EmailForwarder(from, to, host, (short) port, username, password, context);
 
                 default:
                     Log.e(TAG, "Unknown forwarder type: " + forwarderType);

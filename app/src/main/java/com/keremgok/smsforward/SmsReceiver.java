@@ -92,14 +92,14 @@ public class SmsReceiver extends BroadcastReceiver {
 
         ArrayList<Forwarder> forwarders = new ArrayList<>(1);
         if (enableSms && !targetNumber.isEmpty()) {
-            SmsForwarder smsForwarder = new SmsForwarder(targetNumber);
+            SmsForwarder smsForwarder = new SmsForwarder(targetNumber, context);
             RetryableForwarder retryableForwarder = new RetryableForwarder(smsForwarder, queueProcessor);
             retryableForwarder.setStatsHelper(statsDbHelper);
             retryableForwarder.setHistoryHelper(historyDbHelper);
             forwarders.add(retryableForwarder);
         }
         if (enableTelegram && !targetTelegram.isEmpty() && !telegramToken.isEmpty()) {
-            TelegramForwarder telegramForwarder = new TelegramForwarder(targetTelegram, telegramToken);
+            TelegramForwarder telegramForwarder = new TelegramForwarder(targetTelegram, telegramToken, context);
             RetryableForwarder retryableForwarder = new RetryableForwarder(telegramForwarder, queueProcessor);
             retryableForwarder.setStatsHelper(statsDbHelper);
             retryableForwarder.setHistoryHelper(historyDbHelper);
@@ -131,7 +131,8 @@ public class SmsReceiver extends BroadcastReceiver {
                     smtpHost,
                     smtpPort,
                     username,
-                    smtpPassword
+                    smtpPassword,
+                    context
             );
             RetryableForwarder retryableForwarder = new RetryableForwarder(emailForwarder, queueProcessor);
             retryableForwarder.setStatsHelper(statsDbHelper);

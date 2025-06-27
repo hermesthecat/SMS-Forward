@@ -26,6 +26,10 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // Initialize language before calling super.onCreate()
+        LanguageManager languageManager = new LanguageManager(this);
+        languageManager.applyLanguage();
+        
         // Initialize theme before calling super.onCreate()
         ThemeManager.initializeTheme(this);
         
@@ -52,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
         private NetworkStatusManager networkStatusManager;
         private Preference connectionStatusPreference;
         private ThemeManager themeManager;
+        private LanguageManager languageManager;
         private SettingsBackupManager backupManager;
         private MessageHistoryDbHelper historyDbHelper;
         
@@ -68,6 +73,9 @@ public class MainActivity extends AppCompatActivity {
             
             // Initialize theme manager
             themeManager = new ThemeManager(getContext());
+            
+            // Initialize language manager
+            languageManager = new LanguageManager(getContext());
             
             // Initialize backup manager
             backupManager = new SettingsBackupManager(getContext());
@@ -148,6 +156,31 @@ public class MainActivity extends AppCompatActivity {
 
                 // Update rate limit status summary
                 updateRateLimitStatusSummary(rateLimitStatusPreference);
+            }
+
+            // Set up language preference listener
+            androidx.preference.ListPreference languagePreference = findPreference(getString(R.string.key_language));
+            if (languagePreference != null) {
+                // Set initial summary
+                updateLanguageSummary(languagePreference);
+                
+                languagePreference.setOnPreferenceChangeListener(new androidx.preference.Preference.OnPreferenceChangeListener() {
+                    @Override
+                    public boolean onPreferenceChange(androidx.preference.Preference preference, Object newValue) {
+                        String newLanguage = (String) newValue;
+                        
+                        // Apply the new language
+                        languageManager.setLanguage(newLanguage);
+                        
+                        // Update summary
+                        updateLanguageSummary((androidx.preference.ListPreference) preference);
+                        
+                        // Show restart dialog
+                        showLanguageRestartDialog();
+                        
+                        return true;
+                    }
+                });
             }
 
             // Set up theme preference listener
@@ -583,6 +616,48 @@ public class MainActivity extends AppCompatActivity {
             } catch (Exception e) {
                 preference.setSummary("Error reading statistics");
             }
+        }
+
+        private void updateLanguageSummary(androidx.preference.ListPreference preference) {
+            if (languageManager == null) {
+                return;
+            }
+            
+            try {
+                String currentLanguage = languageManager.getSelectedLanguage();
+                String[] languageEntries = getResources().getStringArray(R.array.language_entries);
+                String[] languageValues = getResources().getStringArray(R.array.language_values);
+                
+                for (int i = 0; i < languageValues.length; i++) {
+                    if (languageValues[i].equals(currentLanguage)) {
+                        preference.setSummary(languageEntries[i]);
+                        break;
+                    }
+                }
+            } catch (Exception e) {
+                preference.setSummary("Error reading language setting");
+            }
+        }
+
+        private void showLanguageRestartDialog() {
+            if (getContext() == null) return;
+            
+            new AlertDialog.Builder(getContext())
+                    .setTitle(getString(R.string.language_title))
+                    .setMessage(getString(R.string.language_restart_required))
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // Restart the app
+                            if (getActivity() != null) {
+                                Intent intent = getActivity().getIntent();
+                                getActivity().finish();
+                                startActivity(intent);
+                            }
+                        }
+                    })
+                    .setNegativeButton("Later", null)
+                    .show();
         }
 
         private void updateThemeSummary(androidx.preference.ListPreference preference) {

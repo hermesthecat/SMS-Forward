@@ -99,6 +99,12 @@
     <string name="theme_mode_title">Theme</string>
     <string name="theme_mode_summary">Choose light, dark, or system theme</string>
     <string name="theme_system_fallback">System mode uses battery saver on Android 9 and below</string>
+    
+    <!-- Language -->
+    <string name="key_language">language</string>
+    <string name="language_title">Language</string>
+    <string name="language_summary">Choose app language</string>
+    <string name="language_restart_required">App restart required for language change to take effect</string>
     <string name="connection_online">%1$s Online (%2$s)</string>
     <string name="connection_offline">🔴 Offline</string>
     <string name="connection_unknown">❓ Unknown</string>
@@ -132,5 +138,11 @@
     <string name="clear_history_confirmation">Are you sure you want to delete all message history? This action cannot be undone.</string>
     <string name="history_cleared">Message history cleared successfully</string>
     <string name="history_empty">No message history available</string>
-    <string name="history_stats_format">Total: %1$d | Success: %2$d (%.1f%%) | Failed: %3$d</string>
+    <string name="history_stats_format" formatted="false">Total: %1$d | Success: %2$d (%.1f%%) | Failed: %3$d</string>
+    
+    <!-- Message Formats -->
+    <string name="sms_message_format">From %1$s:\n%2$s\nReceived at: %3$s</string>
+    <string name="telegram_message_format">Message from %1$s:\n%2$s\nReceived at: %3$s</string>
+    <string name="email_subject_format">SMS from: %1$s</string>
+    <string name="email_body_format">%1$s\n\nReceived at: %2$s</string>
 </resources>

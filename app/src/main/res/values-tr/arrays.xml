@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="option_smtp_username_style_titles">
+        <item>Tam RFC822 adresi</item>
+        <item>Sadece yerel kısım</item>
+    </string-array>
+    
+    <!-- Theme mode options -->
+    <string-array name="theme_mode_entries">
+        <item>🌞 Açık</item>
+        <item>🌙 Koyu</item>
+        <item>🔄 Sistem varsayılanı</item>
+    </string-array>
+    
+    <!-- Language options -->
+    <string-array name="language_entries">
+        <item>🇺🇸 English</item>
+        <item>🇹🇷 Türkçe</item>
+        <item>🌐 Sistem varsayılanı</item>
+    </string-array>
+</resources> 

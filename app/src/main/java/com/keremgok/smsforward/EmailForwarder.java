@@ -1,5 +1,7 @@
 package com.keremgok.smsforward;
 
+import android.content.Context;
+
 import java.io.UnsupportedEncodingException;
 import java.util.Properties;
 import java.util.regex.Matcher;
@@ -21,10 +23,46 @@ public final class EmailForwarder implements Forwarder {
     private final InternetAddress[] toAddresses;
     private final Properties props;
     private final Authenticator authenticator;
+    private final Context context;
 
     public EmailForwarder(InternetAddress fromAddress, InternetAddress[] toAddresses, String smtpHost, short port, String username, String password) {
         this.fromAddress = fromAddress;
         this.toAddresses = toAddresses;
+        this.context = null; // For backward compatibility
+
+        props = new Properties();
+        props.setProperty("mail.transport.protocol", "smtp");
+        props.setProperty("mail.smtp.connectiontimeout", "10000");
+        props.setProperty("mail.smtp.timeout", "10000");
+        props.setProperty("mail.smtp.writetimeout", "10000");
+        props.setProperty("mail.smtp.allow8bitmime", "true");
+        props.setProperty("mail.smtp.host", smtpHost);
+        props.setProperty("mail.smtp.port", Short.toString(port));
+        props.setProperty("mail.smtp.auth", "true");
+
+        // https://www.oracle.com/docs/tech/java/sslnotes142.txt
+        props.setProperty("mail.smtp.ssl.checkserveridentity", "true");
+        if (port == 465) {
+            // Implicit TLS
+            props.setProperty("mail.smtp.ssl.enable", "true");
+        } else {
+            props.setProperty("mail.smtp.starttls.enable", "true");
+            props.setProperty("mail.smtp.starttls.required", "true");
+        }
+
+        PasswordAuthentication authentication = new PasswordAuthentication(username, password);
+        authenticator = new Authenticator() {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return authentication;
+            }
+        };
+    }
+
+    public EmailForwarder(InternetAddress fromAddress, InternetAddress[] toAddresses, String smtpHost, short port, String username, String password, Context context) {
+        this.fromAddress = fromAddress;
+        this.toAddresses = toAddresses;
+        this.context = context;
 
         props = new Properties();
         props.setProperty("mail.transport.protocol", "smtp");
@@ -73,13 +111,23 @@ public final class EmailForwarder implements Forwarder {
         
         java.text.SimpleDateFormat dateFormat = new java.text.SimpleDateFormat("dd/MM/yyyy HH:mm:ss", java.util.Locale.getDefault());
         String formattedDate = dateFormat.format(new java.util.Date(timestamp));
-        String emailBody = content + "\n\nReceived at: " + formattedDate;
+        
+        String emailBody;
+        String subject;
+        if (context != null) {
+            emailBody = context.getString(R.string.email_body_format, content, formattedDate);
+            subject = context.getString(R.string.email_subject_format, fromNumber);
+        } else {
+            // Fallback for backward compatibility
+            emailBody = content + "\n\nReceived at: " + formattedDate;
+            subject = "SMS from: " + fromNumber;
+        }
         
         Session session = Session.getInstance(props, authenticator);
         MimeMessage message = new MimeMessage(session);
         message.setFrom(prettyFromAddress);
         message.addRecipients(Message.RecipientType.TO, toAddresses);
-        message.setSubject("SMS from: " + fromNumber);
+        message.setSubject(subject);
         message.setText(emailBody, "UTF-8");
         Transport.send(message);
     }

@@ -46,6 +46,8 @@ Calls can be forwarded to a single phone thanks to carriers' call forwarding ser
 
 - Material Design 3 theming
 - Dark mode support with system theme following
+- Multi-language support (Turkish and English)
+- Runtime language switching
 - Automatic theme switching based on system settings
 - Elegant light and dark color schemes
 
@@ -84,6 +86,19 @@ Calls can be forwarded to a single phone thanks to carriers' call forwarding ser
 - **Telegram**: Send messages via Telegram Bot API
 - **Email**: SMTP email forwarding (supports TLS/SSL)
 - **Web API**: HTTP POST requests with JSON payload
+
+## Supported Languages
+
+- **🇺🇸 English**: Default language with comprehensive messaging
+- **🇹🇷 Turkish**: Complete localization with cultural adaptations
+- **🌐 System Default**: Automatically follows device language settings
+
+### Language Features
+
+- **Runtime switching**: Change language without reinstalling
+- **Message localization**: SMS, Telegram, and Email content in selected language
+- **UI localization**: Complete interface translation
+- **Cultural adaptations**: Proper formatting and expressions for each language
 
 ## Build Instructions
 
@@ -142,8 +157,9 @@ gradlew.bat assembleRelease
 3. **Configure Appearance (Optional):**
 
    - Go to "Appearance" section in settings
+   - Choose language: English, Turkish, or System default
    - Choose theme: Light, Dark, or System default
-   - System default automatically follows device theme settings
+   - System default automatically follows device theme/language settings
 
 4. **Configure Forwarding Methods:**
 
@@ -527,7 +543,11 @@ Android phone will send "Meeting at 3pm" to +9876543210
 
 ### Platform-Specific Formats
 
+Messages are automatically localized based on selected language:
+
 #### SMS Forwarding
+
+**English:**
 
 ```cmd
 From +1234567890:
@@ -535,7 +555,17 @@ Hello from John
 Received at: 26/06/2025 20:29:15
 ```
 
+**Turkish:**
+
+```cmd
++1234567890'den:
+Hello from John
+Alındığı zaman: 26/06/2025 20:29:15
+```
+
 #### Telegram Forwarding
+
+**English:**
 
 ```cmd
 Message from +1234567890:
@@ -543,7 +573,17 @@ Hello from John
 Received at: 26/06/2025 20:29:15
 ```
 
+**Turkish:**
+
+```cmd
++1234567890'den mesaj:
+Hello from John
+Alındığı zaman: 26/06/2025 20:29:15
+```
+
 #### Email Forwarding
+
+**English:**
 
 ```cmd
 Subject: SMS from: +1234567890
@@ -551,6 +591,16 @@ Body:
 Hello from John
 
 Received at: 26/06/2025 20:29:15
+```
+
+**Turkish:**
+
+```cmd
+Subject: SMS: +1234567890
+Body:
+Hello from John
+
+Alındığı zaman: 26/06/2025 20:29:15
 ```
 
 #### Web API Format
@@ -571,15 +621,18 @@ HTTP POST to configured webhook:
 - **Package Name**: `com.keremgok.smsforward`
 - **Minimum Android**: API Level 25 (Android 7.0)
 - **Target Android**: API Level 34 (Android 14)
-- **App Version**: 1.10.0
+- **App Version**: 1.11.0
+- **Languages**: Turkish, English (with system default)
 - **Architecture**: Java with Android Gradle Plugin 8.7.3
 
 ## Project Structure
 
 ```bash
 app/src/main/java/com/keremgok/smsforward/
+├── SmsForwardApplication.java # Application class for language initialization
 ├── MainActivity.java          # Settings UI with stats/queue/connection/rate limit status
 ├── SmsReceiver.java           # SMS broadcast receiver with rate limiting
+├── LanguageManager.java       # Multi-language support and runtime switching
 ├── RateLimiter.java           # Rate limiting and spam prevention system
 ├── SettingsBackupManager.java # Export/Import settings in JSON format
 ├── MessageHistoryDbHelper.java # SQLite database for forwarding history

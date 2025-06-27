@@ -4,7 +4,7 @@
 
 SMS Forward is a minimal, efficient Android application for forwarding SMS messages across multiple platforms. This document outlines future development suggestions and improvements.
 
-**Current Version**: 1.10.0  
+**Current Version**: 1.11.0  
 **Package Name**: `com.keremgok.smsforward`  
 **Target**: Production-ready SMS forwarding solution
 
@@ -82,6 +82,7 @@ if (enableRateLimiting && !rateLimiter.isForwardingAllowed()) {
 
 - [x] **Dark Mode Support** ✅ _Completed v1.7.0_
 - [x] **Material Design 3** implementation ✅ _Completed v1.7.0_
+- [x] **Multi-language Support** ✅ _Completed v1.11.0_
 - [x] **Import/Export Configuration** ✅ _Completed v1.9.0_
 - [ ] **Settings Categories** (General, Security, Advanced)
 - [ ] **Quick Setup Wizard** for first-time users
@@ -655,6 +656,41 @@ This project is released under the **MIT License**. All contributions must be co
 
 ## 📋 **Recent Version History**
 
+### Version 1.11.0 (June 2024) ✅ COMPLETED
+
+**Major Features:**
+
+- ✅ **Multi-language Support**: Complete Turkish and English localization
+- ✅ **Runtime Language Switching**: Change language without reinstalling
+- ✅ **Message Format Localization**: SMS, Telegram, Email messages in both languages
+- ✅ **Language Manager**: Comprehensive language management system
+- ✅ **System Integration**: Respects device language settings
+- ✅ **Context-aware Forwarders**: All message types support localization
+
+**Technical Implementation:**
+
+- New `LanguageManager` class for runtime language control
+- `SmsForwardApplication` class for proper app initialization
+- Context-aware constructors for all Forwarder classes
+- Complete resource localization (strings.xml, arrays.xml)
+- Preference integration with language selection UI
+- Backward compatibility preserved for existing installations
+
+**User Experience:**
+
+- Language selection in Appearance settings
+- Restart dialog for language changes
+- Culturally adapted Turkish translations
+- Improved English messaging consistency
+- System default language option
+- Complete UI and message localization
+
+**Supported Languages:**
+
+- 🇹🇷 **Turkish (TR)**: Complete translation with cultural adaptations
+- 🇺🇸 **English (EN)**: Default language with improved messaging
+- 🌐 **System default**: Follows device language settings
+
 ### Version 1.10.0 (June 2025) ✅ COMPLETED
 
 **Major Features:**
@@ -733,9 +769,3 @@ This project is released under the **MIT License**. All contributions must be co
 - **v1.4.0**: Offline message queue with SQLite
 - **v1.3.0**: Automatic retry mechanism
 - **v1.2.0**: Test message functionality
-
----
-
-**Last Updated**: June 27, 2025  
-**Document Version**: 2.0  
-**Next Review**: July 2025
