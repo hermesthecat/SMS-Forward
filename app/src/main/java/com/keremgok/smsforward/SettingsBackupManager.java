@@ -17,6 +17,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
 
@@ -109,7 +110,10 @@ public class SettingsBackupManager {
             SharedPreferences.Editor editor = preferences.edit();
             int importedCount = 0;
             
-            for (String key : importData.keys()) {
+            Iterator<String> keyIterator = importData.keys();
+            while (keyIterator.hasNext()) {
+                String key = keyIterator.next();
+                
                 // Skip metadata keys
                 if (key.startsWith("_")) {
                     continue;
