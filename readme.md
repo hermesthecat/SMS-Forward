@@ -49,6 +49,14 @@ Calls can be forwarded to a single phone thanks to carriers' call forwarding ser
 - Automatic theme switching based on system settings
 - Elegant light and dark color schemes
 
+✅ **Backup and configuration management:**
+
+- Export/Import settings in JSON format
+- Complete configuration backup with metadata
+- Device migration and settings sharing
+- Version compatibility protection
+- Automatic preference refresh after import
+
 ✅ **Security and spam prevention:**
 
 - Rate limiting prevents spam (10 SMS/minute maximum)
@@ -150,7 +158,14 @@ gradlew.bat assembleRelease
    - **Email**: Configure SMTP server settings
    - **Web**: Set webhook URL endpoint
 
-5. **Test Your Setup:**
+5. **Backup & Restore (Optional):**
+   - Go to "Backup & Restore" section in settings
+   - **Export Settings**: Backup your configuration to a JSON file
+   - **Import Settings**: Restore configuration from a backup file
+   - Use for device migration or sharing settings between devices
+   - Exported files include all platform settings, theme preferences, and rate limiting config
+
+6. **Test Your Setup:**
    - Go to "Test & Debug" section in settings
    - Check "Connection Status" to view real-time network connectivity
    - Tap "Send Test Message" to verify configuration
@@ -159,7 +174,7 @@ gradlew.bat assembleRelease
    - Check "Rate Limit Status" to view current usage and spam protection
    - Check if test message arrives on your target platforms
 
-6. **Usage:**
+7. **Usage:**
    - Keep the Android phone charged and connected
    - Incoming SMS will be forwarded automatically
    - Send reverse SMS with format: `To [number]:\n[message]`
@@ -201,6 +216,95 @@ Queue processing features:
 - Background processing every 30 seconds
 - Statistics available in "Test & Debug" section
 - Automatic cleanup of old successful messages (24h)
+
+### Backup & Restore Settings
+
+Complete configuration management for easy device migration:
+
+#### Export Settings Example
+
+```json
+{
+  "_backup_version": 1,
+  "_export_timestamp": 1704045612345,
+  "_app_version": "1.9.0",
+  "key_enable_sms": true,
+  "key_sms_target": "+1234567890",
+  "key_enable_telegram": true,
+  "key_target_telegram": "123456789",
+  "key_telegram_apikey": "1234567890:ABCDEfghijk...",
+  "key_enable_web": false,
+  "key_target_web": "",
+  "key_enable_email": false,
+  "key_email_from_address": "",
+  "key_email_to_address": "",
+  "key_email_submit_host": "",
+  "key_email_submit_port": "587",
+  "key_email_submit_password": "",
+  "key_email_username_style": "full",
+  "key_enable_rate_limiting": true,
+  "theme_mode": "system"
+}
+```
+
+#### Export Process
+
+```bash
+# User initiates export
+Backup & Restore → Export Settings
+↓
+File picker opens with suggested name
+"sms_forward_backup_20241226_143052.json"
+↓
+User selects save location
+↓
+All configuration exported with metadata
+✅ Settings exported successfully!
+```
+
+#### Import Process
+
+```bash
+# User initiates import  
+Backup & Restore → Import Settings
+↓
+File picker opens for JSON file selection
+↓
+File validation and version checking
+↓
+Compatible backup found → Import 15 settings
+✅ Successfully imported 15 settings from backup created on 26/12/2024 14:30:52
+↓
+UI refreshed with new settings
+Theme applied if changed
+```
+
+#### Use Cases
+
+**Device Migration:**
+```bash
+Old Phone: Export → sms_forward_backup_20241226.json
+New Phone: Import → Instant setup with same configuration
+```
+
+**Settings Sharing:**
+```bash
+Team Lead: Configure → Export → Share backup file
+Team Members: Import → Identical setup across team
+```
+
+**Backup Before Changes:**
+```bash
+Before experimenting: Export current settings
+After testing: Import to restore original configuration
+```
+
+#### Security Features
+
+- **Version Validation**: Prevents importing incompatible backups
+- **Key Whitelisting**: Only known settings are imported
+- **Metadata Tracking**: Shows backup creation date and app version
+- **Error Handling**: Detailed feedback for failed imports
 
 ### Connection Status Monitoring
 
@@ -392,7 +496,7 @@ HTTP POST to configured webhook:
 - **Package Name**: `com.keremgok.smsforward`
 - **Minimum Android**: API Level 25 (Android 7.0)
 - **Target Android**: API Level 34 (Android 14)
-- **App Version**: 1.7.0
+- **App Version**: 1.9.0
 - **Architecture**: Java with Android Gradle Plugin 8.7.3
 
 ## Project Structure
@@ -402,6 +506,7 @@ app/src/main/java/com/keremgok/smsforward/
 ├── MainActivity.java          # Settings UI with stats/queue/connection/rate limit status
 ├── SmsReceiver.java           # SMS broadcast receiver with rate limiting
 ├── RateLimiter.java           # Rate limiting and spam prevention system
+├── SettingsBackupManager.java # Export/Import settings in JSON format
 ├── Forwarder.java             # Interface for all forwarders
 ├── RetryableForwarder.java    # Retry mechanism wrapper
 ├── MessageQueueDbHelper.java  # SQLite database for offline queue

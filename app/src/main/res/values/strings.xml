@@ -107,4 +107,18 @@
     <string name="connection_quality_poor">Network Quality: Poor</string>
     <string name="connection_can_forward">✅ Ready to forward messages</string>
     <string name="connection_cannot_forward">❌ Cannot forward messages (offline)</string>
+    
+    <!-- Backup & Restore -->
+    <string name="header_backup">Backup &amp; Restore</string>
+    <string name="key_export_settings" translatable="false">key_export_settings</string>
+    <string name="key_import_settings" translatable="false">key_import_settings</string>
+    <string name="export_settings_title">Export Settings</string>
+    <string name="export_settings_summary">Backup your configuration to a file</string>
+    <string name="import_settings_title">Import Settings</string>
+    <string name="import_settings_summary">Restore configuration from a backup file</string>
+    <string name="export_success">Settings exported successfully!</string>
+    <string name="export_error">Failed to export settings: %s</string>
+    <string name="import_success">%s</string>
+    <string name="import_error">Import failed: %s</string>
+    <string name="backup_file_description">SMS Forward Settings Backup</string>
 </resources>

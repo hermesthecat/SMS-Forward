@@ -1,9 +1,13 @@
 package com.keremgok.smsforward;
 
 import android.Manifest;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
@@ -45,6 +49,11 @@ public class MainActivity extends AppCompatActivity {
         private NetworkStatusManager networkStatusManager;
         private Preference connectionStatusPreference;
         private ThemeManager themeManager;
+        private SettingsBackupManager backupManager;
+        
+        // Activity result launchers for file operations
+        private ActivityResultLauncher<Intent> exportLauncher;
+        private ActivityResultLauncher<Intent> importLauncher;
 
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
@@ -55,6 +64,12 @@ public class MainActivity extends AppCompatActivity {
             
             // Initialize theme manager
             themeManager = new ThemeManager(getContext());
+            
+            // Initialize backup manager
+            backupManager = new SettingsBackupManager(getContext());
+            
+            // Initialize file operation launchers
+            initializeFileLaunchers();
 
             // Set up test message button
             Preference testMessagePreference = findPreference(getString(R.string.key_test_message));
@@ -150,6 +165,30 @@ public class MainActivity extends AppCompatActivity {
                             getActivity().recreate();
                         }
                         
+                        return true;
+                    }
+                });
+            }
+
+            // Set up export settings
+            Preference exportSettingsPreference = findPreference(getString(R.string.key_export_settings));
+            if (exportSettingsPreference != null) {
+                exportSettingsPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                    @Override
+                    public boolean onPreferenceClick(Preference preference) {
+                        exportSettings();
+                        return true;
+                    }
+                });
+            }
+
+            // Set up import settings
+            Preference importSettingsPreference = findPreference(getString(R.string.key_import_settings));
+            if (importSettingsPreference != null) {
+                importSettingsPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                    @Override
+                    public boolean onPreferenceClick(Preference preference) {
+                        importSettings();
                         return true;
                     }
                 });
@@ -595,6 +634,160 @@ public class MainActivity extends AppCompatActivity {
                 
             } catch (Exception e) {
                 preference.setSummary("Error reading rate limit status");
+            }
+        }
+
+        /**
+         * Initialize file operation launchers for export/import
+         */
+        private void initializeFileLaunchers() {
+            // Export launcher - creates a new file
+            exportLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == android.app.Activity.RESULT_OK && result.getData() != null) {
+                        Uri uri = result.getData().getData();
+                        if (uri != null) {
+                            performExport(uri);
+                        }
+                    }
+                }
+            );
+
+            // Import launcher - opens an existing file
+            importLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == android.app.Activity.RESULT_OK && result.getData() != null) {
+                        Uri uri = result.getData().getData();
+                        if (uri != null) {
+                            performImport(uri);
+                        }
+                    }
+                }
+            );
+        }
+
+        /**
+         * Start the export settings process
+         */
+        private void exportSettings() {
+            try {
+                Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+                intent.addCategory(Intent.CATEGORY_OPENABLE);
+                intent.setType("application/json");
+                intent.putExtra(Intent.EXTRA_TITLE, backupManager.generateBackupFilename());
+                intent.putExtra(Intent.EXTRA_MIME_TYPES, new String[]{"application/json", "text/plain"});
+                
+                exportLauncher.launch(intent);
+                
+            } catch (Exception e) {
+                Toast.makeText(getContext(), 
+                    String.format(getString(R.string.export_error), e.getMessage()),
+                    Toast.LENGTH_LONG).show();
+            }
+        }
+
+        /**
+         * Start the import settings process
+         */
+        private void importSettings() {
+            try {
+                Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+                intent.addCategory(Intent.CATEGORY_OPENABLE);
+                intent.setType("*/*");
+                intent.putExtra(Intent.EXTRA_MIME_TYPES, new String[]{"application/json", "text/plain"});
+                
+                importLauncher.launch(intent);
+                
+            } catch (Exception e) {
+                Toast.makeText(getContext(), 
+                    String.format(getString(R.string.import_error), e.getMessage()),
+                    Toast.LENGTH_LONG).show();
+            }
+        }
+
+        /**
+         * Perform the actual export to the selected file
+         */
+        private void performExport(Uri uri) {
+            try {
+                backupManager.exportToFile(uri);
+                Toast.makeText(getContext(), getString(R.string.export_success), Toast.LENGTH_SHORT).show();
+                
+            } catch (Exception e) {
+                Toast.makeText(getContext(), 
+                    String.format(getString(R.string.export_error), e.getMessage()),
+                    Toast.LENGTH_LONG).show();
+            }
+        }
+
+        /**
+         * Perform the actual import from the selected file
+         */
+        private void performImport(Uri uri) {
+            try {
+                SettingsBackupManager.ImportResult result = backupManager.importFromFile(uri);
+                
+                if (result.success) {
+                    Toast.makeText(getContext(), 
+                        String.format(getString(R.string.import_success), result.message),
+                        Toast.LENGTH_LONG).show();
+                    
+                    // Refresh all preference summaries to reflect imported values
+                    refreshPreferenceSummaries();
+                    
+                    // If theme was changed, recreate activity
+                    if (getActivity() != null) {
+                        getActivity().recreate();
+                    }
+                } else {
+                    Toast.makeText(getContext(), 
+                        String.format(getString(R.string.import_error), result.message),
+                        Toast.LENGTH_LONG).show();
+                }
+                
+            } catch (Exception e) {
+                Toast.makeText(getContext(), 
+                    String.format(getString(R.string.import_error), e.getMessage()),
+                    Toast.LENGTH_LONG).show();
+            }
+        }
+
+        /**
+         * Refresh all preference summaries after import
+         */
+        private void refreshPreferenceSummaries() {
+            try {
+                // Update theme summary
+                androidx.preference.ListPreference themePreference = findPreference(getString(R.string.key_theme_mode));
+                if (themePreference != null) {
+                    updateThemeSummary(themePreference);
+                }
+                
+                // Update message counter summary
+                Preference messageCounterPreference = findPreference(getString(R.string.key_message_counter));
+                if (messageCounterPreference != null) {
+                    updateMessageCounterSummary(messageCounterPreference);
+                }
+                
+                // Update queue status summary
+                Preference queueStatusPreference = findPreference(getString(R.string.key_queue_status));
+                if (queueStatusPreference != null) {
+                    updateQueueStatusSummary(queueStatusPreference);
+                }
+                
+                // Update rate limit status summary
+                Preference rateLimitStatusPreference = findPreference(getString(R.string.key_rate_limit_status));
+                if (rateLimitStatusPreference != null) {
+                    updateRateLimitStatusSummary(rateLimitStatusPreference);
+                }
+                
+                // Update connection status summary
+                updateConnectionStatusSummary();
+                
+            } catch (Exception e) {
+                // Ignore errors during summary refresh
             }
         }
     }

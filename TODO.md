@@ -29,7 +29,7 @@
 ### Features
 
 - [x] **Statistics Dashboard** - Daily/weekly stats ✅ *Basic version completed in v1.6.0*
-- [ ] **Export/Import Settings** - Backup configuration
+- [x] **Export/Import Settings** - Backup configuration ✅ *Completed in v1.9.0*
 - [ ] **Message History** - Last 50 forwarded messages
 - [ ] **Custom Message Templates** - Personalize message format
 

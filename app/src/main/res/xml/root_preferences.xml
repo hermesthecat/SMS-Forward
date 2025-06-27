@@ -156,6 +156,24 @@
 
     <PreferenceCategory
         app:iconSpaceReserved="false"
+        app:title="@string/header_backup">
+
+        <Preference
+            android:key="@string/key_export_settings"
+            android:title="@string/export_settings_title"
+            android:summary="@string/export_settings_summary"
+            app:iconSpaceReserved="false" />
+
+        <Preference
+            android:key="@string/key_import_settings"
+            android:title="@string/import_settings_title"
+            android:summary="@string/import_settings_summary"
+            app:iconSpaceReserved="false" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
         app:title="@string/header_test">
 
         <Preference

@@ -4,7 +4,7 @@
 
 SMS Forward is a minimal, efficient Android application for forwarding SMS messages across multiple platforms. This document outlines future development suggestions and improvements.
 
-**Current Version**: 1.8.0  
+**Current Version**: 1.9.0  
 **Package Name**: `com.keremgok.smsforward`  
 **Target**: Production-ready SMS forwarding solution
 
@@ -82,8 +82,8 @@ if (enableRateLimiting && !rateLimiter.isForwardingAllowed()) {
 
 - [x] **Dark Mode Support** ✅ *Completed v1.7.0*
 - [x] **Material Design 3** implementation ✅ *Completed v1.7.0*
+- [x] **Import/Export Configuration** ✅ *Completed v1.9.0*
 - [ ] **Settings Categories** (General, Security, Advanced)
-- [ ] **Import/Export Configuration**
 - [ ] **Quick Setup Wizard** for first-time users
 
 #### 2.2 Notification System
@@ -175,7 +175,7 @@ public class DiscordForwarder extends AbstractWebForwarder {
 
 - [ ] **End-to-End Encryption** for stored settings
 - [ ] **PIN/Biometric Lock** for app access
-- [ ] **Secure Backup/Restore** functionality
+- [x] **Secure Backup/Restore** functionality ✅ *Basic version completed v1.9.0*
 - [ ] **Privacy Mode** (hide message content in logs)
 
 #### 4.2 Access Control
@@ -310,6 +310,83 @@ Features implemented:
 - **Real-time monitoring**: Live status display in UI
 - **Thread safety**: Synchronized access for concurrent operations
 
+### Settings Backup & Restore Architecture ✅ COMPLETED
+
+```java
+// Complete configuration management system
+public class SettingsBackupManager {
+    private static final int BACKUP_VERSION = 1;
+    private static final String KEY_BACKUP_VERSION = "_backup_version";
+    private static final String KEY_EXPORT_TIMESTAMP = "_export_timestamp";
+    private static final String KEY_APP_VERSION = "_app_version";
+    
+    public String exportSettings() throws JSONException {
+        JSONObject exportData = new JSONObject();
+        
+        // Add metadata for version compatibility
+        exportData.put(KEY_BACKUP_VERSION, BACKUP_VERSION);
+        exportData.put(KEY_EXPORT_TIMESTAMP, System.currentTimeMillis());
+        exportData.put(KEY_APP_VERSION, BuildConfig.VERSION_NAME);
+        
+        // Export all user-configurable preferences
+        Map<String, ?> allPrefs = preferences.getAll();
+        for (Map.Entry<String, ?> entry : allPrefs.entrySet()) {
+            if (isExportableKey(entry.getKey())) {
+                exportData.put(entry.getKey(), entry.getValue());
+            }
+        }
+        
+        return exportData.toString(2); // Pretty-printed JSON
+    }
+    
+    public ImportResult importSettings(String jsonData) {
+        JSONObject importData = new JSONObject(jsonData);
+        
+        // Version compatibility checking
+        int backupVersion = importData.optInt(KEY_BACKUP_VERSION, -1);
+        if (backupVersion > BACKUP_VERSION) {
+            return new ImportResult(false, "Backup from newer app version", 0);
+        }
+        
+        // Security: Only import whitelisted preference keys
+        SharedPreferences.Editor editor = preferences.edit();
+        int importedCount = 0;
+        
+        for (String key : importData.keys()) {
+            if (!key.startsWith("_") && isExportableKey(key)) {
+                // Type-safe preference restoration
+                Object value = importData.get(key);
+                if (value instanceof Boolean) {
+                    editor.putBoolean(key, (Boolean) value);
+                } else if (value instanceof String) {
+                    editor.putString(key, (String) value);
+                }
+                importedCount++;
+            }
+        }
+        
+        return new ImportResult(editor.commit(), "Imported " + importedCount + " settings", importedCount);
+    }
+}
+```
+
+Features implemented:
+
+- **JSON format**: Human-readable configuration export
+- **Version compatibility**: Forward/backward compatibility protection
+- **Security validation**: Whitelist-based preference key filtering
+- **Metadata tracking**: Export timestamp and app version info
+- **File operations**: Modern Android Storage Access Framework
+- **Error handling**: Comprehensive validation and user feedback
+- **UI integration**: Modern file picker with automatic naming
+
+Integration points:
+
+1. **MainActivity**: File picker launchers and user interaction
+2. **PreferenceManager**: Direct access to SharedPreferences
+3. **ActivityResultLauncher**: Modern file operation handling
+4. **ThemeManager**: Automatic theme application after import
+
 ### Database Schema (SQLite)
 
 ```sql
@@ -372,20 +449,28 @@ public void testSmsForwarderWithTimestamp() {
 
 ## 📅 **Implementation Timeline**
 
-### Q1 2025: Foundation
+### Q4 2024: Foundation ✅ COMPLETED
 
-- ✅ Retry mechanism implementation
-- ✅ Basic UI improvements (test button, status indicator)
-- ✅ SQLite offline queue
-- ✅ Rate limiting system (spam prevention)
+- ✅ Retry mechanism implementation (v1.3.0)
+- ✅ Basic UI improvements (test button, status indicator) (v1.2.0, v1.5.0)
+- ✅ SQLite offline queue (v1.4.0)
+- ✅ Rate limiting system (spam prevention) (v1.8.0)
+- ✅ Settings backup/restore system (v1.9.0)
+
+### Q1 2025: Enhancement
+
+- ✅ Statistics dashboard (v1.6.0)
+- ✅ Dark mode and theming (v1.7.0)
+- ✅ Export/Import configuration (v1.9.0)
 - [ ] Number whitelist/blacklist
+- [ ] Discord/Slack integration
+- [ ] Message templates
 
-### Q2 2025: Enhancement
+### Q2 2025: Advanced Features
 
-- ✅ Statistics dashboard
-- ✅ Notification improvements
-- ✅ Discord/Slack integration
-- ✅ Message templates
+- [ ] Notification improvements
+- [ ] Settings categories reorganization
+- [ ] Quick setup wizard
 
 ### Q3 2025: Security
 
@@ -508,6 +593,57 @@ This project is released under the **MIT License**. All contributions must be co
 
 ---
 
-**Last Updated**: December 26, 2024  
-**Document Version**: 1.0  
-**Next Review**: March 2025
+## 📋 **Recent Version History**
+
+### Version 1.9.0 (June 2025) ✅ COMPLETED
+
+**Major Features:**
+- ✅ **Export/Import Settings**: Complete configuration backup system
+- ✅ **JSON Format**: Human-readable backup format with metadata
+- ✅ **Version Compatibility**: Forward/backward compatibility protection
+- ✅ **File Operations**: Modern Android Storage Access Framework
+- ✅ **Security Validation**: Whitelist-based preference filtering
+
+**Technical Implementation:**
+- New `SettingsBackupManager` class with comprehensive error handling
+- Activity Result Launchers for modern file operations
+- Automatic filename generation with timestamp
+- UI integration with preference refresh after import
+- Theme system integration for immediate visual updates
+
+**User Experience:**
+- Backup & Restore category added to settings
+- Modern file picker with automatic naming
+- Detailed success/error feedback messages
+- Complete device migration workflow
+- Settings sharing capability for teams
+
+### Version 1.8.0 (June 2025)
+
+**Major Features:**
+- ✅ **Rate Limiting System**: Spam prevention with 10 SMS/minute limit
+- ✅ **Sliding Window Algorithm**: Precise rate control
+- ✅ **User Control**: Enable/disable toggle in preferences
+- ✅ **Queue Integration**: Rate-limited messages queued for later
+- ✅ **Real-time Monitoring**: Live usage tracking
+
+### Version 1.7.0 (June 2025)
+
+**Major Features:**
+- ✅ **Dark Mode Support**: System theme following
+- ✅ **Material Design 3**: Modern theming system
+- ✅ **Theme Manager**: Automatic switching and persistence
+
+### Previous Versions
+
+- **v1.6.0**: Statistics dashboard with daily/total counters
+- **v1.5.0**: Connection status monitoring
+- **v1.4.0**: Offline message queue with SQLite
+- **v1.3.0**: Automatic retry mechanism
+- **v1.2.0**: Test message functionality
+
+---
+
+**Last Updated**: June 27, 2025  
+**Document Version**: 2.0  
+**Next Review**: July 2025
