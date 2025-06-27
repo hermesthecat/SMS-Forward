@@ -27,7 +27,7 @@ Calls can be forwarded to a single phone thanks to carriers' call forwarding ser
 ✅ **Reliability and resilience:**
 
 - Automatic retry mechanism (3 attempts)
-- Exponential backoff between retries  
+- Exponential backoff between retries
 - Offline message queue with SQLite storage
 - Automatic reprocessing when connectivity restored
 - Rate limiting to prevent spam (10 SMS/minute)
@@ -101,30 +101,12 @@ Use the provided batch files for easy building:
 # Debug APK
 build.bat
 
-# Release APK  
+# Release APK
 build-release.bat
 
 # Clean and build
 clean-build.bat
 ```
-
-### GitHub Actions CI/CD
-
-Automated building and releasing with GitHub Actions:
-
-```bash
-# Automatic builds triggered by:
-- Push to main/develop branches
-- Pull requests to main
-- Git tags (v*)
-
-# Build outputs:
-- Debug APK: Pull requests and develop branch
-- Release APK: Main branch and tags
-- GitHub Releases: Automatic release creation on tags
-```
-
-See [.github/SETUP.md](.github/SETUP.md) for detailed CI/CD setup instructions.
 
 ### Manual Build
 
@@ -148,25 +130,30 @@ gradlew.bat assembleRelease
 ## Installation & Setup
 
 1. **Install the APK:**
+
    - Download from releases or build from source
    - Install: `adb install app-debug.apk` or manually transfer to device
 
 2. **Grant Permissions:**
+
    - SMS receive and send permissions
    - Internet permission (for web forwarding)
 
 3. **Configure Appearance (Optional):**
+
    - Go to "Appearance" section in settings
    - Choose theme: Light, Dark, or System default
    - System default automatically follows device theme settings
 
 4. **Configure Forwarding Methods:**
+
    - **SMS**: Enter target phone number (e.g., +1234567890)
    - **Telegram**: Set Bot Token and Chat ID
    - **Email**: Configure SMTP server settings
    - **Web**: Set webhook URL endpoint
 
 5. **Backup & Restore (Optional):**
+
    - Go to "Backup & Restore" section in settings
    - **Export Settings**: Backup your configuration to a JSON file
    - **Import Settings**: Restore configuration from a backup file
@@ -174,6 +161,7 @@ gradlew.bat assembleRelease
    - Exported files include all platform settings, theme preferences, and rate limiting config
 
 6. **Test Your Setup:**
+
    - Go to "Test & Debug" section in settings
    - Check "Connection Status" to view real-time network connectivity
    - Tap "Send Test Message" to verify configuration
@@ -196,7 +184,7 @@ All forwarding attempts automatically retry on failure:
 
 ```bash
 # First attempt fails -> Retry in 1 second
-# Second attempt fails -> Retry in 2 seconds  
+# Second attempt fails -> Retry in 2 seconds
 # Third attempt fails -> Give up and log error
 ```
 
@@ -214,7 +202,7 @@ Failed messages are automatically stored and retried:
 ```bash
 # Message fails after 3 retry attempts -> Stored in SQLite database
 # Queue processor runs every 30 seconds checking connectivity
-# When online -> Messages reprocessed automatically  
+# When online -> Messages reprocessed automatically
 # Up to 5 additional queue retry attempts per message
 ```
 
@@ -274,7 +262,7 @@ All configuration exported with metadata
 #### Import Process
 
 ```bash
-# User initiates import  
+# User initiates import
 Backup & Restore → Import Settings
 ↓
 File picker opens for JSON file selection
@@ -291,18 +279,21 @@ Theme applied if changed
 #### Use Cases
 
 **Device Migration:**
+
 ```bash
 Old Phone: Export → sms_forward_backup_20241226.json
 New Phone: Import → Instant setup with same configuration
 ```
 
 **Settings Sharing:**
+
 ```bash
 Team Lead: Configure → Export → Share backup file
 Team Members: Import → Identical setup across team
 ```
 
 **Backup Before Changes:**
+
 ```bash
 Before experimenting: Export current settings
 After testing: Import to restore original configuration
@@ -326,19 +317,19 @@ Complete forwarding history system with persistent storage:
   15:33:45 ❌ +5555555555 → Email (Failed: Invalid SMTP)
   15:32:10 ✅ +9876543210 → SMS (85 chars)
   15:30:55 ✅ +1111111111 → Web API (200 chars)
-  
+
 # Complete Message History (Last 100)
 📊 Message Statistics:
   Total Records: 87
   Success Rate: 94.3% (82/87)
   Failed Messages: 5
-  
+
   Platform Distribution:
   📱 SMS: 45 messages (91.1% success)
   📢 Telegram: 28 messages (96.4% success)
-  📧 Email: 10 messages (90.0% success)  
+  📧 Email: 10 messages (90.0% success)
   🌐 Web API: 4 messages (100% success)
-  
+
   Time Span: Last 7 days
   Average: 12.4 messages/day
 ```
@@ -356,6 +347,7 @@ Complete forwarding history system with persistent storage:
 #### Message History Examples
 
 **Successful Forward:**
+
 ```bash
 ✅ 15:34:21 | +1234567890 → Telegram
 "Hello from customer support team..."
@@ -364,8 +356,9 @@ Status: Success (HTTP 200)
 ```
 
 **Failed Forward:**
+
 ```bash
-❌ 15:33:45 | +5555555555 → Email  
+❌ 15:33:45 | +5555555555 → Email
 "Urgent: Server maintenance tonight..."
 Platform: SMTP Email
 Status: Failed - Authentication failed (535)
@@ -395,7 +388,7 @@ Real-time network connectivity tracking:
 ```bash
 # Connection Status Examples
 🟢 Online (WiFi)     # WiFi connection - good quality
-🟡 Online (Mobile)   # Mobile data - moderate quality  
+🟡 Online (Mobile)   # Mobile data - moderate quality
 🔵 Online (Ethernet) # Ethernet connection - good quality
 🔴 Offline           # No internet connection
 ```
@@ -457,7 +450,7 @@ Automatic protection against SMS forwarding abuse:
 🚦 Current usage: 3/10 SMS per minute
 ✅ Slots available immediately
 
-🚦 Current usage: 8/10 SMS per minute  
+🚦 Current usage: 8/10 SMS per minute
 ⚠️ Approaching rate limit. Be careful not to exceed 10 SMS per minute.
 
 🚦 Current usage: 10/10 SMS per minute
@@ -493,7 +486,7 @@ Automatic theme switching with modern Material Design 3:
 ```bash
 # Theme Options
 🌞 Light Mode     # Always light theme
-🌙 Dark Mode      # Always dark theme  
+🌙 Dark Mode      # Always dark theme
 🔄 System Default # Follows device setting
 
 # Automatic Features

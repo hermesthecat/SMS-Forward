@@ -4,8 +4,12 @@
 /local.properties
 .DS_Store
 /build
+/release
 /captures
 .externalNativeBuild
+/app/build
+/app/release
+/gradle.properties
 
 # APK Signing (CI/CD)
 *.jks
@@ -18,4 +22,3 @@ gradle.properties
 *.apk
 !app-debug.apk
 SHA256SUMS
-gradle.properties

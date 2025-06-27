@@ -16,8 +16,8 @@ SMS Forward is a minimal, efficient Android application for forwarding SMS messa
 
 #### 1.1 Error Handling & Reliability
 
-- [x] **Retry Mechanism** for failed forwards ✅ *Completed v1.3.0*
-- [x] **Offline Message Queue** with SQLite storage ✅ *Completed v1.4.0*
+- [x] **Retry Mechanism** for failed forwards ✅ _Completed v1.3.0_
+- [x] **Offline Message Queue** with SQLite storage ✅ _Completed v1.4.0_
 - [ ] **Connection Timeout Handling** (configurable)
 - [ ] **Graceful Error Recovery** without crashes
 
@@ -26,24 +26,24 @@ SMS Forward is a minimal, efficient Android application for forwarding SMS messa
 public class RateLimiter {
     private static final int MAX_SMS_PER_MINUTE = 10;
     private static final long ONE_MINUTE_MS = 60 * 1000;
-    
+
     private final Queue<Long> forwardingTimestamps = new LinkedList<>();
     private final Object lock = new Object();
-    
+
     public boolean isForwardingAllowed() {
         synchronized (lock) {
             long currentTime = System.currentTimeMillis();
-            
+
             // Remove timestamps older than 1 minute
-            while (!forwardingTimestamps.isEmpty() && 
+            while (!forwardingTimestamps.isEmpty() &&
                    (currentTime - forwardingTimestamps.peek()) > ONE_MINUTE_MS) {
                 forwardingTimestamps.poll();
             }
-            
+
             return forwardingTimestamps.size() < MAX_SMS_PER_MINUTE;
         }
     }
-    
+
     public void recordForwarding() {
         synchronized (lock) {
             forwardingTimestamps.offer(System.currentTimeMillis());
@@ -54,7 +54,7 @@ public class RateLimiter {
 // Integration in SmsReceiver ✅ COMPLETED
 if (enableRateLimiting && !rateLimiter.isForwardingAllowed()) {
     // Queue message for later processing when rate limit resets
-    queueProcessor.enqueueFailedMessage(senderNumber, messageContent, 
+    queueProcessor.enqueueFailedMessage(senderNumber, messageContent,
                                        timestamp, forwarderType, forwarderConfig);
     return; // Skip forwarding due to rate limit
 }
@@ -62,15 +62,15 @@ if (enableRateLimiting && !rateLimiter.isForwardingAllowed()) {
 
 #### 1.2 Basic UI Enhancements
 
-- [x] **Test Message Button** in settings ✅ *Completed v1.2.0*
-- [x] **Connection Status Indicator** (green/red) ✅ *Completed v1.5.0*
-- [x] **Message Counter** (daily/total) ✅ *Completed v1.6.0*
+- [x] **Test Message Button** in settings ✅ _Completed v1.2.0_
+- [x] **Connection Status Indicator** (green/red) ✅ _Completed v1.5.0_
+- [x] **Message Counter** (daily/total) ✅ _Completed v1.6.0_
 - [ ] **Last Forward Status** display
 
 #### 1.3 Essential Security
 
 - [ ] **Number Whitelist/Blacklist** functionality
-- [x] **Rate Limiting** (max SMS per minute) ✅ *Completed v1.8.0*
+- [x] **Rate Limiting** (max SMS per minute) ✅ _Completed v1.8.0_
 - [ ] **Input Validation** for all settings
 - [ ] **Secure Storage** for sensitive data
 
@@ -80,9 +80,9 @@ if (enableRateLimiting && !rateLimiter.isForwardingAllowed()) {
 
 #### 2.1 Advanced Settings UI
 
-- [x] **Dark Mode Support** ✅ *Completed v1.7.0*
-- [x] **Material Design 3** implementation ✅ *Completed v1.7.0*
-- [x] **Import/Export Configuration** ✅ *Completed v1.9.0*
+- [x] **Dark Mode Support** ✅ _Completed v1.7.0_
+- [x] **Material Design 3** implementation ✅ _Completed v1.7.0_
+- [x] **Import/Export Configuration** ✅ _Completed v1.9.0_
 - [ ] **Settings Categories** (General, Security, Advanced)
 - [ ] **Quick Setup Wizard** for first-time users
 
@@ -102,7 +102,7 @@ public class SmartNotificationManager {
             .setContentText(messages.size() + " messages forwarded")
             .setSmallIcon(R.drawable.ic_notification)
             .setGroup("sms_forward_group");
-            
+
         // Add individual message notifications to group
         for (ForwardedMessage msg : messages) {
             // Create individual notifications
@@ -113,9 +113,9 @@ public class SmartNotificationManager {
 
 #### 2.3 Statistics & Monitoring
 
-- [x] **Daily/Weekly/Monthly** forwarding statistics ✅ *Basic version completed v1.6.0*
-- [x] **Platform Success Rates** dashboard ✅ *Basic version completed v1.6.0*
-- [x] **Message History** (last 100 messages) ✅ *Completed v1.10.0*
+- [x] **Daily/Weekly/Monthly** forwarding statistics ✅ _Basic version completed v1.6.0_
+- [x] **Platform Success Rates** dashboard ✅ _Basic version completed v1.6.0_
+- [x] **Message History** (last 100 messages) ✅ _Completed v1.10.0_
 - [ ] **Export Statistics** to CSV/JSON
 
 ---
@@ -134,12 +134,12 @@ public class SmartNotificationManager {
 // Implementation Example: Discord Forwarder
 public class DiscordForwarder extends AbstractWebForwarder {
     private final String webhookUrl;
-    
+
     public DiscordForwarder(String webhookUrl) {
         super(webhookUrl);
         this.webhookUrl = webhookUrl;
     }
-    
+
     @Override
     protected byte[] makeBody(String fromNumber, String content, long timestamp) {
         JSONObject embed = new JSONObject();
@@ -148,10 +148,10 @@ public class DiscordForwarder extends AbstractWebForwarder {
             embed.put("description", content);
             embed.put("timestamp", new Date(timestamp).toString());
             embed.put("color", 0x00ff00); // Green
-            
+
             JSONObject body = new JSONObject();
             body.put("embeds", new JSONArray().put(embed));
-            
+
             return body.toString().getBytes(StandardCharsets.UTF_8);
         } catch (JSONException e) {
             throw new RuntimeException(e);
@@ -175,7 +175,7 @@ public class DiscordForwarder extends AbstractWebForwarder {
 
 - [ ] **End-to-End Encryption** for stored settings
 - [ ] **PIN/Biometric Lock** for app access
-- [x] **Secure Backup/Restore** functionality ✅ *Basic version completed v1.9.0*
+- [x] **Secure Backup/Restore** functionality ✅ _Basic version completed v1.9.0_
 - [ ] **Privacy Mode** (hide message content in logs)
 
 #### 4.2 Access Control
@@ -189,12 +189,12 @@ public class DiscordForwarder extends AbstractWebForwarder {
 // Implementation Example: PIN Protection
 public class SecurityManager {
     private static final String PREF_PIN_HASH = "pin_hash";
-    
+
     public boolean verifyPIN(String pin) {
         String storedHash = prefs.getString(PREF_PIN_HASH, "");
         return BCrypt.checkpw(pin, storedHash);
     }
-    
+
     public void setPIN(String pin) {
         String hash = BCrypt.hashpw(pin, BCrypt.gensalt());
         prefs.edit().putString(PREF_PIN_HASH, hash).apply();
@@ -248,18 +248,18 @@ public class SecurityManager {
 // Example: Proper error handling
 public class ForwardingService {
     private static final String TAG = "ForwardingService";
-    
+
     public void forwardMessage(String from, String content) {
         try {
             validateInput(from, content);
             List<Forwarder> forwarders = getEnabledForwarders();
-            
+
             for (Forwarder forwarder : forwarders) {
                 executeWithTimeout(() -> forwarder.forward(from, content), 30_000);
             }
-            
+
             recordSuccess(from, forwarders.size());
-            
+
         } catch (ValidationException e) {
             Log.w(TAG, "Invalid input: " + e.getMessage());
             showUserError("Invalid message format");
@@ -281,7 +281,7 @@ public class ForwardingService {
 public class RateLimiter {
     private static volatile RateLimiter instance;
     private final Queue<Long> forwardingTimestamps = new LinkedList<>();
-    
+
     // Thread-safe singleton implementation
     public static RateLimiter getInstance() {
         if (instance == null) {
@@ -293,7 +293,7 @@ public class RateLimiter {
         }
         return instance;
     }
-    
+
     // Integration points:
     // 1. SmsReceiver - checks before forwarding normal/reverse messages
     // 2. MessageQueueProcessor - checks during queue processing
@@ -319,15 +319,15 @@ public class SettingsBackupManager {
     private static final String KEY_BACKUP_VERSION = "_backup_version";
     private static final String KEY_EXPORT_TIMESTAMP = "_export_timestamp";
     private static final String KEY_APP_VERSION = "_app_version";
-    
+
     public String exportSettings() throws JSONException {
         JSONObject exportData = new JSONObject();
-        
+
         // Add metadata for version compatibility
         exportData.put(KEY_BACKUP_VERSION, BACKUP_VERSION);
         exportData.put(KEY_EXPORT_TIMESTAMP, System.currentTimeMillis());
         exportData.put(KEY_APP_VERSION, BuildConfig.VERSION_NAME);
-        
+
         // Export all user-configurable preferences
         Map<String, ?> allPrefs = preferences.getAll();
         for (Map.Entry<String, ?> entry : allPrefs.entrySet()) {
@@ -335,23 +335,23 @@ public class SettingsBackupManager {
                 exportData.put(entry.getKey(), entry.getValue());
             }
         }
-        
+
         return exportData.toString(2); // Pretty-printed JSON
     }
-    
+
     public ImportResult importSettings(String jsonData) {
         JSONObject importData = new JSONObject(jsonData);
-        
+
         // Version compatibility checking
         int backupVersion = importData.optInt(KEY_BACKUP_VERSION, -1);
         if (backupVersion > BACKUP_VERSION) {
             return new ImportResult(false, "Backup from newer app version", 0);
         }
-        
+
         // Security: Only import whitelisted preference keys
         SharedPreferences.Editor editor = preferences.edit();
         int importedCount = 0;
-        
+
         for (String key : importData.keys()) {
             if (!key.startsWith("_") && isExportableKey(key)) {
                 // Type-safe preference restoration
@@ -364,7 +364,7 @@ public class SettingsBackupManager {
                 importedCount++;
             }
         }
-        
+
         return new ImportResult(editor.commit(), "Imported " + importedCount + " settings", importedCount);
     }
 }
@@ -394,9 +394,9 @@ Integration points:
 public class MessageHistoryDbHelper extends SQLiteOpenHelper {
     private static final int MAX_HISTORY_RECORDS = 100;
     private static final String TABLE_MESSAGE_HISTORY = "message_history";
-    
+
     // Record successful message forwards
-    public void recordForwardSuccess(String fromNumber, String messageContent, 
+    public void recordForwardSuccess(String fromNumber, String messageContent,
                                    String platform, long originalTimestamp) {
         ContentValues values = new ContentValues();
         values.put(COLUMN_FROM_NUMBER, fromNumber);
@@ -405,23 +405,23 @@ public class MessageHistoryDbHelper extends SQLiteOpenHelper {
         values.put(COLUMN_STATUS, STATUS_SUCCESS);
         values.put(COLUMN_TIMESTAMP, originalTimestamp);
         values.put(COLUMN_FORWARD_TIMESTAMP, System.currentTimeMillis());
-        
+
         db.insert(TABLE_MESSAGE_HISTORY, null, values);
         cleanupOldRecords(db); // Maintain 100 record limit
     }
-    
+
     // Record failed message forwards with error details
-    public void recordForwardFailure(String fromNumber, String messageContent, 
+    public void recordForwardFailure(String fromNumber, String messageContent,
                                    String platform, String errorMessage, long originalTimestamp) {
         // Similar to success but with error details and FAILED status
     }
-    
+
     // Retrieve message history with rich statistics
     public List<HistoryRecord> getMessageHistory(int limit) {
         // Query with ORDER BY forward_timestamp DESC
         // Returns records with status emojis and platform indicators
     }
-    
+
     // Get comprehensive history statistics
     public HistoryStats getHistoryStats() {
         // Success rate, platform distribution, time span analysis
@@ -488,16 +488,16 @@ CREATE TABLE settings_backup (
 public void testSmsForwarderWithTimestamp() {
     SmsForwarder forwarder = new SmsForwarder("+1234567890");
     long timestamp = System.currentTimeMillis();
-    
+
     // Mock SmsManager
     SmsManager mockSmsManager = Mockito.mock(SmsManager.class);
-    
+
     forwarder.forward("+0987654321", "Test message", timestamp);
-    
+
     // Verify message format includes timestamp
     ArgumentCaptor<String> messageCaptor = ArgumentCaptor.forClass(String.class);
     verify(mockSmsManager).sendTextMessage(eq("+1234567890"), isNull(), messageCaptor.capture(), isNull(), isNull());
-    
+
     String sentMessage = messageCaptor.getValue();
     assertTrue(sentMessage.contains("From +0987654321:"));
     assertTrue(sentMessage.contains("Test message"));
@@ -577,7 +577,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-java@v3
         with:
-          java-version: '11'
+          java-version: "11"
       - name: Run tests
         run: ./gradlew test
       - name: Build APK
@@ -658,6 +658,7 @@ This project is released under the **MIT License**. All contributions must be co
 ### Version 1.10.0 (June 2025) ✅ COMPLETED
 
 **Major Features:**
+
 - ✅ **Message History System**: Complete forwarding history tracking
 - ✅ **SQLite Storage**: Persistent message history with 100 record limit
 - ✅ **Rich Metadata**: Status, platform, timestamps, error messages
@@ -666,6 +667,7 @@ This project is released under the **MIT License**. All contributions must be co
 - ✅ **Performance Optimization**: Database indexing for fast queries
 
 **Technical Implementation:**
+
 - New `MessageHistoryDbHelper` class with automatic cleanup
 - Integration with `RetryableForwarder` for automatic logging
 - Thread-safe database operations with proper transaction handling
@@ -673,6 +675,7 @@ This project is released under the **MIT License**. All contributions must be co
 - UI components with status emojis and formatted timestamps
 
 **User Experience:**
+
 - View Message History preference in statistics section
 - Clear Message History option with confirmation dialog
 - Rich display with success/failure indicators
@@ -682,6 +685,7 @@ This project is released under the **MIT License**. All contributions must be co
 ### Version 1.9.0 (June 2025) ✅ COMPLETED
 
 **Major Features:**
+
 - ✅ **Export/Import Settings**: Complete configuration backup system
 - ✅ **JSON Format**: Human-readable backup format with metadata
 - ✅ **Version Compatibility**: Forward/backward compatibility protection
@@ -689,6 +693,7 @@ This project is released under the **MIT License**. All contributions must be co
 - ✅ **Security Validation**: Whitelist-based preference filtering
 
 **Technical Implementation:**
+
 - New `SettingsBackupManager` class with comprehensive error handling
 - Activity Result Launchers for modern file operations
 - Automatic filename generation with timestamp
@@ -696,6 +701,7 @@ This project is released under the **MIT License**. All contributions must be co
 - Theme system integration for immediate visual updates
 
 **User Experience:**
+
 - Backup & Restore category added to settings
 - Modern file picker with automatic naming
 - Detailed success/error feedback messages
@@ -705,6 +711,7 @@ This project is released under the **MIT License**. All contributions must be co
 ### Version 1.8.0 (June 2025)
 
 **Major Features:**
+
 - ✅ **Rate Limiting System**: Spam prevention with 10 SMS/minute limit
 - ✅ **Sliding Window Algorithm**: Precise rate control
 - ✅ **User Control**: Enable/disable toggle in preferences
@@ -714,6 +721,7 @@ This project is released under the **MIT License**. All contributions must be co
 ### Version 1.7.0 (June 2025)
 
 **Major Features:**
+
 - ✅ **Dark Mode Support**: System theme following
 - ✅ **Material Design 3**: Modern theming system
 - ✅ **Theme Manager**: Automatic switching and persistence
