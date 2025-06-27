@@ -67,6 +67,14 @@ Calls can be forwarded to a single phone thanks to carriers' call forwarding ser
 - Memory-optimized display with automatic cleanup
 - Integrated statistics dashboard
 
+✅ **App information and about:**
+
+- Comprehensive about page with app details
+- Version information and build details
+- Developer information and license details
+- Feature list and technical specifications
+- Package information and system requirements
+
 ✅ **Security and spam prevention:**
 
 - Rate limiting prevents spam (10 SMS/minute maximum)
@@ -187,7 +195,14 @@ gradlew.bat assembleRelease
    - Check "View Message History" to see recent forwarding activity
    - Check if test message arrives on your target platforms
 
-7. **Usage:**
+7. **View App Information:**
+
+   - Go to "About" section in settings
+   - View app version, developer information, and license details
+   - See comprehensive feature list and technical specifications
+   - Check package information and system requirements
+
+8. **Usage:**
    - Keep the Android phone charged and connected
    - Incoming SMS will be forwarded automatically
    - Send reverse SMS with format: `To [number]:\n[message]`

@@ -117,4 +117,25 @@
     <string name="telegram_message_format">%1$s\'den mesaj:\n%2$s\nAlındığı zaman: %3$s</string>
     <string name="email_subject_format">SMS: %1$s</string>
     <string name="email_body_format">%1$s\n\nAlındığı zaman: %2$s</string>
+    
+    <!-- About -->
+    <string name="header_about">Hakkında</string>
+    <string name="about_title">SMS İletici Hakkında</string>
+    <string name="about_summary">Uygulama sürümü, geliştirici bilgileri ve lisans</string>
+    <string name="about_app_name">SMS İletici</string>
+    <string name="about_version_title">Sürüm</string>
+    <string name="about_version_format">%1$s (%2$d)</string>
+    <string name="about_developer_title">Geliştirici</string>
+    <string name="about_developer_name">Kerem Gök</string>
+    <string name="about_license_title">Lisans</string>
+    <string name="about_license_name">MIT Lisansı</string>
+    <string name="about_description_title">Açıklama</string>
+    <string name="about_description_text">SMS İletici, SMS mesajlarını SMS, Telegram, E-posta ve Web API\'leri dahil olmak üzere birden fazla platform arasında iletmek için minimal ve verimli bir Android uygulamasıdır.</string>
+    <string name="about_features_title">Temel Özellikler</string>
+    <string name="about_features_text">• Çoklu platform iletimi\n• Otomatik yeniden deneme\n• Çevrimdışı mesaj kuyruğu\n• Hız sınırlaması koruması\n• Mesaj geçmişi takibi\n• Çoklu dil desteği\n• Karanlık mod teması\n• Ayar yedekleme/geri yükleme</string>
+    <string name="about_build_info_title">Yapı Bilgileri</string>
+    <string name="about_package_name">Paket: %s</string>
+    <string name="about_min_sdk">Minimum Android: API %d</string>
+    <string name="about_target_sdk">Hedef Android: API %d</string>
+    <string name="about_build_time">Yapı Zamanı: %s</string>
 </resources> 

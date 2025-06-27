@@ -656,7 +656,7 @@ This project is released under the **MIT License**. All contributions must be co
 
 ## 📋 **Recent Version History**
 
-### Version 1.11.0 (June 2024) ✅ COMPLETED
+### Version 1.11.0 ✅ COMPLETED
 
 **Major Features:**
 
@@ -666,6 +666,7 @@ This project is released under the **MIT License**. All contributions must be co
 - ✅ **Language Manager**: Comprehensive language management system
 - ✅ **System Integration**: Respects device language settings
 - ✅ **Context-aware Forwarders**: All message types support localization
+- ✅ **About Page**: Comprehensive app information dialog with version details
 
 **Technical Implementation:**
 
@@ -684,6 +685,7 @@ This project is released under the **MIT License**. All contributions must be co
 - Improved English messaging consistency
 - System default language option
 - Complete UI and message localization
+- About page with app version, features, and build information
 
 **Supported Languages:**
 
@@ -691,7 +693,7 @@ This project is released under the **MIT License**. All contributions must be co
 - 🇺🇸 **English (EN)**: Default language with improved messaging
 - 🌐 **System default**: Follows device language settings
 
-### Version 1.10.0 (June 2025) ✅ COMPLETED
+### Version 1.10.0 ✅ COMPLETED
 
 **Major Features:**
 
@@ -718,7 +720,7 @@ This project is released under the **MIT License**. All contributions must be co
 - Formatted timestamps for better readability
 - Comprehensive statistics dashboard integration
 
-### Version 1.9.0 (June 2025) ✅ COMPLETED
+### Version 1.9.0 ✅ COMPLETED
 
 **Major Features:**
 
@@ -744,7 +746,7 @@ This project is released under the **MIT License**. All contributions must be co
 - Complete device migration workflow
 - Settings sharing capability for teams
 
-### Version 1.8.0 (June 2025)
+### Version 1.8.0 ✅ COMPLETED
 
 **Major Features:**
 
@@ -754,7 +756,7 @@ This project is released under the **MIT License**. All contributions must be co
 - ✅ **Queue Integration**: Rate-limited messages queued for later
 - ✅ **Real-time Monitoring**: Live usage tracking
 
-### Version 1.7.0 (June 2025)
+### Version 1.7.0 ✅ COMPLETED
 
 **Major Features:**
 

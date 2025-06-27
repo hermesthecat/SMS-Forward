@@ -223,4 +223,16 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
+        app:title="@string/header_about">
+
+        <Preference
+            android:key="@string/key_about"
+            android:title="@string/about_title"
+            android:summary="@string/about_summary"
+            app:iconSpaceReserved="false" />
+
+    </PreferenceCategory>
+
 </PreferenceScreen>

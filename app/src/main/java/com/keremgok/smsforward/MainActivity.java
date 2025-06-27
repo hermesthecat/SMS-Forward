@@ -260,6 +260,18 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
             }
+
+            // Set up about
+            Preference aboutPreference = findPreference(getString(R.string.key_about));
+            if (aboutPreference != null) {
+                aboutPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                    @Override
+                    public boolean onPreferenceClick(Preference preference) {
+                        showAboutDialog();
+                        return true;
+                    }
+                });
+            }
         }
 
         @Override
@@ -1075,6 +1087,76 @@ public class MainActivity extends AppCompatActivity {
                 
             } catch (Exception e) {
                 preference.setSummary("Error reading message history");
+            }
+        }
+
+        /**
+         * Show about dialog with app information
+         */
+        private void showAboutDialog() {
+            try {
+                // Get app version info
+                android.content.pm.PackageManager pm = getContext().getPackageManager();
+                android.content.pm.PackageInfo packageInfo = pm.getPackageInfo(getContext().getPackageName(), 0);
+                String versionName = packageInfo.versionName;
+                int versionCode = packageInfo.versionCode;
+
+                // Build about content
+                StringBuilder aboutContent = new StringBuilder();
+                
+                // App name and version
+                aboutContent.append("📱 ").append(getString(R.string.about_app_name)).append("\n");
+                aboutContent.append(getString(R.string.about_version_title)).append(": ");
+                aboutContent.append(String.format(getString(R.string.about_version_format), versionName, versionCode));
+                aboutContent.append("\n\n");
+                
+                // Description
+                aboutContent.append("📄 ").append(getString(R.string.about_description_title)).append(":\n");
+                aboutContent.append(getString(R.string.about_description_text)).append("\n\n");
+                
+                // Key features
+                aboutContent.append("⭐ ").append(getString(R.string.about_features_title)).append(":\n");
+                aboutContent.append(getString(R.string.about_features_text)).append("\n\n");
+                
+                // Developer info
+                aboutContent.append("👨‍💻 ").append(getString(R.string.about_developer_title)).append(": ");
+                aboutContent.append(getString(R.string.about_developer_name)).append("\n\n");
+                
+                // License
+                aboutContent.append("📜 ").append(getString(R.string.about_license_title)).append(": ");
+                aboutContent.append(getString(R.string.about_license_name)).append("\n\n");
+                
+                // Build information
+                aboutContent.append("🔧 ").append(getString(R.string.about_build_info_title)).append(":\n");
+                aboutContent.append(String.format(getString(R.string.about_package_name), 
+                    getContext().getPackageName())).append("\n");
+                aboutContent.append(String.format(getString(R.string.about_target_sdk), 
+                    android.os.Build.VERSION.SDK_INT)).append("\n");
+                aboutContent.append(String.format(getString(R.string.about_min_sdk), 25)).append("\n");
+                
+                // Show build time if available
+                try {
+                    android.content.pm.ApplicationInfo appInfo = pm.getApplicationInfo(getContext().getPackageName(), 0);
+                    java.io.File apkFile = new java.io.File(appInfo.sourceDir);
+                    long buildTime = apkFile.lastModified();
+                    java.text.SimpleDateFormat dateFormat = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss", java.util.Locale.getDefault());
+                    aboutContent.append(String.format(getString(R.string.about_build_time), 
+                        dateFormat.format(new java.util.Date(buildTime)))).append("\n");
+                } catch (Exception e) {
+                    // Ignore build time if unavailable
+                }
+
+                // Show dialog
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setTitle(getString(R.string.about_title))
+                       .setMessage(aboutContent.toString())
+                       .setPositiveButton("OK", null)
+                       .setIcon(android.R.drawable.ic_dialog_info)
+                       .show();
+                
+            } catch (Exception e) {
+                Toast.makeText(getContext(), "Error showing about information: " + e.getMessage(),
+                        Toast.LENGTH_LONG).show();
             }
         }
     }

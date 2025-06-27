@@ -15,6 +15,7 @@
 - [x] **Message Counter** - Show daily forwarded count ✅ _Completed in v1.6.0_
 - [x] **Dark Mode Support** - System theme following ✅ _Completed in v1.7.0_
 - [x] **Multi-language Support** - Turkish and English localization ✅ _Completed in v1.11.0_
+- [x] **About Page** - App information, version, and developer details ✅ _Completed in v1.11.0_
 - [ ] **Last Status Display** - Show last forward result
 - [ ] **Better Error Messages** - User-friendly error descriptions
 
@@ -154,7 +155,7 @@ public class MessageHistoryDbHelper {
 
 ## ✅ **Recently Completed**
 
-### Version 1.11.0 - Multi-language Support
+### Version 1.11.0 - Multi-language Support & About Page
 
 - [x] **Turkish Localization** - Complete Turkish translation of all UI elements
 - [x] **English Localization** - Refined English strings with proper formatting
@@ -163,6 +164,7 @@ public class MessageHistoryDbHelper {
 - [x] **Preference Integration** - Language selection in app settings
 - [x] **Application Class** - Proper language initialization at app startup
 - [x] **Context-aware Forwarders** - All forwarder classes support localized messages
+- [x] **About Page** - Comprehensive app information dialog with version, features, and build details
 
 Implementation details:
 
