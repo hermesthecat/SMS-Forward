@@ -64,7 +64,7 @@ if %BUILD_RESULT%==0 (
     
     echo 6. Getting version...
     REM Use hardcoded version for now to avoid syntax issues
-    set VERSION=1.11.0
+    set VERSION=1.12.0
     echo Found version: !VERSION!
     
     echo 7. Moving signed APK to archive...
@@ -80,15 +80,32 @@ if %BUILD_RESULT%==0 (
         echo Found standard APK: app-release.apk
     ) else (
         echo Standard APK not found, checking for SMS-Forward APK...
-        if exist "app\build\outputs\apk\release\SMS-Forward-v1.11.0-12-20250627.apk" (
-            set APK_SOURCE=app\build\outputs\apk\release\SMS-Forward-v1.11.0-12-20250627.apk
-            echo Found project APK: SMS-Forward-v1.11.0-12-20250627.apk
+        REM Check for current version APK first
+        if exist "app\build\outputs\apk\release\SMS-Forward-v1.12.0-13-*.apk" (
+            for %%f in (app\build\outputs\apk\release\SMS-Forward-v1.12.0-13-*.apk) do (
+                set APK_SOURCE=%%f
+                echo Found current version APK: %%f
+                goto :apk_found
+            )
+        ) else if exist "app\build\outputs\apk\release\SMS-Forward-v1.11.0-12-*.apk" (
+            for %%f in (app\build\outputs\apk\release\SMS-Forward-v1.11.0-12-*.apk) do (
+                set APK_SOURCE=%%f
+                echo Found previous version APK: %%f
+                goto :apk_found
+            )
         ) else (
+            echo No specific version APK found, checking for any SMS-Forward APK...
+            for %%f in (app\build\outputs\apk\release\SMS-Forward-*.apk) do (
+                set APK_SOURCE=%%f
+                echo Found SMS-Forward APK: %%f
+                goto :apk_found
+            )
             echo Listing all APK files in release directory:
             dir app\build\outputs\apk\release\*.apk
         )
     )
     
+    :apk_found
     if not "!APK_SOURCE!"=="" (
         echo ✅ APK file found: !APK_SOURCE!
         echo Copying to archive...
