@@ -29,10 +29,10 @@ public class MainActivity extends AppCompatActivity {
         // Initialize language before calling super.onCreate()
         LanguageManager languageManager = new LanguageManager(this);
         languageManager.applyLanguage();
-        
+
         // Initialize theme before calling super.onCreate()
         ThemeManager.initializeTheme(this);
-        
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
         private LanguageManager languageManager;
         private SettingsBackupManager backupManager;
         private MessageHistoryDbHelper historyDbHelper;
-        
+
         // Activity result launchers for file operations
         private ActivityResultLauncher<Intent> exportLauncher;
         private ActivityResultLauncher<Intent> importLauncher;
@@ -70,19 +70,19 @@ public class MainActivity extends AppCompatActivity {
 
             // Initialize network status manager
             networkStatusManager = NetworkStatusManager.getInstance(getContext());
-            
+
             // Initialize theme manager
             themeManager = new ThemeManager(getContext());
-            
+
             // Initialize language manager
             languageManager = new LanguageManager(getContext());
-            
+
             // Initialize backup manager
             backupManager = new SettingsBackupManager(getContext());
-            
+
             // Initialize message history helper
             historyDbHelper = new MessageHistoryDbHelper(getContext());
-            
+
             // Initialize file operation launchers
             initializeFileLaunchers();
 
@@ -163,24 +163,26 @@ public class MainActivity extends AppCompatActivity {
             if (languagePreference != null) {
                 // Set initial summary
                 updateLanguageSummary(languagePreference);
-                
-                languagePreference.setOnPreferenceChangeListener(new androidx.preference.Preference.OnPreferenceChangeListener() {
-                    @Override
-                    public boolean onPreferenceChange(androidx.preference.Preference preference, Object newValue) {
-                        String newLanguage = (String) newValue;
-                        
-                        // Apply the new language
-                        languageManager.setLanguage(newLanguage);
-                        
-                        // Update summary
-                        updateLanguageSummary((androidx.preference.ListPreference) preference);
-                        
-                        // Show restart dialog
-                        showLanguageRestartDialog();
-                        
-                        return true;
-                    }
-                });
+
+                languagePreference
+                        .setOnPreferenceChangeListener(new androidx.preference.Preference.OnPreferenceChangeListener() {
+                            @Override
+                            public boolean onPreferenceChange(androidx.preference.Preference preference,
+                                    Object newValue) {
+                                String newLanguage = (String) newValue;
+
+                                // Apply the new language
+                                languageManager.setLanguage(newLanguage);
+
+                                // Update summary
+                                updateLanguageSummary((androidx.preference.ListPreference) preference);
+
+                                // Show restart dialog
+                                showLanguageRestartDialog();
+
+                                return true;
+                            }
+                        });
             }
 
             // Set up theme preference listener
@@ -188,26 +190,28 @@ public class MainActivity extends AppCompatActivity {
             if (themePreference != null) {
                 // Set initial summary
                 updateThemeSummary(themePreference);
-                
-                themePreference.setOnPreferenceChangeListener(new androidx.preference.Preference.OnPreferenceChangeListener() {
-                    @Override
-                    public boolean onPreferenceChange(androidx.preference.Preference preference, Object newValue) {
-                        String newTheme = (String) newValue;
-                        
-                        // Apply the new theme
-                        themeManager.setThemeMode(newTheme);
-                        
-                        // Update summary
-                        updateThemeSummary((androidx.preference.ListPreference) preference);
-                        
-                        // Recreate activity to apply theme immediately
-                        if (getActivity() != null) {
-                            getActivity().recreate();
-                        }
-                        
-                        return true;
-                    }
-                });
+
+                themePreference
+                        .setOnPreferenceChangeListener(new androidx.preference.Preference.OnPreferenceChangeListener() {
+                            @Override
+                            public boolean onPreferenceChange(androidx.preference.Preference preference,
+                                    Object newValue) {
+                                String newTheme = (String) newValue;
+
+                                // Apply the new theme
+                                themeManager.setThemeMode(newTheme);
+
+                                // Update summary
+                                updateThemeSummary((androidx.preference.ListPreference) preference);
+
+                                // Recreate activity to apply theme immediately
+                                if (getActivity() != null) {
+                                    getActivity().recreate();
+                                }
+
+                                return true;
+                            }
+                        });
             }
 
             // Set up export settings
@@ -244,7 +248,7 @@ public class MainActivity extends AppCompatActivity {
                         return true;
                     }
                 });
-                
+
                 // Update message history summary
                 updateMessageHistorySummary(messageHistoryPreference);
             }
@@ -288,6 +292,21 @@ public class MainActivity extends AppCompatActivity {
             super.onPause();
             if (networkStatusManager != null) {
                 networkStatusManager.removeListener(this);
+            }
+        }
+
+        @Override
+        public void onDestroy() {
+            super.onDestroy();
+            // Cleanup to prevent memory leaks
+            if (networkStatusManager != null) {
+                networkStatusManager.removeListener(this);
+                networkStatusManager.stopMonitoring();
+            }
+
+            // Close database helpers to free resources
+            if (historyDbHelper != null) {
+                historyDbHelper.close();
             }
         }
 
@@ -395,28 +414,44 @@ public class MainActivity extends AppCompatActivity {
                 // Send test message through all enabled forwarders
                 int successCount = 0;
                 StringBuilder errorMessages = new StringBuilder();
+                List<RetryableForwarder> retryableForwarders = new ArrayList<>();
 
                 for (Forwarder forwarder : forwarders) {
                     try {
                         forwarder.forward(testPhoneNumber, testMessage, currentTime);
                         successCount++;
-                        
+
                         // Record test success in stats (use actual forwarder name)
                         String forwarderName = (forwarder instanceof RetryableForwarder)
                                 ? ((RetryableForwarder) forwarder).getDelegateName()
                                 : forwarder.getClass().getSimpleName();
                         statsHelper.recordForwardSuccess(forwarderName);
-                        
+
+                        // Collect RetryableForwarders for later cleanup
+                        if (forwarder instanceof RetryableForwarder) {
+                            retryableForwarders.add((RetryableForwarder) forwarder);
+                        }
+
                     } catch (Exception e) {
                         String forwarderName = (forwarder instanceof RetryableForwarder)
                                 ? ((RetryableForwarder) forwarder).getDelegateName()
                                 : forwarder.getClass().getSimpleName();
                         errorMessages.append(forwarderName)
                                 .append(": ").append(e.getMessage()).append("\n");
-                                
+
                         // Record test failure in stats
                         statsHelper.recordForwardFailure(forwarderName);
+
+                        // Collect RetryableForwarders for later cleanup
+                        if (forwarder instanceof RetryableForwarder) {
+                            retryableForwarders.add((RetryableForwarder) forwarder);
+                        }
                     }
+                }
+
+                // Cleanup RetryableForwarders to prevent memory leaks
+                for (RetryableForwarder retryableForwarder : retryableForwarders) {
+                    retryableForwarder.shutdown();
                 }
 
                 // Show result
@@ -442,8 +477,9 @@ public class MainActivity extends AppCompatActivity {
         }
 
         private void showQueueStatus() {
+            MessageQueueDbHelper dbHelper = null;
             try {
-                MessageQueueDbHelper dbHelper = new MessageQueueDbHelper(getContext());
+                dbHelper = new MessageQueueDbHelper(getContext());
                 MessageQueueDbHelper.QueueStats stats = dbHelper.getQueueStats();
 
                 String message;
@@ -471,12 +507,18 @@ public class MainActivity extends AppCompatActivity {
             } catch (Exception e) {
                 Toast.makeText(getContext(), "Error reading queue status: " + e.getMessage(),
                         Toast.LENGTH_LONG).show();
+            } finally {
+                // Close database helper to prevent memory leaks
+                if (dbHelper != null) {
+                    dbHelper.close();
+                }
             }
         }
 
         private void updateQueueStatusSummary(Preference preference) {
+            MessageQueueDbHelper dbHelper = null;
             try {
-                MessageQueueDbHelper dbHelper = new MessageQueueDbHelper(getContext());
+                dbHelper = new MessageQueueDbHelper(getContext());
                 MessageQueueDbHelper.QueueStats stats = dbHelper.getQueueStats();
 
                 String summary;
@@ -491,6 +533,11 @@ public class MainActivity extends AppCompatActivity {
 
             } catch (Exception e) {
                 preference.setSummary("Error reading queue status");
+            } finally {
+                // Close database helper to prevent memory leaks
+                if (dbHelper != null) {
+                    dbHelper.close();
+                }
             }
         }
 
@@ -546,60 +593,68 @@ public class MainActivity extends AppCompatActivity {
         private void showMessageCounter() {
             try {
                 MessageStatsDbHelper statsHelper = new MessageStatsDbHelper(getContext());
-                
+
                 // Get today's stats
                 MessageStatsDbHelper.DailyStats todayStats = statsHelper.getTodayStats();
-                
+
                 // Get total stats
                 MessageStatsDbHelper.TotalStats totalStats = statsHelper.getTotalStats();
-                
+
                 StringBuilder message = new StringBuilder();
-                
+
                 // Today's statistics
                 message.append("📊 Today's Messages:\n");
                 if (todayStats != null && todayStats.totalCount > 0) {
                     message.append(String.format("  Total: %d\n", todayStats.totalCount));
-                    message.append(String.format("  Success: %d (%.1f%%)\n", 
+                    message.append(String.format("  Success: %d (%.1f%%)\n",
                             todayStats.successCount, todayStats.getSuccessRate()));
                     message.append(String.format("  Failed: %d\n", todayStats.failedCount));
-                    
-                    if (todayStats.smsCount > 0) message.append(String.format("  📱 SMS: %d\n", todayStats.smsCount));
-                    if (todayStats.telegramCount > 0) message.append(String.format("  📢 Telegram: %d\n", todayStats.telegramCount));
-                    if (todayStats.emailCount > 0) message.append(String.format("  📧 Email: %d\n", todayStats.emailCount));
-                    if (todayStats.webCount > 0) message.append(String.format("  🌐 Web API: %d\n", todayStats.webCount));
+
+                    if (todayStats.smsCount > 0)
+                        message.append(String.format("  📱 SMS: %d\n", todayStats.smsCount));
+                    if (todayStats.telegramCount > 0)
+                        message.append(String.format("  📢 Telegram: %d\n", todayStats.telegramCount));
+                    if (todayStats.emailCount > 0)
+                        message.append(String.format("  📧 Email: %d\n", todayStats.emailCount));
+                    if (todayStats.webCount > 0)
+                        message.append(String.format("  🌐 Web API: %d\n", todayStats.webCount));
                 } else {
                     message.append("  No messages forwarded today\n");
                 }
-                
+
                 message.append("\n");
-                
+
                 // Total statistics
                 message.append("📈 All Time:\n");
                 if (totalStats.totalCount > 0) {
                     message.append(String.format("  Total: %d\n", totalStats.totalCount));
-                    message.append(String.format("  Success: %d (%.1f%%)\n", 
+                    message.append(String.format("  Success: %d (%.1f%%)\n",
                             totalStats.successCount, totalStats.getSuccessRate()));
                     message.append(String.format("  Failed: %d\n", totalStats.failedCount));
                     message.append(String.format("  Active Days: %d\n", totalStats.activeDays));
                     message.append(String.format("  Daily Avg: %.1f\n", totalStats.getAveragePerDay()));
-                    
+
                     message.append("\n  Platform Breakdown:\n");
-                    if (totalStats.smsCount > 0) message.append(String.format("  📱 SMS: %d\n", totalStats.smsCount));
-                    if (totalStats.telegramCount > 0) message.append(String.format("  📢 Telegram: %d\n", totalStats.telegramCount));
-                    if (totalStats.emailCount > 0) message.append(String.format("  📧 Email: %d\n", totalStats.emailCount));
-                    if (totalStats.webCount > 0) message.append(String.format("  🌐 Web API: %d\n", totalStats.webCount));
+                    if (totalStats.smsCount > 0)
+                        message.append(String.format("  📱 SMS: %d\n", totalStats.smsCount));
+                    if (totalStats.telegramCount > 0)
+                        message.append(String.format("  📢 Telegram: %d\n", totalStats.telegramCount));
+                    if (totalStats.emailCount > 0)
+                        message.append(String.format("  📧 Email: %d\n", totalStats.emailCount));
+                    if (totalStats.webCount > 0)
+                        message.append(String.format("  🌐 Web API: %d\n", totalStats.webCount));
                 } else {
                     message.append("  No messages forwarded yet\n");
                 }
-                
+
                 Toast.makeText(getContext(), message.toString(), Toast.LENGTH_LONG).show();
-                
+
                 // Update the preference summary
                 Preference messageCounterPreference = findPreference(getString(R.string.key_message_counter));
                 if (messageCounterPreference != null) {
                     updateMessageCounterSummary(messageCounterPreference);
                 }
-                
+
             } catch (Exception e) {
                 Toast.makeText(getContext(), "Error reading message statistics: " + e.getMessage(),
                         Toast.LENGTH_LONG).show();
@@ -611,20 +666,20 @@ public class MainActivity extends AppCompatActivity {
                 MessageStatsDbHelper statsHelper = new MessageStatsDbHelper(getContext());
                 MessageStatsDbHelper.DailyStats todayStats = statsHelper.getTodayStats();
                 MessageStatsDbHelper.TotalStats totalStats = statsHelper.getTotalStats();
-                
+
                 String summary;
                 if (todayStats != null && todayStats.totalCount > 0) {
-                    summary = String.format("Today: %d | Total: %d (%.1f%% success)", 
+                    summary = String.format("Today: %d | Total: %d (%.1f%% success)",
                             todayStats.totalCount, totalStats.totalCount, totalStats.getSuccessRate());
                 } else if (totalStats.totalCount > 0) {
-                    summary = String.format("Today: 0 | Total: %d (%.1f%% success)", 
+                    summary = String.format("Today: 0 | Total: %d (%.1f%% success)",
                             totalStats.totalCount, totalStats.getSuccessRate());
                 } else {
                     summary = "No messages forwarded yet";
                 }
-                
+
                 preference.setSummary(summary);
-                
+
             } catch (Exception e) {
                 preference.setSummary("Error reading statistics");
             }
@@ -634,12 +689,12 @@ public class MainActivity extends AppCompatActivity {
             if (languageManager == null) {
                 return;
             }
-            
+
             try {
                 String currentLanguage = languageManager.getSelectedLanguage();
                 String[] languageEntries = getResources().getStringArray(R.array.language_entries);
                 String[] languageValues = getResources().getStringArray(R.array.language_values);
-                
+
                 for (int i = 0; i < languageValues.length; i++) {
                     if (languageValues[i].equals(currentLanguage)) {
                         preference.setSummary(languageEntries[i]);
@@ -652,8 +707,9 @@ public class MainActivity extends AppCompatActivity {
         }
 
         private void showLanguageRestartDialog() {
-            if (getContext() == null) return;
-            
+            if (getContext() == null)
+                return;
+
             new AlertDialog.Builder(getContext())
                     .setTitle(getString(R.string.language_title))
                     .setMessage(getString(R.string.language_restart_required))
@@ -676,7 +732,7 @@ public class MainActivity extends AppCompatActivity {
             if (themeManager == null) {
                 return;
             }
-            
+
             try {
                 String description = themeManager.getCurrentThemeDescription();
                 preference.setSummary(description);
@@ -688,21 +744,21 @@ public class MainActivity extends AppCompatActivity {
         private void showRateLimitStatus() {
             try {
                 RateLimiter rateLimiter = RateLimiter.getInstance();
-                
+
                 int currentCount = rateLimiter.getCurrentForwardCount();
                 long timeUntilNext = rateLimiter.getTimeUntilNextSlot();
-                
+
                 StringBuilder message = new StringBuilder();
                 message.append("🚦 Rate Limiting Status:\n\n");
                 message.append(String.format("Current usage: %d/10 SMS per minute\n", currentCount));
-                
+
                 if (timeUntilNext > 0) {
                     long seconds = timeUntilNext / 1000;
                     message.append(String.format("Next slot available in: %d seconds\n", seconds));
                 } else {
                     message.append("✅ Slots available immediately\n");
                 }
-                
+
                 if (currentCount >= 10) {
                     message.append("\n⚠️ Rate limit reached! SMS forwarding temporarily blocked.");
                 } else if (currentCount >= 7) {
@@ -710,23 +766,23 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     message.append("\n✅ Within safe limits for SMS forwarding.");
                 }
-                
+
                 // Check if rate limiting is enabled
                 android.content.SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
                 boolean rateLimitEnabled = prefs.getBoolean(getString(R.string.key_enable_rate_limiting), true);
-                
+
                 if (!rateLimitEnabled) {
                     message.append("\n\n⚠️ Rate limiting is currently DISABLED in settings.");
                 }
-                
+
                 Toast.makeText(getContext(), message.toString(), Toast.LENGTH_LONG).show();
-                
+
                 // Update the preference summary
                 Preference rateLimitStatusPreference = findPreference(getString(R.string.key_rate_limit_status));
                 if (rateLimitStatusPreference != null) {
                     updateRateLimitStatusSummary(rateLimitStatusPreference);
                 }
-                
+
             } catch (Exception e) {
                 Toast.makeText(getContext(), "Error reading rate limit status: " + e.getMessage(),
                         Toast.LENGTH_LONG).show();
@@ -736,10 +792,10 @@ public class MainActivity extends AppCompatActivity {
         private void updateRateLimitStatusSummary(Preference preference) {
             try {
                 RateLimiter rateLimiter = RateLimiter.getInstance();
-                
+
                 int currentCount = rateLimiter.getCurrentForwardCount();
                 long timeUntilNext = rateLimiter.getTimeUntilNextSlot();
-                
+
                 String nextSlotText;
                 if (timeUntilNext > 0) {
                     long seconds = timeUntilNext / 1000;
@@ -747,12 +803,12 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     nextSlotText = getString(R.string.rate_limit_available_now);
                 }
-                
-                String summary = String.format(getString(R.string.rate_limit_status_format), 
+
+                String summary = String.format(getString(R.string.rate_limit_status_format),
                         currentCount, nextSlotText);
-                        
+
                 preference.setSummary(summary);
-                
+
             } catch (Exception e) {
                 preference.setSummary("Error reading rate limit status");
             }
@@ -764,29 +820,27 @@ public class MainActivity extends AppCompatActivity {
         private void initializeFileLaunchers() {
             // Export launcher - creates a new file
             exportLauncher = registerForActivityResult(
-                new ActivityResultContracts.StartActivityForResult(),
-                result -> {
-                    if (result.getResultCode() == android.app.Activity.RESULT_OK && result.getData() != null) {
-                        Uri uri = result.getData().getData();
-                        if (uri != null) {
-                            performExport(uri);
+                    new ActivityResultContracts.StartActivityForResult(),
+                    result -> {
+                        if (result.getResultCode() == android.app.Activity.RESULT_OK && result.getData() != null) {
+                            Uri uri = result.getData().getData();
+                            if (uri != null) {
+                                performExport(uri);
+                            }
                         }
-                    }
-                }
-            );
+                    });
 
             // Import launcher - opens an existing file
             importLauncher = registerForActivityResult(
-                new ActivityResultContracts.StartActivityForResult(),
-                result -> {
-                    if (result.getResultCode() == android.app.Activity.RESULT_OK && result.getData() != null) {
-                        Uri uri = result.getData().getData();
-                        if (uri != null) {
-                            performImport(uri);
+                    new ActivityResultContracts.StartActivityForResult(),
+                    result -> {
+                        if (result.getResultCode() == android.app.Activity.RESULT_OK && result.getData() != null) {
+                            Uri uri = result.getData().getData();
+                            if (uri != null) {
+                                performImport(uri);
+                            }
                         }
-                    }
-                }
-            );
+                    });
         }
 
         /**
@@ -798,14 +852,14 @@ public class MainActivity extends AppCompatActivity {
                 intent.addCategory(Intent.CATEGORY_OPENABLE);
                 intent.setType("application/json");
                 intent.putExtra(Intent.EXTRA_TITLE, backupManager.generateBackupFilename());
-                intent.putExtra(Intent.EXTRA_MIME_TYPES, new String[]{"application/json", "text/plain"});
-                
+                intent.putExtra(Intent.EXTRA_MIME_TYPES, new String[] { "application/json", "text/plain" });
+
                 exportLauncher.launch(intent);
-                
+
             } catch (Exception e) {
-                Toast.makeText(getContext(), 
-                    String.format(getString(R.string.export_error), e.getMessage()),
-                    Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(),
+                        String.format(getString(R.string.export_error), e.getMessage()),
+                        Toast.LENGTH_LONG).show();
             }
         }
 
@@ -817,14 +871,14 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
                 intent.addCategory(Intent.CATEGORY_OPENABLE);
                 intent.setType("*/*");
-                intent.putExtra(Intent.EXTRA_MIME_TYPES, new String[]{"application/json", "text/plain"});
-                
+                intent.putExtra(Intent.EXTRA_MIME_TYPES, new String[] { "application/json", "text/plain" });
+
                 importLauncher.launch(intent);
-                
+
             } catch (Exception e) {
-                Toast.makeText(getContext(), 
-                    String.format(getString(R.string.import_error), e.getMessage()),
-                    Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(),
+                        String.format(getString(R.string.import_error), e.getMessage()),
+                        Toast.LENGTH_LONG).show();
             }
         }
 
@@ -835,11 +889,11 @@ public class MainActivity extends AppCompatActivity {
             try {
                 backupManager.exportToFile(uri);
                 Toast.makeText(getContext(), getString(R.string.export_success), Toast.LENGTH_SHORT).show();
-                
+
             } catch (Exception e) {
-                Toast.makeText(getContext(), 
-                    String.format(getString(R.string.export_error), e.getMessage()),
-                    Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(),
+                        String.format(getString(R.string.export_error), e.getMessage()),
+                        Toast.LENGTH_LONG).show();
             }
         }
 
@@ -849,29 +903,29 @@ public class MainActivity extends AppCompatActivity {
         private void performImport(Uri uri) {
             try {
                 SettingsBackupManager.ImportResult result = backupManager.importFromFile(uri);
-                
+
                 if (result.success) {
-                    Toast.makeText(getContext(), 
-                        String.format(getString(R.string.import_success), result.message),
-                        Toast.LENGTH_LONG).show();
-                    
+                    Toast.makeText(getContext(),
+                            String.format(getString(R.string.import_success), result.message),
+                            Toast.LENGTH_LONG).show();
+
                     // Refresh all preference summaries to reflect imported values
                     refreshPreferenceSummaries();
-                    
+
                     // If theme was changed, recreate activity
                     if (getActivity() != null) {
                         getActivity().recreate();
                     }
                 } else {
-                    Toast.makeText(getContext(), 
-                        String.format(getString(R.string.import_error), result.message),
-                        Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(),
+                            String.format(getString(R.string.import_error), result.message),
+                            Toast.LENGTH_LONG).show();
                 }
-                
+
             } catch (Exception e) {
-                Toast.makeText(getContext(), 
-                    String.format(getString(R.string.import_error), e.getMessage()),
-                    Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(),
+                        String.format(getString(R.string.import_error), e.getMessage()),
+                        Toast.LENGTH_LONG).show();
             }
         }
 
@@ -885,34 +939,34 @@ public class MainActivity extends AppCompatActivity {
                 if (themePreference != null) {
                     updateThemeSummary(themePreference);
                 }
-                
+
                 // Update message counter summary
                 Preference messageCounterPreference = findPreference(getString(R.string.key_message_counter));
                 if (messageCounterPreference != null) {
                     updateMessageCounterSummary(messageCounterPreference);
                 }
-                
+
                 // Update queue status summary
                 Preference queueStatusPreference = findPreference(getString(R.string.key_queue_status));
                 if (queueStatusPreference != null) {
                     updateQueueStatusSummary(queueStatusPreference);
                 }
-                
+
                 // Update rate limit status summary
                 Preference rateLimitStatusPreference = findPreference(getString(R.string.key_rate_limit_status));
                 if (rateLimitStatusPreference != null) {
                     updateRateLimitStatusSummary(rateLimitStatusPreference);
                 }
-                
+
                 // Update connection status summary
                 updateConnectionStatusSummary();
-                
+
                 // Update message history summary
                 Preference messageHistoryPreference = findPreference(getString(R.string.key_message_history));
                 if (messageHistoryPreference != null) {
                     updateMessageHistorySummary(messageHistoryPreference);
                 }
-                
+
             } catch (Exception e) {
                 // Ignore errors during summary refresh
             }
@@ -924,69 +978,69 @@ public class MainActivity extends AppCompatActivity {
         private void showMessageHistory() {
             try {
                 List<MessageHistoryDbHelper.HistoryRecord> history = historyDbHelper.getMessageHistory(100);
-                
+
                 if (history.isEmpty()) {
                     Toast.makeText(getContext(), getString(R.string.history_empty), Toast.LENGTH_SHORT).show();
                     return;
                 }
-                
+
                 // Build message history display
                 StringBuilder historyText = new StringBuilder();
                 MessageHistoryDbHelper.HistoryStats stats = historyDbHelper.getHistoryStats();
-                
+
                 // Add header with statistics
                 historyText.append("📊 History Statistics:\n");
-                historyText.append(String.format(getString(R.string.history_stats_format), 
-                    stats.totalCount, stats.successCount, stats.getSuccessRate(), stats.failedCount));
+                historyText.append(String.format(getString(R.string.history_stats_format),
+                        stats.totalCount, stats.successCount, stats.getSuccessRate(), stats.failedCount));
                 historyText.append("\n");
                 historyText.append("📅 Time span: ").append(stats.getTimeSpanDescription()).append("\n\n");
-                
+
                 // Add recent messages (show last 20 for better readability)
                 historyText.append("📋 Recent Messages (Last 20):\n\n");
-                
+
                 int displayCount = Math.min(history.size(), 20);
                 for (int i = 0; i < displayCount; i++) {
                     MessageHistoryDbHelper.HistoryRecord record = history.get(i);
-                    
+
                     historyText.append(record.getStatusEmoji()).append(" ")
-                              .append(record.getPlatformEmoji()).append(" ")
-                              .append(record.platform.toUpperCase()).append("\n");
-                    
+                            .append(record.getPlatformEmoji()).append(" ")
+                            .append(record.platform.toUpperCase()).append("\n");
+
                     historyText.append("From: ").append(record.fromNumber).append("\n");
-                    
+
                     // Truncate long messages for display
                     String displayMessage = record.messageContent;
                     if (displayMessage.length() > 100) {
                         displayMessage = displayMessage.substring(0, 100) + "...";
                     }
                     historyText.append("Message: ").append(displayMessage).append("\n");
-                    
+
                     historyText.append("Time: ").append(record.getFormattedForwardTimestamp()).append("\n");
-                    
+
                     if (record.isFailed() && record.errorMessage != null) {
                         historyText.append("Error: ").append(record.errorMessage).append("\n");
                     }
-                    
+
                     historyText.append("\n");
                 }
-                
+
                 if (history.size() > 20) {
                     historyText.append("... and ").append(history.size() - 20).append(" more messages\n");
                 }
-                
+
                 // Show in dialog
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                 builder.setTitle("Message History")
-                       .setMessage(historyText.toString())
-                       .setPositiveButton("OK", null)
-                       .setNeutralButton("View All", new DialogInterface.OnClickListener() {
-                           @Override
-                           public void onClick(DialogInterface dialog, int which) {
-                               showFullMessageHistory();
-                           }
-                       })
-                       .show();
-                
+                        .setMessage(historyText.toString())
+                        .setPositiveButton("OK", null)
+                        .setNeutralButton("View All", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                showFullMessageHistory();
+                            }
+                        })
+                        .show();
+
             } catch (Exception e) {
                 Toast.makeText(getContext(), "Error loading message history: " + e.getMessage(),
                         Toast.LENGTH_LONG).show();
@@ -999,32 +1053,32 @@ public class MainActivity extends AppCompatActivity {
         private void showFullMessageHistory() {
             try {
                 List<MessageHistoryDbHelper.HistoryRecord> history = historyDbHelper.getMessageHistory(100);
-                
+
                 StringBuilder fullHistoryText = new StringBuilder();
                 fullHistoryText.append("📋 Complete Message History (Last 100):\n\n");
-                
+
                 for (MessageHistoryDbHelper.HistoryRecord record : history) {
                     fullHistoryText.append(record.getStatusEmoji()).append(" ")
-                                  .append(record.getPlatformEmoji()).append(" ")
-                                  .append(record.platform.toUpperCase()).append(" - ")
-                                  .append(record.getFormattedForwardTimestamp()).append("\n");
-                    
+                            .append(record.getPlatformEmoji()).append(" ")
+                            .append(record.platform.toUpperCase()).append(" - ")
+                            .append(record.getFormattedForwardTimestamp()).append("\n");
+
                     fullHistoryText.append("From: ").append(record.fromNumber).append("\n");
                     fullHistoryText.append("Content: ").append(record.messageContent).append("\n");
-                    
+
                     if (record.isFailed() && record.errorMessage != null) {
                         fullHistoryText.append("Error: ").append(record.errorMessage).append("\n");
                     }
-                    
+
                     fullHistoryText.append("────────────────────\n");
                 }
-                
+
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                 builder.setTitle("Complete Message History")
-                       .setMessage(fullHistoryText.toString())
-                       .setPositiveButton("OK", null)
-                       .show();
-                
+                        .setMessage(fullHistoryText.toString())
+                        .setPositiveButton("OK", null)
+                        .show();
+
             } catch (Exception e) {
                 Toast.makeText(getContext(), "Error loading full history: " + e.getMessage(),
                         Toast.LENGTH_LONG).show();
@@ -1037,15 +1091,15 @@ public class MainActivity extends AppCompatActivity {
         private void showClearHistoryConfirmation() {
             AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
             builder.setTitle("Clear Message History")
-                   .setMessage(getString(R.string.clear_history_confirmation))
-                   .setPositiveButton("Clear", new DialogInterface.OnClickListener() {
-                       @Override
-                       public void onClick(DialogInterface dialog, int which) {
-                           clearMessageHistory();
-                       }
-                   })
-                   .setNegativeButton("Cancel", null)
-                   .show();
+                    .setMessage(getString(R.string.clear_history_confirmation))
+                    .setPositiveButton("Clear", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            clearMessageHistory();
+                        }
+                    })
+                    .setNegativeButton("Cancel", null)
+                    .show();
         }
 
         /**
@@ -1055,13 +1109,13 @@ public class MainActivity extends AppCompatActivity {
             try {
                 historyDbHelper.clearHistory();
                 Toast.makeText(getContext(), getString(R.string.history_cleared), Toast.LENGTH_SHORT).show();
-                
+
                 // Update summary after clearing
                 Preference messageHistoryPreference = findPreference(getString(R.string.key_message_history));
                 if (messageHistoryPreference != null) {
                     updateMessageHistorySummary(messageHistoryPreference);
                 }
-                
+
             } catch (Exception e) {
                 Toast.makeText(getContext(), "Error clearing history: " + e.getMessage(),
                         Toast.LENGTH_LONG).show();
@@ -1074,17 +1128,17 @@ public class MainActivity extends AppCompatActivity {
         private void updateMessageHistorySummary(Preference preference) {
             try {
                 MessageHistoryDbHelper.HistoryStats stats = historyDbHelper.getHistoryStats();
-                
+
                 String summary;
                 if (stats.totalCount > 0) {
-                    summary = String.format("Last %d messages | Success: %.1f%% | %s", 
+                    summary = String.format("Last %d messages | Success: %.1f%% | %s",
                             stats.totalCount, stats.getSuccessRate(), stats.getTimeSpanDescription());
                 } else {
                     summary = "No message history available";
                 }
-                
+
                 preference.setSummary(summary);
-                
+
             } catch (Exception e) {
                 preference.setSummary("Error reading message history");
             }
@@ -1103,45 +1157,47 @@ public class MainActivity extends AppCompatActivity {
 
                 // Build about content
                 StringBuilder aboutContent = new StringBuilder();
-                
+
                 // App name and version
                 aboutContent.append("📱 ").append(getString(R.string.about_app_name)).append("\n");
                 aboutContent.append(getString(R.string.about_version_title)).append(": ");
                 aboutContent.append(String.format(getString(R.string.about_version_format), versionName, versionCode));
                 aboutContent.append("\n\n");
-                
+
                 // Description
                 aboutContent.append("📄 ").append(getString(R.string.about_description_title)).append(":\n");
                 aboutContent.append(getString(R.string.about_description_text)).append("\n\n");
-                
+
                 // Key features
                 aboutContent.append("⭐ ").append(getString(R.string.about_features_title)).append(":\n");
                 aboutContent.append(getString(R.string.about_features_text)).append("\n\n");
-                
+
                 // Developer info
                 aboutContent.append("👨‍💻 ").append(getString(R.string.about_developer_title)).append(": ");
                 aboutContent.append(getString(R.string.about_developer_name)).append("\n\n");
-                
+
                 // License
                 aboutContent.append("📜 ").append(getString(R.string.about_license_title)).append(": ");
                 aboutContent.append(getString(R.string.about_license_name)).append("\n\n");
-                
+
                 // Build information
                 aboutContent.append("🔧 ").append(getString(R.string.about_build_info_title)).append(":\n");
-                aboutContent.append(String.format(getString(R.string.about_package_name), 
-                    getContext().getPackageName())).append("\n");
-                aboutContent.append(String.format(getString(R.string.about_target_sdk), 
-                    android.os.Build.VERSION.SDK_INT)).append("\n");
+                aboutContent.append(String.format(getString(R.string.about_package_name),
+                        getContext().getPackageName())).append("\n");
+                aboutContent.append(String.format(getString(R.string.about_target_sdk),
+                        android.os.Build.VERSION.SDK_INT)).append("\n");
                 aboutContent.append(String.format(getString(R.string.about_min_sdk), 25)).append("\n");
-                
+
                 // Show build time if available
                 try {
-                    android.content.pm.ApplicationInfo appInfo = pm.getApplicationInfo(getContext().getPackageName(), 0);
+                    android.content.pm.ApplicationInfo appInfo = pm.getApplicationInfo(getContext().getPackageName(),
+                            0);
                     java.io.File apkFile = new java.io.File(appInfo.sourceDir);
                     long buildTime = apkFile.lastModified();
-                    java.text.SimpleDateFormat dateFormat = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss", java.util.Locale.getDefault());
-                    aboutContent.append(String.format(getString(R.string.about_build_time), 
-                        dateFormat.format(new java.util.Date(buildTime)))).append("\n");
+                    java.text.SimpleDateFormat dateFormat = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss",
+                            java.util.Locale.getDefault());
+                    aboutContent.append(String.format(getString(R.string.about_build_time),
+                            dateFormat.format(new java.util.Date(buildTime)))).append("\n");
                 } catch (Exception e) {
                     // Ignore build time if unavailable
                 }
@@ -1149,11 +1205,11 @@ public class MainActivity extends AppCompatActivity {
                 // Show dialog
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                 builder.setTitle(getString(R.string.about_title))
-                       .setMessage(aboutContent.toString())
-                       .setPositiveButton("OK", null)
-                       .setIcon(android.R.drawable.ic_dialog_info)
-                       .show();
-                
+                        .setMessage(aboutContent.toString())
+                        .setPositiveButton("OK", null)
+                        .setIcon(android.R.drawable.ic_dialog_info)
+                        .show();
+
             } catch (Exception e) {
                 Toast.makeText(getContext(), "Error showing about information: " + e.getMessage(),
                         Toast.LENGTH_LONG).show();

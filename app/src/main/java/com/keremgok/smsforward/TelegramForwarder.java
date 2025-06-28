@@ -47,9 +47,10 @@ public final class TelegramForwarder extends AbstractWebForwarder {
     protected byte[] makeBody(String fromNumber, String content, long timestamp) {
         JSONObject body = new JSONObject();
         try {
-            java.text.SimpleDateFormat dateFormat = new java.text.SimpleDateFormat("dd/MM/yyyy HH:mm:ss", java.util.Locale.getDefault());
+            java.text.SimpleDateFormat dateFormat = new java.text.SimpleDateFormat("dd/MM/yyyy HH:mm:ss",
+                    java.util.Locale.getDefault());
             String formattedDate = dateFormat.format(new java.util.Date(timestamp));
-            
+
             String message;
             if (context != null) {
                 message = context.getString(R.string.telegram_message_format, fromNumber, content, formattedDate);
@@ -57,7 +58,7 @@ public final class TelegramForwarder extends AbstractWebForwarder {
                 // Fallback for backward compatibility
                 message = String.format("Message from %s:\n%s\nReceived at: %s", fromNumber, content, formattedDate);
             }
-            
+
             body.put("chat_id", chatId);
             body.put("text", message);
         } catch (JSONException e) {
@@ -96,4 +97,4 @@ public final class TelegramForwarder extends AbstractWebForwarder {
     protected String getContentType() {
         return "application/json";
     }
-} 
+}

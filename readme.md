@@ -82,11 +82,20 @@ Calls can be forwarded to a single phone thanks to carriers' call forwarding ser
 - User-configurable enable/disable toggle
 - Rate-limited messages queued for later processing
 
+✅ **Memory management and performance:**
+
+- Memory leak prevention and proper resource cleanup
+- Static context reference elimination
+- Database connection management
+- Background thread lifecycle management
+- Optimized long-term stability
+
 ✅ **Minimal and efficient:**
 
 - Small APK size (~1.9MB)
 - Low battery consumption
 - No unnecessary permissions
+- Enterprise-grade memory efficiency
 
 ## Supported Platforms
 
@@ -636,7 +645,7 @@ HTTP POST to configured webhook:
 - **Package Name**: `com.keremgok.smsforward`
 - **Minimum Android**: API Level 25 (Android 7.0)
 - **Target Android**: API Level 34 (Android 14)
-- **App Version**: 1.11.0
+- **App Version**: 1.12.0
 - **Languages**: Turkish, English (with system default)
 - **Architecture**: Java with Android Gradle Plugin 8.7.3
 
@@ -646,13 +655,13 @@ HTTP POST to configured webhook:
 app/src/main/java/com/keremgok/smsforward/
 ├── SmsForwardApplication.java # Application class for language initialization
 ├── MainActivity.java          # Settings UI with stats/queue/connection/rate limit status
-├── SmsReceiver.java           # SMS broadcast receiver with rate limiting
+├── SmsReceiver.java           # SMS broadcast receiver with memory leak fixes
 ├── LanguageManager.java       # Multi-language support and runtime switching
 ├── RateLimiter.java           # Rate limiting and spam prevention system
 ├── SettingsBackupManager.java # Export/Import settings in JSON format
 ├── MessageHistoryDbHelper.java # SQLite database for forwarding history
 ├── Forwarder.java             # Interface for all forwarders
-├── RetryableForwarder.java    # Retry mechanism wrapper
+├── RetryableForwarder.java    # Retry mechanism wrapper with proper cleanup
 ├── MessageQueueDbHelper.java  # SQLite database for offline queue
 ├── MessageQueueProcessor.java # Background queue processing service
 ├── MessageStatsDbHelper.java  # SQLite database for message statistics
@@ -664,6 +673,92 @@ app/src/main/java/com/keremgok/smsforward/
 ├── JsonWebForwarder.java      # HTTP webhook integration
 └── AbstractWebForwarder.java  # Base class for web APIs
 ```
+
+## Changelog
+
+### Version 1.12.0 - Memory Leak Fixes & Performance (Latest)
+
+🔧 **Memory Management:**
+
+- ✅ **Static Context References**: Eliminated memory leaks in SmsReceiver by removing static field dependencies
+- ✅ **Resource Cleanup**: Added proper lifecycle management with onDestroy() cleanup in MainActivity
+- ✅ **Database Management**: Implemented proper close() calls for all database helpers
+- ✅ **Background Thread Cleanup**: Added shutdown() methods for ExecutorService instances
+- ✅ **Application Cleanup**: Global resource cleanup in Application.onTerminate()
+
+🚀 **Performance Improvements:**
+
+- ✅ **Memory Efficiency**: Reduced memory footprint and eliminated memory leaks
+- ✅ **Long-term Stability**: Optimized for continuous operation without memory degradation
+- ✅ **Resource Management**: Proper cleanup of all background threads and connections
+- ✅ **Enterprise-grade**: Production-ready memory management standards
+
+🛠️ **Technical Enhancements:**
+
+- ✅ **Code Quality**: Improved code formatting and consistency
+- ✅ **Error Prevention**: Proactive memory leak prevention measures
+- ✅ **Lifecycle Management**: Proper Android component lifecycle handling
+- ✅ **Thread Safety**: Enhanced concurrent access protection
+
+### Version 1.11.0 - Multi-language Support & About Page
+
+🌐 **Localization:**
+
+- ✅ **Turkish Translation**: Complete Turkish localization with cultural adaptations
+- ✅ **Runtime Language Switching**: Change language without app restart
+- ✅ **Message Localization**: SMS, Telegram, Email formats in both languages
+- ✅ **System Integration**: Respects device language settings
+
+📱 **User Interface:**
+
+- ✅ **About Page**: Comprehensive app information with version details
+- ✅ **Language Manager**: Centralized language management system
+- ✅ **Context-aware Forwarders**: All message types support localization
+
+### Version 1.10.0 - Message History System
+
+📊 **History Tracking:**
+
+- ✅ **SQLite Storage**: Persistent message history (last 100 messages)
+- ✅ **Rich Metadata**: Status, platform, timestamps, error messages
+- ✅ **Smart UI**: Recent (20) vs complete (100) view modes
+- ✅ **Statistics Integration**: Success rates and platform distribution
+
+### Version 1.9.0 - Settings Backup & Restore
+
+💾 **Configuration Management:**
+
+- ✅ **Export/Import**: JSON format with metadata and version compatibility
+- ✅ **Device Migration**: Complete configuration transfer between devices
+- ✅ **File Operations**: Modern Android Storage Access Framework
+- ✅ **Security Validation**: Whitelist-based preference filtering
+
+### Version 1.8.0 - Rate Limiting System
+
+🚦 **Spam Prevention:**
+
+- ✅ **Rate Limiting**: 10 SMS per minute with sliding window algorithm
+- ✅ **Queue Integration**: Rate-limited messages queued for later
+- ✅ **Real-time Monitoring**: Live usage tracking and status display
+- ✅ **User Control**: Enable/disable toggle in preferences
+
+### Version 1.7.0 - Dark Mode & Theming
+
+🎨 **Visual Enhancements:**
+
+- ✅ **Dark Mode**: System theme following with Material Design 3
+- ✅ **Theme Manager**: Automatic switching and persistence
+- ✅ **Modern UI**: Elegant light and dark color schemes
+
+### Previous Versions
+
+- **v1.6.0**: Statistics dashboard with daily/total counters and success rates
+- **v1.5.0**: Real-time connection status monitoring and network quality indicators
+- **v1.4.0**: Offline message queue with SQLite storage and background processing
+- **v1.3.0**: Automatic retry mechanism with exponential backoff
+- **v1.2.0**: Test message functionality for setup verification
+- **v1.1.0**: Enhanced message formatting with timestamps
+- **v1.0.0**: Initial release with basic SMS, Telegram, Email, and Web forwarding
 
 ## Development
 
@@ -690,6 +785,7 @@ app/src/main/java/com/keremgok/smsforward/
 - Alternative commercial apps exist but are typically much larger
 - Keep the Android device charged for continuous operation
 - SMS forwarding works immediately; reverse messaging requires target number setup
+- Memory-optimized for long-term continuous operation
 
 ## License
 

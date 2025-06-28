@@ -22,9 +22,10 @@ public final class JsonWebForwarder extends AbstractWebForwarder {
     protected byte[] makeBody(String fromNumber, String content, long timestamp) {
         JSONObject body = new JSONObject();
         try {
-            java.text.SimpleDateFormat dateFormat = new java.text.SimpleDateFormat("dd/MM/yyyy HH:mm:ss", java.util.Locale.getDefault());
+            java.text.SimpleDateFormat dateFormat = new java.text.SimpleDateFormat("dd/MM/yyyy HH:mm:ss",
+                    java.util.Locale.getDefault());
             String formattedDate = dateFormat.format(new java.util.Date(timestamp));
-            
+
             body.put("from", fromNumber);
             body.put("message", content);
             body.put("received_at", formattedDate);
@@ -64,4 +65,4 @@ public final class JsonWebForwarder extends AbstractWebForwarder {
     protected String getContentType() {
         return "application/json";
     }
-} 
+}

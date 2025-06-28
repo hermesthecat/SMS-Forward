@@ -25,36 +25,21 @@ public class SmsReceiver extends BroadcastReceiver {
     private static final String TAG = "SmsReceiver";
     private static final Pattern REVERSE_MESSAGE_PATTERN = Pattern.compile("To (\\+?\\d+?):\\n((.|\\n)*)");
 
+    // Remove static fields to prevent memory leaks
     private final Executor forwarderExecutor = Executors.newCachedThreadPool();
-    private static MessageQueueProcessor queueProcessor;
-    private static MessageStatsDbHelper statsDbHelper;
-    private static MessageHistoryDbHelper historyDbHelper;
-    private static RateLimiter rateLimiter;
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (!Telephony.Sms.Intents.SMS_RECEIVED_ACTION.equals(intent.getAction())) return;
-        
-        // Initialize queue processor if not already done
-        if (queueProcessor == null) {
-            queueProcessor = new MessageQueueProcessor(context);
-            queueProcessor.start();
-        }
-        
-        // Initialize stats helper if not already done
-        if (statsDbHelper == null) {
-            statsDbHelper = new MessageStatsDbHelper(context);
-        }
-        
-        // Initialize history helper if not already done
-        if (historyDbHelper == null) {
-            historyDbHelper = new MessageHistoryDbHelper(context);
-        }
-        
-        // Initialize rate limiter if not already done
-        if (rateLimiter == null) {
-            rateLimiter = RateLimiter.getInstance();
-        }
+        if (!Telephony.Sms.Intents.SMS_RECEIVED_ACTION.equals(intent.getAction()))
+            return;
+
+        // Initialize instances per onReceive call to avoid static context references
+        MessageQueueProcessor queueProcessor = new MessageQueueProcessor(context);
+        queueProcessor.start();
+
+        MessageStatsDbHelper statsDbHelper = new MessageStatsDbHelper(context);
+        MessageHistoryDbHelper historyDbHelper = new MessageHistoryDbHelper(context);
+        RateLimiter rateLimiter = RateLimiter.getInstance();
 
         // Large message might be broken into several parts.
         SmsMessage[] messages = Telephony.Sms.Intents.getMessagesFromIntent(intent);
@@ -81,14 +66,16 @@ public class SmsReceiver extends BroadcastReceiver {
         String fromEmailAddress = preferences.getString(context.getString(R.string.key_email_from_address), "");
         String toEmailAddress = preferences.getString(context.getString(R.string.key_email_to_address), "");
         String smtpHost = preferences.getString(context.getString(R.string.key_email_submit_host), "");
-        short smtpPort = Short.parseShort(preferences.getString(context.getString(R.string.key_email_submit_port), "0"));
+        short smtpPort = Short
+                .parseShort(preferences.getString(context.getString(R.string.key_email_submit_port), "0"));
         String smtpPassword = preferences.getString(context.getString(R.string.key_email_submit_password), "");
         String smtpUsernameStyle = preferences.getString(context.getString(R.string.key_email_username_style), "full");
         boolean enableRateLimiting = preferences.getBoolean(context.getString(R.string.key_enable_rate_limiting), true);
 
         // TODO: add a dedicated preference item for reverse forwarding
         // Disables reverse forwarding too if no forwarders is enabled.
-        if (!enableSms && !enableTelegram && !enableWeb && !enableEmail) return;
+        if (!enableSms && !enableTelegram && !enableWeb && !enableEmail)
+            return;
 
         ArrayList<Forwarder> forwarders = new ArrayList<>(1);
         if (enableSms && !targetNumber.isEmpty()) {
@@ -132,8 +119,7 @@ public class SmsReceiver extends BroadcastReceiver {
                     smtpPort,
                     username,
                     smtpPassword,
-                    context
-            );
+                    context);
             RetryableForwarder retryableForwarder = new RetryableForwarder(emailForwarder, queueProcessor);
             retryableForwarder.setStatsHelper(statsDbHelper);
             retryableForwarder.setHistoryHelper(historyDbHelper);
@@ -144,12 +130,12 @@ public class SmsReceiver extends BroadcastReceiver {
             // Reverse message - check rate limit first if enabled
             if (enableRateLimiting && !rateLimiter.isForwardingAllowed()) {
                 Log.w(TAG, String.format("Rate limit exceeded for reverse SMS to %s. Current count: %d/10. " +
-                        "Time until next slot: %d seconds", 
-                        senderNumber, rateLimiter.getCurrentForwardCount(), 
+                        "Time until next slot: %d seconds",
+                        senderNumber, rateLimiter.getCurrentForwardCount(),
                         rateLimiter.getTimeUntilNextSlot() / 1000));
                 return; // Skip reverse forwarding due to rate limit
             }
-            
+
             Matcher matcher = REVERSE_MESSAGE_PATTERN.matcher(messageContent);
             if (matcher.matches()) {
                 String forwardNumber = matcher.replaceFirst("$1");
@@ -170,10 +156,10 @@ public class SmsReceiver extends BroadcastReceiver {
             // Normal message, forwarded - check rate limit first if enabled
             if (enableRateLimiting && !rateLimiter.isForwardingAllowed()) {
                 Log.w(TAG, String.format("Rate limit exceeded for SMS from %s. Current count: %d/10. " +
-                        "Time until next slot: %d seconds", 
-                        senderNumber, rateLimiter.getCurrentForwardCount(), 
+                        "Time until next slot: %d seconds",
+                        senderNumber, rateLimiter.getCurrentForwardCount(),
                         rateLimiter.getTimeUntilNextSlot() / 1000));
-                
+
                 // Optionally add to queue for later processing when rate limit resets
                 if (queueProcessor != null) {
                     for (Forwarder forwarder : forwarders) {
@@ -182,20 +168,21 @@ public class SmsReceiver extends BroadcastReceiver {
                                 RetryableForwarder retryableForwarder = (RetryableForwarder) forwarder;
                                 String forwarderType = retryableForwarder.getDelegateName();
                                 String forwarderConfig = MessageQueueProcessor.createForwarderConfig(
-                                    retryableForwarder.getDelegate(), context);
-                                
-                                queueProcessor.enqueueFailedMessage(senderNumber, messageContent, 
-                                                                   timestamp, forwarderType, forwarderConfig);
+                                        retryableForwarder.getDelegate(), context);
+
+                                queueProcessor.enqueueFailedMessage(senderNumber, messageContent,
+                                        timestamp, forwarderType, forwarderConfig);
                                 Log.i(TAG, "Added rate-limited message to offline queue via " + forwarderType);
                             } catch (Exception queueError) {
-                                Log.e(TAG, "Failed to add rate-limited message to offline queue: " + queueError.getMessage());
+                                Log.e(TAG, "Failed to add rate-limited message to offline queue: "
+                                        + queueError.getMessage());
                             }
                         }
                     }
                 }
                 return; // Skip forwarding due to rate limit
             }
-            
+
             for (Forwarder forwarder : forwarders) {
                 forwarderExecutor.execute(() -> {
                     try {
@@ -206,17 +193,17 @@ public class SmsReceiver extends BroadcastReceiver {
                         }
                     } catch (Exception e) {
                         Log.e(TAG, "Failed to forward SMS", e);
-                        
+
                         // If this is a RetryableForwarder, try to add to offline queue
                         if (forwarder instanceof RetryableForwarder && queueProcessor != null) {
                             try {
                                 RetryableForwarder retryableForwarder = (RetryableForwarder) forwarder;
                                 String forwarderType = retryableForwarder.getDelegateName();
                                 String forwarderConfig = MessageQueueProcessor.createForwarderConfig(
-                                    retryableForwarder.getDelegate(), context);
-                                
-                                queueProcessor.enqueueFailedMessage(senderNumber, messageContent, 
-                                                                   timestamp, forwarderType, forwarderConfig);
+                                        retryableForwarder.getDelegate(), context);
+
+                                queueProcessor.enqueueFailedMessage(senderNumber, messageContent,
+                                        timestamp, forwarderType, forwarderConfig);
                                 Log.i(TAG, "Added failed message to offline queue via " + forwarderType);
                             } catch (Exception queueError) {
                                 Log.e(TAG, "Failed to add message to offline queue: " + queueError.getMessage());
@@ -227,4 +214,4 @@ public class SmsReceiver extends BroadcastReceiver {
             }
         }
     }
-} 
+}

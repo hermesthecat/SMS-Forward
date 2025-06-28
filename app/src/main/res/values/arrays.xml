@@ -8,7 +8,7 @@
         <item>full</item>
         <item>local</item>
     </string-array>
-    
+
     <!-- Theme mode options -->
     <string-array name="theme_mode_entries">
         <item>🌞 Light</item>
@@ -20,7 +20,7 @@
         <item>dark</item>
         <item>system</item>
     </string-array>
-    
+
     <!-- Language options -->
     <string-array name="language_entries">
         <item>🇺🇸 English</item>

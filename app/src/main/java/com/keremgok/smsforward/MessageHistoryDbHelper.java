@@ -21,7 +21,7 @@ public class MessageHistoryDbHelper extends SQLiteOpenHelper {
     private static final String TAG = "MessageHistoryDbHelper";
     private static final String DATABASE_NAME = "sms_forward_history.db";
     private static final int DATABASE_VERSION = 1;
-    
+
     // Table name and columns
     private static final String TABLE_MESSAGE_HISTORY = "message_history";
     private static final String COLUMN_ID = "_id";
@@ -33,77 +33,77 @@ public class MessageHistoryDbHelper extends SQLiteOpenHelper {
     private static final String COLUMN_TIMESTAMP = "timestamp";
     private static final String COLUMN_FORWARD_TIMESTAMP = "forward_timestamp";
     private static final String COLUMN_CREATED_AT = "created_at";
-    
+
     // Status values
     public static final String STATUS_SUCCESS = "SUCCESS";
     public static final String STATUS_FAILED = "FAILED";
     public static final String STATUS_PENDING = "PENDING";
-    
+
     // Maximum number of history records to keep
     private static final int MAX_HISTORY_RECORDS = 100;
-    
-    private static final String SQL_CREATE_TABLE = 
-        "CREATE TABLE " + TABLE_MESSAGE_HISTORY + " (" +
-        COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-        COLUMN_FROM_NUMBER + " TEXT NOT NULL," +
-        COLUMN_MESSAGE_CONTENT + " TEXT NOT NULL," +
-        COLUMN_PLATFORM + " TEXT NOT NULL," +
-        COLUMN_STATUS + " TEXT NOT NULL," +
-        COLUMN_ERROR_MESSAGE + " TEXT," +
-        COLUMN_TIMESTAMP + " INTEGER NOT NULL," +
-        COLUMN_FORWARD_TIMESTAMP + " INTEGER NOT NULL," +
-        COLUMN_CREATED_AT + " INTEGER NOT NULL" +
-        ")";
-    
+
+    private static final String SQL_CREATE_TABLE = "CREATE TABLE " + TABLE_MESSAGE_HISTORY + " (" +
+            COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+            COLUMN_FROM_NUMBER + " TEXT NOT NULL," +
+            COLUMN_MESSAGE_CONTENT + " TEXT NOT NULL," +
+            COLUMN_PLATFORM + " TEXT NOT NULL," +
+            COLUMN_STATUS + " TEXT NOT NULL," +
+            COLUMN_ERROR_MESSAGE + " TEXT," +
+            COLUMN_TIMESTAMP + " INTEGER NOT NULL," +
+            COLUMN_FORWARD_TIMESTAMP + " INTEGER NOT NULL," +
+            COLUMN_CREATED_AT + " INTEGER NOT NULL" +
+            ")";
+
     private static final String SQL_DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_MESSAGE_HISTORY;
-    
+
     public MessageHistoryDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
-    
+
     @Override
     public void onCreate(SQLiteDatabase db) {
         Log.d(TAG, "Creating message history database");
         db.execSQL(SQL_CREATE_TABLE);
-        
+
         // Create index for better query performance
-        db.execSQL("CREATE INDEX idx_forward_timestamp ON " + TABLE_MESSAGE_HISTORY + 
-                  "(" + COLUMN_FORWARD_TIMESTAMP + " DESC)");
+        db.execSQL("CREATE INDEX idx_forward_timestamp ON " + TABLE_MESSAGE_HISTORY +
+                "(" + COLUMN_FORWARD_TIMESTAMP + " DESC)");
     }
-    
+
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         Log.d(TAG, "Upgrading database from version " + oldVersion + " to " + newVersion);
         db.execSQL(SQL_DROP_TABLE);
         onCreate(db);
     }
-    
+
     /**
      * Record a successful message forward
      */
-    public void recordForwardSuccess(String fromNumber, String messageContent, String platform, long originalTimestamp) {
+    public void recordForwardSuccess(String fromNumber, String messageContent, String platform,
+            long originalTimestamp) {
         recordForward(fromNumber, messageContent, platform, STATUS_SUCCESS, null, originalTimestamp);
     }
-    
+
     /**
      * Record a failed message forward
      */
-    public void recordForwardFailure(String fromNumber, String messageContent, String platform, 
-                                   String errorMessage, long originalTimestamp) {
+    public void recordForwardFailure(String fromNumber, String messageContent, String platform,
+            String errorMessage, long originalTimestamp) {
         recordForward(fromNumber, messageContent, platform, STATUS_FAILED, errorMessage, originalTimestamp);
     }
-    
+
     /**
      * Record a message forward attempt
      */
-    private void recordForward(String fromNumber, String messageContent, String platform, 
-                             String status, String errorMessage, long originalTimestamp) {
+    private void recordForward(String fromNumber, String messageContent, String platform,
+            String status, String errorMessage, long originalTimestamp) {
         SQLiteDatabase db = this.getWritableDatabase();
         long currentTime = System.currentTimeMillis();
-        
+
         try {
             db.beginTransaction();
-            
+
             // Insert new record
             ContentValues values = new ContentValues();
             values.put(COLUMN_FROM_NUMBER, fromNumber);
@@ -114,40 +114,40 @@ public class MessageHistoryDbHelper extends SQLiteOpenHelper {
             values.put(COLUMN_TIMESTAMP, originalTimestamp);
             values.put(COLUMN_FORWARD_TIMESTAMP, currentTime);
             values.put(COLUMN_CREATED_AT, currentTime);
-            
+
             long newId = db.insert(TABLE_MESSAGE_HISTORY, null, values);
-            
+
             if (newId != -1) {
                 Log.d(TAG, "Recorded message history: " + platform + " (" + status + ")");
-                
+
                 // Cleanup old records to maintain limit
                 cleanupOldRecords(db);
-                
+
                 db.setTransactionSuccessful();
             } else {
                 Log.e(TAG, "Failed to insert message history record");
             }
-            
+
         } catch (Exception e) {
             Log.e(TAG, "Error recording message history", e);
         } finally {
             db.endTransaction();
         }
     }
-    
+
     /**
      * Get message history (last N records)
      */
     public List<HistoryRecord> getMessageHistory(int limit) {
         List<HistoryRecord> history = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
-        
+
         String orderBy = COLUMN_FORWARD_TIMESTAMP + " DESC";
         String limitStr = String.valueOf(Math.min(limit, MAX_HISTORY_RECORDS));
-        
-        Cursor cursor = db.query(TABLE_MESSAGE_HISTORY, null, null, null, 
-                                null, null, orderBy, limitStr);
-        
+
+        Cursor cursor = db.query(TABLE_MESSAGE_HISTORY, null, null, null,
+                null, null, orderBy, limitStr);
+
         try {
             while (cursor.moveToNext()) {
                 HistoryRecord record = createHistoryRecordFromCursor(cursor);
@@ -156,26 +156,26 @@ public class MessageHistoryDbHelper extends SQLiteOpenHelper {
         } finally {
             cursor.close();
         }
-        
+
         Log.d(TAG, "Retrieved " + history.size() + " history records");
         return history;
     }
-    
+
     /**
      * Get message history for a specific platform
      */
     public List<HistoryRecord> getMessageHistoryByPlatform(String platform, int limit) {
         List<HistoryRecord> history = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
-        
+
         String selection = COLUMN_PLATFORM + " = ?";
-        String[] selectionArgs = {platform};
+        String[] selectionArgs = { platform };
         String orderBy = COLUMN_FORWARD_TIMESTAMP + " DESC";
         String limitStr = String.valueOf(Math.min(limit, MAX_HISTORY_RECORDS));
-        
-        Cursor cursor = db.query(TABLE_MESSAGE_HISTORY, null, selection, selectionArgs, 
-                                null, null, orderBy, limitStr);
-        
+
+        Cursor cursor = db.query(TABLE_MESSAGE_HISTORY, null, selection, selectionArgs,
+                null, null, orderBy, limitStr);
+
         try {
             while (cursor.moveToNext()) {
                 HistoryRecord record = createHistoryRecordFromCursor(cursor);
@@ -184,29 +184,29 @@ public class MessageHistoryDbHelper extends SQLiteOpenHelper {
         } finally {
             cursor.close();
         }
-        
+
         return history;
     }
-    
+
     /**
      * Get recent message history statistics
      */
     public HistoryStats getHistoryStats() {
         SQLiteDatabase db = this.getReadableDatabase();
-        
+
         String query = "SELECT " +
-            "COUNT(*) as total_count, " +
-            "SUM(CASE WHEN " + COLUMN_STATUS + " = ? THEN 1 ELSE 0 END) as success_count, " +
-            "SUM(CASE WHEN " + COLUMN_STATUS + " = ? THEN 1 ELSE 0 END) as failed_count, " +
-            "COUNT(DISTINCT " + COLUMN_PLATFORM + ") as platform_count, " +
-            "MIN(" + COLUMN_FORWARD_TIMESTAMP + ") as oldest_timestamp, " +
-            "MAX(" + COLUMN_FORWARD_TIMESTAMP + ") as newest_timestamp " +
-            "FROM " + TABLE_MESSAGE_HISTORY;
-        
-        String[] args = {STATUS_SUCCESS, STATUS_FAILED};
-        
+                "COUNT(*) as total_count, " +
+                "SUM(CASE WHEN " + COLUMN_STATUS + " = ? THEN 1 ELSE 0 END) as success_count, " +
+                "SUM(CASE WHEN " + COLUMN_STATUS + " = ? THEN 1 ELSE 0 END) as failed_count, " +
+                "COUNT(DISTINCT " + COLUMN_PLATFORM + ") as platform_count, " +
+                "MIN(" + COLUMN_FORWARD_TIMESTAMP + ") as oldest_timestamp, " +
+                "MAX(" + COLUMN_FORWARD_TIMESTAMP + ") as newest_timestamp " +
+                "FROM " + TABLE_MESSAGE_HISTORY;
+
+        String[] args = { STATUS_SUCCESS, STATUS_FAILED };
+
         Cursor cursor = db.rawQuery(query, args);
-        
+
         try {
             if (cursor.moveToFirst()) {
                 HistoryStats stats = new HistoryStats();
@@ -221,10 +221,10 @@ public class MessageHistoryDbHelper extends SQLiteOpenHelper {
         } finally {
             cursor.close();
         }
-        
+
         return new HistoryStats(); // Return empty stats if no data
     }
-    
+
     /**
      * Clear all message history
      */
@@ -237,7 +237,7 @@ public class MessageHistoryDbHelper extends SQLiteOpenHelper {
             Log.e(TAG, "Error clearing message history", e);
         }
     }
-    
+
     /**
      * Cleanup old records to maintain the maximum limit
      */
@@ -250,38 +250,40 @@ public class MessageHistoryDbHelper extends SQLiteOpenHelper {
                 currentCount = cursor.getInt(0);
             }
             cursor.close();
-            
+
             // Delete excess records if over limit
             if (currentCount > MAX_HISTORY_RECORDS) {
                 int recordsToDelete = currentCount - MAX_HISTORY_RECORDS;
-                
-                String deleteQuery = "DELETE FROM " + TABLE_MESSAGE_HISTORY + 
-                    " WHERE " + COLUMN_ID + " IN (" +
-                    "SELECT " + COLUMN_ID + " FROM " + TABLE_MESSAGE_HISTORY + 
-                    " ORDER BY " + COLUMN_FORWARD_TIMESTAMP + " ASC LIMIT " + recordsToDelete + ")";
-                
+
+                String deleteQuery = "DELETE FROM " + TABLE_MESSAGE_HISTORY +
+                        " WHERE " + COLUMN_ID + " IN (" +
+                        "SELECT " + COLUMN_ID + " FROM " + TABLE_MESSAGE_HISTORY +
+                        " ORDER BY " + COLUMN_FORWARD_TIMESTAMP + " ASC LIMIT " + recordsToDelete + ")";
+
                 db.execSQL(deleteQuery);
                 Log.d(TAG, "Cleaned up " + recordsToDelete + " old history records");
             }
-            
+
         } catch (Exception e) {
             Log.e(TAG, "Error during cleanup", e);
         }
     }
-    
+
     /**
-     * Truncate message content to prevent very long messages from consuming too much space
+     * Truncate message content to prevent very long messages from consuming too
+     * much space
      */
     private String truncateMessage(String message) {
-        if (message == null) return "";
-        
+        if (message == null)
+            return "";
+
         final int MAX_MESSAGE_LENGTH = 500; // Store up to 500 characters
         if (message.length() > MAX_MESSAGE_LENGTH) {
             return message.substring(0, MAX_MESSAGE_LENGTH) + "...";
         }
         return message;
     }
-    
+
     /**
      * Create HistoryRecord from cursor
      */
@@ -298,7 +300,7 @@ public class MessageHistoryDbHelper extends SQLiteOpenHelper {
         record.createdAt = cursor.getLong(cursor.getColumnIndexOrThrow(COLUMN_CREATED_AT));
         return record;
     }
-    
+
     /**
      * Represents a single message history record
      */
@@ -312,25 +314,25 @@ public class MessageHistoryDbHelper extends SQLiteOpenHelper {
         public long timestamp; // Original SMS timestamp
         public long forwardTimestamp; // When it was forwarded
         public long createdAt;
-        
+
         public boolean isSuccess() {
             return STATUS_SUCCESS.equals(status);
         }
-        
+
         public boolean isFailed() {
             return STATUS_FAILED.equals(status);
         }
-        
+
         public String getFormattedTimestamp() {
             SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault());
             return formatter.format(new Date(timestamp));
         }
-        
+
         public String getFormattedForwardTimestamp() {
             SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault());
             return formatter.format(new Date(forwardTimestamp));
         }
-        
+
         public String getStatusEmoji() {
             switch (status) {
                 case STATUS_SUCCESS:
@@ -343,7 +345,7 @@ public class MessageHistoryDbHelper extends SQLiteOpenHelper {
                     return "❓";
             }
         }
-        
+
         public String getPlatformEmoji() {
             switch (platform.toLowerCase()) {
                 case "sms":
@@ -360,7 +362,7 @@ public class MessageHistoryDbHelper extends SQLiteOpenHelper {
             }
         }
     }
-    
+
     /**
      * Represents message history statistics
      */
@@ -371,20 +373,21 @@ public class MessageHistoryDbHelper extends SQLiteOpenHelper {
         public int platformCount = 0;
         public long oldestTimestamp = 0;
         public long newestTimestamp = 0;
-        
+
         public double getSuccessRate() {
-            if (totalCount == 0) return 0.0;
+            if (totalCount == 0)
+                return 0.0;
             return (double) successCount / totalCount * 100.0;
         }
-        
+
         public String getTimeSpanDescription() {
             if (oldestTimestamp == 0 || newestTimestamp == 0) {
                 return "No history available";
             }
-            
+
             long spanMs = newestTimestamp - oldestTimestamp;
             long spanDays = spanMs / (24 * 60 * 60 * 1000);
-            
+
             if (spanDays == 0) {
                 return "Today";
             } else if (spanDays == 1) {
@@ -394,4 +397,4 @@ public class MessageHistoryDbHelper extends SQLiteOpenHelper {
             }
         }
     }
-} 
+}

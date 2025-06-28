@@ -18,7 +18,8 @@
     <string name="header_web">Web ile İletim</string>
     <string name="enable_web">Web Etkinleştir</string>
     <string name="target_title_web">Hedef Web URL</string>
-    <string name="target_summary_web">Örnek: https://site.com/api\nBu uygulama SMS alındığında POST isteği gönderecek, istek gövdesi örneği:\n{ "from": "10000", "message": "Merhaba" }</string>
+    <string name="target_summary_web">Örnek: https://site.com/api\nBu uygulama SMS alındığında POST
+        isteği gönderecek, istek gövdesi örneği:\n{ "from": "10000", "message": "Merhaba" }</string>
 
     <!-- Email -->
     <string name="header_email">E-posta ile İletim</string>
@@ -42,10 +43,12 @@
     <string name="test_message_summary">İletim kurulumunu doğrulamak için test mesajı gönder</string>
     <string name="test_message_sent">Test mesajı başarıyla gönderildi!</string>
     <string name="test_message_error">Test mesajı gönderme başarısız: %s</string>
-    <string name="test_message_no_forwarders">Hiçbir iletici etkinleştirilmemiş. Lütfen en az bir iletim yöntemini etkinleştirin.</string>
+    <string name="test_message_no_forwarders">Hiçbir iletici etkinleştirilmemiş. Lütfen en az bir
+        iletim yöntemini etkinleştirin.</string>
 
     <!-- Retry Mechanism -->
-    <string name="retry_mechanism_info">Tüm iletim yöntemleri için otomatik yeniden deneme etkin (üstel geri çekilme ile 3 deneme)</string>
+    <string name="retry_mechanism_info">Tüm iletim yöntemleri için otomatik yeniden deneme etkin
+        (üstel geri çekilme ile 3 deneme)</string>
 
     <!-- Offline Message Queue -->
     <string name="queue_status_title">Mesaj Kuyruğu Durumu</string>
@@ -56,11 +59,12 @@
     <!-- Connection Status -->
     <string name="connection_status_title">Bağlantı Durumu</string>
     <string name="connection_status_summary">Mevcut ağ bağlantısı durumu</string>
-    
+
     <!-- Message Counter -->
     <string name="message_counter_title">Mesaj Sayacı</string>
-    <string name="message_counter_summary">Günlük ve toplam iletilen mesaj istatistiklerini görüntüle</string>
-    
+    <string name="message_counter_summary">Günlük ve toplam iletilen mesaj istatistiklerini
+        görüntüle</string>
+
     <!-- Rate Limiting -->
     <string name="header_rate_limiting">Hız Sınırlaması</string>
     <string name="enable_rate_limiting">Hız Sınırlaması Etkinleştir</string>
@@ -70,17 +74,18 @@
     <string name="rate_limit_status_format">Mevcut: %1$d/10 | Sonraki slot: %2$s</string>
     <string name="rate_limit_available_now">şimdi mevcut</string>
     <string name="rate_limit_seconds">%d saniye</string>
-    
+
     <!-- Appearance -->
     <string name="header_appearance">Görünüm</string>
     <string name="theme_mode_title">Tema</string>
     <string name="theme_mode_summary">Açık, koyu veya sistem teması seç</string>
     <string name="theme_system_fallback">Sistem modu Android 9 ve altında pil tasarrufu kullanır</string>
-    
+
     <!-- Language -->
     <string name="language_title">Dil</string>
     <string name="language_summary">Uygulama dilini seçin</string>
-    <string name="language_restart_required">Dil değişikliğinin etkili olması için uygulama yeniden başlatılmalıdır</string>
+    <string name="language_restart_required">Dil değişikliğinin etkili olması için uygulama yeniden
+        başlatılmalıdır</string>
     <string name="connection_online">%1$s Çevrimiçi (%2$s)</string>
     <string name="connection_offline">🔴 Çevrimdışı</string>
     <string name="connection_unknown">❓ Bilinmiyor</string>
@@ -89,7 +94,7 @@
     <string name="connection_quality_poor">Ağ Kalitesi: Zayıf</string>
     <string name="connection_can_forward">✅ Mesaj iletmeye hazır</string>
     <string name="connection_cannot_forward">❌ Mesaj iletilemez (çevrimdışı)</string>
-    
+
     <!-- Backup & Restore -->
     <string name="header_backup">Yedekleme ve Geri Yükleme</string>
     <string name="export_settings_title">Ayarları Dışa Aktar</string>
@@ -101,23 +106,25 @@
     <string name="import_success">%s</string>
     <string name="import_error">İçe aktarma başarısız: %s</string>
     <string name="backup_file_description">SMS İletici Ayarları Yedeği</string>
-    
+
     <!-- Message History -->
     <string name="message_history_title">Mesaj Geçmişi</string>
     <string name="message_history_summary">Son 100 iletilen mesajı görüntüle</string>
     <string name="clear_history_title">Geçmişi Temizle</string>
     <string name="clear_history_summary">Tüm mesaj geçmişi kayıtlarını sil</string>
-    <string name="clear_history_confirmation">Tüm mesaj geçmişini silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.</string>
+    <string name="clear_history_confirmation">Tüm mesaj geçmişini silmek istediğinizden emin
+        misiniz? Bu işlem geri alınamaz.</string>
     <string name="history_cleared">Mesaj geçmişi başarıyla temizlendi</string>
     <string name="history_empty">Mesaj geçmişi mevcut değil</string>
-    <string name="history_stats_format" formatted="false">Toplam: %1$d | Başarılı: %2$d (%.1f%%) | Başarısız: %3$d</string>
-    
+    <string name="history_stats_format" formatted="false">Toplam: %1$d | Başarılı: %2$d (%.1f%%) |
+        Başarısız: %3$d</string>
+
     <!-- Message Formats -->
     <string name="sms_message_format">%1$s\'den:\n%2$s\nAlındığı zaman: %3$s</string>
     <string name="telegram_message_format">%1$s\'den mesaj:\n%2$s\nAlındığı zaman: %3$s</string>
     <string name="email_subject_format">SMS: %1$s</string>
     <string name="email_body_format">%1$s\n\nAlındığı zaman: %2$s</string>
-    
+
     <!-- About -->
     <string name="header_about">Hakkında</string>
     <string name="about_title">SMS İletici Hakkında</string>
@@ -130,9 +137,13 @@
     <string name="about_license_title">Lisans</string>
     <string name="about_license_name">MIT Lisansı</string>
     <string name="about_description_title">Açıklama</string>
-    <string name="about_description_text">SMS İletici, SMS mesajlarını SMS, Telegram, E-posta ve Web API\'leri dahil olmak üzere birden fazla platform arasında iletmek için minimal ve verimli bir Android uygulamasıdır.</string>
+    <string name="about_description_text">SMS İletici, SMS mesajlarını SMS, Telegram, E-posta ve Web
+        API\'leri dahil olmak üzere birden fazla platform arasında iletmek için minimal ve verimli
+        bir Android uygulamasıdır.</string>
     <string name="about_features_title">Temel Özellikler</string>
-    <string name="about_features_text">• Çoklu platform iletimi\n• Otomatik yeniden deneme\n• Çevrimdışı mesaj kuyruğu\n• Hız sınırlaması koruması\n• Mesaj geçmişi takibi\n• Çoklu dil desteği\n• Karanlık mod teması\n• Ayar yedekleme/geri yükleme</string>
+    <string name="about_features_text">• Çoklu platform iletimi\n• Otomatik yeniden deneme\n•
+        Çevrimdışı mesaj kuyruğu\n• Hız sınırlaması koruması\n• Mesaj geçmişi takibi\n• Çoklu dil
+        desteği\n• Karanlık mod teması\n• Ayar yedekleme/geri yükleme</string>
     <string name="about_build_info_title">Yapı Bilgileri</string>
     <string name="about_package_name">Paket: %s</string>
     <string name="about_min_sdk">Minimum Android: API %d</string>

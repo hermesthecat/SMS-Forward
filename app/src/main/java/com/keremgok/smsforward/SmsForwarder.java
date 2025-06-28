@@ -38,7 +38,7 @@ public final class SmsForwarder implements Forwarder {
     public void forward(String fromNumber, String content, long timestamp) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault());
         String formattedDate = dateFormat.format(new Date(timestamp));
-        
+
         String message;
         if (context != null) {
             message = context.getString(R.string.sms_message_format, fromNumber, content, formattedDate);
@@ -46,7 +46,7 @@ public final class SmsForwarder implements Forwarder {
             // Fallback for backward compatibility
             message = String.format("From %s:\n%s\nReceived at: %s", fromNumber, content, formattedDate);
         }
-        
+
         SmsForwarder.sendSmsTo(forwardToNumber, message);
     }
-} 
+}

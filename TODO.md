@@ -62,7 +62,7 @@
 ### Code Quality
 
 - [ ] **Unit Tests** - Add comprehensive test coverage
-- [ ] **Error Handling** - Improve exception handling
+- [x] **Memory Leaks** - Fix potential memory issues ✅ _Completed in v1.12.0_
 - [ ] **Code Documentation** - Add JavaDoc comments
 - [ ] **Performance Optimization** - Reduce memory usage
 
@@ -71,7 +71,7 @@
 - [ ] **Database Migration** - Add SQLite for data storage
 - [ ] **Dependency Injection** - Use modern DI framework
 - [ ] **Background Processing** - Use JobScheduler/WorkManager
-- [ ] **Memory Leaks** - Fix potential memory issues
+- [x] **Resource Management** - Proper cleanup of executors and connections ✅ _Completed in v1.12.0_
 
 ## 🚀 **Quick Wins (Easy Implementation)**
 
@@ -80,9 +80,49 @@
 3. ~~**Connection Status** - 2 days~~ ✅ _Completed_
 4. ~~**Dark Mode** - 1 day~~ ✅ _Completed_
 5. ~~**Message History** - 2 days~~ ✅ _Completed_
-6. **Better Error Messages** - 2 days
+6. ~~**Memory Leak Fixes** - 2 days~~ ✅ _Completed_
+7. **Better Error Messages** - 2 days
 
 ## 📝 **Implementation Notes**
+
+### Memory Leak Fixes ✅ COMPLETED
+
+```java
+// Fixed static context references in SmsReceiver
+public class SmsReceiver extends BroadcastReceiver {
+    // Removed static fields that held context references
+    // Initialize instances per onReceive call to avoid leaks
+    
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        MessageQueueProcessor queueProcessor = new MessageQueueProcessor(context);
+        MessageStatsDbHelper statsDbHelper = new MessageStatsDbHelper(context);
+        MessageHistoryDbHelper historyDbHelper = new MessageHistoryDbHelper(context);
+        // ... rest of implementation
+    }
+}
+
+// Added proper cleanup in MainActivity
+@Override
+public void onDestroy() {
+    super.onDestroy();
+    // Cleanup to prevent memory leaks
+    if (networkStatusManager != null) {
+        networkStatusManager.removeListener(this);
+        networkStatusManager.stopMonitoring();
+    }
+    
+    // Close database helpers to free resources
+    if (historyDbHelper != null) {
+        historyDbHelper.close();
+    }
+}
+
+// Added RetryableForwarder cleanup in test methods
+for (RetryableForwarder retryableForwarder : retryableForwarders) {
+    retryableForwarder.shutdown();
+}
+```
 
 ### Retry Mechanism
 
@@ -154,6 +194,23 @@ public class MessageHistoryDbHelper {
 ---
 
 ## ✅ **Recently Completed**
+
+### Version 1.12.0 - Memory Leak Fixes
+
+- [x] **Static Context References** - Removed static fields in SmsReceiver that held context references
+- [x] **Database Helper Cleanup** - Added proper close() calls for database helpers
+- [x] **NetworkStatusManager Cleanup** - Added stopMonitoring() calls in onDestroy lifecycle
+- [x] **ExecutorService Shutdown** - Added shutdown() calls for RetryableForwarder executors
+- [x] **Application Cleanup** - Added onTerminate() cleanup in Application class
+- [x] **Resource Management** - Proper cleanup of all background threads and connections
+
+Memory leak fixes details:
+
+- **SmsReceiver**: Removed static MessageQueueProcessor, MessageStatsDbHelper, MessageHistoryDbHelper, and RateLimiter instances
+- **MainActivity**: Added onDestroy() method with proper cleanup of NetworkStatusManager and database helpers
+- **Test Methods**: Added cleanup of RetryableForwarder instances after test message sending
+- **Database Operations**: Added try-with-resources pattern for database helpers in UI methods
+- **Application Class**: Added onTerminate() method for global resource cleanup
 
 ### Version 1.11.0 - Multi-language Support & About Page
 

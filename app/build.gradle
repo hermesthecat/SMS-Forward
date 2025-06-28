@@ -5,8 +5,8 @@ android {
     defaultConfig {
         applicationId "com.keremgok.smsforward"
         minSdkVersion 25
-        versionCode 12
-        versionName "1.11.0"
+        versionCode 13
+        versionName "1.12.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

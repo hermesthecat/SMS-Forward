@@ -56,4 +56,4 @@ public abstract class AbstractWebForwarder implements Forwarder {
     protected abstract byte[] makeBody(String fromNumber, String content);
 
     protected abstract String getContentType();
-} 
+}

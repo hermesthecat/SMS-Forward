@@ -4,7 +4,7 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
-    
+
     <!-- Material Design 3 Light Theme Colors -->
     <color name="md_theme_light_primary">#6750A4</color>
     <color name="md_theme_light_onPrimary">#FFFFFF</color>
@@ -34,7 +34,7 @@
     <color name="md_theme_light_inverseSurface">#313033</color>
     <color name="md_theme_light_inverseOnSurface">#F4EFF4</color>
     <color name="md_theme_light_inversePrimary">#D0BCFF</color>
-    
+
     <!-- Material Design 3 Dark Theme Colors -->
     <color name="md_theme_dark_primary">#D0BCFF</color>
     <color name="md_theme_dark_onPrimary">#381E72</color>

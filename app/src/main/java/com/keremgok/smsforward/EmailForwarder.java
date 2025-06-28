@@ -25,7 +25,8 @@ public final class EmailForwarder implements Forwarder {
     private final Authenticator authenticator;
     private final Context context;
 
-    public EmailForwarder(InternetAddress fromAddress, InternetAddress[] toAddresses, String smtpHost, short port, String username, String password) {
+    public EmailForwarder(InternetAddress fromAddress, InternetAddress[] toAddresses, String smtpHost, short port,
+            String username, String password) {
         this.fromAddress = fromAddress;
         this.toAddresses = toAddresses;
         this.context = null; // For backward compatibility
@@ -59,7 +60,8 @@ public final class EmailForwarder implements Forwarder {
         };
     }
 
-    public EmailForwarder(InternetAddress fromAddress, InternetAddress[] toAddresses, String smtpHost, short port, String username, String password, Context context) {
+    public EmailForwarder(InternetAddress fromAddress, InternetAddress[] toAddresses, String smtpHost, short port,
+            String username, String password, Context context) {
         this.fromAddress = fromAddress;
         this.toAddresses = toAddresses;
         this.context = context;
@@ -108,10 +110,11 @@ public final class EmailForwarder implements Forwarder {
         } catch (UnsupportedEncodingException e) {
             prettyFromAddress = fromAddress;
         }
-        
-        java.text.SimpleDateFormat dateFormat = new java.text.SimpleDateFormat("dd/MM/yyyy HH:mm:ss", java.util.Locale.getDefault());
+
+        java.text.SimpleDateFormat dateFormat = new java.text.SimpleDateFormat("dd/MM/yyyy HH:mm:ss",
+                java.util.Locale.getDefault());
         String formattedDate = dateFormat.format(new java.util.Date(timestamp));
-        
+
         String emailBody;
         String subject;
         if (context != null) {
@@ -122,7 +125,7 @@ public final class EmailForwarder implements Forwarder {
             emailBody = content + "\n\nReceived at: " + formattedDate;
             subject = "SMS from: " + fromNumber;
         }
-        
+
         Session session = Session.getInstance(props, authenticator);
         MimeMessage message = new MimeMessage(session);
         message.setFrom(prettyFromAddress);
@@ -131,4 +134,4 @@ public final class EmailForwarder implements Forwarder {
         message.setText(emailBody, "UTF-8");
         Transport.send(message);
     }
-} 
+}

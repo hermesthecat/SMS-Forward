@@ -8,26 +8,27 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.preference.PreferenceManager;
 
 /**
- * Manages application theme switching between light, dark, and system default modes.
+ * Manages application theme switching between light, dark, and system default
+ * modes.
  * Uses AppCompatDelegate to apply themes system-wide.
  */
 public class ThemeManager {
     private static final String TAG = "ThemeManager";
-    
+
     // Theme mode constants
     public static final String THEME_LIGHT = "light";
     public static final String THEME_DARK = "dark";
     public static final String THEME_SYSTEM = "system";
     public static final String DEFAULT_THEME = THEME_SYSTEM;
-    
+
     private final Context context;
     private final SharedPreferences preferences;
-    
+
     public ThemeManager(Context context) {
         this.context = context.getApplicationContext();
         this.preferences = PreferenceManager.getDefaultSharedPreferences(this.context);
     }
-    
+
     /**
      * Apply the currently selected theme
      */
@@ -35,7 +36,7 @@ public class ThemeManager {
         String themeMode = getCurrentThemeMode();
         applyTheme(themeMode);
     }
-    
+
     /**
      * Apply a specific theme mode
      * 
@@ -43,7 +44,7 @@ public class ThemeManager {
      */
     public void applyTheme(String themeMode) {
         int nightMode;
-        
+
         switch (themeMode) {
             case THEME_LIGHT:
                 nightMode = AppCompatDelegate.MODE_NIGHT_NO;
@@ -53,7 +54,8 @@ public class ThemeManager {
                 break;
             case THEME_SYSTEM:
             default:
-                // Use system default (requires API 29+, fallback to battery saver for older versions)
+                // Use system default (requires API 29+, fallback to battery saver for older
+                // versions)
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                     nightMode = AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM;
                 } else {
@@ -62,11 +64,11 @@ public class ThemeManager {
                 }
                 break;
         }
-        
+
         // Apply the theme
         AppCompatDelegate.setDefaultNightMode(nightMode);
     }
-    
+
     /**
      * Get the currently selected theme mode from preferences
      * 
@@ -76,7 +78,7 @@ public class ThemeManager {
         String themeKey = context.getString(R.string.key_theme_mode);
         return preferences.getString(themeKey, DEFAULT_THEME);
     }
-    
+
     /**
      * Set the theme mode and apply it
      * 
@@ -86,11 +88,11 @@ public class ThemeManager {
         // Save preference
         String themeKey = context.getString(R.string.key_theme_mode);
         preferences.edit().putString(themeKey, themeMode).apply();
-        
+
         // Apply immediately
         applyTheme(themeMode);
     }
-    
+
     /**
      * Check if the current theme is dark mode
      * Note: This checks the actual applied theme, not just the preference
@@ -98,11 +100,11 @@ public class ThemeManager {
      * @return true if dark mode is currently active
      */
     public boolean isDarkMode() {
-        int nightMode = context.getResources().getConfiguration().uiMode 
+        int nightMode = context.getResources().getConfiguration().uiMode
                 & android.content.res.Configuration.UI_MODE_NIGHT_MASK;
         return nightMode == android.content.res.Configuration.UI_MODE_NIGHT_YES;
     }
-    
+
     /**
      * Get a user-friendly description of the current theme
      * 
@@ -125,7 +127,7 @@ public class ThemeManager {
                 return "Unknown";
         }
     }
-    
+
     /**
      * Initialize theme on application startup
      * Should be called in Application.onCreate() or MainActivity.onCreate()
@@ -134,7 +136,7 @@ public class ThemeManager {
         ThemeManager themeManager = new ThemeManager(context);
         themeManager.applyTheme();
     }
-    
+
     /**
      * Check if system dark mode is supported on this device
      * 
@@ -143,7 +145,7 @@ public class ThemeManager {
     public static boolean isSystemDarkModeSupported() {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q;
     }
-    
+
     /**
      * Get the fallback behavior description for older devices
      * 
@@ -156,4 +158,4 @@ public class ThemeManager {
             return "Follows battery saver mode (Android 9 and below)";
         }
     }
-} 
+}

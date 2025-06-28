@@ -148,7 +148,7 @@ public class MessageQueueProcessor {
                 // Check rate limit before processing each message if enabled
                 if (enableRateLimiting && !rateLimiter.isForwardingAllowed()) {
                     Log.d(TAG, String.format("Rate limit reached during queue processing. " +
-                            "Current count: %d/10. Skipping remaining messages in this cycle.", 
+                            "Current count: %d/10. Skipping remaining messages in this cycle.",
                             rateLimiter.getCurrentForwardCount()));
                     break; // Stop processing this cycle, will retry in next cycle
                 }

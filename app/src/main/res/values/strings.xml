@@ -75,12 +75,12 @@
     <string name="key_connection_status" translatable="false">key_connection_status</string>
     <string name="connection_status_title">Connection Status</string>
     <string name="connection_status_summary">Current network connectivity status</string>
-    
+
     <!-- Message Counter -->
     <string name="key_message_counter">message_counter</string>
     <string name="message_counter_title">Message Counter</string>
     <string name="message_counter_summary">View daily and total forwarded message statistics</string>
-    
+
     <!-- Rate Limiting -->
     <string name="key_enable_rate_limiting" translatable="false">key_enable_rate_limiting</string>
     <string name="header_rate_limiting">Rate Limiting</string>
@@ -92,14 +92,14 @@
     <string name="rate_limit_status_format">Current: %1$d/10 | Next slot: %2$s</string>
     <string name="rate_limit_available_now">available now</string>
     <string name="rate_limit_seconds">%d seconds</string>
-    
+
     <!-- Appearance -->
     <string name="header_appearance">Appearance</string>
     <string name="key_theme_mode">theme_mode</string>
     <string name="theme_mode_title">Theme</string>
     <string name="theme_mode_summary">Choose light, dark, or system theme</string>
     <string name="theme_system_fallback">System mode uses battery saver on Android 9 and below</string>
-    
+
     <!-- Language -->
     <string name="key_language">language</string>
     <string name="language_title">Language</string>
@@ -113,7 +113,7 @@
     <string name="connection_quality_poor">Network Quality: Poor</string>
     <string name="connection_can_forward">✅ Ready to forward messages</string>
     <string name="connection_cannot_forward">❌ Cannot forward messages (offline)</string>
-    
+
     <!-- Backup & Restore -->
     <string name="header_backup">Backup &amp; Restore</string>
     <string name="key_export_settings" translatable="false">key_export_settings</string>
@@ -127,7 +127,7 @@
     <string name="import_success">%s</string>
     <string name="import_error">Import failed: %s</string>
     <string name="backup_file_description">SMS Forward Settings Backup</string>
-    
+
     <!-- Message History -->
     <string name="key_message_history" translatable="false">key_message_history</string>
     <string name="key_clear_history" translatable="false">key_clear_history</string>
@@ -135,17 +135,19 @@
     <string name="message_history_summary">View last 100 forwarded messages</string>
     <string name="clear_history_title">Clear History</string>
     <string name="clear_history_summary">Delete all message history records</string>
-    <string name="clear_history_confirmation">Are you sure you want to delete all message history? This action cannot be undone.</string>
+    <string name="clear_history_confirmation">Are you sure you want to delete all message history?
+        This action cannot be undone.</string>
     <string name="history_cleared">Message history cleared successfully</string>
     <string name="history_empty">No message history available</string>
-    <string name="history_stats_format" formatted="false">Total: %1$d | Success: %2$d (%.1f%%) | Failed: %3$d</string>
-    
+    <string name="history_stats_format" formatted="false">Total: %1$d | Success: %2$d (%.1f%%) |
+        Failed: %3$d</string>
+
     <!-- Message Formats -->
     <string name="sms_message_format">From %1$s:\n%2$s\nReceived at: %3$s</string>
     <string name="telegram_message_format">Message from %1$s:\n%2$s\nReceived at: %3$s</string>
     <string name="email_subject_format">SMS from: %1$s</string>
     <string name="email_body_format">%1$s\n\nReceived at: %2$s</string>
-    
+
     <!-- About -->
     <string name="header_about">About</string>
     <string name="key_about" translatable="false">key_about</string>
@@ -159,9 +161,13 @@
     <string name="about_license_title">License</string>
     <string name="about_license_name">MIT License</string>
     <string name="about_description_title">Description</string>
-    <string name="about_description_text">SMS Forward is a minimal, efficient Android application for forwarding SMS messages across multiple platforms including SMS, Telegram, Email, and Web APIs.</string>
+    <string name="about_description_text">SMS Forward is a minimal, efficient Android application
+        for forwarding SMS messages across multiple platforms including SMS, Telegram, Email, and
+        Web APIs.</string>
     <string name="about_features_title">Key Features</string>
-    <string name="about_features_text">• Multi-platform forwarding\n• Automatic retry mechanism\n• Offline message queue\n• Rate limiting protection\n• Message history tracking\n• Multi-language support\n• Dark mode theme\n• Settings backup/restore</string>
+    <string name="about_features_text">• Multi-platform forwarding\n• Automatic retry mechanism\n•
+        Offline message queue\n• Rate limiting protection\n• Message history tracking\n•
+        Multi-language support\n• Dark mode theme\n• Settings backup/restore</string>
     <string name="about_build_info_title">Build Information</string>
     <string name="about_package_name">Package: %s</string>
     <string name="about_min_sdk">Minimum Android: API %d</string>
