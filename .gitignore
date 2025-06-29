@@ -22,3 +22,6 @@ gradle.properties
 *.apk
 !app-debug.apk
 SHA256SUMS
+
+# Cursor
+.cursor/
