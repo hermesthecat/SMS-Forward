@@ -49,7 +49,6 @@
 - [ ] **Smart Notifications** - Group similar notifications
 - [ ] **Quiet Hours** - Disable forwarding at night
 - [ ] **Keyword Routing** - Route to different platforms by content
-- [ ] **AI Spam Detection** - Machine learning spam filter
 
 ### Enterprise Features
 
