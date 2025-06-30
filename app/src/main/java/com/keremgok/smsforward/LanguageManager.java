@@ -17,6 +17,7 @@ import java.util.Locale;
  */
 public class LanguageManager {
     private static final String TAG = "LanguageManager";
+    public static final String KEY_LANGUAGE = "key_language";
 
     private final Context context;
     private final SharedPreferences preferences;
@@ -27,17 +28,50 @@ public class LanguageManager {
     }
 
     /**
+     * Wraps the given context with the selected language configuration.
+     * This method should be called in `attachBaseContext` of Application and Activity classes.
+     *
+     * @param context The base context.
+     * @return A new context with the updated locale.
+     */
+    public static Context wrapContext(Context context) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        String languageCode = prefs.getString(KEY_LANGUAGE, "system");
+
+        if ("system".equals(languageCode)) {
+            return context;
+        }
+
+        Locale locale = new Locale(languageCode);
+        Locale.setDefault(locale);
+
+        Configuration config = context.getResources().getConfiguration();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            config.setLocale(locale);
+        } else {
+            config.locale = locale;
+        }
+
+        return context.createConfigurationContext(config);
+    }
+
+    /**
      * Apply the selected language to the application context
      */
     public void applyLanguage() {
         String languageCode = getSelectedLanguage();
+        Locale locale;
 
         if ("system".equals(languageCode)) {
-            // Use system default language
-            return;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                locale = Resources.getSystem().getConfiguration().getLocales().get(0);
+            } else {
+                locale = Resources.getSystem().getConfiguration().locale;
+            }
+        } else {
+            locale = new Locale(languageCode);
         }
 
-        Locale locale = new Locale(languageCode);
         setLocale(locale);
     }
 
@@ -45,42 +79,29 @@ public class LanguageManager {
      * Get the currently selected language code
      */
     public String getSelectedLanguage() {
-        return preferences.getString(context.getString(R.string.key_language), "system");
+        return preferences.getString(KEY_LANGUAGE, "system");
     }
 
     /**
-     * Set the app language
+     * Set the app language and apply it.
      */
     public void setLanguage(String languageCode) {
         preferences.edit()
-                .putString(context.getString(R.string.key_language), languageCode)
+                .putString(KEY_LANGUAGE, languageCode)
                 .apply();
-
-        if (!"system".equals(languageCode)) {
-            Locale locale = new Locale(languageCode);
-            setLocale(locale);
-        }
     }
 
     /**
-     * Set the locale for the application
+     * Set the locale for the application.
+     * This method is primarily for runtime changes and might not be fully effective
+     * without recreating the Activity. The recommended approach is using `wrapContext`.
      */
     private void setLocale(Locale locale) {
-        Resources resources = context.getResources();
-        DisplayMetrics displayMetrics = resources.getDisplayMetrics();
-        Configuration configuration = resources.getConfiguration();
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            configuration.setLocale(locale);
-            context.createConfigurationContext(configuration);
-        } else {
-            configuration.locale = locale;
-        }
-
-        resources.updateConfiguration(configuration, displayMetrics);
-
-        // Also set the default locale for the JVM
         Locale.setDefault(locale);
+        Resources resources = context.getResources();
+        Configuration config = new Configuration(resources.getConfiguration());
+        config.setLocale(locale);
+        resources.updateConfiguration(config, resources.getDisplayMetrics());
     }
 
     /**

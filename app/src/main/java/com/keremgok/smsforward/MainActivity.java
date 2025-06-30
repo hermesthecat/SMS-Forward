@@ -1,6 +1,7 @@
 package com.keremgok.smsforward;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -25,11 +26,12 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        // Initialize language before calling super.onCreate()
-        LanguageManager languageManager = new LanguageManager(this);
-        languageManager.applyLanguage();
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(LanguageManager.wrapContext(newBase));
+    }
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
         // Initialize theme before calling super.onCreate()
         ThemeManager.initializeTheme(this);
 
@@ -159,7 +161,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             // Set up language preference listener
-            androidx.preference.ListPreference languagePreference = findPreference(getString(R.string.key_language));
+            androidx.preference.ListPreference languagePreference = findPreference(LanguageManager.KEY_LANGUAGE);
             if (languagePreference != null) {
                 // Set initial summary
                 updateLanguageSummary(languagePreference);
@@ -171,11 +173,8 @@ public class MainActivity extends AppCompatActivity {
                                     Object newValue) {
                                 String newLanguage = (String) newValue;
 
-                                // Apply the new language
+                                // Save the new language setting
                                 languageManager.setLanguage(newLanguage);
-
-                                // Update summary
-                                updateLanguageSummary((androidx.preference.ListPreference) preference);
 
                                 // Show restart dialog
                                 showLanguageRestartDialog();
@@ -707,24 +706,19 @@ public class MainActivity extends AppCompatActivity {
         }
 
         private void showLanguageRestartDialog() {
-            if (getContext() == null)
-                return;
-
             new AlertDialog.Builder(getContext())
-                    .setTitle(getString(R.string.language_title))
-                    .setMessage(getString(R.string.language_restart_required))
-                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    .setTitle(R.string.language_restart_title)
+                    .setMessage(R.string.language_restart_message)
+                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            // Restart the app
+                            // Recreate activity to apply language change
                             if (getActivity() != null) {
-                                Intent intent = getActivity().getIntent();
-                                getActivity().finish();
-                                startActivity(intent);
+                                getActivity().recreate();
                             }
                         }
                     })
-                    .setNegativeButton("Later", null)
+                    .setNegativeButton(android.R.string.cancel, null)
                     .show();
         }
 

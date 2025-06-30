@@ -1,6 +1,8 @@
 package com.keremgok.smsforward;
 
 import android.app.Application;
+import android.content.Context;
+import android.content.res.Configuration;
 
 /**
  * Custom Application class to initialize language settings at app startup
@@ -9,12 +11,24 @@ import android.app.Application;
 public class SmsForwardApplication extends Application {
 
     @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(LanguageManager.wrapContext(base));
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        // Also apply language to the base context
+        LanguageManager languageManager = new LanguageManager(this);
+        languageManager.applyLanguage();
+    }
+
+    @Override
     public void onCreate() {
         super.onCreate();
 
-        // Initialize language settings
-        LanguageManager languageManager = new LanguageManager(this);
-        languageManager.applyLanguage();
+        // Language is now initialized in attachBaseContext.
+        // The rest of the app initialization can go here.
     }
 
     @Override
