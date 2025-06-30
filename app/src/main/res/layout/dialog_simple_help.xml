@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <!-- Help Icon -->
+    <ImageView
+        android:id="@+id/help_icon"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="16dp"
+        android:src="@drawable/ic_help"
+        android:tint="?attr/colorPrimary"
+        android:contentDescription="@string/help_icon_desc" />
+
+    <!-- Help Title -->
+    <TextView
+        android:id="@+id/help_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/help_title"
+        android:textAppearance="?attr/textAppearanceHeadlineSmall"
+        android:textColor="?attr/colorOnSurface"
+        android:gravity="center"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Help Message -->
+    <TextView
+        android:id="@+id/help_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/help_message"
+        android:textAppearance="?attr/textAppearanceBodyMedium"
+        android:textColor="?attr/colorOnSurfaceVariant"
+        android:gravity="center"
+        android:lineSpacingMultiplier="1.2"
+        android:layout_marginBottom="24dp" />
+
+    <!-- OK Button -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/help_ok_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/help_ok"
+        android:minWidth="120dp"
+        style="@style/Widget.AppCompat.Button" />
+
+</LinearLayout> 

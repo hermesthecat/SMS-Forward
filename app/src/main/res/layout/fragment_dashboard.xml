@@ -77,14 +77,32 @@
                     android:orientation="vertical"
                     android:padding="20dp">
 
-                    <TextView
-                        android:id="@+id/welcomeText"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/dashboard_welcome"
-                        android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall"
-                        android:textColor="?attr/colorOnSurface"
-                        android:gravity="center" />
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+
+                        <TextView
+                            android:id="@+id/welcomeText"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/dashboard_welcome"
+                            android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall"
+                            android:textColor="?attr/colorOnSurface"
+                            android:gravity="center" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/helpButton"
+                            style="@style/Widget.AppCompat.Button.Borderless"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:contentDescription="@string/help_button_desc"
+                            app:icon="@drawable/ic_help"
+                            app:iconSize="24dp" />
+
+                    </LinearLayout>
 
                     <TextView
                         android:id="@+id/statusText"

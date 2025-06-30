@@ -32,6 +32,7 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity {
 
     private SecurityManager securityManager;
+    private HelpManager helpManager;
     private static final int REQUEST_CODE_AUTHENTICATION = 1001;
 
     @Override
@@ -48,6 +49,9 @@ public class MainActivity extends AppCompatActivity {
         
         // Initialize security manager
         securityManager = new SecurityManager(this);
+        
+        // Initialize help manager
+        helpManager = new HelpManager(this);
         
         // Check if authentication is required
         if (securityManager.needsAuthentication()) {
@@ -98,6 +102,11 @@ public class MainActivity extends AppCompatActivity {
 
         // Setup Navigation Component
         setupNavigation();
+        
+        // Show first launch help if needed
+        if (helpManager != null) {
+            helpManager.showWelcome();
+        }
     }
     
     private void setupNavigation() {

@@ -397,4 +397,34 @@
     <string name="backup_component_filters">Gelişmiş Filtreler</string>
     <string name="backup_component_statistics">İstatistikler</string>
 
+    <!-- v1.19.0: Yardım Sistemi -->
+    <string name="help_title">Yardım</string>
+    <string name="help_message">Yardım bilgisi</string>
+    <string name="help_ok">Anladım</string>
+    <string name="help_icon_desc">Yardım simgesi</string>
+    
+    <!-- Yardım Dialog Başlıkları -->
+    <string name="help_dashboard_title">Ana Panel Genel Bakış</string>
+    <string name="help_forwarders_title">SMS İletimi Kurulumu</string>
+    <string name="help_security_title">Güvenlik Özellikleri</string>
+    <string name="help_filters_title">Gelişmiş Filtreleme</string>
+    <string name="help_backup_title">Yedekleme Yönetimi</string>
+    <string name="help_general_title">SMS İletici\'ye Hoş Geldiniz</string>
+    
+    <!-- Yardım Dialog Mesajları -->
+    <string name="help_dashboard_message">Ana Panel, SMS iletim durumunuzun gerçek zamanlı genel görünümünü sunar. Burada şunları görebilirsiniz:\n\n• İletilen toplam mesaj sayısı\n• Aktif ileticilerin durumu\n• Son etkinlik ve istatistikler\n• Sistem sağlık göstergeleri\n\nİletim performansınızı hızlıca izlemek için durum kartlarını kullanın.</string>
+    <string name="help_forwarders_message">SMS mesajlarınız için birden fazla iletim hedefi ayarlayın:\n\n• SMS İletimi: Diğer telefon numaralarına iletin\n• Telegram: Telegram sohbetlerine veya kanallarına gönderin\n• E-posta: E-posta adreslerine iletin\n• Webhook: Özel web hizmetlerine veya API\'lere gönderin\n\nHer iletici, özel ayarlar ve filtrelerle bağımsız olarak yapılandırılabilir.</string>
+    <string name="help_security_message">SMS iletimini gelişmiş güvenlik özellikleriyle koruyun:\n\n• PIN Koruması: Uygulama erişimini PIN kodu ile güvence altına alın\n• Biyometrik Kimlik Doğrulama: Parmak izi veya yüz kilidi kullanın\n• Şifrelenmiş Depolama: Tüm veriler yerel olarak şifrelenir\n• İzin Yönetimi: Uygulama izinlerini kontrol edin\n\nMesajlarınızın gizli ve güvenli kalmasını sağlamak için bu özellikleri etkinleştirin.</string>
+    <string name="help_filters_message">Hangi mesajların iletileceğini kontrol etmek için akıllı filtreler oluşturun:\n\n• Gönderen Filtreleri: Telefon numarasına veya kişiye göre filtrele\n• İçerik Filtreleri: Anahtar kelimeler veya regex kalıpları kullanın\n• Zaman Tabanlı Filtreler: İletim için aktif saatler belirleyin\n• Öncelik Filtreleri: Önemli mesajları farklı şekilde işleyin\n\nFiltreler gürültüyü azaltır ve yalnızca ilgili mesajların iletilmesini sağlar.</string>
+    <string name="help_backup_message">SMS İletici yapılandırmanızı güvenle yedekleyin ve geri yükleyin:\n\n• Tam Yedekleme: Tüm uygulama ayarları ve verileri\n• Seçmeli Yedekleme: Belirli bileşenleri seçin\n• Otomatik Zamanlama: Düzenli yedek oluşturma\n• Bulut Entegrasyonu: Yedekleri güvenle saklayın\n\nDüzenli yedeklemeler iletim kurulumunuzu asla kaybetmemenizi sağlar.</string>
+    <string name="help_general_message">SMS İletici\'ye hoş geldiniz - en gelişmiş SMS iletim çözümü!\n\nTemel Özellikler:\n• Çoklu platform iletimi (SMS, Telegram, E-posta, Webhook)\n• Gelişmiş filtreleme ve kurallar\n• Gerçek zamanlı panel ve analizler\n• Kapsamlı yedekleme sistemi\n• Kurumsal düzeyde güvenlik\n\nİleticiler sekmesinde ilk iletici kurulumunuzu yaparak başlayın!</string>
+    
+    <!-- Yardım Düğmesi ve İşlemler -->
+    <string name="help_button_desc">Yardım bilgisini göster</string>
+    <string name="help_learn_more">Daha Fazla Öğren</string>
+    <string name="help_get_started">Başlayın</string>
+    <string name="help_setup_now">Şimdi Kur</string>
+    <string name="help_skip">Atla</string>
+    <string name="help_close">Kapat</string>
+
 </resources> 

@@ -22,6 +22,7 @@ import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.materialswitch.MaterialSwitch;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.google.android.material.snackbar.Snackbar;
+import com.keremgok.smsforward.HelpManager;
 import com.keremgok.smsforward.LanguageManager;
 import com.keremgok.smsforward.MainActivity;
 import com.keremgok.smsforward.MessageStatsDbHelper;
@@ -45,6 +46,7 @@ public class DashboardFragment extends Fragment implements NetworkStatusManager.
     private NetworkStatusManager networkStatusManager;
     private SharedViewModel sharedViewModel;
     private SecurityManager securityManager;
+    private HelpManager helpManager;
     
     // Auto-refresh components
     private Handler autoRefreshHandler;
@@ -73,6 +75,7 @@ public class DashboardFragment extends Fragment implements NetworkStatusManager.
     private MaterialButton refreshButton;
     private MaterialButton viewStatsButton;
     private MaterialButton viewHistoryButton;
+    private MaterialButton helpButton;
     private View loadingStateContainer;
 
     @Override
@@ -105,6 +108,7 @@ public class DashboardFragment extends Fragment implements NetworkStatusManager.
         if (getContext() != null) {
             networkStatusManager = NetworkStatusManager.getInstance(getContext());
             securityManager = new SecurityManager(getContext());
+            helpManager = new HelpManager(getContext());
         }
         
         // Setup ViewModel
@@ -206,6 +210,9 @@ public class DashboardFragment extends Fragment implements NetworkStatusManager.
         viewStatsButton = rootView.findViewById(R.id.viewStatsButton);
         viewHistoryButton = rootView.findViewById(R.id.viewHistoryButton);
         
+        // Help button
+        helpButton = rootView.findViewById(R.id.helpButton);
+        
         // Loading state
         loadingStateContainer = rootView.findViewById(R.id.loadingStateContainer);
         
@@ -294,6 +301,15 @@ public class DashboardFragment extends Fragment implements NetworkStatusManager.
                 // Navigate to Data tab and show history
                 navigateToTab(R.id.nav_data);
                 showSnackbar("Message history available in Data tab");
+            });
+        }
+        
+        // Help button listener
+        if (helpButton != null) {
+            helpButton.setOnClickListener(v -> {
+                if (helpManager != null) {
+                    helpManager.showHelpAlways(HelpManager.HelpType.DASHBOARD);
+                }
             });
         }
     }
