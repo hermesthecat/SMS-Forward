@@ -160,7 +160,7 @@ Calls can be forwarded to a single phone thanks to carriers' call forwarding ser
   </tr>
 </table>
 
-### Key Security Features:
+### Key Security Features
 
 - 🔒 **PIN Protection**: Secure 4+ digit PIN with salted SHA-256 hashing
 - 👆 **Biometric Authentication**: Fingerprint and face recognition support
