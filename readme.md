@@ -13,10 +13,13 @@ Calls can be forwarded to a single phone thanks to carriers' call forwarding ser
 - Email forwarding via SMTP
 - HTTP webhook integration (JSON POST)
 
-✅ **Bidirectional messaging:**
+✅ **Modern multi-screen UI (v1.15.0):**
 
-- Forward incoming SMS to target destinations
-- Send SMS remotely through the Android device
+- 5-tab navigation: Dashboard, Forwarders, Settings, Security, Data
+- Material Design 3 status cards with loading states
+- Interactive charts and analytics (MPAndroidChart)
+- Real-time status indicators and progress tracking
+- Modernized form inputs and Material components
 
 ✅ **Enhanced message information:**
 
@@ -768,7 +771,7 @@ HTTP POST to configured webhook:
 - **Package Name**: `com.keremgok.smsforward`
 - **Minimum Android**: API Level 25 (Android 7.0)
 - **Target Android**: API Level 34 (Android 14)
-- **App Version**: 1.14.0
+- **App Version**: 1.15.0
 - **Languages**: Turkish, English (with system default)
 - **Architecture**: Java with Android Gradle Plugin 8.7.3
 
@@ -802,7 +805,29 @@ app/src/main/java/com/keremgok/smsforward/
 
 ## Changelog
 
-### Version 1.14.0 - PIN/Biometric Lock Security (Latest)
+### Version 1.15.0 - UI Modernization Phase 3 (Latest)
+
+**🎨 Major UI Modernization:**
+- **Multi-screen Navigation**: 5-tab bottom navigation (Dashboard, Forwarders, Settings, Security, Data)
+- **Material Design 3**: Status cards with loading states and modern components
+- **Interactive Charts**: MPAndroidChart integration for daily/platform statistics
+- **Enhanced Dashboard**: Real-time status cards, quick actions, loading indicators
+- **Modernized Forms**: Better input fields, validation, and user experience
+- **Loading States**: Progress indicators and smooth transitions throughout the app
+
+**📊 Charts & Analytics:**
+- Daily message volume line charts (last 7 days)
+- Platform distribution pie charts (SMS, Telegram, Email, Webhook)
+- Success rate visualization and detailed statistics
+- Real-time data refresh with loading animations
+
+**🔧 Technical Improvements:**
+- MPAndroidChart library integration
+- Enhanced SharedViewModel for cross-fragment communication
+- Improved fragment lifecycle management
+- Modern layout designs with Material CardView components
+
+### Version 1.14.0 - PIN/Biometric Lock Security
 
 🔒 **Application Security:**
 

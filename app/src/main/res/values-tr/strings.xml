@@ -262,4 +262,38 @@
     <string name="nav_security">Güvenlik</string>
     <string name="nav_data">Veri</string>
 
+    <!-- Dashboard -->
+    <string name="dashboard_welcome">SMS İletici</string>
+    <string name="dashboard_status_loading">Durum yükleniyor…</string>
+    <string name="dashboard_today">Bugün</string>
+    <string name="dashboard_total">Toplam</string>
+    <string name="dashboard_network_status">Ağ Durumu</string>
+    <string name="dashboard_checking_connection">Bağlantı kontrol ediliyor…</string>
+    <string name="dashboard_security_status">Güvenlik Durumu</string>
+    <string name="dashboard_security_checking">Güvenlik kontrol ediliyor…</string>
+    <string name="dashboard_quick_actions">Hızlı İşlemler</string>
+    <string name="dashboard_test_message">Test Mesajı</string>
+    <string name="dashboard_view_stats">İstatistikleri Gör</string>
+    <string name="dashboard_loading">Panel yükleniyor…</string>
+    
+    <!-- Dashboard Status Messages -->
+    <string name="dashboard_status_online">%1$s Çevrimiçi (%2$s)</string>
+    <string name="dashboard_status_offline">🔴 Çevrimdışı</string>
+    <string name="dashboard_status_ready">✅ Mesaj iletmeye hazır</string>
+    <string name="dashboard_status_cannot_forward">❌ Mesaj iletilemez</string>
+    <string name="dashboard_security_enabled">🔒 Güvenlik Etkin</string>
+    <string name="dashboard_security_disabled">🔓 Güvenlik Devre Dışı</string>
+    <string name="dashboard_security_ready">Kimlik doğrulama yapılandırıldı</string>
+    <string name="dashboard_security_setup_needed">Kurulum gerekli</string>
+
+    <!-- Data Fragment with Charts -->
+    <string name="data_fragment_title">İstatistikler ve Analizler</string>
+    <string name="data_fragment_subtitle">Mesaj iletimi performansı</string>
+    <string name="data_daily_chart_title">Günlük Mesajlar (Son 7 Gün)</string>
+    <string name="data_platform_chart_title">Platform Dağılımı</string>
+    <string name="data_success_rate_title">Başarı Oranı</string>
+    <string name="data_success_rate_format">%%%.1f</string>
+    <string name="data_no_data">Veri mevcut değil</string>
+    <string name="data_loading_stats">İstatistikler yükleniyor…</string>
+
 </resources> 
