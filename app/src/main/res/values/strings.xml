@@ -285,4 +285,11 @@
     <string name="auth_no_methods">No authentication methods available</string>
     <string name="security_test_disabled">Security is disabled. Enable security first.</string>
 
+    <!-- Navigation -->
+    <string name="nav_dashboard">Ana Sayfa</string>
+    <string name="nav_forwarders">İletim</string>
+    <string name="nav_settings">Ayarlar</string>
+    <string name="nav_security">Güvenlik</string>
+    <string name="nav_data">Veri</string>
+
 </resources>

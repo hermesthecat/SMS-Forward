@@ -14,9 +14,14 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.NavigationUI;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -91,12 +96,22 @@ public class MainActivity extends AppCompatActivity {
                 Manifest.permission.ACCESS_NETWORK_STATE
         }, 0);
 
-        if (getSupportFragmentManager().findFragmentById(R.id.settings) == null) {
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.settings, new SettingsFragment())
-                    .commit();
-        }
+        // Setup Navigation Component
+        setupNavigation();
+    }
+    
+    private void setupNavigation() {
+        // Get Navigation Controller
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        
+        // Setup Bottom Navigation with Navigation Controller
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        NavigationUI.setupWithNavController(bottomNavigationView, navController);
+        
+        // Optional: Set custom listener for bottom navigation
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            return NavigationUI.onNavDestinationSelected(item, navController);
+        });
     }
 
     public static class SettingsFragment extends PreferenceFragmentCompat

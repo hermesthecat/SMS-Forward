@@ -255,4 +255,11 @@
     <string name="auth_no_methods">Kimlik doğrulama yöntemi mevcut değil</string>
     <string name="security_test_disabled">Güvenlik devre dışı. Önce güvenliği etkinleştirin.</string>
 
+    <!-- Navigation -->
+    <string name="nav_dashboard">Ana Sayfa</string>
+    <string name="nav_forwarders">İletim</string>
+    <string name="nav_settings">Ayarlar</string>
+    <string name="nav_security">Güvenlik</string>
+    <string name="nav_data">Veri</string>
+
 </resources> 
