@@ -25,6 +25,9 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
+    private SecurityManager securityManager;
+    private static final int REQUEST_CODE_AUTHENTICATION = 1001;
+
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(LanguageManager.wrapContext(newBase));
@@ -36,6 +39,49 @@ public class MainActivity extends AppCompatActivity {
         ThemeManager.initializeTheme(this);
 
         super.onCreate(savedInstanceState);
+        
+        // Initialize security manager
+        securityManager = new SecurityManager(this);
+        
+        // Check if authentication is required
+        if (securityManager.needsAuthentication()) {
+            // Start authentication activity
+            Intent authIntent = AuthenticationActivity.createIntent(this, AuthenticationActivity.AUTH_TYPE_STARTUP);
+            startActivityForResult(authIntent, REQUEST_CODE_AUTHENTICATION);
+            return; // Don't continue with normal initialization until authenticated
+        }
+        
+        // Continue with normal initialization
+        initializeMainActivity();
+    }
+    
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        
+        if (requestCode == REQUEST_CODE_AUTHENTICATION) {
+            if (resultCode == RESULT_OK) {
+                // Authentication successful, continue with initialization
+                initializeMainActivity();
+            } else {
+                // Authentication failed or cancelled, close the app
+                finishAffinity();
+            }
+        }
+    }
+    
+    @Override
+    protected void onResume() {
+        super.onResume();
+        
+        // Check authentication when app comes back to foreground
+        if (securityManager != null && securityManager.needsAuthentication()) {
+            Intent authIntent = AuthenticationActivity.createIntent(this, AuthenticationActivity.AUTH_TYPE_STARTUP);
+            startActivityForResult(authIntent, REQUEST_CODE_AUTHENTICATION);
+        }
+    }
+    
+    private void initializeMainActivity() {
         setContentView(R.layout.activity_main);
 
         requestPermissions(new String[] {
@@ -44,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
                 Manifest.permission.ACCESS_NETWORK_STATE
         }, 0);
 
-        if (savedInstanceState == null) {
+        if (getSupportFragmentManager().findFragmentById(R.id.settings) == null) {
             getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.settings, new SettingsFragment())
@@ -61,6 +107,7 @@ public class MainActivity extends AppCompatActivity {
         private LanguageManager languageManager;
         private SettingsBackupManager backupManager;
         private MessageHistoryDbHelper historyDbHelper;
+        private SecurityManager securityManager;
 
         // Activity result launchers for file operations
         private ActivityResultLauncher<Intent> exportLauncher;
@@ -84,9 +131,15 @@ public class MainActivity extends AppCompatActivity {
 
             // Initialize message history helper
             historyDbHelper = new MessageHistoryDbHelper(getContext());
+            
+            // Initialize security manager
+            securityManager = new SecurityManager(getContext());
 
             // Initialize file operation launchers
             initializeFileLaunchers();
+
+            // Set up security preferences
+            setupSecurityPreferences();
 
             // Set up test message button
             Preference testMessagePreference = findPreference(getString(R.string.key_test_message));
@@ -1255,6 +1308,266 @@ public class MainActivity extends AppCompatActivity {
             } catch (Exception e) {
                 Toast.makeText(getContext(), "Error showing about information: " + e.getMessage(),
                         Toast.LENGTH_LONG).show();
+            }
+        }
+
+        private void setupSecurityPreferences() {
+            // Set up security enable/disable
+            androidx.preference.SwitchPreferenceCompat securityEnabledPreference = 
+                findPreference(getString(R.string.key_security_enabled));
+            if (securityEnabledPreference != null) {
+                securityEnabledPreference.setChecked(securityManager.isSecurityEnabled());
+                securityEnabledPreference.setOnPreferenceChangeListener((preference, newValue) -> {
+                    boolean enabled = (Boolean) newValue;
+                    securityManager.setSecurityEnabled(enabled);
+                    updateSecurityPreferenceSummaries();
+                    return true;
+                });
+            }
+
+            // Set up PIN setup
+            Preference pinSetupPreference = findPreference(getString(R.string.key_pin_setup));
+            if (pinSetupPreference != null) {
+                pinSetupPreference.setOnPreferenceClickListener(preference -> {
+                    showPinSetupDialog();
+                    return true;
+                });
+                updatePinSetupSummary(pinSetupPreference);
+            }
+
+            // Set up biometric enable/disable
+            androidx.preference.SwitchPreferenceCompat biometricPreference = 
+                findPreference(getString(R.string.key_biometric_enabled));
+            if (biometricPreference != null) {
+                biometricPreference.setChecked(securityManager.isBiometricEnabled());
+                biometricPreference.setEnabled(securityManager.isBiometricAvailable());
+                
+                if (!securityManager.isBiometricAvailable()) {
+                    biometricPreference.setSummary(securityManager.getBiometricStatusMessage());
+                }
+                
+                biometricPreference.setOnPreferenceChangeListener((preference, newValue) -> {
+                    boolean enabled = (Boolean) newValue;
+                    if (enabled) {
+                        if (securityManager.enableBiometric()) {
+                            Toast.makeText(getContext(), getString(R.string.biometric_enabled_success), 
+                                Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getContext(), getString(R.string.biometric_enable_failed), 
+                                Toast.LENGTH_SHORT).show();
+                            return false;
+                        }
+                    } else {
+                        securityManager.disableBiometric();
+                        Toast.makeText(getContext(), getString(R.string.biometric_disabled), 
+                            Toast.LENGTH_SHORT).show();
+                    }
+                    updateSecurityPreferenceSummaries();
+                    return true;
+                });
+            }
+
+            // Set up authentication timeout
+            androidx.preference.ListPreference timeoutPreference = 
+                findPreference(getString(R.string.key_auth_timeout));
+            if (timeoutPreference != null) {
+                updateAuthTimeoutSummary(timeoutPreference);
+                timeoutPreference.setOnPreferenceChangeListener((preference, newValue) -> {
+                    String timeoutValue = (String) newValue;
+                    long timeoutMs = Long.parseLong(timeoutValue);
+                    securityManager.setAuthTimeout(timeoutMs);
+                    updateAuthTimeoutSummary((androidx.preference.ListPreference) preference);
+                    return true;
+                });
+            }
+
+            // Set up security test
+            Preference securityTestPreference = findPreference(getString(R.string.key_security_test));
+            if (securityTestPreference != null) {
+                securityTestPreference.setOnPreferenceClickListener(preference -> {
+                    testSecurityAuthentication();
+                    return true;
+                });
+            }
+
+            // Update all summaries
+            updateSecurityPreferenceSummaries();
+        }
+
+        private void showPinSetupDialog() {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+            
+            if (securityManager.isPinEnabled()) {
+                // PIN is already set, offer to change or remove
+                builder.setTitle(getString(R.string.pin_setup_existing_title));
+                builder.setMessage(getString(R.string.pin_setup_existing_message));
+                builder.setPositiveButton(getString(R.string.pin_setup_change), (dialog, which) -> showChangePinDialog());
+                builder.setNegativeButton(getString(R.string.pin_setup_remove), (dialog, which) -> showRemovePinDialog());
+                builder.setNeutralButton(getString(R.string.pin_setup_cancel), null);
+            } else {
+                // No PIN set, offer to create one
+                builder.setTitle(getString(R.string.pin_setup_new_title));
+                builder.setMessage(getString(R.string.pin_setup_new_message));
+                builder.setPositiveButton(getString(R.string.pin_setup_create), (dialog, which) -> showCreatePinDialog());
+                builder.setNegativeButton(getString(R.string.pin_setup_cancel), null);
+            }
+            
+            builder.show();
+        }
+
+        private void showCreatePinDialog() {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+            builder.setTitle(getString(R.string.pin_create_title));
+            builder.setMessage(getString(R.string.pin_create_message));
+            
+            final EditText pinInput = new EditText(getContext());
+            pinInput.setInputType(android.text.InputType.TYPE_CLASS_NUMBER | android.text.InputType.TYPE_NUMBER_VARIATION_PASSWORD);
+            pinInput.setHint(getString(R.string.pin_create_hint));
+            builder.setView(pinInput);
+            
+            builder.setPositiveButton(getString(R.string.pin_create_confirm), (dialog, which) -> {
+                String pin = pinInput.getText().toString().trim();
+                if (pin.length() < 4) {
+                    Toast.makeText(getContext(), getString(R.string.pin_create_too_short), 
+                        Toast.LENGTH_SHORT).show();
+                    showCreatePinDialog(); // Show again
+                } else {
+                    showConfirmPinDialog(pin);
+                }
+            });
+            
+            builder.setNegativeButton(getString(R.string.pin_create_cancel), null);
+            builder.show();
+        }
+
+        private void showConfirmPinDialog(String originalPin) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+            builder.setTitle(getString(R.string.pin_confirm_title));
+            builder.setMessage(getString(R.string.pin_confirm_message));
+            
+            final EditText pinInput = new EditText(getContext());
+            pinInput.setInputType(android.text.InputType.TYPE_CLASS_NUMBER | android.text.InputType.TYPE_NUMBER_VARIATION_PASSWORD);
+            pinInput.setHint(getString(R.string.pin_confirm_hint));
+            builder.setView(pinInput);
+            
+            builder.setPositiveButton(getString(R.string.pin_confirm_verify), (dialog, which) -> {
+                String confirmedPin = pinInput.getText().toString().trim();
+                if (originalPin.equals(confirmedPin)) {
+                    if (securityManager.setPIN(originalPin)) {
+                        Toast.makeText(getContext(), getString(R.string.pin_create_success), 
+                            Toast.LENGTH_SHORT).show();
+                        updateSecurityPreferenceSummaries();
+                    } else {
+                        Toast.makeText(getContext(), getString(R.string.pin_create_failed), 
+                            Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(getContext(), getString(R.string.pin_confirm_mismatch), 
+                        Toast.LENGTH_SHORT).show();
+                    showConfirmPinDialog(originalPin); // Show again
+                }
+            });
+            
+            builder.setNegativeButton(getString(R.string.pin_confirm_cancel), null);
+            builder.show();
+        }
+
+        private void showChangePinDialog() {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+            builder.setTitle(getString(R.string.pin_change_title));
+            builder.setMessage(getString(R.string.pin_change_message));
+            
+            final EditText currentPinInput = new EditText(getContext());
+            currentPinInput.setInputType(android.text.InputType.TYPE_CLASS_NUMBER | android.text.InputType.TYPE_NUMBER_VARIATION_PASSWORD);
+            currentPinInput.setHint(getString(R.string.pin_change_current_hint));
+            builder.setView(currentPinInput);
+            
+            builder.setPositiveButton(getString(R.string.pin_change_verify), (dialog, which) -> {
+                String currentPin = currentPinInput.getText().toString().trim();
+                if (securityManager.verifyPIN(currentPin)) {
+                    showCreatePinDialog(); // Show new PIN creation
+                } else {
+                    Toast.makeText(getContext(), getString(R.string.pin_change_wrong_current), 
+                        Toast.LENGTH_SHORT).show();
+                }
+            });
+            
+            builder.setNegativeButton(getString(R.string.pin_change_cancel), null);
+            builder.show();
+        }
+
+        private void showRemovePinDialog() {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+            builder.setTitle(getString(R.string.pin_remove_title));
+            builder.setMessage(getString(R.string.pin_remove_message));
+            
+            final EditText pinInput = new EditText(getContext());
+            pinInput.setInputType(android.text.InputType.TYPE_CLASS_NUMBER | android.text.InputType.TYPE_NUMBER_VARIATION_PASSWORD);
+            pinInput.setHint(getString(R.string.pin_remove_hint));
+            builder.setView(pinInput);
+            
+            builder.setPositiveButton(getString(R.string.pin_remove_confirm), (dialog, which) -> {
+                String pin = pinInput.getText().toString().trim();
+                if (securityManager.verifyPIN(pin)) {
+                    securityManager.clearPinData();
+                    Toast.makeText(getContext(), getString(R.string.pin_remove_success), 
+                        Toast.LENGTH_SHORT).show();
+                    updateSecurityPreferenceSummaries();
+                } else {
+                    Toast.makeText(getContext(), getString(R.string.pin_remove_wrong), 
+                        Toast.LENGTH_SHORT).show();
+                }
+            });
+            
+            builder.setNegativeButton(getString(R.string.pin_remove_cancel), null);
+            builder.show();
+        }
+
+        private void testSecurityAuthentication() {
+            if (!securityManager.isSecurityEnabled()) {
+                Toast.makeText(getContext(), getString(R.string.security_test_disabled), 
+                    Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            Intent authIntent = AuthenticationActivity.createIntent(getContext(), 
+                AuthenticationActivity.AUTH_TYPE_SETUP);
+            startActivity(authIntent);
+        }
+
+        private void updateSecurityPreferenceSummaries() {
+            // Update PIN setup summary
+            Preference pinSetupPreference = findPreference(getString(R.string.key_pin_setup));
+            if (pinSetupPreference != null) {
+                updatePinSetupSummary(pinSetupPreference);
+            }
+            
+            // Update authentication timeout summary
+            androidx.preference.ListPreference timeoutPreference = 
+                findPreference(getString(R.string.key_auth_timeout));
+            if (timeoutPreference != null) {
+                updateAuthTimeoutSummary(timeoutPreference);
+            }
+        }
+
+        private void updatePinSetupSummary(Preference preference) {
+            if (securityManager.isPinEnabled()) {
+                preference.setSummary(getString(R.string.pin_setup_summary_enabled));
+            } else {
+                preference.setSummary(getString(R.string.pin_setup_summary_disabled));
+            }
+        }
+
+        private void updateAuthTimeoutSummary(androidx.preference.ListPreference preference) {
+            long timeoutMs = securityManager.getAuthTimeout();
+            String[] timeoutEntries = getResources().getStringArray(R.array.auth_timeout_entries);
+            String[] timeoutValues = getResources().getStringArray(R.array.auth_timeout_values);
+            
+            for (int i = 0; i < timeoutValues.length; i++) {
+                if (timeoutValues[i].equals(String.valueOf(timeoutMs))) {
+                    preference.setSummary(timeoutEntries[i]);
+                    break;
+                }
             }
         }
     }

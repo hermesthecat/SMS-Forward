@@ -32,4 +32,22 @@
         <item>tr</item>
         <item>system</item>
     </string-array>
+
+    <!-- Authentication timeout options -->
+    <string-array name="auth_timeout_entries">
+        <item>🕐 1 minute</item>
+        <item>🕐 5 minutes</item>
+        <item>🕐 15 minutes</item>
+        <item>🕐 30 minutes</item>
+        <item>🕐 1 hour</item>
+        <item>🕐 Never timeout</item>
+    </string-array>
+    <string-array name="auth_timeout_values">
+        <item>60000</item>
+        <item>300000</item>
+        <item>900000</item>
+        <item>1800000</item>
+        <item>3600000</item>
+        <item>86400000</item>
+    </string-array>
 </resources>

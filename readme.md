@@ -75,8 +75,12 @@ Calls can be forwarded to a single phone thanks to carriers' call forwarding ser
 - Feature list and technical specifications
 - Package information and system requirements
 
-✅ **Security and spam prevention:**
+✅ **Security and privacy protection:**
 
+- **PIN/Biometric Lock**: Secure app access with 4-digit PIN or biometric authentication
+- **Configurable timeout**: Set authentication timeout from 1 minute to never
+- **Secure PIN storage**: Salted SHA-256 hashing with Android Keystore for biometric keys
+- **Fallback system**: Biometric authentication falls back to PIN if unavailable
 - Rate limiting prevents spam (10 SMS/minute maximum)
 - Sliding window algorithm for precise control
 - User-configurable enable/disable toggle
@@ -188,9 +192,20 @@ gradlew.bat assembleRelease
    - **Email**: Configure SMTP server settings
    - **Web**: Set webhook URL endpoint
 
-5. **Configure Content Filtering (Optional):**
+5. **Configure Security (Optional):**
 
-   - Go to "Privacy & Security" section in settings
+   - Go to "Security & Privacy" section in settings
+
+   **App Security:**
+
+   - **Enable App Security**: Toggle to activate PIN/biometric protection
+   - **PIN Setup**: Create a secure 4+ digit PIN for app access
+   - **Biometric Authentication**: Enable fingerprint or face unlock (if device supports)
+   - **Authentication Timeout**: Choose timeout (1 min, 5 min, 15 min, 30 min, 1 hour, never)
+   - **Security Test**: Test your authentication setup without affecting normal operation
+
+   **Content Filtering:**
+
    - **Content Filter**: Enter keywords to block (comma-separated)
    - Example: "spam,advertisement,promotion,sale"
    - Case-insensitive matching (SPAM = spam = Spam)
@@ -334,6 +349,7 @@ Theme applied if changed
 ```bash
 Old Phone: Export → sms_forward_backup_20241226.json
 New Phone: Import → Instant setup with same configuration
+Note: Security settings (PIN/biometric) need to be reconfigured for privacy
 ```
 
 **Settings Sharing:**
@@ -341,6 +357,7 @@ New Phone: Import → Instant setup with same configuration
 ```bash
 Team Lead: Configure → Export → Share backup file
 Team Members: Import → Identical setup across team
+Note: Each team member sets their own security preferences
 ```
 
 **Backup Before Changes:**
@@ -348,6 +365,7 @@ Team Members: Import → Identical setup across team
 ```bash
 Before experimenting: Export current settings
 After testing: Import to restore original configuration
+Security: PIN/biometric settings remain unchanged during import
 ```
 
 #### Security Features
@@ -356,6 +374,7 @@ After testing: Import to restore original configuration
 - **Key Whitelisting**: Only known settings are imported
 - **Metadata Tracking**: Shows backup creation date and app version
 - **Error Handling**: Detailed feedback for failed imports
+- **Privacy Protection**: Security settings (PIN/biometric) excluded from backup files
 
 ### Message History & Tracking
 
@@ -656,7 +675,7 @@ HTTP POST to configured webhook:
 - **Package Name**: `com.keremgok.smsforward`
 - **Minimum Android**: API Level 25 (Android 7.0)
 - **Target Android**: API Level 34 (Android 14)
-- **App Version**: 1.13.0
+- **App Version**: 1.14.0
 - **Languages**: Turkish, English (with system default)
 - **Architecture**: Java with Android Gradle Plugin 8.7.3
 
@@ -688,7 +707,49 @@ app/src/main/java/com/keremgok/smsforward/
 
 ## Changelog
 
-### Version 1.13.0 - SMS Content Filter & Security (Latest)
+### Version 1.14.0 - PIN/Biometric Lock Security (Latest)
+
+🔒 **Application Security:**
+
+- ✅ **PIN Authentication**: 4+ digit PIN protection with secure salted SHA-256 hashing
+- ✅ **Biometric Authentication**: Fingerprint and face recognition using Android Biometric API
+- ✅ **Android Keystore Integration**: Secure biometric key storage and management
+- ✅ **Authentication Timeout**: Configurable timeout from 1 minute to never expire
+- ✅ **Fallback System**: Biometric authentication gracefully falls back to PIN if unavailable
+- ✅ **Secure Storage**: PIN hashes stored with random salt, no plaintext PIN storage
+
+🛡️ **Security Features:**
+
+- ✅ **AuthenticationActivity**: Dedicated security screen preventing back navigation during auth
+- ✅ **MainActivity Integration**: Authentication checks on app startup and when resuming
+- ✅ **Security Testing**: Built-in functionality to test authentication methods
+- ✅ **Device Compatibility**: Automatic detection of biometric hardware availability
+- ✅ **Memory Security**: Proper cleanup of sensitive data and prevention of memory leaks
+
+🎨 **User Interface:**
+
+- ✅ **Security Settings**: Complete "Security & Privacy" section in app preferences
+- ✅ **PIN Management**: Create, change, and remove PIN with confirmation dialogs
+- ✅ **Biometric Toggle**: Enable/disable biometric authentication with status messages
+- ✅ **Timeout Configuration**: Six timeout options from 1 minute to never expire
+- ✅ **Real-time Status**: Live security status and availability indicators
+
+🌐 **Multi-language Support:**
+
+- ✅ **English Localization**: 50+ security-related strings with comprehensive messaging
+- ✅ **Turkish Localization**: Complete Turkish translation with cultural adaptations
+- ✅ **Dynamic Summaries**: Live preference summaries showing current security status
+- ✅ **Error Messages**: Localized error handling and user guidance
+
+🔧 **Technical Implementation:**
+
+- ✅ **SecurityManager Class**: Centralized security management with comprehensive API
+- ✅ **Thread Safety**: Synchronized operations for concurrent access protection
+- ✅ **Permission Handling**: Android Biometric permission integration
+- ✅ **Lifecycle Management**: Proper integration with Android Activity lifecycle
+- ✅ **Settings Backup**: Security preferences appropriately excluded from backup files
+
+### Version 1.13.0 - SMS Content Filter & Security
 
 🛡️ **Content Filtering:**
 
@@ -795,6 +856,7 @@ app/src/main/java/com/keremgok/smsforward/
 
 ### Previous Versions
 
+- **v1.7.0**: Dark mode support and Material Design 3 theming
 - **v1.6.0**: Statistics dashboard with daily/total counters and success rates
 - **v1.5.0**: Real-time connection status monitoring and network quality indicators
 - **v1.4.0**: Offline message queue with SQLite storage and background processing

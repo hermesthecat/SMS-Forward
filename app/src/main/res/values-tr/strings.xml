@@ -161,4 +161,98 @@
     <string name="about_min_sdk">Minimum Android: API %d</string>
     <string name="about_target_sdk">Hedef Android: API %d</string>
     <string name="about_build_time">Yapı Zamanı: %s</string>
+
+    <!-- Security & Privacy -->
+    <string name="header_security">Güvenlik ve Gizlilik</string>
+    
+    <string name="security_enabled_title">Uygulama Güvenliğini Etkinleştir</string>
+    <string name="security_enabled_summary">Uygulama erişimini PIN veya biyometrik kimlik doğrulama ile koru</string>
+
+    <string name="pin_setup_title">PIN Kurulumu</string>
+    <string name="pin_setup_summary_enabled">PIN koruması etkinleştirildi</string>
+    <string name="pin_setup_summary_disabled">PIN ayarlanmamış - oluşturmak için dokunun</string>
+    
+    <string name="biometric_enabled_title">Biyometrik Kimlik Doğrulama</string>
+    <string name="biometric_enabled_summary">Parmak izi veya yüz tanıma kullan</string>
+    
+    <string name="auth_timeout_title">Kimlik Doğrulama Zaman Aşımı</string>
+    <string name="auth_timeout_summary">Yeniden kimlik doğrulama gerekene kadar ne kadar süre</string>
+    
+    <string name="security_test_title">Güvenlik Testi</string>
+    <string name="security_test_summary">Mevcut kimlik doğrulama ayarlarını test et</string>
+
+    <!-- PIN Setup Dialogs -->
+    <string name="pin_setup_existing_title">PIN Zaten Ayarlanmış</string>
+    <string name="pin_setup_existing_message">Bir PIN zaten yapılandırılmış. Ne yapmak istiyorsunuz?</string>
+    <string name="pin_setup_change">PIN\'i Değiştir</string>
+    <string name="pin_setup_remove">PIN\'i Kaldır</string>
+    <string name="pin_setup_cancel">İptal</string>
+    
+    <string name="pin_setup_new_title">PIN Oluştur</string>
+    <string name="pin_setup_new_message">SMS İletici uygulamanızı korumak için 4 haneli bir PIN oluşturun.</string>
+    <string name="pin_setup_create">PIN Oluştur</string>
+
+    <!-- PIN Creation -->
+    <string name="pin_create_title">Yeni PIN Oluştur</string>
+    <string name="pin_create_message">Uygulama erişimini korumak için 4 haneli bir PIN girin:</string>
+    <string name="pin_create_hint">4 haneli PIN girin</string>
+    <string name="pin_create_confirm">İleri</string>
+    <string name="pin_create_cancel">İptal</string>
+    <string name="pin_create_too_short">PIN en az 4 haneli olmalıdır</string>
+    <string name="pin_create_success">PIN başarıyla oluşturuldu!</string>
+    <string name="pin_create_failed">PIN oluşturma başarısız. Lütfen tekrar deneyin.</string>
+
+    <!-- PIN Confirmation -->
+    <string name="pin_confirm_title">PIN\'i Onayla</string>
+    <string name="pin_confirm_message">Onaylamak için PIN\'inizi tekrar girin:</string>
+    <string name="pin_confirm_hint">PIN\'i Onayla</string>
+    <string name="pin_confirm_verify">PIN Oluştur</string>
+    <string name="pin_confirm_cancel">Geri</string>
+    <string name="pin_confirm_mismatch">PIN\'ler eşleşmiyor. Lütfen tekrar deneyin.</string>
+
+    <!-- PIN Change -->
+    <string name="pin_change_title">PIN\'i Değiştir</string>
+    <string name="pin_change_message">Devam etmek için mevcut PIN\'inizi girin:</string>
+    <string name="pin_change_current_hint">Mevcut PIN</string>
+    <string name="pin_change_verify">Devam Et</string>
+    <string name="pin_change_cancel">İptal</string>
+    <string name="pin_change_wrong_current">Mevcut PIN yanlış</string>
+
+    <!-- PIN Removal -->
+    <string name="pin_remove_title">PIN\'i Kaldır</string>
+    <string name="pin_remove_message">PIN korumasını kaldırmak için mevcut PIN\'inizi girin:</string>
+    <string name="pin_remove_hint">Mevcut PIN</string>
+    <string name="pin_remove_confirm">PIN\'i Kaldır</string>
+    <string name="pin_remove_cancel">İptal</string>
+    <string name="pin_remove_wrong">Yanlış PIN</string>
+    <string name="pin_remove_success">PIN koruması kaldırıldı</string>
+
+    <!-- PIN Authentication -->
+    <string name="pin_auth_title">PIN Girin</string>
+    <string name="pin_auth_message">SMS İletici\'ye erişmek için PIN\'inizi girin:</string>
+    <string name="pin_auth_hint">PIN Girin</string>
+    <string name="pin_auth_verify">Kilidi Aç</string>
+    <string name="pin_auth_cancel">İptal</string>
+    <string name="pin_auth_invalid">Yanlış PIN. Lütfen tekrar deneyin.</string>
+
+    <!-- Biometric Authentication -->
+    <string name="biometric_available">Biyometrik kimlik doğrulama kullanılabilir</string>
+    <string name="biometric_no_hardware">Biyometrik donanım mevcut değil</string>
+    <string name="biometric_hw_unavailable">Biyometrik donanım şu anda kullanılamıyor</string>
+    <string name="biometric_none_enrolled">Biyometrik kimlik bilgisi kayıtlı değil</string>
+    <string name="biometric_unavailable">Biyometrik kimlik doğrulama kullanılamıyor</string>
+    
+    <string name="biometric_prompt_title">SMS İletici Kimlik Doğrulama</string>
+    <string name="biometric_prompt_subtitle">Kilidi açmak için parmak izinizi veya yüzünüzü kullanın</string>
+    <string name="biometric_prompt_cancel">PIN Kullan</string>
+    
+    <string name="biometric_enabled_success">Biyometrik kimlik doğrulama etkinleştirildi</string>
+    <string name="biometric_enable_failed">Biyometrik kimlik doğrulama etkinleştirme başarısız</string>
+    <string name="biometric_disabled">Biyometrik kimlik doğrulama devre dışı bırakıldı</string>
+    <string name="biometric_auth_failed">Biyometrik kimlik doğrulama başarısız</string>
+
+    <!-- Authentication -->
+    <string name="auth_no_methods">Kimlik doğrulama yöntemi mevcut değil</string>
+    <string name="security_test_disabled">Güvenlik devre dışı. Önce güvenliği etkinleştirin.</string>
+
 </resources> 

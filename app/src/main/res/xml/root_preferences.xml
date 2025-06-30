@@ -200,6 +200,47 @@
 
     <PreferenceCategory
         app:iconSpaceReserved="false"
+        app:title="@string/header_security">
+
+        <SwitchPreferenceCompat
+            android:key="@string/key_security_enabled"
+            android:title="@string/security_enabled_title"
+            android:summary="@string/security_enabled_summary"
+            android:defaultValue="false"
+            app:iconSpaceReserved="false" />
+
+        <Preference
+            android:key="@string/key_pin_setup"
+            android:title="@string/pin_setup_title"
+            android:summary="@string/pin_setup_summary_disabled"
+            app:iconSpaceReserved="false" />
+
+        <SwitchPreferenceCompat
+            android:key="@string/key_biometric_enabled"
+            android:title="@string/biometric_enabled_title"
+            android:summary="@string/biometric_enabled_summary"
+            android:defaultValue="false"
+            app:iconSpaceReserved="false" />
+
+        <ListPreference
+            android:key="@string/key_auth_timeout"
+            android:title="@string/auth_timeout_title"
+            android:summary="@string/auth_timeout_summary"
+            android:defaultValue="300000"
+            android:entries="@array/auth_timeout_entries"
+            android:entryValues="@array/auth_timeout_values"
+            app:iconSpaceReserved="false" />
+
+        <Preference
+            android:key="@string/key_security_test"
+            android:title="@string/security_test_title"
+            android:summary="@string/security_test_summary"
+            app:iconSpaceReserved="false" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
         app:title="@string/header_test">
 
         <Preference

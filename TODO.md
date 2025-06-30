@@ -24,7 +24,7 @@
 
 ### Security
 
-- [ ] **PIN Protection** - Lock app with PIN/biometric
+- [x] **PIN/Biometric Lock** - PIN and biometric authentication for app access ✅ _Completed in v1.14.0_
 - [x] **Rate Limiting** - Prevent spam (max 10 SMS/minute) ✅ _Completed in v1.8.0_
 - [ ] **Secure Storage** - Encrypt sensitive settings
 - [ ] **Input Validation** - Validate all user inputs
@@ -191,6 +191,80 @@ public class MessageHistoryDbHelper {
 }
 ```
 
+### PIN/Biometric Lock Security System
+
+```java
+// PIN/Biometric Lock implementation ✅ COMPLETED
+public class SecurityManager {
+    private static final String PREF_SECURITY_ENABLED = "security_enabled";
+    private static final String PREF_PIN_HASH = "pin_hash";
+    private static final String PREF_PIN_SALT = "pin_salt";
+    private static final String PREF_BIOMETRIC_ENABLED = "biometric_enabled";
+    private static final String PREF_AUTH_TIMEOUT = "auth_timeout";
+    
+    // PIN Management with secure hashing
+    public boolean setPIN(String pin) {
+        byte[] salt = new byte[16];
+        new SecureRandom().nextBytes(salt);
+        String hashedPin = hashPinWithSalt(pin, salt);
+        // Store hash and salt securely
+    }
+    
+    public boolean verifyPIN(String pin) {
+        String storedHash = preferences.getString(PREF_PIN_HASH, "");
+        String storedSalt = preferences.getString(PREF_PIN_SALT, "");
+        return storedHash.equals(hashPinWithSalt(pin, Base64.decode(storedSalt, Base64.DEFAULT)));
+    }
+    
+    // Biometric Authentication
+    public void showBiometricPrompt(FragmentActivity activity, AuthenticationCallback callback) {
+        BiometricPrompt.PromptInfo promptInfo = new BiometricPrompt.PromptInfo.Builder()
+                .setTitle(context.getString(R.string.biometric_prompt_title))
+                .setSubtitle(context.getString(R.string.biometric_prompt_subtitle))
+                .setNegativeButtonText(context.getString(R.string.biometric_prompt_cancel))
+                .build();
+        // Handle biometric authentication with fallback to PIN
+    }
+    
+    // Authentication timeout management
+    public boolean needsAuthentication() {
+        if (!isSecurityEnabled()) return false;
+        long lastAuthTime = preferences.getLong(PREF_LAST_AUTH_TIME, 0);
+        long authTimeout = preferences.getLong(PREF_AUTH_TIMEOUT, DEFAULT_AUTH_TIMEOUT_MS);
+        return (System.currentTimeMillis() - lastAuthTime) > authTimeout;
+    }
+}
+
+// AuthenticationActivity - Dedicated security screen
+public class AuthenticationActivity extends AppCompatActivity {
+    private void initializeAuthentication() {
+        boolean pinEnabled = securityManager.isPinEnabled();
+        boolean biometricEnabled = securityManager.isBiometricEnabled();
+        
+        if (biometricEnabled && securityManager.isBiometricAvailable()) {
+            showBiometricAuth(); // Try biometric first
+        } else if (pinEnabled) {
+            showPinAuth(); // Fall back to PIN
+        }
+    }
+}
+
+// MainActivity Integration - Security checks
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+    securityManager = new SecurityManager(this);
+    
+    if (securityManager.needsAuthentication()) {
+        Intent authIntent = AuthenticationActivity.createIntent(this, 
+            AuthenticationActivity.AUTH_TYPE_STARTUP);
+        startActivityForResult(authIntent, REQUEST_CODE_AUTHENTICATION);
+        return; // Don't continue until authenticated
+    }
+    
+    initializeMainActivity();
+}
+```
+
 ### SMS Content Filter
 
 ```java
@@ -234,6 +308,21 @@ if (SmsContentFilter.shouldBlockMessage(messageContent, filterKeywords)) {
 ---
 
 ## ✅ **Recently Completed**
+
+### Version 1.14.0 - PIN/Biometric Lock Security
+
+- [x] **SecurityManager Class** - Comprehensive security management system
+- [x] **PIN Authentication** - 4+ digit PIN with salted SHA-256 hashing for secure storage
+- [x] **Biometric Authentication** - Fingerprint/face unlock using Android Biometric API
+- [x] **AuthenticationActivity** - Dedicated security screen with fallback system
+- [x] **MainActivity Integration** - Authentication checks on startup and app resume
+- [x] **Android Keystore Integration** - Secure biometric key storage and management
+- [x] **Configurable Timeout** - Authentication timeout from 1 minute to never
+- [x] **Security Testing** - Built-in testing functionality for authentication methods
+- [x] **UI Integration** - Complete settings interface with all security preferences
+- [x] **Multi-language Support** - Full Turkish and English localization (50+ strings)
+- [x] **Fallback System** - Biometric authentication gracefully falls back to PIN
+- [x] **Settings Backup Support** - Security preferences excluded from backup for privacy
 
 ### Version 1.13.0 - SMS Content Filter
 

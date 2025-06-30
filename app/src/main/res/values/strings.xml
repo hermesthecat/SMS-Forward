@@ -46,7 +46,7 @@
     <string name="smtp_submission_port">SMTP submission port</string>
     <string name="smtp_submission_port_summary">Usually 465 or 587</string>
     <string name="smtp_password">Password</string>
-    <string name="smtp_password_summary">Sender’s password for submitting emails to sent</string>
+    <string name="smtp_password_summary">Sender's password for submitting emails to sent</string>
     <string name="smtp_username_style">Username style</string>
     <string name="smtp_username_style_summary">Full address or local part</string>
 
@@ -186,4 +186,103 @@
     <string name="about_min_sdk">Minimum Android: API %d</string>
     <string name="about_target_sdk">Target Android: API %d</string>
     <string name="about_build_time">Build Time: %s</string>
+
+    <!-- Security & Privacy -->
+    <string name="header_security">Security &amp; Privacy</string>
+    <string name="key_security_enabled" translatable="false">key_security_enabled</string>
+    <string name="key_pin_setup" translatable="false">key_pin_setup</string>
+    <string name="key_biometric_enabled" translatable="false">key_biometric_enabled</string>
+    <string name="key_auth_timeout" translatable="false">key_auth_timeout</string>
+    <string name="key_security_test" translatable="false">key_security_test</string>
+
+    <string name="security_enabled_title">Enable App Security</string>
+    <string name="security_enabled_summary">Protect app access with PIN or biometric authentication</string>
+
+    <string name="pin_setup_title">PIN Setup</string>
+    <string name="pin_setup_summary_enabled">PIN protection is enabled</string>
+    <string name="pin_setup_summary_disabled">No PIN set - tap to create</string>
+    
+    <string name="biometric_enabled_title">Biometric Authentication</string>
+    <string name="biometric_enabled_summary">Use fingerprint or face unlock</string>
+    
+    <string name="auth_timeout_title">Authentication Timeout</string>
+    <string name="auth_timeout_summary">How long until re-authentication is required</string>
+    
+    <string name="security_test_title">Test Security</string>
+    <string name="security_test_summary">Test current authentication settings</string>
+
+    <!-- PIN Setup Dialogs -->
+    <string name="pin_setup_existing_title">PIN Already Set</string>
+    <string name="pin_setup_existing_message">A PIN is already configured. What would you like to do?</string>
+    <string name="pin_setup_change">Change PIN</string>
+    <string name="pin_setup_remove">Remove PIN</string>
+    <string name="pin_setup_cancel">Cancel</string>
+    
+    <string name="pin_setup_new_title">Create PIN</string>
+    <string name="pin_setup_new_message">Create a 4-digit PIN to protect your SMS Forward app.</string>
+    <string name="pin_setup_create">Create PIN</string>
+
+    <!-- PIN Creation -->
+    <string name="pin_create_title">Create New PIN</string>
+    <string name="pin_create_message">Enter a 4-digit PIN to protect app access:</string>
+    <string name="pin_create_hint">Enter 4-digit PIN</string>
+    <string name="pin_create_confirm">Next</string>
+    <string name="pin_create_cancel">Cancel</string>
+    <string name="pin_create_too_short">PIN must be at least 4 digits</string>
+    <string name="pin_create_success">PIN created successfully!</string>
+    <string name="pin_create_failed">Failed to create PIN. Please try again.</string>
+
+    <!-- PIN Confirmation -->
+    <string name="pin_confirm_title">Confirm PIN</string>
+    <string name="pin_confirm_message">Re-enter your PIN to confirm:</string>
+    <string name="pin_confirm_hint">Confirm PIN</string>
+    <string name="pin_confirm_verify">Create PIN</string>
+    <string name="pin_confirm_cancel">Back</string>
+    <string name="pin_confirm_mismatch">PINs do not match. Please try again.</string>
+
+    <!-- PIN Change -->
+    <string name="pin_change_title">Change PIN</string>
+    <string name="pin_change_message">Enter your current PIN to continue:</string>
+    <string name="pin_change_current_hint">Current PIN</string>
+    <string name="pin_change_verify">Continue</string>
+    <string name="pin_change_cancel">Cancel</string>
+    <string name="pin_change_wrong_current">Incorrect current PIN</string>
+
+    <!-- PIN Removal -->
+    <string name="pin_remove_title">Remove PIN</string>
+    <string name="pin_remove_message">Enter your current PIN to remove PIN protection:</string>
+    <string name="pin_remove_hint">Current PIN</string>
+    <string name="pin_remove_confirm">Remove PIN</string>
+    <string name="pin_remove_cancel">Cancel</string>
+    <string name="pin_remove_wrong">Incorrect PIN</string>
+    <string name="pin_remove_success">PIN protection removed</string>
+
+    <!-- PIN Authentication -->
+    <string name="pin_auth_title">Enter PIN</string>
+    <string name="pin_auth_message">Enter your PIN to access SMS Forward:</string>
+    <string name="pin_auth_hint">Enter PIN</string>
+    <string name="pin_auth_verify">Unlock</string>
+    <string name="pin_auth_cancel">Cancel</string>
+    <string name="pin_auth_invalid">Incorrect PIN. Please try again.</string>
+
+    <!-- Biometric Authentication -->
+    <string name="biometric_available">Biometric authentication is available</string>
+    <string name="biometric_no_hardware">No biometric hardware available</string>
+    <string name="biometric_hw_unavailable">Biometric hardware is currently unavailable</string>
+    <string name="biometric_none_enrolled">No biometric credentials enrolled</string>
+    <string name="biometric_unavailable">Biometric authentication is not available</string>
+    
+    <string name="biometric_prompt_title">SMS Forward Authentication</string>
+    <string name="biometric_prompt_subtitle">Use your fingerprint or face to unlock</string>
+    <string name="biometric_prompt_cancel">Use PIN</string>
+    
+    <string name="biometric_enabled_success">Biometric authentication enabled</string>
+    <string name="biometric_enable_failed">Failed to enable biometric authentication</string>
+    <string name="biometric_disabled">Biometric authentication disabled</string>
+    <string name="biometric_auth_failed">Biometric authentication failed</string>
+
+    <!-- Authentication -->
+    <string name="auth_no_methods">No authentication methods available</string>
+    <string name="security_test_disabled">Security is disabled. Enable security first.</string>
+
 </resources>

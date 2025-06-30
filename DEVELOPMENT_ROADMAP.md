@@ -4,7 +4,7 @@
 
 SMS Forward is a minimal, efficient Android application for forwarding SMS messages across multiple platforms. This document outlines future development suggestions and improvements.
 
-**Current Version**: 1.13.0  
+**Current Version**: 1.14.0  
 **Package Name**: `com.keremgok.smsforward`  
 **Target**: Production-ready SMS forwarding solution
 
@@ -172,7 +172,7 @@ public class DiscordForwarder extends AbstractWebForwarder {
 #### 4.1 Data Protection
 
 - [ ] **End-to-End Encryption** for stored settings
-- [ ] **PIN/Biometric Lock** for app access
+- [x] **PIN/Biometric Lock** for app access ✅ _Completed v1.14.0_
 - [x] **Secure Backup/Restore** functionality ✅ _Basic version completed v1.9.0_
 - [ ] **Privacy Mode** (hide message content in logs)
 
@@ -184,18 +184,71 @@ public class DiscordForwarder extends AbstractWebForwarder {
 - [ ] **Temporary Disable** feature
 
 ```java
-// Implementation Example: PIN Protection
+// Implementation Example: PIN/Biometric Authentication ✅ COMPLETED
 public class SecurityManager {
     private static final String PREF_PIN_HASH = "pin_hash";
+    private static final String PREF_PIN_SALT = "pin_salt";
+    private static final String PREF_BIOMETRIC_ENABLED = "biometric_enabled";
+    private static final String ANDROID_KEYSTORE = "AndroidKeyStore";
+    private static final String BIOMETRIC_KEY_ALIAS = "sms_forward_biometric_key";
 
-    public boolean verifyPIN(String pin) {
-        String storedHash = prefs.getString(PREF_PIN_HASH, "");
-        return BCrypt.checkpw(pin, storedHash);
+    // Secure PIN management with salted hashing
+    public boolean setPIN(String pin) {
+        byte[] salt = new byte[16];
+        new SecureRandom().nextBytes(salt);
+        String hashedPin = hashPinWithSalt(pin, salt);
+        
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString(PREF_PIN_HASH, hashedPin);
+        editor.putString(PREF_PIN_SALT, Base64.encodeToString(salt, Base64.DEFAULT));
+        editor.putBoolean(PREF_PIN_ENABLED, true);
+        editor.apply();
+        return true;
     }
 
-    public void setPIN(String pin) {
-        String hash = BCrypt.hashpw(pin, BCrypt.gensalt());
-        prefs.edit().putString(PREF_PIN_HASH, hash).apply();
+    public boolean verifyPIN(String pin) {
+        String storedHash = preferences.getString(PREF_PIN_HASH, "");
+        String storedSalt = preferences.getString(PREF_PIN_SALT, "");
+        
+        byte[] salt = Base64.decode(storedSalt, Base64.DEFAULT);
+        String inputHash = hashPinWithSalt(pin, salt);
+        
+        boolean isValid = storedHash.equals(inputHash);
+        if (isValid) recordSuccessfulAuth();
+        return isValid;
+    }
+
+    // Biometric authentication with Android Keystore
+    public void showBiometricPrompt(FragmentActivity activity, AuthenticationCallback callback) {
+        BiometricPrompt.PromptInfo promptInfo = new BiometricPrompt.PromptInfo.Builder()
+                .setTitle(context.getString(R.string.biometric_prompt_title))
+                .setSubtitle(context.getString(R.string.biometric_prompt_subtitle))
+                .setNegativeButtonText(context.getString(R.string.biometric_prompt_cancel))
+                .build();
+
+        BiometricPrompt biometricPrompt = new BiometricPrompt(activity, executor, 
+                new BiometricPrompt.AuthenticationCallback() {
+            @Override
+            public void onAuthenticationSucceeded(BiometricPrompt.AuthenticationResult result) {
+                recordSuccessfulAuth();
+                callback.onAuthenticationSuccess();
+            }
+            
+            @Override
+            public void onAuthenticationError(int errorCode, CharSequence errString) {
+                callback.onAuthenticationError(errString.toString());
+            }
+        });
+        
+        biometricPrompt.authenticate(promptInfo);
+    }
+
+    // Authentication timeout management
+    public boolean needsAuthentication() {
+        if (!isSecurityEnabled()) return false;
+        long lastAuthTime = preferences.getLong(PREF_LAST_AUTH_TIME, 0);
+        long authTimeout = preferences.getLong(PREF_AUTH_TIMEOUT, DEFAULT_AUTH_TIMEOUT_MS);
+        return (System.currentTimeMillis() - lastAuthTime) > authTimeout;
     }
 }
 ```
@@ -257,29 +310,42 @@ public class MessageRepository {
 
 ## 🗓️ **Release Timeline**
 
-### v1.14.0 - Security & Validation (Q1 2024)
+### v1.14.0 - PIN/Biometric Lock Security ✅ COMPLETED
 
-- Number whitelist/blacklist
-- Input validation improvements
-- Better error messages
+- [x] **PIN Authentication** - 4+ digit PIN with salted SHA-256 hashing
+- [x] **Biometric Authentication** - Fingerprint/face unlock with Android Keystore
+- [x] **Authentication Timeout** - Configurable timeout from 1 minute to never
+- [x] **Security Testing** - Built-in authentication testing functionality
+- [x] **Multi-language Support** - Complete Turkish and English localization
+- [x] **Fallback System** - Biometric gracefully falls back to PIN if unavailable
 
-### v1.15.0 - Platform Expansion (Q2 2024)
+### v1.15.0 - Enhanced Security & Validation (Q1 2024)
 
-- Discord integration
-- Slack integration
-- Custom message templates
+- Number whitelist/blacklist functionality
+- Input validation improvements for all settings
+- Better error messages with user guidance
+- Security audit logging
 
-### v1.16.0 - Advanced Features (Q3 2024)
+### v1.16.0 - Platform Expansion (Q2 2024)
 
-- Smart notifications
-- Quiet hours
-- Statistics export
+- Discord integration via webhooks
+- Slack integration via Bot API
+- Custom message templates with variables
+- Microsoft Teams webhook support
+
+### v1.17.0 - Advanced Features (Q3 2024)
+
+- Smart notifications with grouping
+- Quiet hours configuration
+- Statistics export to CSV/JSON
+- Number whitelist/blacklist with patterns
 
 ### v2.0.0 - Architecture Overhaul (Q4 2024)
 
-- Modern architecture patterns
-- Comprehensive testing
+- Modern architecture patterns (MVVM, Repository)
+- Comprehensive testing framework
 - Performance optimizations
+- Advanced security features (encryption, audit logs)
 
 ---
 
@@ -306,6 +372,21 @@ public class MessageRepository {
 ---
 
 ## ✅ **Recently Completed Milestones**
+
+### Version 1.14.0 - PIN/Biometric Lock Security
+
+- [x] **SecurityManager Class** - Comprehensive security management with PIN and biometric support
+- [x] **PIN Authentication** - Secure 4+ digit PIN with salted SHA-256 hashing and random salt generation
+- [x] **Biometric Authentication** - Fingerprint and face recognition using Android Biometric API
+- [x] **Android Keystore Integration** - Secure biometric key storage with hardware-backed security
+- [x] **AuthenticationActivity** - Dedicated security screen with fallback system and no back navigation
+- [x] **MainActivity Integration** - Authentication checks on startup and app resume with proper lifecycle
+- [x] **Authentication Timeout** - Configurable timeout options from 1 minute to never expire
+- [x] **Security Testing** - Built-in functionality to test authentication without affecting normal operation
+- [x] **Multi-language Support** - 50+ security strings in English and Turkish with cultural adaptations
+- [x] **Settings UI Integration** - Complete "Security & Privacy" section with all security preferences
+- [x] **Fallback System** - Biometric authentication gracefully falls back to PIN if hardware unavailable
+- [x] **Privacy Protection** - Security settings excluded from backup/restore for enhanced privacy
 
 ### Version 1.13.0 - SMS Content Filter
 
