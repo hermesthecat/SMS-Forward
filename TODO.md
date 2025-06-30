@@ -9,7 +9,7 @@
 - [x] **Connection Status Indicator** - Show online/offline status ✅ _Completed in v1.5.0_
 - [x] **Offline Message Queue** - Store failed messages for retry ✅ _Completed in v1.4.0_
 - [ ] **Number Whitelist** - Only forward from specific numbers
-- [ ] **SMS Content Filter** - Block messages containing specific keywords (comma-separated list)
+- [x] **SMS Content Filter** - Block messages containing specific keywords (comma-separated list) ✅ _Completed in v1.13.0_
 
 ### UI Improvements
 
@@ -235,6 +235,32 @@ if (SmsContentFilter.shouldBlockMessage(messageContent, filterKeywords)) {
 ---
 
 ## ✅ **Recently Completed**
+
+### Version 1.13.0 - SMS Content Filter
+
+- [x] **SmsContentFilter Class** - Static utility class for content filtering
+- [x] **Keyword-based Filtering** - Comma-separated keyword list with case-insensitive matching
+- [x] **SmsReceiver Integration** - Pre-filtering messages before forwarding
+- [x] **User Interface** - EditTextPreference with dynamic summary updates
+- [x] **Settings Backup Support** - Filter keywords included in backup/restore
+- [x] **Multi-language Support** - Complete Turkish and English localization
+- [x] **Input Validation** - Automatic keyword cleaning and formatting
+
+Implementation details:
+
+- **Content Filtering**: Messages containing any configured keyword are blocked
+- **Case Insensitive**: Filtering ignores capitalization (SPAM = spam = Spam)
+- **Comma Separation**: Users can enter multiple keywords: "spam,promotion,advertisement"
+- **Real-time Updates**: Summary shows active filters with live preview
+- **Integration Point**: Filtering occurs in SmsReceiver before any forwarding
+- **Performance**: Lightweight string matching with early exit optimization
+
+Features:
+
+- **Smart Summary**: Shows "Active filters: spam, promotion" or "No content filters active"
+- **Input Cleaning**: Automatically removes empty keywords and normalizes spacing
+- **Backup Compatible**: Filter settings included in settings export/import
+- **Logging**: Blocked messages are logged for debugging with keyword identification
 
 ### Version 1.12.0 - Memory Leak Fixes
 

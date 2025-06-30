@@ -81,6 +81,9 @@ Calls can be forwarded to a single phone thanks to carriers' call forwarding ser
 - Sliding window algorithm for precise control
 - User-configurable enable/disable toggle
 - Rate-limited messages queued for later processing
+- SMS content filtering with keyword-based blocking
+- Case-insensitive keyword matching
+- Comma-separated keyword list support
 
 ✅ **Memory management and performance:**
 
@@ -185,7 +188,15 @@ gradlew.bat assembleRelease
    - **Email**: Configure SMTP server settings
    - **Web**: Set webhook URL endpoint
 
-5. **Backup & Restore (Optional):**
+5. **Configure Content Filtering (Optional):**
+
+   - Go to "Privacy & Security" section in settings
+   - **Content Filter**: Enter keywords to block (comma-separated)
+   - Example: "spam,advertisement,promotion,sale"
+   - Case-insensitive matching (SPAM = spam = Spam)
+   - Messages containing any keyword will be blocked
+
+6. **Backup & Restore (Optional):**
 
    - Go to "Backup & Restore" section in settings
    - **Export Settings**: Backup your configuration to a JSON file
@@ -193,7 +204,7 @@ gradlew.bat assembleRelease
    - Use for device migration or sharing settings between devices
    - Exported files include all platform settings, theme preferences, and rate limiting config
 
-6. **Test Your Setup:**
+7. **Test Your Setup:**
 
    - Go to "Test & Debug" section in settings
    - Check "Connection Status" to view real-time network connectivity
@@ -204,14 +215,14 @@ gradlew.bat assembleRelease
    - Check "View Message History" to see recent forwarding activity
    - Check if test message arrives on your target platforms
 
-7. **View App Information:**
+8. **View App Information:**
 
    - Go to "About" section in settings
    - View app version, developer information, and license details
    - See comprehensive feature list and technical specifications
    - Check package information and system requirements
 
-8. **Usage:**
+9. **Usage:**
    - Keep the Android phone charged and connected
    - Incoming SMS will be forwarded automatically
    - Send reverse SMS with format: `To [number]:\n[message]`
@@ -645,7 +656,7 @@ HTTP POST to configured webhook:
 - **Package Name**: `com.keremgok.smsforward`
 - **Minimum Android**: API Level 25 (Android 7.0)
 - **Target Android**: API Level 34 (Android 14)
-- **App Version**: 1.12.0
+- **App Version**: 1.13.0
 - **Languages**: Turkish, English (with system default)
 - **Architecture**: Java with Android Gradle Plugin 8.7.3
 
@@ -656,6 +667,7 @@ app/src/main/java/com/keremgok/smsforward/
 ├── SmsForwardApplication.java # Application class for language initialization
 ├── MainActivity.java          # Settings UI with stats/queue/connection/rate limit status
 ├── SmsReceiver.java           # SMS broadcast receiver with memory leak fixes
+├── SmsContentFilter.java      # Content filtering system for keyword-based blocking
 ├── LanguageManager.java       # Multi-language support and runtime switching
 ├── RateLimiter.java           # Rate limiting and spam prevention system
 ├── SettingsBackupManager.java # Export/Import settings in JSON format
@@ -676,7 +688,38 @@ app/src/main/java/com/keremgok/smsforward/
 
 ## Changelog
 
-### Version 1.12.0 - Memory Leak Fixes & Performance (Latest)
+### Version 1.13.0 - SMS Content Filter & Security (Latest)
+
+🛡️ **Content Filtering:**
+
+- ✅ **Keyword-based Filtering**: Block messages containing specific keywords
+- ✅ **Case-insensitive Matching**: SPAM = spam = Spam for flexible filtering
+- ✅ **Comma-separated Lists**: Multiple keywords: "spam,advertisement,promotion"
+- ✅ **Real-time Summary**: Live preview of active filters in settings
+- ✅ **Input Validation**: Automatic keyword cleaning and formatting
+
+🔒 **Security Enhancements:**
+
+- ✅ **Spam Protection**: Proactive message blocking before forwarding
+- ✅ **User Control**: Complete control over filtered content
+- ✅ **Performance Optimized**: Lightweight string matching with early exit
+- ✅ **Integration Point**: Pre-filtering in SmsReceiver before any forwarding
+
+🌐 **Multi-language Support:**
+
+- ✅ **Turkish & English**: Complete localization for filter settings
+- ✅ **Settings Backup**: Filter keywords included in backup/restore
+- ✅ **Smart UI**: Dynamic summaries showing active vs inactive filters
+- ✅ **User-friendly**: Clear instructions and help text
+
+🛠️ **Technical Implementation:**
+
+- ✅ **SmsContentFilter Class**: Static utility class for efficient filtering
+- ✅ **Memory Efficient**: No unnecessary object creation during filtering
+- ✅ **Thread Safe**: Safe for concurrent access from SmsReceiver
+- ✅ **Logging**: Detailed logs for debugging blocked messages
+
+### Version 1.12.0 - Memory Leak Fixes & Performance
 
 🔧 **Memory Management:**
 

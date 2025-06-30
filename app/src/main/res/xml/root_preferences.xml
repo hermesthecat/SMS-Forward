@@ -141,6 +141,23 @@
 
     <PreferenceCategory
         app:iconSpaceReserved="false"
+        app:title="@string/header_content_filter">
+
+        <EditTextPreference
+            android:key="@string/key_filter_keywords"
+            android:title="@string/filter_keywords_title"
+            android:summary="@string/filter_keywords_summary"
+            android:dialogTitle="@string/filter_keywords_dialog_title"
+            android:dialogMessage="@string/filter_keywords_dialog_message"
+            android:hint="@string/filter_keywords_placeholder"
+            android:defaultValue=""
+            android:inputType="textMultiLine|textCapSentences"
+            app:iconSpaceReserved="false" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
         app:title="@string/header_appearance">
 
         <ListPreference

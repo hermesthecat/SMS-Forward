@@ -93,6 +93,17 @@
     <string name="rate_limit_available_now">available now</string>
     <string name="rate_limit_seconds">%d seconds</string>
 
+    <!-- Content Filter -->
+    <string name="key_filter_keywords" translatable="false">key_filter_keywords</string>
+    <string name="header_content_filter">Content Filter</string>
+    <string name="filter_keywords_title">Block Keywords</string>
+    <string name="filter_keywords_summary">Block messages containing these keywords (comma-separated)</string>
+    <string name="filter_keywords_dialog_title">Enter keywords to block</string>
+    <string name="filter_keywords_dialog_message">Enter keywords separated by commas. Messages containing any of these words will not be forwarded.\n\nExample: spam,promotion,advertisement</string>
+    <string name="filter_keywords_placeholder">spam,promotion,advertisement</string>
+    <string name="filter_active_summary">Active filters: %s</string>
+    <string name="filter_inactive_summary">No content filters active</string>
+
     <!-- Appearance -->
     <string name="header_appearance">Appearance</string>
     <string name="key_theme_mode">theme_mode</string>

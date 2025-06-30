@@ -213,6 +213,33 @@ public class MainActivity extends AppCompatActivity {
                         });
             }
 
+            // Set up content filter preference listener
+            androidx.preference.EditTextPreference filterKeywordsPreference = findPreference(getString(R.string.key_filter_keywords));
+            if (filterKeywordsPreference != null) {
+                // Set initial summary
+                updateFilterKeywordsSummary(filterKeywordsPreference);
+
+                filterKeywordsPreference
+                        .setOnPreferenceChangeListener(new androidx.preference.Preference.OnPreferenceChangeListener() {
+                            @Override
+                            public boolean onPreferenceChange(androidx.preference.Preference preference,
+                                    Object newValue) {
+                                String newKeywords = (String) newValue;
+
+                                // Clean and validate keywords
+                                String cleanedKeywords = SmsContentFilter.cleanFilterKeywords(newKeywords);
+
+                                // Update the actual preference value with cleaned keywords
+                                ((androidx.preference.EditTextPreference) preference).setText(cleanedKeywords);
+
+                                // Update summary to show active filters
+                                updateFilterKeywordsSummary((androidx.preference.EditTextPreference) preference);
+
+                                return true;
+                            }
+                        });
+            }
+
             // Set up export settings
             Preference exportSettingsPreference = findPreference(getString(R.string.key_export_settings));
             if (exportSettingsPreference != null) {
@@ -735,6 +762,21 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
+        private void updateFilterKeywordsSummary(androidx.preference.EditTextPreference preference) {
+            try {
+                String keywords = preference.getText();
+                String summary = SmsContentFilter.getFilterSummary(keywords);
+                
+                if (summary != null) {
+                    preference.setSummary(String.format(getString(R.string.filter_active_summary), summary));
+                } else {
+                    preference.setSummary(getString(R.string.filter_inactive_summary));
+                }
+            } catch (Exception e) {
+                preference.setSummary("Error reading filter settings");
+            }
+        }
+
         private void showRateLimitStatus() {
             try {
                 RateLimiter rateLimiter = RateLimiter.getInstance();
@@ -932,6 +974,12 @@ public class MainActivity extends AppCompatActivity {
                 androidx.preference.ListPreference themePreference = findPreference(getString(R.string.key_theme_mode));
                 if (themePreference != null) {
                     updateThemeSummary(themePreference);
+                }
+
+                // Update content filter summary
+                androidx.preference.EditTextPreference filterKeywordsPreference = findPreference(getString(R.string.key_filter_keywords));
+                if (filterKeywordsPreference != null) {
+                    updateFilterKeywordsSummary(filterKeywordsPreference);
                 }
 
                 // Update message counter summary

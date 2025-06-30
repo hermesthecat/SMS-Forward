@@ -4,7 +4,7 @@
 
 SMS Forward is a minimal, efficient Android application for forwarding SMS messages across multiple platforms. This document outlines future development suggestions and improvements.
 
-**Current Version**: 1.12.0  
+**Current Version**: 1.13.0  
 **Package Name**: `com.keremgok.smsforward`  
 **Target**: Production-ready SMS forwarding solution
 
@@ -161,7 +161,7 @@ public class DiscordForwarder extends AbstractWebForwarder {
 #### 3.2 Enhanced Message Processing
 
 - [ ] **Custom Message Templates** with variables
-- [ ] **Content Filtering** (spam detection)
+- [x] **Content Filtering** (keyword-based filtering) ✅ _Completed v1.13.0_
 - [ ] **Keyword-based Routing** (different platforms for different keywords)
 - [ ] **Message Transformation** (uppercase, formatting)
 
@@ -257,19 +257,19 @@ public class MessageRepository {
 
 ## 🗓️ **Release Timeline**
 
-### v1.13.0 - Security & Validation (Q1 2024)
+### v1.14.0 - Security & Validation (Q1 2024)
 
 - Number whitelist/blacklist
 - Input validation improvements
 - Better error messages
 
-### v1.14.0 - Platform Expansion (Q2 2024)
+### v1.15.0 - Platform Expansion (Q2 2024)
 
 - Discord integration
 - Slack integration
 - Custom message templates
 
-### v1.15.0 - Advanced Features (Q3 2024)
+### v1.16.0 - Advanced Features (Q3 2024)
 
 - Smart notifications
 - Quiet hours
@@ -306,6 +306,16 @@ public class MessageRepository {
 ---
 
 ## ✅ **Recently Completed Milestones**
+
+### Version 1.13.0 - SMS Content Filter
+
+- [x] **SmsContentFilter Class** - Static utility class for keyword-based content filtering
+- [x] **Keyword-based Filtering** - Comma-separated keyword list with case-insensitive matching
+- [x] **SmsReceiver Integration** - Pre-filtering messages before forwarding
+- [x] **User Interface** - EditTextPreference with dynamic summary updates
+- [x] **Settings Backup Support** - Filter keywords included in backup/restore
+- [x] **Multi-language Support** - Complete Turkish and English localization
+- [x] **Input Validation** - Automatic keyword cleaning and formatting
 
 ### Version 1.12.0 - Memory Leak Fixes
 

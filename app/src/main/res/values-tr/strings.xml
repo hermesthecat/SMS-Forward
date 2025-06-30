@@ -75,6 +75,16 @@
     <string name="rate_limit_available_now">şimdi mevcut</string>
     <string name="rate_limit_seconds">%d saniye</string>
 
+    <!-- Content Filter -->
+    <string name="header_content_filter">İçerik Filtresi</string>
+    <string name="filter_keywords_title">Engellenen Kelimeler</string>
+    <string name="filter_keywords_summary">Bu kelimeleri içeren mesajları engelle (virgülle ayrılmış)</string>
+    <string name="filter_keywords_dialog_title">Engellenecek kelimeleri girin</string>
+    <string name="filter_keywords_dialog_message">Kelimeleri virgülle ayırarak girin. Bu kelimelerden herhangi birini içeren mesajlar yönlendirilmeyecek.\n\nÖrnek: reklam,kampanya,promosyon</string>
+    <string name="filter_keywords_placeholder">reklam,kampanya,promosyon</string>
+    <string name="filter_active_summary">Aktif filtreler: %s</string>
+    <string name="filter_inactive_summary">Aktif içerik filtresi yok</string>
+
     <!-- Appearance -->
     <string name="header_appearance">Görünüm</string>
     <string name="theme_mode_title">Tema</string>

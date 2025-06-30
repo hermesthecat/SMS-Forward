@@ -71,11 +71,18 @@ public class SmsReceiver extends BroadcastReceiver {
         String smtpPassword = preferences.getString(context.getString(R.string.key_email_submit_password), "");
         String smtpUsernameStyle = preferences.getString(context.getString(R.string.key_email_username_style), "full");
         boolean enableRateLimiting = preferences.getBoolean(context.getString(R.string.key_enable_rate_limiting), true);
+        String filterKeywords = preferences.getString(context.getString(R.string.key_filter_keywords), "");
 
         // TODO: add a dedicated preference item for reverse forwarding
         // Disables reverse forwarding too if no forwarders is enabled.
         if (!enableSms && !enableTelegram && !enableWeb && !enableEmail)
             return;
+
+        // Check content filter - block message if it contains filtered keywords
+        if (SmsContentFilter.shouldBlockMessage(messageContent, filterKeywords)) {
+            Log.i(TAG, String.format("Message from %s blocked by content filter", senderNumber));
+            return; // Don't forward the message
+        }
 
         ArrayList<Forwarder> forwarders = new ArrayList<>(1);
         if (enableSms && !targetNumber.isEmpty()) {
