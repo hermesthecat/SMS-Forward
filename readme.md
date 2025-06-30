@@ -511,6 +511,54 @@ Features:
 - Automatic data retention (90 days)
 - Real-time updates during forwarding
 
+### Security Authentication Examples
+
+PIN and biometric authentication protecting app access:
+
+```bash
+# App Startup Security Check
+App Launch → Security Check → Authentication Required?
+├─ Yes → Show AuthenticationActivity
+│   ├─ Biometric Available? → Show Fingerprint/Face Prompt
+│   │   ├─ Success → Access Granted ✅
+│   │   └─ Failed → Fall back to PIN Input
+│   └─ PIN Only → Show PIN Input Dialog
+│       ├─ Correct PIN → Access Granted ✅
+│       └─ Wrong PIN → Show Error, Try Again
+└─ No → Normal App Access (Security Disabled)
+
+# Authentication Timeout Examples
+🔒 Security Active → User leaves app for 5 minutes → Returns
+App Resume → Check timeout → Authentication required again
+
+🔒 Authentication Timeout Settings:
+├─ 1 minute: High security, frequent re-auth
+├─ 5 minutes: Balanced security (default)
+├─ 15 minutes: Convenient for regular use
+├─ 30 minutes: Low frequency re-auth
+├─ 1 hour: Minimal security interruption
+└─ Never: One-time auth per app install
+```
+
+Authentication behavior:
+
+```bash
+# Biometric Authentication Flow
+Biometric Prompt → User scans finger/face
+├─ Hardware Available → Show biometric dialog
+│   ├─ Authentication Success → Access granted immediately
+│   ├─ Authentication Failed → "Try again" with fallback
+│   └─ User cancels → Fall back to PIN input
+└─ Hardware Unavailable → Direct PIN input
+
+# Security Testing (without affecting normal operation)
+Settings → Security Test → Simulates authentication
+├─ Tests current security configuration
+├─ Verifies biometric hardware status
+├─ Tests PIN validation if configured
+└─ Returns to settings (no actual app lock)
+```
+
 ### Rate Limiting and Spam Prevention
 
 Automatic protection against SMS forwarding abuse:
@@ -687,6 +735,8 @@ app/src/main/java/com/keremgok/smsforward/
 ├── MainActivity.java          # Settings UI with stats/queue/connection/rate limit status
 ├── SmsReceiver.java           # SMS broadcast receiver with memory leak fixes
 ├── SmsContentFilter.java      # Content filtering system for keyword-based blocking
+├── SecurityManager.java       # PIN and biometric authentication management
+├── AuthenticationActivity.java # Dedicated security screen with fallback system
 ├── LanguageManager.java       # Multi-language support and runtime switching
 ├── RateLimiter.java           # Rate limiting and spam prevention system
 ├── SettingsBackupManager.java # Export/Import settings in JSON format
@@ -871,6 +921,7 @@ app/src/main/java/com/keremgok/smsforward/
 
 - AndroidX AppCompat & Material Design
 - AndroidX Preferences
+- AndroidX Biometric (for fingerprint/face authentication)
 
 ### Build System
 
