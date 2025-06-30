@@ -35,7 +35,7 @@ public class SmsReceiver extends BroadcastReceiver {
         MessageStatsDbHelper statsDbHelper = new MessageStatsDbHelper(context);
         MessageHistoryDbHelper historyDbHelper = new MessageHistoryDbHelper(context);
         RateLimiter rateLimiter = RateLimiter.getInstance();
-        
+
         // Process SMS with proper resource management
     }
 }
@@ -49,7 +49,7 @@ public void onDestroy() {
         networkStatusManager.removeListener(this);
         networkStatusManager.stopMonitoring();
     }
-    
+
     // Close database helpers to free resources
     if (historyDbHelper != null) {
         historyDbHelper.close();
@@ -197,7 +197,7 @@ public class SecurityManager {
         byte[] salt = new byte[16];
         new SecureRandom().nextBytes(salt);
         String hashedPin = hashPinWithSalt(pin, salt);
-        
+
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString(PREF_PIN_HASH, hashedPin);
         editor.putString(PREF_PIN_SALT, Base64.encodeToString(salt, Base64.DEFAULT));
@@ -209,10 +209,10 @@ public class SecurityManager {
     public boolean verifyPIN(String pin) {
         String storedHash = preferences.getString(PREF_PIN_HASH, "");
         String storedSalt = preferences.getString(PREF_PIN_SALT, "");
-        
+
         byte[] salt = Base64.decode(storedSalt, Base64.DEFAULT);
         String inputHash = hashPinWithSalt(pin, salt);
-        
+
         boolean isValid = storedHash.equals(inputHash);
         if (isValid) recordSuccessfulAuth();
         return isValid;
@@ -226,20 +226,20 @@ public class SecurityManager {
                 .setNegativeButtonText(context.getString(R.string.biometric_prompt_cancel))
                 .build();
 
-        BiometricPrompt biometricPrompt = new BiometricPrompt(activity, executor, 
+        BiometricPrompt biometricPrompt = new BiometricPrompt(activity, executor,
                 new BiometricPrompt.AuthenticationCallback() {
             @Override
             public void onAuthenticationSucceeded(BiometricPrompt.AuthenticationResult result) {
                 recordSuccessfulAuth();
                 callback.onAuthenticationSuccess();
             }
-            
+
             @Override
             public void onAuthenticationError(int errorCode, CharSequence errString) {
                 callback.onAuthenticationError(errString.toString());
             }
         });
-        
+
         biometricPrompt.authenticate(promptInfo);
     }
 
@@ -350,12 +350,6 @@ public class MessageRepository {
 ---
 
 ## 💡 **Innovation Ideas**
-
-### AI-Powered Features
-
-- **Smart Spam Detection** using ML
-- **Auto-categorization** of messages
-- **Predictive Forwarding** based on patterns
 
 ### Cloud Integration
 
