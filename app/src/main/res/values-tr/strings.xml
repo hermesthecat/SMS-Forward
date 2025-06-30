@@ -86,6 +86,8 @@
     <string name="language_summary">Uygulama dilini seçin</string>
     <string name="language_restart_required">Dil değişikliğinin etkili olması için uygulama yeniden
         başlatılmalıdır</string>
+    <string name="language_restart_title">Dil Değiştirildi</string>
+    <string name="language_restart_message">Yeni dil ayarının uygulanması için uygulama yeniden başlatılacak.</string>
     <string name="connection_online">%1$s Çevrimiçi (%2$s)</string>
     <string name="connection_offline">🔴 Çevrimdışı</string>
     <string name="connection_unknown">❓ Bilinmiyor</string>

@@ -105,6 +105,8 @@
     <string name="language_title">Language</string>
     <string name="language_summary">Choose app language</string>
     <string name="language_restart_required">App restart required for language change to take effect</string>
+    <string name="language_restart_title">Language Changed</string>
+    <string name="language_restart_message">The app will restart to apply the new language setting.</string>
     <string name="connection_online">%1$s Online (%2$s)</string>
     <string name="connection_offline">🔴 Offline</string>
     <string name="connection_unknown">❓ Unknown</string>
