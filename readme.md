@@ -124,6 +124,51 @@ Calls can be forwarded to a single phone thanks to carriers' call forwarding ser
 - **UI localization**: Complete interface translation
 - **Cultural adaptations**: Proper formatting and expressions for each language
 
+## Screenshots
+
+<table>
+  <tr>
+    <td width="25%">
+      <img src="screens/Screenshot_2025-06-30_16-57-00.png" alt="Main Settings" width="100%"/>
+    </td>
+    <td width="25%">
+      <img src="screens/Screenshot_2025-06-30_16-57-13.png" alt="Security Settings" width="100%"/>
+    </td>
+    <td width="25%">
+      <img src="screens/Screenshot_2025-06-30_16-57-22.png" alt="PIN Setup" width="100%"/>
+    </td>
+    <td width="25%">
+      <img src="screens/Screenshot_2025-06-30_16-57-29.png" alt="PIN Creation" width="100%"/>
+    </td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <td width="25%">
+      <img src="screens/Screenshot_2025-06-30_16-57-42.png" alt="PIN Confirmation" width="100%"/>
+    </td>
+    <td width="25%">
+      <img src="screens/Screenshot_2025-06-30_16-57-48.png" alt="Authentication Timeout" width="100%"/>
+    </td>
+    <td width="25%">
+      <img src="screens/Screenshot_2025-06-30_16-57-55.png" alt="Biometric Settings" width="100%"/>
+    </td>
+    <td width="25%">
+      <img src="screens/Screenshot_2025-06-30_16-58-17.png" alt="Security Test" width="100%"/>
+    </td>
+  </tr>
+</table>
+
+### Key Security Features:
+
+- 🔒 **PIN Protection**: Secure 4+ digit PIN with salted SHA-256 hashing
+- 👆 **Biometric Authentication**: Fingerprint and face recognition support
+- ⏱️ **Configurable Timeout**: From 1 minute to never expire
+- 🔄 **Fallback System**: Biometric gracefully falls back to PIN
+- 🧪 **Security Testing**: Built-in testing without affecting normal operation
+- 🌐 **Multi-language**: Complete Turkish and English localization
+
 ## Build Instructions
 
 ### Prerequisites
