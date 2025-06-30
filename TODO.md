@@ -2,16 +2,19 @@
 
 ## 🚨 **High Priority (Next Release)**
 
-### 📱 **MAJOR: Multi-Screen Architecture Redesign** 
+### 📱 **MAJOR: Multi-Screen Architecture Redesign**
+
 **Target: v2.0.0 - Complete UI/UX Overhaul**
 
 #### **Phase 1: Navigation Foundation (Week 1-2)**
+
 - [ ] **Navigation Component Setup** - Add Navigation library and basic navigation
 - [ ] **BottomNavigationView Implementation** - 5-tab navigation structure  
 - [ ] **Fragment Architecture** - Convert single Activity to Fragment-based
 - [ ] **Basic Layout Migration** - Move current preferences to fragments
 
 #### **Phase 2: Screen Separation (Week 3-4)**
+
 - [ ] **Dashboard Fragment** - Status cards, quick actions, recent activity
 - [ ] **Forwarders Fragment** - TabLayout with SMS/Telegram/Email/Webhook tabs
 - [ ] **Settings Fragment** - Advanced app settings and configuration
@@ -19,6 +22,7 @@
 - [ ] **Data Fragment** - History, statistics, backup/restore functionality
 
 #### **Phase 3: UI Modernization (Week 5-6)**
+
 - [ ] **Material Design 3** - Update to latest Material Design components
 - [ ] **Status Cards Implementation** - Dashboard status overview cards
 - [ ] **Charts & Analytics** - Visual statistics and performance metrics
@@ -26,6 +30,7 @@
 - [ ] **Loading States** - Progress indicators and skeleton screens
 
 #### **Phase 4: Enhanced Features (Week 7-8)**
+
 - [ ] **Interactive Dashboard** - Real-time status updates and quick actions
 - [ ] **Advanced Filtering UI** - Improved content filtering interface
 - [ ] **Export/Import Enhancements** - Better backup management interface
@@ -116,6 +121,7 @@
 ## 🚀 **Quick Wins (Easy Implementation)**
 
 ### Completed Quick Wins ✅
+
 1. ~~**Test Message Button** - 1 day~~ ✅ _Completed_
 2. ~~**Message Counter** - 1 day~~ ✅ _Completed_
 3. ~~**Connection Status** - 2 days~~ ✅ _Completed_
@@ -124,8 +130,9 @@
 6. ~~**Memory Leak Fixes** - 2 days~~ ✅ _Completed_
 
 ### Post Multi-Screen Quick Wins 📱
+
 1. **Better Error Messages** - 2 days (Integrate into new UI)
-2. **Navigation Component Basic Setup** - 1 day 
+2. **Navigation Component Basic Setup** - 1 day
 3. **BottomNavigationView Implementation** - 1 day
 4. **Fragment Creation** - 2 days (Basic empty fragments)
 5. **Dashboard Status Cards** - 3 days (Basic card layout)
@@ -137,10 +144,11 @@
 
 ## 📝 **Implementation Notes**
 
-### 📱 **Multi-Screen Architecture Implementation** 
+### 📱 **Multi-Screen Architecture Implementation**
 
 #### **Navigation Structure**
-```
+
+```xml
 MainActivity
 ├── BottomNavigationView (5 tabs)
 │   ├── 🏠 Dashboard (Ana Sayfa)
@@ -153,7 +161,8 @@ MainActivity
 ```
 
 #### **Proposed File Structure**
-```
+
+```java
 app/src/main/java/com/keremgok/smsforward/ui/
 ├── fragments/
 │   ├── DashboardFragment.java      // Status cards, quick actions
@@ -181,6 +190,7 @@ app/src/main/java/com/keremgok/smsforward/ui/
 ```
 
 #### **Dashboard Cards Implementation**
+
 ```java
 // Dashboard status cards structure
 public class DashboardFragment extends Fragment {
@@ -201,6 +211,7 @@ public class DashboardFragment extends Fragment {
 ```
 
 #### **BottomNavigationView Setup**
+
 ```xml
 <!-- res/layout/activity_main.xml -->
 <androidx.coordinatorlayout.widget.CoordinatorLayout>
@@ -218,6 +229,7 @@ public class DashboardFragment extends Fragment {
 ```
 
 #### **Forwarders TabLayout Structure**
+
 ```java
 // ForwardersFragment with TabLayout + ViewPager2
 public class ForwardersFragment extends Fragment {
@@ -240,6 +252,7 @@ public class ForwardersFragment extends Fragment {
 ```
 
 #### **Material Design 3 Components**
+
 ```xml
 <!-- Status Cards using Material Design 3 -->
 <com.google.android.material.card.MaterialCardView
@@ -257,6 +270,7 @@ public class ForwardersFragment extends Fragment {
 ```
 
 #### **Screen Transition Animations**
+
 ```xml
 <!-- res/anim/slide_in_right.xml -->
 <set xmlns:android="http://schemas.android.com/apk/res/android">
@@ -272,6 +286,7 @@ public class ForwardersFragment extends Fragment {
 ```
 
 #### **ViewModel Integration for State Management**
+
 ```java
 public class DashboardViewModel extends ViewModel {
     private MutableLiveData<ConnectionStatus> connectionStatus = new MutableLiveData<>();
@@ -286,8 +301,6 @@ public class DashboardViewModel extends ViewModel {
     }
 }
 ```
-
-### Memory Leak Fixes ✅ COMPLETED
 
 ### Memory Leak Fixes ✅ COMPLETED
 
