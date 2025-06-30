@@ -309,6 +309,18 @@ public class MainActivity extends AppCompatActivity {
                         });
             }
 
+            // Set up backup manager navigation
+            Preference backupManagerPreference = findPreference("key_backup_manager");
+            if (backupManagerPreference != null) {
+                backupManagerPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                    @Override
+                    public boolean onPreferenceClick(Preference preference) {
+                        navigateToBackupManager();
+                        return true;
+                    }
+                });
+            }
+
             // Set up export settings
             Preference exportSettingsPreference = findPreference(getString(R.string.key_export_settings));
             if (exportSettingsPreference != null) {
@@ -1584,6 +1596,16 @@ public class MainActivity extends AppCompatActivity {
                     preference.setSummary(timeoutEntries[i]);
                     break;
                 }
+            }
+        }
+
+        /**
+         * Navigate to the enhanced backup manager fragment
+         */
+        private void navigateToBackupManager() {
+            if (getActivity() != null) {
+                androidx.navigation.NavController navController = androidx.navigation.Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
+                navController.navigate(R.id.nav_backup_manager);
             }
         }
     }

@@ -185,6 +185,12 @@
         app:title="@string/header_backup">
 
         <Preference
+            android:key="key_backup_manager"
+            android:title="@string/backup_manager_title"
+            android:summary="@string/backup_manager_subtitle"
+            app:iconSpaceReserved="false" />
+
+        <Preference
             android:key="@string/key_export_settings"
             android:title="@string/export_settings_title"
             android:summary="@string/export_settings_summary"

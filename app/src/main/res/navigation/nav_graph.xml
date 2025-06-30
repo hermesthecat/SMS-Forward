@@ -41,4 +41,10 @@
         android:label="@string/advanced_filters_title"
         tools:layout="@layout/fragment_advanced_filters" />
 
+    <fragment
+        android:id="@+id/nav_backup_manager"
+        android:name="com.keremgok.smsforward.ui.fragments.BackupManagerFragment"
+        android:label="@string/backup_manager_title"
+        tools:layout="@layout/fragment_backup_manager" />
+
 </navigation> 
