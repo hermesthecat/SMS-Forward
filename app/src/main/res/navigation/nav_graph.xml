@@ -35,4 +35,10 @@
         android:label="@string/nav_data"
         tools:layout="@layout/fragment_data" />
 
+    <fragment
+        android:id="@+id/nav_advanced_filters"
+        android:name="com.keremgok.smsforward.ui.fragments.AdvancedFiltersFragment"
+        android:label="@string/advanced_filters_title"
+        tools:layout="@layout/fragment_advanced_filters" />
+
 </navigation> 
