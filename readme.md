@@ -827,6 +827,40 @@ app/src/main/java/com/keremgok/smsforward/
 - Improved fragment lifecycle management
 - Modern layout designs with Material CardView components
 
+### Version 1.16.0 - Interactive Dashboard
+
+🔄 **Interactive Dashboard Features:**
+
+- ✅ **SwipeRefreshLayout**: Pull-to-refresh functionality for real-time status updates
+- ✅ **Auto-refresh Toggle**: Optional automatic refresh every 30 seconds with user control
+- ✅ **Enhanced Quick Actions**: 4 modern action buttons (Test Message, View Stats, Refresh, View History)
+- ✅ **Real-time Status Updates**: Live indicators with animations and instant feedback
+- ✅ **Last Update Tracking**: Displays when dashboard was last refreshed with time stamps
+- ✅ **Status Change Notifications**: Real-time notifications for network and security changes
+
+🎯 **User Experience Improvements:**
+
+- ✅ **Pull-to-Refresh**: Intuitive gesture-based refresh with Material Design indicators
+- ✅ **Loading States**: Enhanced loading animations with pull-to-refresh messages
+- ✅ **Smart Auto-refresh**: Users can enable/disable auto-refresh based on preference
+- ✅ **Action Feedback**: Instant visual feedback for all quick action buttons
+- ✅ **Status Indicators**: Live network and security status with animated state changes
+
+🛠️ **Technical Enhancements:**
+
+- ✅ **SwipeRefreshLayout Library**: Added androidx.swiperefreshlayout dependency
+- ✅ **Timer Management**: Auto-refresh timer with proper lifecycle handling
+- ✅ **Enhanced SharedViewModel**: Real-time data updates with LiveData observers
+- ✅ **Memory Optimization**: Efficient timer cleanup and resource management
+- ✅ **Material Design 3**: Updated color scheme with enhanced visual feedback
+
+🌐 **Localization:**
+
+- ✅ **English & Turkish**: Complete localization for all interactive features
+- ✅ **Status Messages**: Localized auto-refresh states and last update times
+- ✅ **Action Buttons**: Translated quick action labels and descriptions
+- ✅ **User Guidance**: Localized pull-to-refresh instructions and feedback
+
 ### Version 1.14.0 - PIN/Biometric Lock Security
 
 🔒 **Application Security:**

@@ -4,6 +4,8 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="colorSecondary">#625B71</color>
+    <color name="colorTertiary">#7D5260</color>
 
     <!-- Material Design 3 Light Theme Colors -->
     <color name="md_theme_light_primary">#6750A4</color>

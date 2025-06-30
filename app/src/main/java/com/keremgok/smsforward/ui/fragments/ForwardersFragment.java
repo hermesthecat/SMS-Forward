@@ -77,8 +77,8 @@ public class ForwardersFragment extends Fragment {
         pagerAdapter = new ForwardersPagerAdapter(requireActivity());
         viewPager.setAdapter(pagerAdapter);
         
-        // Optional: Set off-screen page limit for better performance
-        viewPager.setOffscreenPageLimit(ForwardersPagerAdapter.TAB_COUNT);
+        // Use default off-screen page limit for better performance
+        viewPager.setOffscreenPageLimit(ViewPager2.OFFSCREEN_PAGE_LIMIT_DEFAULT);
     }
 
     private void setupTabLayout() {
