@@ -17,7 +17,6 @@ import java.util.Locale;
  */
 public class LanguageManager {
     private static final String TAG = "LanguageManager";
-    public static final String KEY_LANGUAGE = "key_language";
 
     private final Context context;
     private final SharedPreferences preferences;
@@ -36,7 +35,7 @@ public class LanguageManager {
      */
     public static Context wrapContext(Context context) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        String languageCode = prefs.getString(KEY_LANGUAGE, "system");
+        String languageCode = prefs.getString(context.getString(R.string.key_language), "system");
 
         if ("system".equals(languageCode)) {
             return context;
@@ -79,7 +78,7 @@ public class LanguageManager {
      * Get the currently selected language code
      */
     public String getSelectedLanguage() {
-        return preferences.getString(KEY_LANGUAGE, "system");
+        return preferences.getString(context.getString(R.string.key_language), "system");
     }
 
     /**
@@ -87,7 +86,7 @@ public class LanguageManager {
      */
     public void setLanguage(String languageCode) {
         preferences.edit()
-                .putString(KEY_LANGUAGE, languageCode)
+                .putString(context.getString(R.string.key_language), languageCode)
                 .apply();
     }
 

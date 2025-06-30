@@ -161,7 +161,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             // Set up language preference listener
-            androidx.preference.ListPreference languagePreference = findPreference(LanguageManager.KEY_LANGUAGE);
+            androidx.preference.ListPreference languagePreference = findPreference(getString(R.string.key_language));
             if (languagePreference != null) {
                 // Set initial summary
                 updateLanguageSummary(languagePreference);
