@@ -2,7 +2,37 @@
 
 ## 🚨 **High Priority (Next Release)**
 
-### Critical Features
+### 📱 **MAJOR: Multi-Screen Architecture Redesign** 
+**Target: v2.0.0 - Complete UI/UX Overhaul**
+
+#### **Phase 1: Navigation Foundation (Week 1-2)**
+- [ ] **Navigation Component Setup** - Add Navigation library and basic navigation
+- [ ] **BottomNavigationView Implementation** - 5-tab navigation structure  
+- [ ] **Fragment Architecture** - Convert single Activity to Fragment-based
+- [ ] **Basic Layout Migration** - Move current preferences to fragments
+
+#### **Phase 2: Screen Separation (Week 3-4)**
+- [ ] **Dashboard Fragment** - Status cards, quick actions, recent activity
+- [ ] **Forwarders Fragment** - TabLayout with SMS/Telegram/Email/Webhook tabs
+- [ ] **Settings Fragment** - Advanced app settings and configuration
+- [ ] **Security Fragment** - Dedicated security and authentication screen
+- [ ] **Data Fragment** - History, statistics, backup/restore functionality
+
+#### **Phase 3: UI Modernization (Week 5-6)**
+- [ ] **Material Design 3** - Update to latest Material Design components
+- [ ] **Status Cards Implementation** - Dashboard status overview cards
+- [ ] **Charts & Analytics** - Visual statistics and performance metrics
+- [ ] **Improved Forms** - Better input fields and validation
+- [ ] **Loading States** - Progress indicators and skeleton screens
+
+#### **Phase 4: Enhanced Features (Week 7-8)**
+- [ ] **Interactive Dashboard** - Real-time status updates and quick actions
+- [ ] **Advanced Filtering UI** - Improved content filtering interface
+- [ ] **Export/Import Enhancements** - Better backup management interface
+- [ ] **Contextual Help** - In-app guidance and tooltips
+- [ ] **Animations & Transitions** - Smooth navigation and state changes
+
+### Critical Features (Post Multi-Screen)
 
 - [x] **Retry Mechanism** - Auto-retry failed forwards (3 attempts) ✅ _Completed in v1.3.0_
 - [x] **Test Message Button** - Quick functionality test ✅ _Completed in v1.2.0_
@@ -11,13 +41,13 @@
 - [ ] **Number Whitelist** - Only forward from specific numbers
 - [x] **SMS Content Filter** - Block messages containing specific keywords (comma-separated list) ✅ _Completed in v1.13.0_
 
-### UI Improvements
+### UI Improvements (Integrated into Multi-Screen)
 
 - [x] **Message Counter** - Show daily forwarded count ✅ _Completed in v1.6.0_
 - [x] **Dark Mode Support** - System theme following ✅ _Completed in v1.7.0_
 - [x] **Multi-language Support** - Turkish and English localization ✅ _Completed in v1.11.0_
 - [x] **About Page** - App information, version, and developer details ✅ _Completed in v1.11.0_
-- [ ] **Last Status Display** - Show last forward result
+- [ ] **Last Status Display** - Show last forward result (Dashboard'da)
 - [ ] **Better Error Messages** - User-friendly error descriptions
 
 ## 🔧 **Medium Priority**
@@ -59,31 +89,205 @@
 
 ## 📋 **Technical Debt**
 
+### Multi-Screen Architecture Debt
+
+- [ ] **Legacy MainActivity Refactor** - Split monolithic SettingsFragment into smaller fragments
+- [ ] **Navigation Graph Migration** - Convert manual fragment transactions to Navigation Component
+- [ ] **ViewModel Implementation** - Add ViewModels for proper state management
+- [ ] **Data Binding Migration** - Replace findViewById with data binding/view binding
+- [ ] **Fragment Communication** - Implement proper fragment-to-fragment communication
+
 ### Code Quality
 
-- [ ] **Unit Tests** - Add comprehensive test coverage
+- [ ] **Unit Tests** - Add comprehensive test coverage (especially for new fragments)
 - [x] **Memory Leaks** - Fix potential memory issues ✅ _Completed in v1.12.0_
-- [ ] **Code Documentation** - Add JavaDoc comments
-- [ ] **Performance Optimization** - Reduce memory usage
+- [ ] **Code Documentation** - Add JavaDoc comments for new UI components
+- [ ] **Performance Optimization** - Reduce memory usage and improve loading times
+- [ ] **Accessibility Support** - Add content descriptions and accessibility features
 
-### Architecture
+### Architecture Improvements
 
-- [ ] **Database Migration** - Add SQLite for data storage
-- [ ] **Dependency Injection** - Use modern DI framework
-- [ ] **Background Processing** - Use JobScheduler/WorkManager
+- [x] **Database Migration** - SQLite databases already implemented ✅ _Stats, History, Queue databases_
+- [ ] **Dependency Injection** - Use modern DI framework (Dagger/Hilt)
+- [ ] **Background Processing** - Use JobScheduler/WorkManager for queue processing
 - [x] **Resource Management** - Proper cleanup of executors and connections ✅ _Completed in v1.12.0_
+- [ ] **Modern Android Architecture** - MVVM pattern with LiveData/StateFlow
 
 ## 🚀 **Quick Wins (Easy Implementation)**
 
+### Completed Quick Wins ✅
 1. ~~**Test Message Button** - 1 day~~ ✅ _Completed_
 2. ~~**Message Counter** - 1 day~~ ✅ _Completed_
 3. ~~**Connection Status** - 2 days~~ ✅ _Completed_
 4. ~~**Dark Mode** - 1 day~~ ✅ _Completed_
 5. ~~**Message History** - 2 days~~ ✅ _Completed_
 6. ~~**Memory Leak Fixes** - 2 days~~ ✅ _Completed_
-7. **Better Error Messages** - 2 days
+
+### Post Multi-Screen Quick Wins 📱
+1. **Better Error Messages** - 2 days (Integrate into new UI)
+2. **Navigation Component Basic Setup** - 1 day 
+3. **BottomNavigationView Implementation** - 1 day
+4. **Fragment Creation** - 2 days (Basic empty fragments)
+5. **Dashboard Status Cards** - 3 days (Basic card layout)
+6. **Material Design 3 Migration** - 2 days (Update themes and colors)
+7. **Basic TabLayout for Forwarders** - 2 days
+8. **View Binding Migration** - 1 day (Replace findViewById)
+9. **Loading States Implementation** - 2 days (Progress indicators)
+10. **Contextual FAB Actions** - 1 day (Dashboard quick test, etc.)
 
 ## 📝 **Implementation Notes**
+
+### 📱 **Multi-Screen Architecture Implementation** 
+
+#### **Navigation Structure**
+```
+MainActivity
+├── BottomNavigationView (5 tabs)
+│   ├── 🏠 Dashboard (Ana Sayfa)
+│   ├── 📤 Forwarders (İletim)  
+│   ├── ⚙️ Settings (Ayarlar)
+│   ├── 🔐 Security (Güvenlik)
+│   └── 📊 Data (Veri)
+├── NavHostFragment
+└── Fragment Navigation Flow
+```
+
+#### **Proposed File Structure**
+```
+app/src/main/java/com/keremgok/smsforward/ui/
+├── fragments/
+│   ├── DashboardFragment.java      // Status cards, quick actions
+│   ├── forwarders/
+│   │   ├── ForwardersFragment.java // Main forwarders container
+│   │   ├── SmsForwarderFragment.java
+│   │   ├── TelegramForwarderFragment.java  
+│   │   ├── EmailForwarderFragment.java
+│   │   └── WebhookForwarderFragment.java
+│   ├── SettingsFragment.java       // Advanced app settings
+│   ├── SecurityFragment.java       // PIN/Biometric/Auth
+│   └── DataFragment.java          // History/Stats/Backup
+├── adapters/
+│   ├── ForwarderPagerAdapter.java
+│   ├── MessageHistoryAdapter.java
+│   └── StatisticsAdapter.java
+├── viewmodels/
+│   ├── DashboardViewModel.java
+│   ├── ForwardersViewModel.java
+│   ├── SecurityViewModel.java
+│   └── StatisticsViewModel.java
+└── utils/
+    ├── NavigationUtils.java
+    └── UIUtils.java
+```
+
+#### **Dashboard Cards Implementation**
+```java
+// Dashboard status cards structure
+public class DashboardFragment extends Fragment {
+    private void setupStatusCards() {
+        // Connection Status Card
+        updateConnectionCard(networkStatus, connectionType);
+        
+        // Active Forwarders Card  
+        updateForwardersCard(enabledCount, totalCount);
+        
+        // Today's Stats Card
+        updateStatsCard(todayMessages, successRate);
+        
+        // Queue Status Card
+        updateQueueCard(pendingCount, failedCount);
+    }
+}
+```
+
+#### **BottomNavigationView Setup**
+```xml
+<!-- res/layout/activity_main.xml -->
+<androidx.coordinatorlayout.widget.CoordinatorLayout>
+    
+    <fragment
+        android:id="@+id/nav_host_fragment"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        app:navGraph="@navigation/nav_graph" />
+        
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        app:menu="@menu/bottom_navigation_menu" />
+        
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
+```
+
+#### **Forwarders TabLayout Structure**
+```java
+// ForwardersFragment with TabLayout + ViewPager2
+public class ForwardersFragment extends Fragment {
+    private void setupTabs() {
+        TabLayout tabLayout = binding.tabLayout;
+        ViewPager2 viewPager = binding.viewPager;
+        
+        ForwarderPagerAdapter adapter = new ForwarderPagerAdapter(this);
+        adapter.addFragment(new SmsForwarderFragment(), "SMS");
+        adapter.addFragment(new TelegramForwarderFragment(), "Telegram"); 
+        adapter.addFragment(new EmailForwarderFragment(), "Email");
+        adapter.addFragment(new WebhookForwarderFragment(), "Webhook");
+        
+        viewPager.setAdapter(adapter);
+        new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
+            tab.setText(adapter.getTabTitle(position));
+        }).attach();
+    }
+}
+```
+
+#### **Material Design 3 Components**
+```xml
+<!-- Status Cards using Material Design 3 -->
+<com.google.android.material.card.MaterialCardView
+    style="@style/Widget.Material3.CardView.Elevated"
+    app:cardElevation="2dp"
+    app:cardCornerRadius="12dp">
+    
+    <LinearLayout android:orientation="vertical">
+        <TextView style="@style/TextAppearance.Material3.HeadlineSmall" />
+        <TextView style="@style/TextAppearance.Material3.BodyMedium" />
+        <com.google.android.material.progressindicator.LinearProgressIndicator />
+    </LinearLayout>
+    
+</com.google.android.material.card.MaterialCardView>
+```
+
+#### **Screen Transition Animations**
+```xml
+<!-- res/anim/slide_in_right.xml -->
+<set xmlns:android="http://schemas.android.com/apk/res/android">
+    <translate
+        android:fromXDelta="100%p"
+        android:toXDelta="0"
+        android:duration="300" />
+    <alpha
+        android:fromAlpha="0.0"
+        android:toAlpha="1.0"
+        android:duration="300" />
+</set>
+```
+
+#### **ViewModel Integration for State Management**
+```java
+public class DashboardViewModel extends ViewModel {
+    private MutableLiveData<ConnectionStatus> connectionStatus = new MutableLiveData<>();
+    private MutableLiveData<ForwarderStats> forwarderStats = new MutableLiveData<>();
+    private MutableLiveData<QueueStats> queueStats = new MutableLiveData<>();
+    
+    public void refreshAllStats() {
+        // Update all dashboard data
+        refreshConnectionStatus();
+        refreshForwarderStats(); 
+        refreshQueueStats();
+    }
+}
+```
+
+### Memory Leak Fixes ✅ COMPLETED
 
 ### Memory Leak Fixes ✅ COMPLETED
 
