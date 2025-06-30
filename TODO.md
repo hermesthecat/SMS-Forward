@@ -9,6 +9,7 @@
 - [x] **Connection Status Indicator** - Show online/offline status ✅ _Completed in v1.5.0_
 - [x] **Offline Message Queue** - Store failed messages for retry ✅ _Completed in v1.4.0_
 - [ ] **Number Whitelist** - Only forward from specific numbers
+- [ ] **SMS Content Filter** - Block messages containing specific keywords (comma-separated list)
 
 ### UI Improvements
 
@@ -189,6 +190,46 @@ public class MessageHistoryDbHelper {
         // Get success rate, time span, platform distribution
     }
 }
+```
+
+### SMS Content Filter
+
+```java
+// Content filtering system
+public class SmsContentFilter {
+    public static boolean shouldBlockMessage(String messageContent, String filterKeywords) {
+        if (filterKeywords == null || filterKeywords.trim().isEmpty()) {
+            return false; // No filters defined
+        }
+        
+        String[] keywords = filterKeywords.split(",");
+        String contentLowerCase = messageContent.toLowerCase();
+        
+        for (String keyword : keywords) {
+            String trimmedKeyword = keyword.trim().toLowerCase();
+            if (!trimmedKeyword.isEmpty() && contentLowerCase.contains(trimmedKeyword)) {
+                return true; // Block message
+            }
+        }
+        
+        return false; // Allow message
+    }
+}
+
+// Implementation in SmsReceiver:
+String filterKeywords = preferences.getString(
+    context.getString(R.string.key_filter_keywords), "");
+
+if (SmsContentFilter.shouldBlockMessage(messageContent, filterKeywords)) {
+    Log.i(TAG, "Message blocked by content filter: " + senderNumber);
+    return; // Don't forward the message
+}
+
+// Settings UI:
+// - EditTextPreference for keyword list
+// - Summary showing current filters
+// - Help text explaining comma separation
+// - Case-insensitive matching
 ```
 
 ---
