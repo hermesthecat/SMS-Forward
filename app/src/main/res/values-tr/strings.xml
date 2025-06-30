@@ -33,7 +33,7 @@
     <string name="smtp_submission_port">SMTP portu</string>
     <string name="smtp_submission_port_summary">Genellikle 465 veya 587</string>
     <string name="smtp_password">Şifre</string>
-    <string name="smtp_password_summary">E-posta göndermek için gönderenin şifresi</string>
+    <string name="smtp_password_summary">SMTP kimlik doğrulaması için şifre</string>
     <string name="smtp_username_style">Kullanıcı adı stili</string>
     <string name="smtp_username_style_summary">Tam adres veya yerel kısım</string>
 

@@ -46,7 +46,7 @@
     <string name="smtp_submission_port">SMTP submission port</string>
     <string name="smtp_submission_port_summary">Usually 465 or 587</string>
     <string name="smtp_password">Password</string>
-    <string name="smtp_password_summary">Sender's password for submitting emails to sent</string>
+    <string name="smtp_password_summary">Password for SMTP authentication</string>
     <string name="smtp_username_style">Username style</string>
     <string name="smtp_username_style_summary">Full address or local part</string>
 
