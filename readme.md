@@ -805,55 +805,7 @@ app/src/main/java/com/keremgok/smsforward/
 
 ## Changelog
 
-### Version 1.17.0 - Advanced Filtering UI (Latest)
-
-🎛️ **Advanced Content Filtering System:**
-
-- ✅ **Visual Filter Builder**: Comprehensive dialog for creating and editing filter rules
-- ✅ **Multiple Filter Types**: Keyword, Regex, Sender Pattern, Contains, Starts With, Ends With
-- ✅ **Filter Actions**: Block messages, Skip forwarding, or Tag for special handling
-- ✅ **Live Message Testing**: Test messages against filters with real-time preview
-- ✅ **Filter Management**: Enable/disable, edit, delete individual rules with intuitive UI
-- ✅ **Category Organization**: Organize filters by custom categories for better management
-
-🔧 **Enhanced Filtering Engine:**
-
-- ✅ **AdvancedContentFilter**: Sophisticated filtering engine supporting complex patterns
-- ✅ **Regular Expression Support**: Advanced users can create powerful regex-based filters
-- ✅ **Performance Optimized**: Compiled regex patterns for efficient message processing
-- ✅ **Error Handling**: Graceful validation and error messages for invalid patterns
-- ✅ **Pattern Validation**: Real-time regex validation with helpful error descriptions
-
-📊 **Filter Statistics & Analytics:**
-
-- ✅ **Statistics Dashboard**: Total filters, active count, and category metrics
-- ✅ **Test Results Display**: Visual feedback showing which filters matched during testing
-- ✅ **Filter Activity Tracking**: Creation timestamps and usage statistics
-- ✅ **Import/Export Support**: JSON-based filter backup and sharing capabilities
-
-🎨 **Material Design 3 UI:**
-
-- ✅ **FilterRulesAdapter**: Modern RecyclerView with interactive filter cards
-- ✅ **Filter Editor Dialog**: Comprehensive input fields with icons and validation
-- ✅ **Test Results Display**: Color-coded chips showing filter actions and outcomes
-- ✅ **Empty State UI**: Helpful guidance when no filters are configured
-- ✅ **Responsive Layout**: Optimized for all screen sizes with scrollable content
-
-🌐 **Complete Localization:**
-
-- ✅ **English & Turkish**: 50+ new strings with comprehensive filtering terminology
-- ✅ **Context-aware Help**: Dynamic hint text based on selected filter type
-- ✅ **Pattern Examples**: Helpful examples for each filter type in both languages
-- ✅ **Error Messages**: Localized validation and error handling
-
-🔗 **Navigation Integration:**
-
-- ✅ **Fragment Architecture**: Seamless integration with existing navigation system
-- ✅ **Deep Linking**: Direct navigation to advanced filters from other screens
-- ✅ **State Management**: Proper fragment lifecycle and state preservation
-- ✅ **Memory Efficient**: Optimal resource usage with adapter pattern
-
-### Version 1.15.0 - UI Modernization Phase 3
+### Version 1.15.0 - UI Modernization Phase 3 (Latest)
 
 **🎨 Major UI Modernization:**
 - **Multi-screen Navigation**: 5-tab bottom navigation (Dashboard, Forwarders, Settings, Security, Data)
