@@ -10,6 +10,7 @@ import android.util.Log;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -20,7 +21,7 @@ import java.util.Map;
 public class MessageStatsDbHelper extends SQLiteOpenHelper {
     private static final String TAG = "MessageStatsDbHelper";
     private static final String DATABASE_NAME = "sms_forward_stats.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     // Table name and columns
     private static final String TABLE_DAILY_STATS = "daily_stats";
@@ -35,6 +36,29 @@ public class MessageStatsDbHelper extends SQLiteOpenHelper {
     private static final String COLUMN_FAILED_COUNT = "failed_count";
     private static final String COLUMN_CREATED_AT = "created_at";
     private static final String COLUMN_UPDATED_AT = "updated_at";
+
+    // ✅ Performance optimization - Index creation statements
+    private static final String[] INDEX_CREATION_STATEMENTS = {
+        // Primary date index for fast date lookups
+        "CREATE INDEX IF NOT EXISTS idx_date ON " + TABLE_DAILY_STATS + 
+        "(" + COLUMN_DATE + " DESC)",
+        
+        // Total count index for aggregate queries
+        "CREATE INDEX IF NOT EXISTS idx_total_count ON " + TABLE_DAILY_STATS + 
+        "(" + COLUMN_TOTAL_COUNT + " DESC)",
+        
+        // Success count index for success rate calculations
+        "CREATE INDEX IF NOT EXISTS idx_success_count ON " + TABLE_DAILY_STATS + 
+        "(" + COLUMN_SUCCESS_COUNT + " DESC)",
+        
+        // Composite index for date range queries
+        "CREATE INDEX IF NOT EXISTS idx_date_total ON " + TABLE_DAILY_STATS + 
+        "(" + COLUMN_DATE + " DESC, " + COLUMN_TOTAL_COUNT + " DESC)",
+        
+        // Updated timestamp index for recent data queries
+        "CREATE INDEX IF NOT EXISTS idx_updated_at ON " + TABLE_DAILY_STATS + 
+        "(" + COLUMN_UPDATED_AT + " DESC)"
+    };
 
     private static final String SQL_CREATE_TABLE = "CREATE TABLE " + TABLE_DAILY_STATS + " (" +
             COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
@@ -61,15 +85,38 @@ public class MessageStatsDbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        Log.d(TAG, "Creating message stats database");
+        Log.d(TAG, "Creating message stats database v" + DATABASE_VERSION);
         db.execSQL(SQL_CREATE_TABLE);
+        
+        // ✅ Create performance indexes
+        createIndexes(db);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         Log.d(TAG, "Upgrading database from version " + oldVersion + " to " + newVersion);
-        db.execSQL(SQL_DROP_TABLE);
-        onCreate(db);
+        
+        if (oldVersion < 2) {
+            // ✅ Performance optimization v1.21.0 - Add missing indexes
+            Log.d(TAG, "Adding performance indexes for v1.21.0");
+            createIndexes(db);
+        }
+        
+        // Note: We don't drop the table anymore to preserve data during upgrades
+    }
+
+    /**
+     * ✅ Performance optimization - Create all performance indexes
+     */
+    private void createIndexes(SQLiteDatabase db) {
+        for (String indexStatement : INDEX_CREATION_STATEMENTS) {
+            try {
+                db.execSQL(indexStatement);
+                Log.d(TAG, "Created index: " + indexStatement.substring(0, Math.min(50, indexStatement.length())) + "...");
+            } catch (Exception e) {
+                Log.e(TAG, "Error creating index: " + indexStatement, e);
+            }
+        }
     }
 
     /**
@@ -142,10 +189,137 @@ public class MessageStatsDbHelper extends SQLiteOpenHelper {
     }
 
     /**
-     * Get today's statistics
+     * ✅ Performance optimization - Batch record multiple forwards at once
      */
+    public void recordBatchForwards(List<BatchForwardRecord> batchRecords) {
+        if (batchRecords == null || batchRecords.isEmpty()) {
+            return;
+        }
+
+        String today = getTodayDateString();
+        long currentTime = System.currentTimeMillis();
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        try {
+            db.beginTransaction();
+
+            // Get or create today's record
+            DailyStats todayStats = getTodayStats();
+            if (todayStats == null) {
+                todayStats = createTodayStats();
+            }
+
+            // Calculate batch updates
+            int smsIncrease = 0, telegramIncrease = 0, emailIncrease = 0, webIncrease = 0;
+            int successIncrease = 0, failedIncrease = 0, totalIncrease = 0;
+
+            for (BatchForwardRecord record : batchRecords) {
+                // Count by forwarder type
+                switch (record.forwarderType.toLowerCase()) {
+                    case "sms":
+                        smsIncrease++;
+                        break;
+                    case "telegram":
+                        telegramIncrease++;
+                        break;
+                    case "email":
+                        emailIncrease++;
+                        break;
+                    case "web":
+                    case "webhook":
+                    case "json":
+                        webIncrease++;
+                        break;
+                }
+
+                // Count by result
+                totalIncrease++;
+                if (record.success) {
+                    successIncrease++;
+                } else {
+                    failedIncrease++;
+                }
+            }
+
+            // Apply batch updates
+            ContentValues values = new ContentValues();
+            values.put(COLUMN_SMS_COUNT, todayStats.smsCount + smsIncrease);
+            values.put(COLUMN_TELEGRAM_COUNT, todayStats.telegramCount + telegramIncrease);
+            values.put(COLUMN_EMAIL_COUNT, todayStats.emailCount + emailIncrease);
+            values.put(COLUMN_WEB_COUNT, todayStats.webCount + webIncrease);
+            values.put(COLUMN_TOTAL_COUNT, todayStats.totalCount + totalIncrease);
+            values.put(COLUMN_SUCCESS_COUNT, todayStats.successCount + successIncrease);
+            values.put(COLUMN_FAILED_COUNT, todayStats.failedCount + failedIncrease);
+            values.put(COLUMN_UPDATED_AT, currentTime);
+
+            String whereClause = COLUMN_DATE + " = ?";
+            String[] whereArgs = { today };
+
+            int rowsUpdated = db.update(TABLE_DAILY_STATS, values, whereClause, whereArgs);
+            
+            if (rowsUpdated > 0) {
+                Log.d(TAG, "Batch updated stats for " + today + ": " + batchRecords.size() + 
+                        " records (" + successIncrease + " success, " + failedIncrease + " failed)");
+            }
+
+            db.setTransactionSuccessful();
+
+        } catch (Exception e) {
+            Log.e(TAG, "Error recording batch forward stats", e);
+        } finally {
+            db.endTransaction();
+        }
+    }
+
+    /**
+     * ✅ Performance optimization - Optimized daily stats query with caching
+     */
+    private DailyStats cachedTodayStats = null;
+    private String cachedStatsDate = null;
+
     public DailyStats getTodayStats() {
-        return getStatsForDate(getTodayDateString());
+        String today = getTodayDateString();
+        
+        // Check cache first
+        if (cachedTodayStats != null && today.equals(cachedStatsDate)) {
+            return cachedTodayStats;
+        }
+        
+        // Query from database
+        DailyStats stats = getStatsForDate(today);
+        
+        // Update cache
+        cachedTodayStats = stats;
+        cachedStatsDate = today;
+        
+        return stats;
+    }
+
+    /**
+     * ✅ Performance optimization - Clear cache when stats are updated
+     */
+    private void clearStatsCache() {
+        cachedTodayStats = null;
+        cachedStatsDate = null;
+    }
+
+    /**
+     * ✅ Performance optimization - Batch forward record for batch processing
+     */
+    public static class BatchForwardRecord {
+        public final String forwarderType;
+        public final boolean success;
+        public final long timestamp;
+
+        public BatchForwardRecord(String forwarderType, boolean success, long timestamp) {
+            this.forwarderType = forwarderType;
+            this.success = success;
+            this.timestamp = timestamp;
+        }
+
+        public BatchForwardRecord(String forwarderType, boolean success) {
+            this(forwarderType, success, System.currentTimeMillis());
+        }
     }
 
     /**
