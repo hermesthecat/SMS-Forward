@@ -366,35 +366,4 @@
     <string name="filter_created_format">Oluşturulma: %s</string>
     <string name="filter_editor_help_text">Gelen SMS mesajlarını otomatik olarak filtrelemek için kurallar oluşturun. Basit eşleştirme için kelimeler, gelişmiş desenler için regex veya telefon numarasına göre filtreleme için gönderen desenleri kullanın.</string>
 
-    <!-- Enhanced Backup Manager -->
-    <string name="backup_manager_title">Yedekleme Yöneticisi</string>
-    <string name="backup_manager_subtitle">Kapsamlı uygulama yedekleri oluşturun, yönetin ve geri yükleyin</string>
-    <string name="backup_statistics_title">Yedekleme İstatistikleri</string>
-    <string name="backup_total_count">Toplam Yedek</string>
-    <string name="backup_last_date">Son Yedekleme</string>
-    <string name="backup_total_size">Toplam Boyut</string>
-    <string name="backup_create_title">Yedek Oluştur</string>
-    <string name="backup_quick_full">Hızlı Tam Yedekleme</string>
-    <string name="backup_selective_title">Veya seçmeli yedek oluşturun:</string>
-    <string name="backup_include_settings">Uygulama Ayarları</string>
-    <string name="backup_include_settings_desc">İletici yapılandırmaları, temalar, güvenlik ayarları</string>
-    <string name="backup_include_filters">Filtre Kuralları</string>
-    <string name="backup_include_filters_desc">Gelişmiş içerik filtreleme kuralları ve kalıpları</string>
-    <string name="backup_include_statistics">Kullanım İstatistikleri</string>
-    <string name="backup_include_statistics_desc">Analitik verileri ve performans metrikleri</string>
-    <string name="backup_create_custom">Özel Yedek Oluştur</string>
-    <string name="backup_manage_title">Yedekleri Yönet</string>
-    <string name="backup_import">Yedek İçe Aktar</string>
-    <string name="backup_view_history">Yedekleme Geçmişi</string>
-    <string name="backup_recent_title">Son Yedeklemeler</string>
-    <string name="backup_enhanced_success">Gelişmiş yedek başarıyla oluşturuldu!</string>
-    <string name="backup_enhanced_error">Gelişmiş yedek oluşturma başarısız: %s</string>
-    <string name="backup_preview_title">Yedek Önizleme</string>
-    <string name="backup_preview_subtitle">İçe aktarmadan önce yedek içeriğini inceleyin</string>
-    <string name="backup_component_forwarders">İletici Ayarları</string>
-    <string name="backup_component_appearance">Görünüm</string>
-    <string name="backup_component_security">Güvenlik</string>
-    <string name="backup_component_filters">Gelişmiş Filtreler</string>
-    <string name="backup_component_statistics">İstatistikler</string>
-
 </resources> 

@@ -33,7 +33,7 @@
 
 - [x] **Interactive Dashboard** - Real-time status updates and quick actions ✅ _Completed in v1.16.0_
 - [x] **Advanced Filtering UI** - Improved content filtering interface ✅ _Completed in v1.17.0_
-- [x] **Export/Import Enhancements** - Enhanced backup manager with selective backup/restore ✅ _Completed in v1.18.0_
+- [ ] **Export/Import Enhancements** - Better backup management interface
 - [ ] **Contextual Help** - In-app guidance and tooltips
 - [ ] **Animations & Transitions** - Smooth navigation and state changes
 

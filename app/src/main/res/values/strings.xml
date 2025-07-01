@@ -396,35 +396,4 @@
     <string name="filter_created_format">Created: %s</string>
     <string name="filter_editor_help_text">Create rules to automatically filter incoming SMS messages. Use keywords for simple matching, regex for advanced patterns, or sender patterns to filter by phone number.</string>
 
-    <!-- Enhanced Backup Manager -->
-    <string name="backup_manager_title">Backup Manager</string>
-    <string name="backup_manager_subtitle">Create, manage, and restore comprehensive app backups</string>
-    <string name="backup_statistics_title">Backup Statistics</string>
-    <string name="backup_total_count">Total Backups</string>
-    <string name="backup_last_date">Last Backup</string>
-    <string name="backup_total_size">Total Size</string>
-    <string name="backup_create_title">Create Backup</string>
-    <string name="backup_quick_full">Quick Full Backup</string>
-    <string name="backup_selective_title">Or create selective backup:</string>
-    <string name="backup_include_settings">App Settings</string>
-    <string name="backup_include_settings_desc">Forwarder configurations, themes, security settings</string>
-    <string name="backup_include_filters">Filter Rules</string>
-    <string name="backup_include_filters_desc">Advanced content filtering rules and patterns</string>
-    <string name="backup_include_statistics">Usage Statistics</string>
-    <string name="backup_include_statistics_desc">Analytics data and performance metrics</string>
-    <string name="backup_create_custom">Create Custom Backup</string>
-    <string name="backup_manage_title">Manage Backups</string>
-    <string name="backup_import">Import Backup</string>
-    <string name="backup_view_history">View Backup History</string>
-    <string name="backup_recent_title">Recent Backups</string>
-    <string name="backup_enhanced_success">Enhanced backup created successfully!</string>
-    <string name="backup_enhanced_error">Failed to create enhanced backup: %s</string>
-    <string name="backup_preview_title">Backup Preview</string>
-    <string name="backup_preview_subtitle">Review backup contents before importing</string>
-    <string name="backup_component_forwarders">Forwarder Settings</string>
-    <string name="backup_component_appearance">Appearance</string>
-    <string name="backup_component_security">Security</string>
-    <string name="backup_component_filters">Advanced Filters</string>
-    <string name="backup_component_statistics">Statistics</string>
-
 </resources>

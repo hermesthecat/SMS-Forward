@@ -805,55 +805,7 @@ app/src/main/java/com/keremgok/smsforward/
 
 ## Changelog
 
-### Version 1.18.0 - Enhanced Backup Manager (Latest)
-
-🗂️ **Advanced Backup Management System:**
-
-- ✅ **Enhanced Backup Manager**: Dedicated fragment with comprehensive backup/restore management
-- ✅ **Selective Component Backup**: Choose specific components to backup (Settings, Filters, Statistics)
-- ✅ **Backup Statistics Dashboard**: Visual statistics showing total backups, last backup date, and total size
-- ✅ **Visual Analytics**: Modern Material Design 3 cards with backup metrics and information
-- ✅ **Backup Preview & Analysis**: Detailed backup file analysis before importing
-
-🔄 **Advanced Backup Features:**
-
-- ✅ **Multiple Backup Types**: Full backup, settings-only, filters-only, or selective component backup
-- ✅ **Enhanced File Management**: Smart filename generation with type and timestamp
-- ✅ **Settings Navigation**: Seamless navigation from settings to enhanced backup manager
-- ✅ **Component Organization**: Categorized backup components with descriptions and icons
-- ✅ **Backup History**: Track and manage previous backup operations
-
-🎨 **Professional UI Design:**
-
-- ✅ **Material Design 3**: Three-card layout with statistics, creation, and management sections
-- ✅ **Interactive Controls**: Switches and chips for selecting backup components
-- ✅ **Quick Action Buttons**: Fast full backup and custom backup creation options
-- ✅ **Visual Feedback**: Loading states, progress indicators, and success confirmations
-- ✅ **Responsive Layout**: Optimized scrollable design for all screen sizes
-
-🛠️ **Technical Infrastructure:**
-
-- ✅ **BackupManagerFragment**: Professional backup management interface
-- ✅ **Enhanced Navigation**: Integrated with app navigation system and settings
-- ✅ **File System Integration**: Android Storage Access Framework for secure file operations
-- ✅ **Error Handling**: Comprehensive error handling with user-friendly messages
-- ✅ **Memory Efficient**: Optimized resource usage and proper lifecycle management
-
-🌐 **Complete Localization:**
-
-- ✅ **English & Turkish**: 25+ new localized strings for backup management
-- ✅ **Component Descriptions**: Detailed descriptions for each backup component
-- ✅ **User Guidance**: Helpful tooltips and instruction text in both languages
-- ✅ **Status Messages**: Comprehensive success and error messages
-
-🔗 **Integration & Navigation:**
-
-- ✅ **Settings Integration**: Added navigation preference in Backup & Restore section
-- ✅ **Fragment Architecture**: Proper navigation controller integration
-- ✅ **State Management**: Maintains backup statistics and user preferences
-- ✅ **Modern Architecture**: Follows Android best practices for fragment-based navigation
-
-### Version 1.17.0 - Advanced Filtering UI
+### Version 1.17.0 - Advanced Filtering UI (Latest)
 
 🎛️ **Advanced Content Filtering System:**
 
