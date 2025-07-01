@@ -17,42 +17,34 @@ This roadmap outlines the planned features and improvements for upcoming version
 ### **v1.15.0: Enhanced Security & Reliability**
 
 - **Number Whitelist**: Only forward SMS from specific, user-defined numbers.
-- **Secure Storage**: Encrypt sensitive settings like API keys and passwords.
 - **Input Validation**: Stricter validation for all user-configurable settings.
 - **Better Error Messages**: Provide user-friendly and actionable error descriptions.
 - **Last Status Display**: Show the result of the last forwarding attempt in the main UI.
 
 ### **v1.16.0: Platform Expansion & Customization**
 
-- **Discord Integration**: Forward SMS via Discord webhooks.
-- **Slack Integration**: Forward SMS using the Slack Bot API.
-- **Microsoft Teams Integration**: Support for forwarding to MS Teams channels.
 - **Custom Message Templates**: Allow users to define their own message format using variables (e.g., `{from}`, `{content}`, `{timestamp}`).
 
-### **v1.17.0: Advanced Features & User Experience**
+### **v1.17.0: Advanced User Experience (QoL)**
 
-- **Quiet Hours**: A "do not disturb" mode to disable forwarding during specific times.
-- **Smart Notifications**: Group multiple forwarding notifications to reduce notification spam.
+- **Setup Wizard**: A step-by-step guide for first-time users to grant permissions and configure a platform.
+- **Contact Name Integration**: Display sender's name from the device's contacts in forwarded messages. _(Requires new permissions)_
+- **Home Screen Widget**: A widget to show app status, message counts, and quick toggles.
+
+### **v1.18.0: Advanced Logic & Control**
+
+- **Dual SIM Support**: Allow users to select which SIM card's messages to forward.
+- **Regex-based Filtering**: Add support for regular expressions for advanced content filtering.
 - **Keyword-based Routing**: Send messages to different platforms based on keywords in the SMS content.
-- **Initial Test Coverage**: Begin adding Unit and Integration tests for critical components.
-- **Code Documentation**: Add JavaDoc comments to public APIs.
 
-### **v2.0.0: Architecture Overhaul**
+### **v2.0.0: Architecture & Core Overhaul**
 
-- **Modern Android Architecture**:
-  - Migrate to a modern architecture (MVVM, Repository Pattern).
-  - Implement Dependency Injection (Hilt or Dagger).
-  - Refactor async operations using Kotlin Coroutines.
-- **Database Migration**: Consolidate data access logic, potentially moving to Room.
 - **Performance Optimization**: Profile and significantly reduce memory/battery usage.
-- **Comprehensive Testing**: Aim for high test coverage across the application.
+- **Code Documentation**: Add comprehensive JavaDoc comments to public APIs.
 
 ### **Future & Innovation Ideas (Post-v2.0.0)**
 
 - **Cloud Sync**: Sync settings across multiple devices.
-- **Centralized Management**: An admin dashboard for enterprise use cases.
-- **Advanced Security**: Audit logs, geofencing, and other enterprise-grade security features.
-- **API Gateway**: A REST API for remote management and integration.
 
 ---
 
