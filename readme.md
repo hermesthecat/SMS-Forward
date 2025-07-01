@@ -21,15 +21,6 @@ Calls can be forwarded to a single phone thanks to carriers' call forwarding ser
 - Real-time status indicators and progress tracking
 - Modernized form inputs and Material components
 
-✅ **Smooth animations & transitions (v1.20.0):**
-
-- Professional animation framework with Material Design motion patterns
-- Navigation transitions with slide and fade effects
-- Interactive dashboard animations (cards, buttons, loading states)
-- State change animations (network status, statistics updates)
-- Visual feedback animations for user interactions
-- 12 custom animation resources for polished user experience
-
 ✅ **Enhanced message information:**
 
 - Includes original SMS timestamp

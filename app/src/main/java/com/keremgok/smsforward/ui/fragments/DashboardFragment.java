@@ -30,7 +30,6 @@ import com.keremgok.smsforward.NetworkStatusManager;
 import com.keremgok.smsforward.R;
 import com.keremgok.smsforward.SecurityManager;
 import com.keremgok.smsforward.ThemeManager;
-import com.keremgok.smsforward.ui.utils.AnimationUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -222,9 +221,6 @@ public class DashboardFragment extends Fragment implements NetworkStatusManager.
         
         // Setup auto-refresh switch
         setupAutoRefreshSwitch();
-        
-        // Apply entrance animations to cards
-        setupCardAnimations();
     }
 
     private void setupViewModel() {
@@ -272,95 +268,10 @@ public class DashboardFragment extends Fragment implements NetworkStatusManager.
         }
         updateAutoRefreshSwitchText();
     }
-    
-    private void setupCardAnimations() {
-        // Apply staggered fade-in animation to all cards
-        ViewGroup mainContainer = (ViewGroup) getView();
-        if (mainContainer != null) {
-            // Delay the animation slightly to ensure views are measured
-            new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                // Animate cards with staggered entrance
-                if (networkStatusCard != null) {
-                    AnimationUtils.slideUp(networkStatusCard, AnimationUtils.DURATION_MEDIUM, null);
-                }
-                
-                if (securityStatusCard != null) {
-                    new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                        AnimationUtils.slideUp(securityStatusCard, AnimationUtils.DURATION_MEDIUM, null);
-                    }, 100);
-                }
-                
-                // Animate buttons with bounce effect
-                if (testMessageButton != null) {
-                    new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                        AnimationUtils.bounceIn(testMessageButton);
-                    }, 200);
-                }
-                
-                if (refreshButton != null) {
-                    new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                        AnimationUtils.bounceIn(refreshButton);
-                    }, 250);
-                }
-                
-                if (viewStatsButton != null) {
-                    new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                        AnimationUtils.bounceIn(viewStatsButton);
-                    }, 300);
-                }
-                
-                if (viewHistoryButton != null) {
-                    new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                        AnimationUtils.bounceIn(viewHistoryButton);
-                    }, 350);
-                }
-                
-                // Add hover effects to cards
-                setupCardHoverEffects();
-            }, 150);
-        }
-    }
-    
-    private void setupCardHoverEffects() {
-        // Add touch animation to network status card
-        if (networkStatusCard != null) {
-            networkStatusCard.setOnTouchListener((v, event) -> {
-                switch (event.getAction()) {
-                    case android.view.MotionEvent.ACTION_DOWN:
-                        AnimationUtils.elevateCard(v, true);
-                        break;
-                    case android.view.MotionEvent.ACTION_UP:
-                    case android.view.MotionEvent.ACTION_CANCEL:
-                        AnimationUtils.elevateCard(v, false);
-                        break;
-                }
-                return false;
-            });
-        }
-        
-        // Add touch animation to security status card
-        if (securityStatusCard != null) {
-            securityStatusCard.setOnTouchListener((v, event) -> {
-                switch (event.getAction()) {
-                    case android.view.MotionEvent.ACTION_DOWN:
-                        AnimationUtils.elevateCard(v, true);
-                        break;
-                    case android.view.MotionEvent.ACTION_UP:
-                    case android.view.MotionEvent.ACTION_CANCEL:
-                        AnimationUtils.elevateCard(v, false);
-                        break;
-                }
-                return false;
-            });
-        }
-    }
 
     private void setupButtonListeners() {
         if (testMessageButton != null) {
             testMessageButton.setOnClickListener(v -> {
-                // Apply button press animation
-                AnimationUtils.animateButtonPress(v);
-                
                 // Call MainActivity's test message functionality
                 if (getActivity() instanceof MainActivity) {
                     MainActivity mainActivity = (MainActivity) getActivity();
@@ -373,10 +284,6 @@ public class DashboardFragment extends Fragment implements NetworkStatusManager.
         
         if (refreshButton != null) {
             refreshButton.setOnClickListener(v -> {
-                // Apply button press animation and rotation
-                AnimationUtils.animateButtonPress(v);
-                AnimationUtils.rotate(v);
-                
                 refreshAllData();
                 showSnackbar(getString(R.string.dashboard_refreshing));
             });
@@ -384,9 +291,6 @@ public class DashboardFragment extends Fragment implements NetworkStatusManager.
         
         if (viewStatsButton != null) {
             viewStatsButton.setOnClickListener(v -> {
-                // Apply button press animation
-                AnimationUtils.animateButtonPress(v);
-                
                 // Navigate to Data tab (index 4 in bottom navigation)
                 navigateToTab(R.id.nav_data);
             });
@@ -394,9 +298,6 @@ public class DashboardFragment extends Fragment implements NetworkStatusManager.
         
         if (viewHistoryButton != null) {
             viewHistoryButton.setOnClickListener(v -> {
-                // Apply button press animation
-                AnimationUtils.animateButtonPress(v);
-                
                 // Navigate to Data tab and show history
                 navigateToTab(R.id.nav_data);
                 showSnackbar("Message history available in Data tab");
@@ -406,9 +307,6 @@ public class DashboardFragment extends Fragment implements NetworkStatusManager.
         // Help button listener
         if (helpButton != null) {
             helpButton.setOnClickListener(v -> {
-                // Apply button press animation
-                AnimationUtils.animateButtonPress(v);
-                
                 if (helpManager != null) {
                     helpManager.showHelpAlways(HelpManager.HelpType.DASHBOARD);
                 }
@@ -483,35 +381,13 @@ public class DashboardFragment extends Fragment implements NetworkStatusManager.
     
     private void showLoadingState(boolean show) {
         if (loadingStateContainer != null) {
-            if (show) {
-                loadingStateContainer.setVisibility(View.VISIBLE);
-                AnimationUtils.fadeIn(loadingStateContainer);
-                AnimationUtils.pulse(loadingStateContainer);
-            } else {
-                AnimationUtils.stopPulse(loadingStateContainer);
-                AnimationUtils.fadeOut(loadingStateContainer, AnimationUtils.DURATION_MEDIUM, () -> {
-                    if (loadingStateContainer != null) {
-                        loadingStateContainer.setVisibility(View.GONE);
-                    }
-                });
-            }
+            loadingStateContainer.setVisibility(show ? View.VISIBLE : View.GONE);
         }
     }
     
     private void showLiveIndicator(boolean show) {
         if (networkLiveIndicator != null) {
-            if (show) {
-                networkLiveIndicator.setVisibility(View.VISIBLE);
-                AnimationUtils.fadeIn(networkLiveIndicator);
-                AnimationUtils.pulse(networkLiveIndicator);
-            } else {
-                AnimationUtils.stopPulse(networkLiveIndicator);
-                AnimationUtils.fadeOut(networkLiveIndicator, AnimationUtils.DURATION_SHORT, () -> {
-                    if (networkLiveIndicator != null) {
-                        networkLiveIndicator.setVisibility(View.GONE);
-                    }
-                });
-            }
+            networkLiveIndicator.setVisibility(show ? View.VISIBLE : View.GONE);
         }
     }
 
@@ -527,27 +403,13 @@ public class DashboardFragment extends Fragment implements NetworkStatusManager.
     
     private void updateTodayStats(MessageStatsDbHelper.DailyStats stats) {
         if (todayStatsCount != null && stats != null) {
-            // Animate number change
-            AnimationUtils.fadeOut(todayStatsCount, AnimationUtils.DURATION_SHORT, () -> {
-                todayStatsCount.setText(String.valueOf(stats.totalCount));
-                AnimationUtils.fadeIn(todayStatsCount);
-                
-                // Add pulse effect for updated stats
-                AnimationUtils.animateSuccess(todayStatsCount);
-            });
+            todayStatsCount.setText(String.valueOf(stats.totalCount));
         }
     }
     
     private void updateTotalStats(MessageStatsDbHelper.TotalStats stats) {
         if (totalStatsCount != null && stats != null) {
-            // Animate number change
-            AnimationUtils.fadeOut(totalStatsCount, AnimationUtils.DURATION_SHORT, () -> {
-                totalStatsCount.setText(String.valueOf(stats.totalCount));
-                AnimationUtils.fadeIn(totalStatsCount);
-                
-                // Add pulse effect for updated stats
-                AnimationUtils.animateSuccess(totalStatsCount);
-            });
+            totalStatsCount.setText(String.valueOf(stats.totalCount));
         }
     }
     
@@ -562,31 +424,15 @@ public class DashboardFragment extends Fragment implements NetworkStatusManager.
         
         String connectionType = sharedViewModel != null ? sharedViewModel.getConnectionType().getValue() : "Unknown";
         
-        // Animate icon change
-        AnimationUtils.fadeOut(networkStatusIcon, AnimationUtils.DURATION_SHORT, () -> {
-            if (isConnected != null && isConnected) {
-                networkStatusIcon.setText("🟢");
-                networkStatusTitle.setText(getString(R.string.dashboard_network_status));
-                networkStatusDescription.setText(String.format(getString(R.string.dashboard_status_online), "🟢", connectionType));
-                
-                // Success animation for connection
-                AnimationUtils.animateSuccess(networkStatusCard);
-            } else {
-                networkStatusIcon.setText("🔴");
-                networkStatusTitle.setText(getString(R.string.dashboard_network_status));
-                networkStatusDescription.setText(getString(R.string.dashboard_status_offline));
-                
-                // Error animation for disconnection
-                AnimationUtils.animateError(networkStatusCard);
-            }
-            
-            AnimationUtils.fadeIn(networkStatusIcon);
-        });
-        
-        // Animate description change
-        AnimationUtils.fadeOut(networkStatusDescription, AnimationUtils.DURATION_SHORT, () -> {
-            AnimationUtils.fadeIn(networkStatusDescription);
-        });
+        if (isConnected != null && isConnected) {
+            networkStatusIcon.setText("🟢");
+            networkStatusTitle.setText(getString(R.string.dashboard_network_status));
+            networkStatusDescription.setText(String.format(getString(R.string.dashboard_status_online), "🟢", connectionType));
+        } else {
+            networkStatusIcon.setText("🔴");
+            networkStatusTitle.setText(getString(R.string.dashboard_network_status));
+            networkStatusDescription.setText(getString(R.string.dashboard_status_offline));
+        }
     }
 
     private void updateSecurityStatusCard(Boolean isSecurityEnabled) {
@@ -594,31 +440,15 @@ public class DashboardFragment extends Fragment implements NetworkStatusManager.
             return;
         }
         
-        // Animate icon change
-        AnimationUtils.fadeOut(securityStatusIcon, AnimationUtils.DURATION_SHORT, () -> {
-            if (isSecurityEnabled != null && isSecurityEnabled) {
-                securityStatusIcon.setText("🔒");
-                securityStatusTitle.setText(getString(R.string.dashboard_security_status));
-                securityStatusDescription.setText(getString(R.string.dashboard_security_ready));
-                
-                // Success animation for enabled security
-                AnimationUtils.animateSuccess(securityStatusCard);
-            } else {
-                securityStatusIcon.setText("🔓");
-                securityStatusTitle.setText(getString(R.string.dashboard_security_status));
-                securityStatusDescription.setText(getString(R.string.dashboard_security_setup_needed));
-                
-                // Warning animation for disabled security
-                AnimationUtils.animateError(securityStatusCard);
-            }
-            
-            AnimationUtils.fadeIn(securityStatusIcon);
-        });
-        
-        // Animate description change
-        AnimationUtils.fadeOut(securityStatusDescription, AnimationUtils.DURATION_SHORT, () -> {
-            AnimationUtils.fadeIn(securityStatusDescription);
-        });
+        if (isSecurityEnabled != null && isSecurityEnabled) {
+            securityStatusIcon.setText("🔒");
+            securityStatusTitle.setText(getString(R.string.dashboard_security_status));
+            securityStatusDescription.setText(getString(R.string.dashboard_security_ready));
+        } else {
+            securityStatusIcon.setText("🔓");
+            securityStatusTitle.setText(getString(R.string.dashboard_security_status));
+            securityStatusDescription.setText(getString(R.string.dashboard_security_setup_needed));
+        }
     }
 
     private void updateAllViews() {
@@ -696,35 +526,14 @@ public class DashboardFragment extends Fragment implements NetworkStatusManager.
     
     private void showSnackbar(String message) {
         if (getView() != null) {
-            Snackbar snackbar = Snackbar.make(getView(), message, Snackbar.LENGTH_SHORT);
-            
-            // Add slide animation to snackbar
-            View snackbarView = snackbar.getView();
-            snackbarView.setTranslationY(snackbarView.getHeight());
-            snackbarView.animate()
-                    .translationY(0f)
-                    .setDuration(AnimationUtils.DURATION_MEDIUM)
-                    .setInterpolator(new android.view.animation.DecelerateInterpolator())
-                    .start();
-                    
-            snackbar.show();
+            Snackbar.make(getView(), message, Snackbar.LENGTH_SHORT).show();
         }
     }
     
     private void showNetworkStatusChange(boolean isConnected, String connectionType) {
         String message = isConnected 
-            ? String.format("🟢 Connected via %s", connectionType)
-            : "🔴 Connection lost";
-        
-        // Add visual feedback to network status card
-        if (networkStatusCard != null) {
-            if (isConnected) {
-                AnimationUtils.animateSuccess(networkStatusCard);
-            } else {
-                AnimationUtils.animateError(networkStatusCard);
-            }
-        }
-        
+            ? String.format("Connected via %s", connectionType)
+            : "Connection lost";
         showSnackbar(message);
     }
 } 
