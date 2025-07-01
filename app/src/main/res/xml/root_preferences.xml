@@ -1,0 +1,296 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:iconSpaceReserved="false">
+
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
+        app:title="@string/header_sms">
+
+        <SwitchPreferenceCompat
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:key="@string/key_enable_sms"
+            app:iconSpaceReserved="false"
+            app:title="@string/enable_sms" />
+        <EditTextPreference
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:defaultValue=""
+            android:key="@string/key_target_sms"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/target_title_sms"
+            app:iconSpaceReserved="false"
+            app:summary="@string/target_summary_sms" />
+
+    </PreferenceCategory>
+    <PreferenceCategory
+        app:title="@string/header_telegram"
+        app:iconSpaceReserved="false">
+
+        <SwitchPreferenceCompat
+            app:iconSpaceReserved="false"
+            android:key="@string/key_enable_telegram"
+            app:title="@string/enable_telegram" />
+        <EditTextPreference
+            android:defaultValue=""
+            android:key="@string/key_target_telegram"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/target_title_telegram"
+            app:iconSpaceReserved="false" />
+        <EditTextPreference
+            android:defaultValue=""
+            android:key="@string/key_telegram_apikey"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/title_telegram_apikey"
+            app:iconSpaceReserved="false" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:title="@string/header_web"
+        app:iconSpaceReserved="false">
+
+        <SwitchPreferenceCompat
+            app:iconSpaceReserved="false"
+            android:key="@string/key_enable_web"
+            app:title="@string/enable_web" />
+        <EditTextPreference
+            android:defaultValue=""
+            android:key="@string/key_target_web"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/target_title_web"
+            android:summary="@string/target_summary_web"
+            app:iconSpaceReserved="false" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
+        app:title="@string/header_email">
+        <SwitchPreferenceCompat
+            android:key="@string/key_enable_email"
+            app:iconSpaceReserved="false"
+            app:title="@string/enable_email" />
+        <EditTextPreference
+            android:defaultValue=""
+            android:inputType="textEmailAddress"
+            android:key="@string/key_email_from_address"
+            android:summary="@string/from_address_summary"
+            android:title="@string/from_address"
+            app:iconSpaceReserved="false" />
+        <EditTextPreference
+            android:defaultValue=""
+            android:inputType="textEmailAddress"
+            android:key="@string/key_email_to_address"
+            android:summary="@string/to_address_summary"
+            android:title="@string/to_address"
+            app:iconSpaceReserved="false" />
+        <EditTextPreference
+            android:defaultValue=""
+            android:key="@string/key_email_submit_host"
+            android:summary="@string/smtp_submission_server_summary"
+            android:title="@string/smtp_submission_server"
+            app:iconSpaceReserved="false" />
+        <EditTextPreference
+            android:defaultValue="587"
+            android:inputType="numberDecimal"
+            android:key="@string/key_email_submit_port"
+            android:summary="@string/smtp_submission_port_summary"
+            android:title="@string/smtp_submission_port"
+            app:iconSpaceReserved="false" />
+        <ListPreference
+            android:defaultValue="full"
+            android:key="@string/key_email_username_style"
+            android:title="@string/smtp_username_style"
+            android:summary="@string/smtp_username_style_summary"
+            android:entries="@array/option_smtp_username_style_titles"
+            android:entryValues="@array/option_smtp_username_style_values"
+            app:iconSpaceReserved="false"
+        />
+        <EditTextPreference
+            android:defaultValue=""
+            android:inputType="textPassword"
+            android:key="@string/key_email_submit_password"
+            android:summary="@string/smtp_password_summary"
+            android:title="@string/smtp_password"
+            app:iconSpaceReserved="false" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
+        app:title="@string/header_rate_limiting">
+
+        <SwitchPreferenceCompat
+            android:key="@string/key_enable_rate_limiting"
+            android:title="@string/enable_rate_limiting"
+            android:summary="@string/rate_limiting_summary"
+            android:defaultValue="true"
+            app:iconSpaceReserved="false" />
+
+        <Preference
+            android:key="@string/key_rate_limit_status"
+            android:title="@string/rate_limit_status_title"
+            android:summary="@string/rate_limit_status_summary"
+            app:iconSpaceReserved="false" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
+        app:title="@string/header_content_filter">
+
+        <EditTextPreference
+            android:key="@string/key_filter_keywords"
+            android:title="@string/filter_keywords_title"
+            android:summary="@string/filter_keywords_summary"
+            android:dialogTitle="@string/filter_keywords_dialog_title"
+            android:dialogMessage="@string/filter_keywords_dialog_message"
+            android:hint="@string/filter_keywords_placeholder"
+            android:defaultValue=""
+            android:inputType="textMultiLine|textCapSentences"
+            app:iconSpaceReserved="false" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
+        app:title="@string/header_appearance">
+
+        <ListPreference
+            android:key="@string/key_language"
+            android:title="@string/language_title"
+            android:summary="@string/language_summary"
+            android:defaultValue="system"
+            android:entries="@array/language_entries"
+            android:entryValues="@array/language_values"
+            app:iconSpaceReserved="false" />
+
+        <ListPreference
+            android:key="@string/key_theme_mode"
+            android:title="@string/theme_mode_title"
+            android:summary="@string/theme_mode_summary"
+            android:defaultValue="system"
+            android:entries="@array/theme_mode_entries"
+            android:entryValues="@array/theme_mode_values"
+            app:iconSpaceReserved="false" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
+        app:title="@string/header_backup">
+
+        <Preference
+            android:key="@string/key_export_settings"
+            android:title="@string/export_settings_title"
+            android:summary="@string/export_settings_summary"
+            app:iconSpaceReserved="false" />
+
+        <Preference
+            android:key="@string/key_import_settings"
+            android:title="@string/import_settings_title"
+            android:summary="@string/import_settings_summary"
+            app:iconSpaceReserved="false" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
+        app:title="@string/header_security">
+
+        <SwitchPreferenceCompat
+            android:key="@string/key_security_enabled"
+            android:title="@string/security_enabled_title"
+            android:summary="@string/security_enabled_summary"
+            android:defaultValue="false"
+            app:iconSpaceReserved="false" />
+
+        <Preference
+            android:key="@string/key_pin_setup"
+            android:title="@string/pin_setup_title"
+            android:summary="@string/pin_setup_summary_disabled"
+            app:iconSpaceReserved="false" />
+
+        <SwitchPreferenceCompat
+            android:key="@string/key_biometric_enabled"
+            android:title="@string/biometric_enabled_title"
+            android:summary="@string/biometric_enabled_summary"
+            android:defaultValue="false"
+            app:iconSpaceReserved="false" />
+
+        <ListPreference
+            android:key="@string/key_auth_timeout"
+            android:title="@string/auth_timeout_title"
+            android:summary="@string/auth_timeout_summary"
+            android:defaultValue="300000"
+            android:entries="@array/auth_timeout_entries"
+            android:entryValues="@array/auth_timeout_values"
+            app:iconSpaceReserved="false" />
+
+        <Preference
+            android:key="@string/key_security_test"
+            android:title="@string/security_test_title"
+            android:summary="@string/security_test_summary"
+            app:iconSpaceReserved="false" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
+        app:title="@string/header_test">
+
+        <Preference
+            android:key="@string/key_test_message"
+            android:title="@string/test_message_title"
+            android:summary="@string/test_message_summary"
+            app:iconSpaceReserved="false" />
+
+        <Preference
+            android:key="@string/key_queue_status"
+            android:title="@string/queue_status_title"
+            android:summary="@string/queue_status_summary"
+            app:iconSpaceReserved="false" />
+
+        <Preference
+            android:key="@string/key_connection_status"
+            android:title="@string/connection_status_title"
+            android:summary="@string/connection_status_summary"
+            app:iconSpaceReserved="false" />
+
+        <Preference
+            android:key="@string/key_message_counter"
+            android:title="@string/message_counter_title"
+            android:summary="@string/message_counter_summary"
+            app:iconSpaceReserved="false" />
+
+        <Preference
+            android:key="@string/key_message_history"
+            android:title="@string/message_history_title"
+            android:summary="@string/message_history_summary"
+            app:iconSpaceReserved="false" />
+
+        <Preference
+            android:key="@string/key_clear_history"
+            android:title="@string/clear_history_title"
+            android:summary="@string/clear_history_summary"
+            app:iconSpaceReserved="false" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
+        app:title="@string/header_about">
+
+        <Preference
+            android:key="@string/key_about"
+            android:title="@string/about_title"
+            android:summary="@string/about_summary"
+            app:iconSpaceReserved="false" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>
