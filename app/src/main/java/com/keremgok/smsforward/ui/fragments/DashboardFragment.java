@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,29 +39,22 @@ import java.util.Locale;
 /**
  * Interactive Dashboard Fragment - Phase 4: Enhanced Features
  * Features: SwipeRefresh, Auto-refresh, Enhanced quick actions, Live indicators
- * ✅ Performance optimized v1.21.0 with lazy loading and background processing
  */
 public class DashboardFragment extends Fragment implements NetworkStatusManager.NetworkStatusListener {
     private static final String TAG = "DashboardFragment";
     private static final int AUTO_REFRESH_INTERVAL_MS = 30000; // 30 seconds
 
-    // ✅ Performance optimization - Lazy initialized managers
     private NetworkStatusManager networkStatusManager;
     private SharedViewModel sharedViewModel;
     private SecurityManager securityManager;
     private HelpManager helpManager;
-
-    // ✅ Performance optimization - Background data loading
+    
+    // Auto-refresh components
     private Handler autoRefreshHandler;
     private Runnable autoRefreshRunnable;
     private boolean isAutoRefreshEnabled = true;
     private long lastUpdateTime = 0;
     
-    // ✅ Performance optimization - Lazy initialization flags
-    private boolean isDataLoaded = false;
-    private boolean isViewSetup = false;
-    private boolean isManagersInitialized = false;
-
     // UI Components
     private SwipeRefreshLayout swipeRefreshLayout;
     private MaterialSwitch autoRefreshSwitch;
@@ -100,10 +92,10 @@ public class DashboardFragment extends Fragment implements NetworkStatusManager.
             ThemeManager.initializeTheme(getActivity());
         }
 
-        // ✅ Performance optimization - Only inflate layout, defer heavy setup
+        // Inflate interactive dashboard layout
         View rootView = inflater.inflate(R.layout.fragment_dashboard, container, false);
         
-        // Setup views immediately for faster perceived performance
+        // Initialize views
         setupViews(rootView);
         
         return rootView;
@@ -113,219 +105,37 @@ public class DashboardFragment extends Fragment implements NetworkStatusManager.
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         
-        // ✅ Performance optimization - Defer heavy initialization
-        view.post(() -> {
-            initializeManagersLazy();
-            setupViewModelLazy();
-            loadDataLazy();
-        });
-    }
-
-    /**
-     * ✅ Performance optimization - Lazy manager initialization in background
-     */
-    private void initializeManagersLazy() {
-        if (isManagersInitialized || getContext() == null) {
-            return;
+        // Initialize managers
+        if (getContext() != null) {
+            networkStatusManager = NetworkStatusManager.getInstance(getContext());
+            securityManager = new SecurityManager(getContext());
+            helpManager = new HelpManager(getContext());
         }
         
-        // Initialize managers in background thread
-        new Thread(() -> {
-            try {
-                // Initialize lightweight managers first
-                if (networkStatusManager == null) {
-                    networkStatusManager = NetworkStatusManager.getInstance(getContext());
-                }
-                
-                if (securityManager == null) {
-                    securityManager = new SecurityManager(getContext());
-                }
-                
-                if (helpManager == null) {
-                    helpManager = new HelpManager(getContext());
-                }
-                
-                // Post UI updates to main thread
-                if (getActivity() != null) {
-                    getActivity().runOnUiThread(() -> {
-                        setupAutoRefresh();
-                        isManagersInitialized = true;
-                        Log.d(TAG, "Managers initialized");
-                    });
-                }
-                
-            } catch (Exception e) {
-                Log.e(TAG, "Error initializing managers", e);
-            }
-        }).start();
-    }
-
-    /**
-     * ✅ Performance optimization - Lazy ViewModel setup
-     */
-    private void setupViewModelLazy() {
-        if (sharedViewModel != null) {
-            return;
-        }
+        // Setup ViewModel
+        setupViewModel();
         
-        try {
-            sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
-            
-            // Setup observers
-            sharedViewModel.getIsConnected().observe(getViewLifecycleOwner(), this::updateNetworkStatus);
-            sharedViewModel.getConnectionType().observe(getViewLifecycleOwner(), this::updateConnectionType);
-            sharedViewModel.getTodayStats().observe(getViewLifecycleOwner(), this::updateTodayStats);
-            sharedViewModel.getTotalStats().observe(getViewLifecycleOwner(), this::updateTotalStats);
-            sharedViewModel.getSecurityEnabled().observe(getViewLifecycleOwner(), this::updateSecurityStatus);
-            
-            Log.d(TAG, "ViewModel setup complete");
-            
-        } catch (Exception e) {
-            Log.e(TAG, "Error setting up ViewModel", e);
-        }
-    }
-
-    /**
-     * ✅ Performance optimization - Lazy data loading with progressive display
-     */
-    private void loadDataLazy() {
-        if (isDataLoaded) {
-            return;
-        }
+        // Setup auto-refresh
+        setupAutoRefresh();
         
-        // Show loading state immediately
-        showLoadingState(true);
-        
-        // Load data progressively in background
-        new Thread(() -> {
-            try {
-                // Small delay to allow UI to render first
-                Thread.sleep(100);
-                
-                if (getActivity() != null) {
-                    getActivity().runOnUiThread(() -> {
-                        // Load data progressively to avoid blocking UI
-                        loadInitialData();
-                        isDataLoaded = true;
-                        showLoadingState(false);
-                        
-                        // Apply animations after data is loaded
-                        applyCardAnimationsLazy();
-                    });
-                }
-                
-            } catch (Exception e) {
-                Log.e(TAG, "Error loading data", e);
-                if (getActivity() != null) {
-                    getActivity().runOnUiThread(() -> showLoadingState(false));
-                }
-            }
-        }).start();
-    }
-
-    /**
-     * ✅ Performance optimization - Progressive data loading
-     */
-    private void loadInitialData() {
-        try {
-            // Update network status first (fastest)
-            if (sharedViewModel != null) {
-                sharedViewModel.updateNetworkStatus();
-            }
-            
-            // Update security status (medium speed)
-            new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                if (sharedViewModel != null) {
-                    sharedViewModel.updateSecurityStatus();
-                }
-            }, 50);
-            
-            // Update statistics last (slowest, involves database queries)
-            new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                if (sharedViewModel != null) {
-                    sharedViewModel.updateStats();
-                }
-                updateLastUpdateTime();
-            }, 100);
-            
-        } catch (Exception e) {
-            Log.e(TAG, "Error in loadInitialData", e);
-        }
-    }
-
-    /**
-     * ✅ Performance optimization - Lazy animation application
-     */
-    private void applyCardAnimationsLazy() {
-        // Only apply animations if fragment is still attached and visible
-        if (!isAdded() || !isVisible()) {
-            return;
-        }
-        
-        // Apply animations with staggered timing
-        if (networkStatusCard != null) {
-            AnimationUtils.slideUp(networkStatusCard, AnimationUtils.DURATION_MEDIUM, null);
-        }
-        
-        if (securityStatusCard != null) {
-            new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                if (isAdded() && securityStatusCard != null) {
-                    AnimationUtils.slideUp(securityStatusCard, AnimationUtils.DURATION_MEDIUM, null);
-                }
-            }, 100);
-        }
-        
-        if (testMessageButton != null) {
-            new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                if (isAdded() && testMessageButton != null) {
-                    AnimationUtils.bounceIn(testMessageButton);
-                }
-            }, 200);
-        }
+        // Setup initial data
+        setupInitialData();
     }
 
     @Override
     public void onResume() {
         super.onResume();
         
-        // ✅ Performance optimization - Only refresh if data is already loaded
-        if (isDataLoaded && isManagersInitialized) {
-            // Add network status listener
-            if (networkStatusManager != null) {
-                networkStatusManager.addListener(this);
-            }
-            
-            // Lightweight refresh - only update what's visible
-            refreshVisibleDataOnly();
-            
-            // Start auto-refresh if enabled
-            startAutoRefreshIfEnabled();
-        }
-    }
-
-    /**
-     * ✅ Performance optimization - Refresh only visible data elements
-     */
-    private void refreshVisibleDataOnly() {
-        if (sharedViewModel == null) {
-            return;
+        // Add network status listener
+        if (networkStatusManager != null) {
+            networkStatusManager.addListener(this);
         }
         
-        try {
-            // Quick network status update
-            sharedViewModel.updateNetworkStatus();
-            
-            // Defer heavier updates slightly
-            new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                if (isAdded() && sharedViewModel != null) {
-                    sharedViewModel.updateStats();
-                    updateLastUpdateTime();
-                }
-            }, 200);
-            
-        } catch (Exception e) {
-            Log.e(TAG, "Error in refreshVisibleDataOnly", e);
-        }
+        // Refresh data when fragment becomes visible
+        refreshAllData();
+        
+        // Start auto-refresh if enabled
+        startAutoRefreshIfEnabled();
     }
 
     @Override
@@ -363,7 +173,6 @@ public class DashboardFragment extends Fragment implements NetworkStatusManager.
     }
 
     private void setupViews(View rootView) {
-        // ✅ Performance optimization - Lightweight view setup only
         // Initialize SwipeRefreshLayout
         swipeRefreshLayout = rootView.findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setOnRefreshListener(this::onSwipeRefresh);
@@ -408,13 +217,29 @@ public class DashboardFragment extends Fragment implements NetworkStatusManager.
         // Loading state
         loadingStateContainer = rootView.findViewById(R.id.loadingStateContainer);
         
-        // Setup lightweight interactions immediately
+        // Setup button listeners
         setupButtonListeners();
-        setupAutoRefreshSwitch();
-        setupCardHoverEffects();
         
-        isViewSetup = true;
-        Log.d(TAG, "Views setup complete");
+        // Setup auto-refresh switch
+        setupAutoRefreshSwitch();
+        
+        // Apply entrance animations to cards
+        setupCardAnimations();
+    }
+
+    private void setupViewModel() {
+        sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
+        
+        // Observe network status
+        sharedViewModel.getIsConnected().observe(getViewLifecycleOwner(), this::updateNetworkStatus);
+        sharedViewModel.getConnectionType().observe(getViewLifecycleOwner(), this::updateConnectionType);
+        
+        // Observe statistics
+        sharedViewModel.getTodayStats().observe(getViewLifecycleOwner(), this::updateTodayStats);
+        sharedViewModel.getTotalStats().observe(getViewLifecycleOwner(), this::updateTotalStats);
+        
+        // Observe security status
+        sharedViewModel.getSecurityEnabled().observe(getViewLifecycleOwner(), this::updateSecurityStatus);
     }
 
     private void setupAutoRefresh() {
@@ -591,6 +416,18 @@ public class DashboardFragment extends Fragment implements NetworkStatusManager.
         }
     }
 
+    private void setupInitialData() {
+        // Show loading state initially
+        showLoadingState(true);
+        
+        // Hide loading after 1 second to simulate loading
+        new Handler(Looper.getMainLooper()).postDelayed(() -> {
+            showLoadingState(false);
+            updateAllViews();
+            updateLastUpdateTime();
+        }, 1000);
+    }
+    
     private void startAutoRefreshIfEnabled() {
         if (isAutoRefreshEnabled && autoRefreshHandler != null && autoRefreshRunnable != null) {
             scheduleNextAutoRefresh();

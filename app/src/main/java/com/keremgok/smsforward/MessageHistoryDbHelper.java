@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.database.sqlite.SQLiteStatement;
 import android.util.Log;
 
 import java.text.SimpleDateFormat;
@@ -17,12 +16,11 @@ import java.util.Locale;
 /**
  * SQLite database helper for storing message forwarding history.
  * Maintains the last 100 forwarded messages for user review.
- * ✅ Performance optimized v1.21.0 with batch operations and advanced indexing
  */
 public class MessageHistoryDbHelper extends SQLiteOpenHelper {
     private static final String TAG = "MessageHistoryDbHelper";
     private static final String DATABASE_NAME = "sms_forward_history.db";
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 1;
 
     // Table name and columns
     private static final String TABLE_MESSAGE_HISTORY = "message_history";
@@ -44,33 +42,6 @@ public class MessageHistoryDbHelper extends SQLiteOpenHelper {
     // Maximum number of history records to keep
     private static final int MAX_HISTORY_RECORDS = 100;
 
-    // ✅ Performance optimization - Index creation statements
-    private static final String[] INDEX_CREATION_STATEMENTS = {
-        // Primary sorting index (already exists but updated for better performance)
-        "CREATE INDEX IF NOT EXISTS idx_forward_timestamp ON " + TABLE_MESSAGE_HISTORY + 
-        "(" + COLUMN_FORWARD_TIMESTAMP + " DESC)",
-        
-        // Platform filtering index
-        "CREATE INDEX IF NOT EXISTS idx_platform ON " + TABLE_MESSAGE_HISTORY + 
-        "(" + COLUMN_PLATFORM + ")",
-        
-        // Status filtering index  
-        "CREATE INDEX IF NOT EXISTS idx_status ON " + TABLE_MESSAGE_HISTORY + 
-        "(" + COLUMN_STATUS + ")",
-        
-        // Composite index for platform + timestamp queries
-        "CREATE INDEX IF NOT EXISTS idx_platform_timestamp ON " + TABLE_MESSAGE_HISTORY + 
-        "(" + COLUMN_PLATFORM + ", " + COLUMN_FORWARD_TIMESTAMP + " DESC)",
-        
-        // Composite index for status + timestamp queries
-        "CREATE INDEX IF NOT EXISTS idx_status_timestamp ON " + TABLE_MESSAGE_HISTORY + 
-        "(" + COLUMN_STATUS + ", " + COLUMN_FORWARD_TIMESTAMP + " DESC)",
-        
-        // From number index for sender analysis
-        "CREATE INDEX IF NOT EXISTS idx_from_number ON " + TABLE_MESSAGE_HISTORY + 
-        "(" + COLUMN_FROM_NUMBER + ")"
-    };
-
     private static final String SQL_CREATE_TABLE = "CREATE TABLE " + TABLE_MESSAGE_HISTORY + " (" +
             COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
             COLUMN_FROM_NUMBER + " TEXT NOT NULL," +
@@ -91,38 +62,19 @@ public class MessageHistoryDbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        Log.d(TAG, "Creating message history database v" + DATABASE_VERSION);
+        Log.d(TAG, "Creating message history database");
         db.execSQL(SQL_CREATE_TABLE);
-        
-        // ✅ Create performance indexes
-        createIndexes(db);
+
+        // Create index for better query performance
+        db.execSQL("CREATE INDEX idx_forward_timestamp ON " + TABLE_MESSAGE_HISTORY +
+                "(" + COLUMN_FORWARD_TIMESTAMP + " DESC)");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         Log.d(TAG, "Upgrading database from version " + oldVersion + " to " + newVersion);
-        
-        if (oldVersion < 2) {
-            // ✅ Performance optimization v1.21.0 - Add missing indexes
-            Log.d(TAG, "Adding performance indexes for v1.21.0");
-            createIndexes(db);
-        }
-        
-        // Note: We don't drop the table anymore to preserve data during upgrades
-    }
-
-    /**
-     * ✅ Performance optimization - Create all performance indexes
-     */
-    private void createIndexes(SQLiteDatabase db) {
-        for (String indexStatement : INDEX_CREATION_STATEMENTS) {
-            try {
-                db.execSQL(indexStatement);
-                Log.d(TAG, "Created index: " + indexStatement.substring(0, Math.min(50, indexStatement.length())) + "...");
-            } catch (Exception e) {
-                Log.e(TAG, "Error creating index: " + indexStatement, e);
-            }
-        }
+        db.execSQL(SQL_DROP_TABLE);
+        onCreate(db);
     }
 
     /**
@@ -184,84 +136,22 @@ public class MessageHistoryDbHelper extends SQLiteOpenHelper {
     }
 
     /**
-     * ✅ Performance optimization - Batch record multiple history records at once
-     */
-    public void recordBatchHistory(List<BatchHistoryRecord> batchRecords) {
-        if (batchRecords == null || batchRecords.isEmpty()) {
-            return;
-        }
-
-        SQLiteDatabase db = this.getWritableDatabase();
-        long currentTime = System.currentTimeMillis();
-
-        try {
-            db.beginTransaction();
-
-            // Use prepared statement for batch inserts
-            String insertSql = "INSERT INTO " + TABLE_MESSAGE_HISTORY + " (" +
-                    COLUMN_FROM_NUMBER + ", " + COLUMN_MESSAGE_CONTENT + ", " +
-                    COLUMN_PLATFORM + ", " + COLUMN_STATUS + ", " + 
-                    COLUMN_ERROR_MESSAGE + ", " + COLUMN_TIMESTAMP + ", " +
-                    COLUMN_FORWARD_TIMESTAMP + ", " + COLUMN_CREATED_AT + 
-                    ") VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-
-            SQLiteStatement statement = db.compileStatement(insertSql);
-
-            int insertCount = 0;
-            for (BatchHistoryRecord record : batchRecords) {
-                statement.bindString(1, record.fromNumber);
-                statement.bindString(2, truncateMessage(record.messageContent));
-                statement.bindString(3, record.platform);
-                statement.bindString(4, record.status);
-                statement.bindString(5, record.errorMessage);
-                statement.bindLong(6, record.originalTimestamp);
-                statement.bindLong(7, record.forwardTimestamp != 0 ? record.forwardTimestamp : currentTime);
-                statement.bindLong(8, currentTime);
-
-                long newId = statement.executeInsert();
-                if (newId != -1) {
-                    insertCount++;
-                }
-
-                statement.clearBindings();
-            }
-
-            if (insertCount > 0) {
-                Log.d(TAG, "Batch recorded " + insertCount + " message history records");
-
-                // Cleanup old records to maintain limit
-                cleanupOldRecords(db);
-
-                db.setTransactionSuccessful();
-            }
-
-        } catch (Exception e) {
-            Log.e(TAG, "Error recording batch message history", e);
-        } finally {
-            db.endTransaction();
-        }
-    }
-
-    /**
-     * ✅ Performance optimization - Optimized getMessageHistory with prepared statement
+     * Get message history (last N records)
      */
     public List<HistoryRecord> getMessageHistory(int limit) {
         List<HistoryRecord> history = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
 
-        // Use limit parameter binding for better performance
-        String query = "SELECT * FROM " + TABLE_MESSAGE_HISTORY + 
-                       " ORDER BY " + COLUMN_FORWARD_TIMESTAMP + " DESC LIMIT ?";
-        String[] args = { String.valueOf(Math.min(limit, MAX_HISTORY_RECORDS)) };
+        String orderBy = COLUMN_FORWARD_TIMESTAMP + " DESC";
+        String limitStr = String.valueOf(Math.min(limit, MAX_HISTORY_RECORDS));
 
-        Cursor cursor = db.rawQuery(query, args);
+        Cursor cursor = db.query(TABLE_MESSAGE_HISTORY, null, null, null,
+                null, null, orderBy, limitStr);
 
         try {
-            int count = 0;
-            while (cursor.moveToNext() && count < limit) {
+            while (cursor.moveToNext()) {
                 HistoryRecord record = createHistoryRecordFromCursor(cursor);
                 history.add(record);
-                count++;
             }
         } finally {
             cursor.close();
@@ -272,19 +162,19 @@ public class MessageHistoryDbHelper extends SQLiteOpenHelper {
     }
 
     /**
-     * ✅ Performance optimization - Optimized platform-specific query
+     * Get message history for a specific platform
      */
     public List<HistoryRecord> getMessageHistoryByPlatform(String platform, int limit) {
         List<HistoryRecord> history = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
 
-        // Use prepared statement for better performance
-        String query = "SELECT * FROM " + TABLE_MESSAGE_HISTORY + 
-                       " WHERE " + COLUMN_PLATFORM + " = ?" +
-                       " ORDER BY " + COLUMN_FORWARD_TIMESTAMP + " DESC LIMIT ?";
-        String[] args = { platform, String.valueOf(Math.min(limit, MAX_HISTORY_RECORDS)) };
+        String selection = COLUMN_PLATFORM + " = ?";
+        String[] selectionArgs = { platform };
+        String orderBy = COLUMN_FORWARD_TIMESTAMP + " DESC";
+        String limitStr = String.valueOf(Math.min(limit, MAX_HISTORY_RECORDS));
 
-        Cursor cursor = db.rawQuery(query, args);
+        Cursor cursor = db.query(TABLE_MESSAGE_HISTORY, null, selection, selectionArgs,
+                null, null, orderBy, limitStr);
 
         try {
             while (cursor.moveToNext()) {
@@ -505,54 +395,6 @@ public class MessageHistoryDbHelper extends SQLiteOpenHelper {
             } else {
                 return "Last " + (spanDays + 1) + " days";
             }
-        }
-    }
-
-    /**
-     * ✅ Performance optimization - Batch history record for batch processing
-     */
-    public static class BatchHistoryRecord {
-        public final String fromNumber;
-        public final String messageContent;
-        public final String platform;
-        public final String status;
-        public final String errorMessage;
-        public final long originalTimestamp;
-        public final long forwardTimestamp;
-
-        public BatchHistoryRecord(String fromNumber, String messageContent, String platform,
-                                  String status, String errorMessage, long originalTimestamp) {
-            this.fromNumber = fromNumber;
-            this.messageContent = messageContent;
-            this.platform = platform;
-            this.status = status;
-            this.errorMessage = errorMessage;
-            this.originalTimestamp = originalTimestamp;
-            this.forwardTimestamp = System.currentTimeMillis();
-        }
-
-        public BatchHistoryRecord(String fromNumber, String messageContent, String platform,
-                                  String status, String errorMessage, long originalTimestamp, long forwardTimestamp) {
-            this.fromNumber = fromNumber;
-            this.messageContent = messageContent;
-            this.platform = platform;
-            this.status = status;
-            this.errorMessage = errorMessage;
-            this.originalTimestamp = originalTimestamp;
-            this.forwardTimestamp = forwardTimestamp;
-        }
-
-        // Factory methods for common cases
-        public static BatchHistoryRecord success(String fromNumber, String messageContent, 
-                                                 String platform, long originalTimestamp) {
-            return new BatchHistoryRecord(fromNumber, messageContent, platform, 
-                                          STATUS_SUCCESS, null, originalTimestamp);
-        }
-
-        public static BatchHistoryRecord failure(String fromNumber, String messageContent, 
-                                                 String platform, String errorMessage, long originalTimestamp) {
-            return new BatchHistoryRecord(fromNumber, messageContent, platform, 
-                                          STATUS_FAILED, errorMessage, originalTimestamp);
         }
     }
 }

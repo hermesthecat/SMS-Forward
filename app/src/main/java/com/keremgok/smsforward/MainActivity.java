@@ -6,9 +6,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.util.Log;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -32,20 +29,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-/**
- * Main Activity with Navigation Component and optimized performance
- * ✅ Performance optimized v1.21.0 with lazy initialization and background loading
- */
 public class MainActivity extends AppCompatActivity {
 
-    // ✅ Performance optimization - Lazy initialized managers
     private SecurityManager securityManager;
     private HelpManager helpManager;
     private static final int REQUEST_CODE_AUTHENTICATION = 1001;
-
-    // ✅ Performance optimization - Lazy initialization flags
-    private boolean isInitialized = false;
-    private boolean isAuthenticationChecked = false;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -54,108 +42,27 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // ✅ Performance optimization - Only essential setup in onCreate
-        long startTime = System.currentTimeMillis();
-        
-        // Initialize theme first (essential for UI)
+        // Initialize theme before calling super.onCreate()
         ThemeManager.initializeTheme(this);
+
         super.onCreate(savedInstanceState);
         
-        // Set content view immediately for faster perceived performance
-        setContentView(R.layout.activity_main);
+        // Initialize security manager
+        securityManager = new SecurityManager(this);
         
-        // ✅ Performance optimization - Defer initialization until after layout
-        getWindow().getDecorView().post(() -> {
-            initializeMainActivityLazy();
-            Log.d("Performance", "MainActivity startup time: " + (System.currentTimeMillis() - startTime) + "ms");
-        });
-    }
-    
-    /**
-     * ✅ Performance optimization - Lazy initialization after UI setup
-     */
-    private void initializeMainActivityLazy() {
-        if (isInitialized) {
-            return;
-        }
-        
-        // Background thread for heavy initialization
-        new Thread(() -> {
-            // Initialize managers in background
-            getSecurityManager(); // Lazy initialize security manager
-            getHelpManager(); // Lazy initialize help manager
-            
-            // Post UI updates back to main thread
-            runOnUiThread(() -> {
-                checkAuthenticationAndProceed();
-                isInitialized = true;
-            });
-        }).start();
-    }
-    
-    /**
-     * ✅ Performance optimization - Lazy SecurityManager initialization
-     */
-    private SecurityManager getSecurityManager() {
-        if (securityManager == null) {
-            securityManager = new SecurityManager(this);
-        }
-        return securityManager;
-    }
-    
-    /**
-     * ✅ Performance optimization - Lazy HelpManager initialization
-     */
-    private HelpManager getHelpManager() {
-        if (helpManager == null) {
-            helpManager = new HelpManager(this);
-        }
-        return helpManager;
-    }
-    
-    /**
-     * ✅ Performance optimization - Separate authentication check
-     */
-    private void checkAuthenticationAndProceed() {
-        if (isAuthenticationChecked) {
-            return;
-        }
+        // Initialize help manager
+        helpManager = new HelpManager(this);
         
         // Check if authentication is required
-        if (getSecurityManager().needsAuthentication()) {
+        if (securityManager.needsAuthentication()) {
             // Start authentication activity
             Intent authIntent = AuthenticationActivity.createIntent(this, AuthenticationActivity.AUTH_TYPE_STARTUP);
             startActivityForResult(authIntent, REQUEST_CODE_AUTHENTICATION);
-            isAuthenticationChecked = true;
-            return;
+            return; // Don't continue with normal initialization until authenticated
         }
         
-        // Continue with app initialization
-        completeMainActivityInitialization();
-        isAuthenticationChecked = true;
-    }
-    
-    /**
-     * ✅ Performance optimization - Complete initialization after authentication
-     */
-    private void completeMainActivityInitialization() {
-        // Setup navigation (lightweight)
-        setupNavigation();
-        
-        // Request permissions (non-blocking)
-        requestPermissions(new String[] {
-                Manifest.permission.SEND_SMS,
-                Manifest.permission.INTERNET,
-                Manifest.permission.ACCESS_NETWORK_STATE
-        }, 0);
-        
-        // Show first launch help (deferred)
-        if (getHelpManager().isFirstLaunch()) {
-            // Delay help to avoid interfering with app startup
-            new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                getHelpManager().showWelcome();
-            }, 1000);
-        }
+        // Continue with normal initialization
+        initializeMainActivity();
     }
     
     @Override
@@ -165,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == REQUEST_CODE_AUTHENTICATION) {
             if (resultCode == RESULT_OK) {
                 // Authentication successful, continue with initialization
-                completeMainActivityInitialization();
+                initializeMainActivity();
             } else {
                 // Authentication failed or cancelled, close the app
                 finishAffinity();
@@ -177,32 +84,43 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         
-        // ✅ Performance optimization - Only check auth if already initialized
-        if (isInitialized && getSecurityManager().needsAuthentication()) {
+        // Check authentication when app comes back to foreground
+        if (securityManager != null && securityManager.needsAuthentication()) {
             Intent authIntent = AuthenticationActivity.createIntent(this, AuthenticationActivity.AUTH_TYPE_STARTUP);
             startActivityForResult(authIntent, REQUEST_CODE_AUTHENTICATION);
         }
     }
     
-    /**
-     * ✅ Performance optimization - Lightweight navigation setup
-     */
-    private void setupNavigation() {
-        try {
-            // Get Navigation Controller
-            NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-            
-            // Setup Bottom Navigation with Navigation Controller
-            BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
-            NavigationUI.setupWithNavController(bottomNavigationView, navController);
-            
-            // Optional: Set custom listener for bottom navigation
-            bottomNavigationView.setOnItemSelectedListener(item -> {
-                return NavigationUI.onNavDestinationSelected(item, navController);
-            });
-        } catch (Exception e) {
-            Log.e("MainActivity", "Error setting up navigation", e);
+    private void initializeMainActivity() {
+        setContentView(R.layout.activity_main);
+
+        requestPermissions(new String[] {
+                Manifest.permission.SEND_SMS,
+                Manifest.permission.INTERNET,
+                Manifest.permission.ACCESS_NETWORK_STATE
+        }, 0);
+
+        // Setup Navigation Component
+        setupNavigation();
+        
+        // Show first launch help if needed
+        if (helpManager != null) {
+            helpManager.showWelcome();
         }
+    }
+    
+    private void setupNavigation() {
+        // Get Navigation Controller
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        
+        // Setup Bottom Navigation with Navigation Controller
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        NavigationUI.setupWithNavController(bottomNavigationView, navController);
+        
+        // Optional: Set custom listener for bottom navigation
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            return NavigationUI.onNavDestinationSelected(item, navController);
+        });
     }
 
     public static class SettingsFragment extends PreferenceFragmentCompat

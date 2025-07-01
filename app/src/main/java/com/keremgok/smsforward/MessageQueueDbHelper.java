@@ -17,7 +17,7 @@ import java.util.List;
 public class MessageQueueDbHelper extends SQLiteOpenHelper {
     private static final String TAG = "MessageQueueDbHelper";
     private static final String DATABASE_NAME = "sms_forward_queue.db";
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 1;
 
     // Table name and columns
     private static final String TABLE_MESSAGE_QUEUE = "message_queue";
@@ -37,33 +37,6 @@ public class MessageQueueDbHelper extends SQLiteOpenHelper {
     public static final String STATUS_PROCESSING = "PROCESSING";
     public static final String STATUS_FAILED = "FAILED";
     public static final String STATUS_SUCCESS = "SUCCESS";
-
-    // ✅ Performance optimization - Index creation statements
-    private static final String[] INDEX_CREATION_STATEMENTS = {
-        // Primary status index for queue processing
-        "CREATE INDEX IF NOT EXISTS idx_status ON " + TABLE_MESSAGE_QUEUE + 
-        "(" + COLUMN_STATUS + ")",
-        
-        // Created timestamp index for chronological processing
-        "CREATE INDEX IF NOT EXISTS idx_created_at ON " + TABLE_MESSAGE_QUEUE + 
-        "(" + COLUMN_CREATED_AT + " ASC)",
-        
-        // Composite index for pending message queries (most important for performance)
-        "CREATE INDEX IF NOT EXISTS idx_status_created ON " + TABLE_MESSAGE_QUEUE + 
-        "(" + COLUMN_STATUS + ", " + COLUMN_CREATED_AT + " ASC)",
-        
-        // Retry count index for retry logic
-        "CREATE INDEX IF NOT EXISTS idx_retry_count ON " + TABLE_MESSAGE_QUEUE + 
-        "(" + COLUMN_RETRY_COUNT + ")",
-        
-        // Forwarder type index for type-based queries
-        "CREATE INDEX IF NOT EXISTS idx_forwarder_type ON " + TABLE_MESSAGE_QUEUE + 
-        "(" + COLUMN_FORWARDER_TYPE + ")",
-        
-        // Last retry timestamp index for retry timing
-        "CREATE INDEX IF NOT EXISTS idx_last_retry_at ON " + TABLE_MESSAGE_QUEUE + 
-        "(" + COLUMN_LAST_RETRY_AT + " DESC)"
-    };
 
     private static final String SQL_CREATE_TABLE = "CREATE TABLE " + TABLE_MESSAGE_QUEUE + " (" +
             COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
@@ -86,38 +59,15 @@ public class MessageQueueDbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        Log.d(TAG, "Creating message queue database v" + DATABASE_VERSION);
+        Log.d(TAG, "Creating message queue database");
         db.execSQL(SQL_CREATE_TABLE);
-        
-        // ✅ Create performance indexes
-        createIndexes(db);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         Log.d(TAG, "Upgrading database from version " + oldVersion + " to " + newVersion);
-        
-        if (oldVersion < 2) {
-            // ✅ Performance optimization v1.21.0 - Add missing indexes
-            Log.d(TAG, "Adding performance indexes for v1.21.0");
-            createIndexes(db);
-        }
-        
-        // Note: We don't drop the table anymore to preserve data during upgrades
-    }
-
-    /**
-     * ✅ Performance optimization - Create all performance indexes
-     */
-    private void createIndexes(SQLiteDatabase db) {
-        for (String indexStatement : INDEX_CREATION_STATEMENTS) {
-            try {
-                db.execSQL(indexStatement);
-                Log.d(TAG, "Created index: " + indexStatement.substring(0, Math.min(50, indexStatement.length())) + "...");
-            } catch (Exception e) {
-                Log.e(TAG, "Error creating index: " + indexStatement, e);
-            }
-        }
+        db.execSQL(SQL_DROP_TABLE);
+        onCreate(db);
     }
 
     /**
