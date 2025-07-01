@@ -5,8 +5,8 @@ android {
     defaultConfig {
         applicationId "com.keremgok.smsforward"
         minSdkVersion 25
-        versionCode 17
-        versionName "1.16.0"
+        versionCode 16
+        versionName "1.15.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -51,9 +51,6 @@ dependencies {
     
     // CardView for status cards
     implementation 'androidx.cardview:cardview:1.0.0'
-    
-    // SwipeRefreshLayout for pull-to-refresh
-    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'

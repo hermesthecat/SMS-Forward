@@ -129,7 +129,7 @@
     <string name="history_cleared">Mesaj geçmişi başarıyla temizlendi</string>
     <string name="history_empty">Mesaj geçmişi mevcut değil</string>
     <string name="history_stats_format" formatted="false">Toplam: %1$d | Başarılı: %2$d (%.1f%%) |
-        Başarısız: %4$d</string>
+        Başarısız: %3$d</string>
 
     <!-- Message Formats -->
     <string name="sms_message_format">%1$s\'den:\n%2$s\nAlındığı zaman: %3$s</string>
@@ -275,18 +275,6 @@
     <string name="dashboard_test_message">Test Mesajı</string>
     <string name="dashboard_view_stats">İstatistikleri Gör</string>
     <string name="dashboard_loading">Panel yükleniyor…</string>
-    
-    <!-- Interactive Dashboard Features -->
-    <string name="dashboard_auto_refresh">Otomatik yenileme</string>
-    <string name="dashboard_last_update_never">Hiç güncellenmedi</string>
-    <string name="dashboard_last_update_format">%s güncellendi</string>
-    <string name="dashboard_refresh">Yenile</string>
-    <string name="dashboard_view_history">Geçmişi Gör</string>
-    <string name="dashboard_refreshing">Yenileniyor…</string>
-    <string name="dashboard_status_updating">Durum güncelleniyor…</string>
-    <string name="dashboard_pull_to_refresh">Yenilemek için çekin</string>
-    <string name="dashboard_auto_refresh_disabled">Otomatik yenileme kapalı</string>
-    <string name="dashboard_auto_refresh_enabled">Otomatik yenileme açık (30s\'de bir)</string>
     
     <!-- Dashboard Status Messages -->
     <string name="dashboard_status_online">%1$s Çevrimiçi (%2$s)</string>

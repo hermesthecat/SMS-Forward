@@ -77,7 +77,7 @@
     <string name="connection_status_summary">Current network connectivity status</string>
 
     <!-- Message Counter -->
-    <string name="key_message_counter" translatable="false">message_counter</string>
+    <string name="key_message_counter">message_counter</string>
     <string name="message_counter_title">Message Counter</string>
     <string name="message_counter_summary">View daily and total forwarded message statistics</string>
 
@@ -106,13 +106,13 @@
 
     <!-- Appearance -->
     <string name="header_appearance">Appearance</string>
-    <string name="key_theme_mode" translatable="false">theme_mode</string>
+    <string name="key_theme_mode">theme_mode</string>
     <string name="theme_mode_title">Theme</string>
     <string name="theme_mode_summary">Choose light, dark, or system theme</string>
     <string name="theme_system_fallback">System mode uses battery saver on Android 9 and below</string>
 
     <!-- Language -->
-    <string name="key_language" translatable="false">language</string>
+    <string name="key_language">language</string>
     <string name="language_title">Language</string>
     <string name="language_summary">Choose app language</string>
     <string name="language_restart_required">App restart required for language change to take effect</string>
@@ -153,7 +153,7 @@
     <string name="history_cleared">Message history cleared successfully</string>
     <string name="history_empty">No message history available</string>
     <string name="history_stats_format" formatted="false">Total: %1$d | Success: %2$d (%.1f%%) |
-        Failed: %4$d</string>
+        Failed: %3$d</string>
 
     <!-- Message Formats -->
     <string name="sms_message_format">From %1$s:\n%2$s\nReceived at: %3$s</string>
@@ -305,18 +305,6 @@
     <string name="dashboard_test_message">Test Message</string>
     <string name="dashboard_view_stats">View Stats</string>
     <string name="dashboard_loading">Loading dashboard…</string>
-    
-    <!-- Interactive Dashboard Features -->
-    <string name="dashboard_auto_refresh">Auto-refresh</string>
-    <string name="dashboard_last_update_never">Never updated</string>
-    <string name="dashboard_last_update_format">Updated %s</string>
-    <string name="dashboard_refresh">Refresh</string>
-    <string name="dashboard_view_history">View History</string>
-    <string name="dashboard_refreshing">Refreshing…</string>
-    <string name="dashboard_status_updating">Updating status…</string>
-    <string name="dashboard_pull_to_refresh">Pull to refresh</string>
-    <string name="dashboard_auto_refresh_disabled">Auto-refresh disabled</string>
-    <string name="dashboard_auto_refresh_enabled">Auto-refresh enabled (every 30s)</string>
     
     <!-- Dashboard Status Messages -->
     <string name="dashboard_status_online">%1$s Online (%2$s)</string>
