@@ -2,21 +2,16 @@ package com.keremgok.smsforward.ui.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.google.android.material.button.MaterialButton;
-import com.google.android.material.card.MaterialCardView;
 import com.keremgok.smsforward.LanguageManager;
 import com.keremgok.smsforward.MessageStatsDbHelper;
 import com.keremgok.smsforward.NetworkStatusManager;
@@ -24,31 +19,16 @@ import com.keremgok.smsforward.R;
 import com.keremgok.smsforward.ThemeManager;
 
 /**
- * Dashboard Fragment - Modernized dashboard with status cards and quick actions
- * Phase 3: UI Modernization - Material Design 3 with loading states and animations
+ * Dashboard Fragment - Ana sayfa görünümü
+ * Status kartları, hızlı eylemler ve son aktiviteleri gösterir
  */
 public class DashboardFragment extends Fragment {
     private static final String TAG = "DashboardFragment";
 
     private NetworkStatusManager networkStatusManager;
     private SharedViewModel sharedViewModel;
-    
-    // UI Components
     private TextView welcomeText;
     private TextView statusText;
-    private TextView todayStatsCount;
-    private TextView totalStatsCount;
-    private MaterialCardView networkStatusCard;
-    private TextView networkStatusIcon;
-    private TextView networkStatusTitle;
-    private TextView networkStatusDescription;
-    private MaterialCardView securityStatusCard;
-    private TextView securityStatusIcon;
-    private TextView securityStatusTitle;
-    private TextView securityStatusDescription;
-    private MaterialButton testMessageButton;
-    private MaterialButton viewStatsButton;
-    private View loadingStateContainer;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -63,8 +43,8 @@ public class DashboardFragment extends Fragment {
             ThemeManager.initializeTheme(getActivity());
         }
 
-        // Inflate modern dashboard layout
-        View rootView = inflater.inflate(R.layout.fragment_dashboard, container, false);
+        // Create a simple layout programmatically for Phase 1
+        View rootView = inflater.inflate(android.R.layout.activity_list_item, container, false);
         
         // Initialize views
         setupViews(rootView);
@@ -102,33 +82,27 @@ public class DashboardFragment extends Fragment {
     }
 
     private void setupViews(View rootView) {
-        // Initialize all views from the modern layout
-        welcomeText = rootView.findViewById(R.id.welcomeText);
-        statusText = rootView.findViewById(R.id.statusText);
-        todayStatsCount = rootView.findViewById(R.id.todayStatsCount);
-        totalStatsCount = rootView.findViewById(R.id.totalStatsCount);
+        // For Phase 1, create basic text views programmatically
+        // TODO: Replace with proper cards layout in Phase 3
         
-        // Network status card
-        networkStatusCard = rootView.findViewById(R.id.networkStatusCard);
-        networkStatusIcon = rootView.findViewById(R.id.networkStatusIcon);
-        networkStatusTitle = rootView.findViewById(R.id.networkStatusTitle);
-        networkStatusDescription = rootView.findViewById(R.id.networkStatusDescription);
+        // Create welcome text
+        welcomeText = new TextView(getContext());
+        welcomeText.setText("📱 SMS Forward Dashboard");
+        welcomeText.setTextSize(20f);
+        welcomeText.setPadding(32, 32, 32, 16);
         
-        // Security status card
-        securityStatusCard = rootView.findViewById(R.id.securityStatusCard);
-        securityStatusIcon = rootView.findViewById(R.id.securityStatusIcon);
-        securityStatusTitle = rootView.findViewById(R.id.securityStatusTitle);
-        securityStatusDescription = rootView.findViewById(R.id.securityStatusDescription);
+        // Create status text
+        statusText = new TextView(getContext());
+        statusText.setText("⏳ Loading status...");
+        statusText.setTextSize(16f);
+        statusText.setPadding(32, 16, 32, 32);
         
-        // Action buttons
-        testMessageButton = rootView.findViewById(R.id.testMessageButton);
-        viewStatsButton = rootView.findViewById(R.id.viewStatsButton);
-        
-        // Loading state
-        loadingStateContainer = rootView.findViewById(R.id.loadingStateContainer);
-        
-        // Setup button listeners
-        setupButtonListeners();
+        // Add views to root (temporarily)
+        if (rootView instanceof ViewGroup) {
+            ViewGroup container = (ViewGroup) rootView;
+            container.addView(welcomeText);
+            container.addView(statusText);
+        }
     }
 
     private void setupViewModel() {
@@ -146,105 +120,33 @@ public class DashboardFragment extends Fragment {
         sharedViewModel.getSecurityEnabled().observe(getViewLifecycleOwner(), this::updateSecurityStatus);
     }
 
-    private void setupButtonListeners() {
-        if (testMessageButton != null) {
-            testMessageButton.setOnClickListener(v -> {
-                // Show loading and send test message
-                if (getContext() != null) {
-                    Toast.makeText(getContext(), "Test message functionality coming soon!", Toast.LENGTH_SHORT).show();
-                }
-            });
-        }
-        
-        if (viewStatsButton != null) {
-            viewStatsButton.setOnClickListener(v -> {
-                // Navigate to data/statistics tab
-                if (getActivity() != null && getActivity() instanceof androidx.fragment.app.FragmentActivity) {
-                    // Switch to Data tab (index 4)
-                    // This would require MainActivity navigation integration
-                    Toast.makeText(getContext(), "Navigate to Data tab for detailed statistics", Toast.LENGTH_SHORT).show();
-                }
-            });
-        }
-    }
-
     private void setupInitialData() {
-        // Show loading state initially
-        showLoadingState(true);
-        
-        // Hide loading after 1 second to simulate loading
-        new Handler(Looper.getMainLooper()).postDelayed(() -> {
-            showLoadingState(false);
-            updateAllViews();
-        }, 1000);
-    }
-    
-    private void showLoadingState(boolean show) {
-        if (loadingStateContainer != null) {
-            loadingStateContainer.setVisibility(show ? View.VISIBLE : View.GONE);
+        if (welcomeText != null) {
+            welcomeText.setText("📱 SMS Forward Dashboard\n✅ Phase 2 - Multi-Screen Navigation");
         }
+        
+        // Initial update
+        updateStatus();
     }
 
     private void updateNetworkStatus(Boolean isConnected) {
-        updateNetworkStatusCard(isConnected);
-        updateAllViews();
+        updateStatus();
     }
     
     private void updateConnectionType(String connectionType) {
-        updateNetworkStatusCard(sharedViewModel.getIsConnected().getValue());
-        updateAllViews();
+        updateStatus();
     }
     
     private void updateTodayStats(MessageStatsDbHelper.DailyStats stats) {
-        if (todayStatsCount != null && stats != null) {
-            todayStatsCount.setText(String.valueOf(stats.totalCount));
-        }
+        updateStatus();
     }
     
     private void updateTotalStats(MessageStatsDbHelper.TotalStats stats) {
-        if (totalStatsCount != null && stats != null) {
-            totalStatsCount.setText(String.valueOf(stats.totalCount));
-        }
+        updateStatus();
     }
     
     private void updateSecurityStatus(Boolean isSecurityEnabled) {
-        updateSecurityStatusCard(isSecurityEnabled);
-    }
-    
-    private void updateNetworkStatusCard(Boolean isConnected) {
-        if (networkStatusIcon == null || networkStatusDescription == null) return;
-        
-        String connectionType = sharedViewModel != null ? sharedViewModel.getConnectionType().getValue() : "Unknown";
-        
-        if (isConnected != null && isConnected) {
-            networkStatusIcon.setText("🟢");
-            networkStatusDescription.setText(getString(R.string.dashboard_status_ready));
-        } else {
-            networkStatusIcon.setText("🔴");
-            networkStatusDescription.setText(getString(R.string.dashboard_status_cannot_forward));
-        }
-    }
-    
-    private void updateSecurityStatusCard(Boolean isSecurityEnabled) {
-        if (securityStatusIcon == null || securityStatusDescription == null) return;
-        
-        if (isSecurityEnabled != null && isSecurityEnabled) {
-            securityStatusIcon.setText("🔒");
-            securityStatusDescription.setText(getString(R.string.dashboard_security_ready));
-        } else {
-            securityStatusIcon.setText("🔓");
-            securityStatusDescription.setText(getString(R.string.dashboard_security_setup_needed));
-        }
-    }
-    
-    private void updateAllViews() {
         updateStatus();
-        if (sharedViewModel != null) {
-            updateTodayStats(sharedViewModel.getTodayStats().getValue());
-            updateTotalStats(sharedViewModel.getTotalStats().getValue());
-            updateNetworkStatusCard(sharedViewModel.getIsConnected().getValue());
-            updateSecurityStatusCard(sharedViewModel.getSecurityEnabled().getValue());
-        }
     }
 
     private void updateStatus() {

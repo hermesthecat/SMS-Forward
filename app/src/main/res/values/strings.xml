@@ -292,38 +292,4 @@
     <string name="nav_security">Güvenlik</string>
     <string name="nav_data">Veri</string>
 
-    <!-- Dashboard -->
-    <string name="dashboard_welcome">SMS Forward</string>
-    <string name="dashboard_status_loading">Loading status…</string>
-    <string name="dashboard_today">Today</string>
-    <string name="dashboard_total">Total</string>
-    <string name="dashboard_network_status">Network Status</string>
-    <string name="dashboard_checking_connection">Checking connection…</string>
-    <string name="dashboard_security_status">Security Status</string>
-    <string name="dashboard_security_checking">Checking security…</string>
-    <string name="dashboard_quick_actions">Quick Actions</string>
-    <string name="dashboard_test_message">Test Message</string>
-    <string name="dashboard_view_stats">View Stats</string>
-    <string name="dashboard_loading">Loading dashboard…</string>
-    
-    <!-- Dashboard Status Messages -->
-    <string name="dashboard_status_online">%1$s Online (%2$s)</string>
-    <string name="dashboard_status_offline">🔴 Offline</string>
-    <string name="dashboard_status_ready">✅ Ready to forward messages</string>
-    <string name="dashboard_status_cannot_forward">❌ Cannot forward messages</string>
-    <string name="dashboard_security_enabled">🔒 Security Enabled</string>
-    <string name="dashboard_security_disabled">🔓 Security Disabled</string>
-    <string name="dashboard_security_ready">Authentication configured</string>
-    <string name="dashboard_security_setup_needed">Setup required</string>
-
-    <!-- Data Fragment with Charts -->
-    <string name="data_fragment_title">Statistics &amp; Analytics</string>
-    <string name="data_fragment_subtitle">Message forwarding performance</string>
-    <string name="data_daily_chart_title">Daily Messages (Last 7 Days)</string>
-    <string name="data_platform_chart_title">Platform Distribution</string>
-    <string name="data_success_rate_title">Success Rate</string>
-    <string name="data_success_rate_format">%.1f%%</string>
-    <string name="data_no_data">No data available</string>
-    <string name="data_loading_stats">Loading statistics…</string>
-
 </resources>
