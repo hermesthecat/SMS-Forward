@@ -427,34 +427,4 @@
     <string name="backup_component_filters">Advanced Filters</string>
     <string name="backup_component_statistics">Statistics</string>
 
-    <!-- v1.19.0: Help System Strings -->
-    <string name="help_title">Help</string>
-    <string name="help_message">Help information</string>
-    <string name="help_ok">Got it</string>
-    <string name="help_icon_desc">Help icon</string>
-    
-    <!-- Help Dialog Titles -->
-    <string name="help_dashboard_title">Dashboard Overview</string>
-    <string name="help_forwarders_title">SMS Forwarding Setup</string>
-    <string name="help_security_title">Security Features</string>
-    <string name="help_filters_title">Advanced Filtering</string>
-    <string name="help_backup_title">Backup Management</string>
-    <string name="help_general_title">Welcome to SMS Forward</string>
-    
-    <!-- Help Dialog Messages -->
-    <string name="help_dashboard_message">The Dashboard provides a real-time overview of your SMS forwarding status. Here you can see:\n\n• Total messages forwarded\n• Active forwarders status\n• Recent activity and statistics\n• System health indicators\n\nUse the status cards to quickly monitor your forwarding performance.</string>
-    <string name="help_forwarders_message">Set up multiple forwarding destinations for your SMS messages:\n\n• SMS Forwarding: Forward to other phone numbers\n• Telegram: Send messages to Telegram chats or channels\n• Email: Forward messages to email addresses\n• Webhook: Send to custom web services or APIs\n\nEach forwarder can be configured independently with custom settings and filters.</string>
-    <string name="help_security_message">Protect your SMS forwarding with advanced security features:\n\n• PIN Protection: Secure app access with a PIN code\n• Biometric Authentication: Use fingerprint or face unlock\n• Encrypted Storage: All data is encrypted locally\n• Permission Management: Control app permissions\n\nEnable these features to ensure your messages remain private and secure.</string>
-    <string name="help_filters_message">Create intelligent filters to control which messages get forwarded:\n\n• Sender Filters: Filter by phone number or contact\n• Content Filters: Use keywords or regex patterns\n• Time-based Filters: Set active hours for forwarding\n• Priority Filters: Handle important messages differently\n\nFilters help reduce noise and ensure only relevant messages are forwarded.</string>
-    <string name="help_backup_message">Safely backup and restore your SMS Forward configuration:\n\n• Full Backup: Complete app settings and data\n• Selective Backup: Choose specific components\n• Automatic Scheduling: Regular backup creation\n• Cloud Integration: Store backups securely\n\nRegular backups ensure you never lose your forwarding setup.</string>
-    <string name="help_general_message">Welcome to SMS Forward - the most advanced SMS forwarding solution!\n\nKey Features:\n• Multi-platform forwarding (SMS, Telegram, Email, Webhook)\n• Advanced filtering and rules\n• Real-time dashboard and analytics\n• Comprehensive backup system\n• Enterprise-grade security\n\nGet started by setting up your first forwarder in the Forwarders tab!</string>
-    
-    <!-- Help Button and Actions -->
-    <string name="help_button_desc">Show help information</string>
-    <string name="help_learn_more">Learn More</string>
-    <string name="help_get_started">Get Started</string>
-    <string name="help_setup_now">Setup Now</string>
-    <string name="help_skip">Skip</string>
-    <string name="help_close">Close</string>
-
 </resources>

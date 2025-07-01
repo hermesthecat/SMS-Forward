@@ -771,7 +771,7 @@ HTTP POST to configured webhook:
 - **Package Name**: `com.keremgok.smsforward`
 - **Minimum Android**: API Level 25 (Android 7.0)
 - **Target Android**: API Level 34 (Android 14)
-- **App Version**: 1.19.0
+- **App Version**: 1.15.0
 - **Languages**: Turkish, English (with system default)
 - **Architecture**: Java with Android Gradle Plugin 8.7.3
 
@@ -848,59 +848,272 @@ app/src/main/java/com/keremgok/smsforward/
 
 🔗 **Integration & Navigation:**
 
-- ✅ **Settings Integration**: New backup manager preference in main settings
-- ✅ **Fragment Navigation**: Proper NavController integration and back navigation
-- ✅ **Deep Linking**: Direct navigation to backup manager from various app sections
+- ✅ **Settings Integration**: Added navigation preference in Backup & Restore section
+- ✅ **Fragment Architecture**: Proper navigation controller integration
+- ✅ **State Management**: Maintains backup statistics and user preferences
+- ✅ **Modern Architecture**: Follows Android best practices for fragment-based navigation
 
-### Version 1.19.0 - Contextual Help System (Latest)
+### Version 1.17.0 - Advanced Filtering UI
 
-🎯 **Comprehensive Help System:**
+🎛️ **Advanced Content Filtering System:**
 
-- ✅ **HelpManager Class**: Professional help system with contextual dialogs and tooltips
-- ✅ **Help Button Integration**: Help buttons strategically placed throughout the app UI
-- ✅ **Context-Sensitive Help**: Different help content for Dashboard, Forwarders, Security, Filters, and Backup
-- ✅ **First-Launch Onboarding**: Welcome help for new users with app overview
-- ✅ **Professional Help Dialogs**: Material Design 3 dialogs with icons, titles, and detailed explanations
+- ✅ **Visual Filter Builder**: Comprehensive dialog for creating and editing filter rules
+- ✅ **Multiple Filter Types**: Keyword, Regex, Sender Pattern, Contains, Starts With, Ends With
+- ✅ **Filter Actions**: Block messages, Skip forwarding, or Tag for special handling
+- ✅ **Live Message Testing**: Test messages against filters with real-time preview
+- ✅ **Filter Management**: Enable/disable, edit, delete individual rules with intuitive UI
+- ✅ **Category Organization**: Organize filters by custom categories for better management
 
-🎨 **User Experience Enhancement:**
+🔧 **Enhanced Filtering Engine:**
 
-- ✅ **Interactive Help Buttons**: Modern help icons integrated into fragment headers and cards
-- ✅ **Rich Help Content**: Detailed explanations for every major feature with step-by-step guidance
-- ✅ **Smart Help Tracking**: Help shown only on first use, with option to view again
-- ✅ **Visual Design**: Consistent help dialog layout with Material Design 3 components
-- ✅ **Non-Intrusive Integration**: Help available when needed without cluttering the UI
+- ✅ **AdvancedContentFilter**: Sophisticated filtering engine supporting complex patterns
+- ✅ **Regular Expression Support**: Advanced users can create powerful regex-based filters
+- ✅ **Performance Optimized**: Compiled regex patterns for efficient message processing
+- ✅ **Error Handling**: Graceful validation and error messages for invalid patterns
+- ✅ **Pattern Validation**: Real-time regex validation with helpful error descriptions
 
-🌐 **Complete Bilingual Support:**
+📊 **Filter Statistics & Analytics:**
 
-- ✅ **English Help Content**: 25+ comprehensive help messages covering all app features
+- ✅ **Statistics Dashboard**: Total filters, active count, and category metrics
+- ✅ **Test Results Display**: Visual feedback showing which filters matched during testing
+- ✅ **Filter Activity Tracking**: Creation timestamps and usage statistics
+- ✅ **Import/Export Support**: JSON-based filter backup and sharing capabilities
+
+🎨 **Material Design 3 UI:**
+
+- ✅ **FilterRulesAdapter**: Modern RecyclerView with interactive filter cards
+- ✅ **Filter Editor Dialog**: Comprehensive input fields with icons and validation
+- ✅ **Test Results Display**: Color-coded chips showing filter actions and outcomes
+- ✅ **Empty State UI**: Helpful guidance when no filters are configured
+- ✅ **Responsive Layout**: Optimized for all screen sizes with scrollable content
+
+🌐 **Complete Localization:**
+
+- ✅ **English & Turkish**: 50+ new strings with comprehensive filtering terminology
+- ✅ **Context-aware Help**: Dynamic hint text based on selected filter type
+- ✅ **Pattern Examples**: Helpful examples for each filter type in both languages
+- ✅ **Error Messages**: Localized validation and error handling
+
+🔗 **Navigation Integration:**
+
+- ✅ **Fragment Architecture**: Seamless integration with existing navigation system
+- ✅ **Deep Linking**: Direct navigation to advanced filters from other screens
+- ✅ **State Management**: Proper fragment lifecycle and state preservation
+- ✅ **Memory Efficient**: Optimal resource usage with adapter pattern
+
+### Version 1.15.0 - UI Modernization Phase 3
+
+**🎨 Major UI Modernization:**
+- **Multi-screen Navigation**: 5-tab bottom navigation (Dashboard, Forwarders, Settings, Security, Data)
+- **Material Design 3**: Status cards with loading states and modern components
+- **Interactive Charts**: MPAndroidChart integration for daily/platform statistics
+- **Enhanced Dashboard**: Real-time status cards, quick actions, loading indicators
+- **Modernized Forms**: Better input fields, validation, and user experience
+- **Loading States**: Progress indicators and smooth transitions throughout the app
+
+**📊 Charts & Analytics:**
+- Daily message volume line charts (last 7 days)
+- Platform distribution pie charts (SMS, Telegram, Email, Webhook)
+- Success rate visualization and detailed statistics
+- Real-time data refresh with loading animations
+
+**🔧 Technical Improvements:**
+- MPAndroidChart library integration
+- Enhanced SharedViewModel for cross-fragment communication
+- Improved fragment lifecycle management
+- Modern layout designs with Material CardView components
+
+### Version 1.16.0 - Interactive Dashboard
+
+🔄 **Interactive Dashboard Features:**
+
+- ✅ **SwipeRefreshLayout**: Pull-to-refresh functionality for real-time status updates
+- ✅ **Auto-refresh Toggle**: Optional automatic refresh every 30 seconds with user control
+- ✅ **Enhanced Quick Actions**: 4 modern action buttons (Test Message, View Stats, Refresh, View History)
+- ✅ **Real-time Status Updates**: Live indicators with animations and instant feedback
+- ✅ **Last Update Tracking**: Displays when dashboard was last refreshed with time stamps
+- ✅ **Status Change Notifications**: Real-time notifications for network and security changes
+
+🎯 **User Experience Improvements:**
+
+- ✅ **Pull-to-Refresh**: Intuitive gesture-based refresh with Material Design indicators
+- ✅ **Loading States**: Enhanced loading animations with pull-to-refresh messages
+- ✅ **Smart Auto-refresh**: Users can enable/disable auto-refresh based on preference
+- ✅ **Action Feedback**: Instant visual feedback for all quick action buttons
+- ✅ **Status Indicators**: Live network and security status with animated state changes
+
+🛠️ **Technical Enhancements:**
+
+- ✅ **SwipeRefreshLayout Library**: Added androidx.swiperefreshlayout dependency
+- ✅ **Timer Management**: Auto-refresh timer with proper lifecycle handling
+- ✅ **Enhanced SharedViewModel**: Real-time data updates with LiveData observers
+- ✅ **Memory Optimization**: Efficient timer cleanup and resource management
+- ✅ **Material Design 3**: Updated color scheme with enhanced visual feedback
+
+🌐 **Localization:**
+
+- ✅ **English & Turkish**: Complete localization for all interactive features
+- ✅ **Status Messages**: Localized auto-refresh states and last update times
+- ✅ **Action Buttons**: Translated quick action labels and descriptions
+- ✅ **User Guidance**: Localized pull-to-refresh instructions and feedback
+
+### Version 1.14.0 - PIN/Biometric Lock Security
+
+🔒 **Application Security:**
+
+- ✅ **PIN Authentication**: 4+ digit PIN protection with secure salted SHA-256 hashing
+- ✅ **Biometric Authentication**: Fingerprint and face recognition using Android Biometric API
+- ✅ **Android Keystore Integration**: Secure biometric key storage and management
+- ✅ **Authentication Timeout**: Configurable timeout from 1 minute to never expire
+- ✅ **Fallback System**: Biometric authentication gracefully falls back to PIN if unavailable
+- ✅ **Secure Storage**: PIN hashes stored with random salt, no plaintext PIN storage
+
+🛡️ **Security Features:**
+
+- ✅ **AuthenticationActivity**: Dedicated security screen preventing back navigation during auth
+- ✅ **MainActivity Integration**: Authentication checks on app startup and when resuming
+- ✅ **Security Testing**: Built-in functionality to test authentication methods
+- ✅ **Device Compatibility**: Automatic detection of biometric hardware availability
+- ✅ **Memory Security**: Proper cleanup of sensitive data and prevention of memory leaks
+
+🎨 **User Interface:**
+
+- ✅ **Security Settings**: Complete "Security & Privacy" section in app preferences
+- ✅ **PIN Management**: Create, change, and remove PIN with confirmation dialogs
+- ✅ **Biometric Toggle**: Enable/disable biometric authentication with status messages
+- ✅ **Timeout Configuration**: Six timeout options from 1 minute to never expire
+- ✅ **Real-time Status**: Live security status and availability indicators
+
+🌐 **Multi-language Support:**
+
+- ✅ **English Localization**: 50+ security-related strings with comprehensive messaging
 - ✅ **Turkish Localization**: Complete Turkish translation with cultural adaptations
-- ✅ **Feature-Specific Help**: Tailored help content for each app section and functionality
-- ✅ **User Guidance**: Clear instructions and explanations in both languages
-- ✅ **Welcome Messages**: Engaging first-launch experience in both languages
+- ✅ **Dynamic Summaries**: Live preference summaries showing current security status
+- ✅ **Error Messages**: Localized error handling and user guidance
 
 🔧 **Technical Implementation:**
 
-- ✅ **Help Dialog Layout**: Custom dialog layout with icon, title, message, and action buttons
-- ✅ **SharedPreferences Integration**: Tracks which help has been shown to avoid repetition
-- ✅ **Fragment Integration**: Help system seamlessly integrated into existing fragments
-- ✅ **Memory Efficient**: Lightweight help system with minimal resource usage
-- ✅ **First Launch Detection**: Automatic welcome help for new app installations
+- ✅ **SecurityManager Class**: Centralized security management with comprehensive API
+- ✅ **Thread Safety**: Synchronized operations for concurrent access protection
+- ✅ **Permission Handling**: Android Biometric permission integration
+- ✅ **Lifecycle Management**: Proper integration with Android Activity lifecycle
+- ✅ **Settings Backup**: Security preferences appropriately excluded from backup files
 
-📋 **Help Content Coverage:**
+### Version 1.13.0 - SMS Content Filter & Security
 
-- ✅ **Dashboard Help**: Overview of real-time status, statistics, and quick actions
-- ✅ **Forwarders Help**: SMS, Telegram, Email, and Webhook setup guidance
-- ✅ **Security Help**: PIN, biometric authentication, and privacy features
-- ✅ **Filters Help**: Advanced content filtering and rule creation
-- ✅ **Backup Help**: Backup management, selective backup, and restore processes
-- ✅ **General Help**: App overview, features, and getting started guide
+🛡️ **Content Filtering:**
 
-🎪 **User Onboarding:**
+- ✅ **Keyword-based Filtering**: Block messages containing specific keywords
+- ✅ **Case-insensitive Matching**: SPAM = spam = Spam for flexible filtering
+- ✅ **Comma-separated Lists**: Multiple keywords: "spam,advertisement,promotion"
+- ✅ **Real-time Summary**: Live preview of active filters in settings
+- ✅ **Input Validation**: Automatic keyword cleaning and formatting
 
-- ✅ **Welcome Screen**: Comprehensive app introduction for first-time users
-- ✅ **Feature Highlights**: Key app capabilities and benefits clearly explained
-- ✅ **Getting Started**: Step-by-step guidance to set up first forwarder
-- ✅ **Progressive Disclosure**: Help appears contextually as users explore features
+🔒 **Security Enhancements:**
+
+- ✅ **Spam Protection**: Proactive message blocking before forwarding
+- ✅ **User Control**: Complete control over filtered content
+- ✅ **Performance Optimized**: Lightweight string matching with early exit
+- ✅ **Integration Point**: Pre-filtering in SmsReceiver before any forwarding
+
+🌐 **Multi-language Support:**
+
+- ✅ **Turkish & English**: Complete localization for filter settings
+- ✅ **Settings Backup**: Filter keywords included in backup/restore
+- ✅ **Smart UI**: Dynamic summaries showing active vs inactive filters
+- ✅ **User-friendly**: Clear instructions and help text
+
+🛠️ **Technical Implementation:**
+
+- ✅ **SmsContentFilter Class**: Static utility class for efficient filtering
+- ✅ **Memory Efficient**: No unnecessary object creation during filtering
+- ✅ **Thread Safe**: Safe for concurrent access from SmsReceiver
+- ✅ **Logging**: Detailed logs for debugging blocked messages
+
+### Version 1.12.0 - Memory Leak Fixes & Performance
+
+🔧 **Memory Management:**
+
+- ✅ **Static Context References**: Eliminated memory leaks in SmsReceiver by removing static field dependencies
+- ✅ **Resource Cleanup**: Added proper lifecycle management with onDestroy() cleanup in MainActivity
+- ✅ **Database Management**: Implemented proper close() calls for all database helpers
+- ✅ **Background Thread Cleanup**: Added shutdown() methods for ExecutorService instances
+- ✅ **Application Cleanup**: Global resource cleanup in Application.onTerminate()
+
+🚀 **Performance Improvements:**
+
+- ✅ **Memory Efficiency**: Reduced memory footprint and eliminated memory leaks
+- ✅ **Long-term Stability**: Optimized for continuous operation without memory degradation
+- ✅ **Resource Management**: Proper cleanup of all background threads and connections
+- ✅ **Enterprise-grade**: Production-ready memory management standards
+
+🛠️ **Technical Enhancements:**
+
+- ✅ **Code Quality**: Improved code formatting and consistency
+- ✅ **Error Prevention**: Proactive memory leak prevention measures
+- ✅ **Lifecycle Management**: Proper Android component lifecycle handling
+- ✅ **Thread Safety**: Enhanced concurrent access protection
+
+### Version 1.11.0 - Multi-language Support & About Page
+
+🌐 **Localization:**
+
+- ✅ **Turkish Translation**: Complete Turkish localization with cultural adaptations
+- ✅ **Runtime Language Switching**: Change language without app restart
+- ✅ **Message Localization**: SMS, Telegram, Email formats in both languages
+- ✅ **System Integration**: Respects device language settings
+
+📱 **User Interface:**
+
+- ✅ **About Page**: Comprehensive app information with version details
+- ✅ **Language Manager**: Centralized language management system
+- ✅ **Context-aware Forwarders**: All message types support localization
+
+### Version 1.10.0 - Message History System
+
+📊 **History Tracking:**
+
+- ✅ **SQLite Storage**: Persistent message history (last 100 messages)
+- ✅ **Rich Metadata**: Status, platform, timestamps, error messages
+- ✅ **Smart UI**: Recent (20) vs complete (100) view modes
+- ✅ **Statistics Integration**: Success rates and platform distribution
+
+### Version 1.9.0 - Settings Backup & Restore
+
+💾 **Configuration Management:**
+
+- ✅ **Export/Import**: JSON format with metadata and version compatibility
+- ✅ **Device Migration**: Complete configuration transfer between devices
+- ✅ **File Operations**: Modern Android Storage Access Framework
+- ✅ **Security Validation**: Whitelist-based preference filtering
+
+### Version 1.8.0 - Rate Limiting System
+
+🚦 **Spam Prevention:**
+
+- ✅ **Rate Limiting**: 10 SMS per minute with sliding window algorithm
+- ✅ **Queue Integration**: Rate-limited messages queued for later
+- ✅ **Real-time Monitoring**: Live usage tracking and status display
+- ✅ **User Control**: Enable/disable toggle in preferences
+
+### Version 1.7.0 - Dark Mode & Theming
+
+🎨 **Visual Enhancements:**
+
+- ✅ **Dark Mode**: System theme following with Material Design 3
+- ✅ **Theme Manager**: Automatic switching and persistence
+- ✅ **Modern UI**: Elegant light and dark color schemes
+
+### Previous Versions
+
+- **v1.7.0**: Dark mode support and Material Design 3 theming
+- **v1.6.0**: Statistics dashboard with daily/total counters and success rates
+- **v1.5.0**: Real-time connection status monitoring and network quality indicators
+- **v1.4.0**: Offline message queue with SQLite storage and background processing
+- **v1.3.0**: Automatic retry mechanism with exponential backoff
+- **v1.2.0**: Test message functionality for setup verification
+- **v1.1.0**: Enhanced message formatting with timestamps
+- **v1.0.0**: Initial release with basic SMS, Telegram, Email, and Web forwarding
 
 ## Development
 
