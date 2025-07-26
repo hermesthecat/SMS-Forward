@@ -238,6 +238,7 @@ public class DashboardFragment extends Fragment implements
         try {
             MessageStatsDbHelper statsHelper = new MessageStatsDbHelper(getContext());
             MessageStatsDbHelper.DailyStats todayStats = statsHelper.getTodayStats();
+            statsHelper.close(); // Close database connection immediately
             
             int count = (todayStats != null) ? todayStats.totalCount : 0;
             todayMessagesText.setText(String.valueOf(count));
@@ -403,25 +404,30 @@ public class DashboardFragment extends Fragment implements
             int successCount = 0;
             StringBuilder errorMessages = new StringBuilder();
 
-            for (Forwarder forwarder : forwarders) {
-                try {
-                    forwarder.forward(testPhoneNumber, testMessage, currentTime);
-                    successCount++;
+            try {
+                for (Forwarder forwarder : forwarders) {
+                    try {
+                        forwarder.forward(testPhoneNumber, testMessage, currentTime);
+                        successCount++;
 
-                    String forwarderName = (forwarder instanceof RetryableForwarder)
-                            ? ((RetryableForwarder) forwarder).getDelegateName()
-                            : forwarder.getClass().getSimpleName();
-                    statsHelper.recordForwardSuccess(forwarderName);
+                        String forwarderName = (forwarder instanceof RetryableForwarder)
+                                ? ((RetryableForwarder) forwarder).getDelegateName()
+                                : forwarder.getClass().getSimpleName();
+                        statsHelper.recordForwardSuccess(forwarderName);
 
-                } catch (Exception e) {
-                    String forwarderName = (forwarder instanceof RetryableForwarder)
-                            ? ((RetryableForwarder) forwarder).getDelegateName()
-                            : forwarder.getClass().getSimpleName();
-                    errorMessages.append(forwarderName)
-                            .append(": ").append(e.getMessage()).append("\n");
+                    } catch (Exception e) {
+                        String forwarderName = (forwarder instanceof RetryableForwarder)
+                                ? ((RetryableForwarder) forwarder).getDelegateName()
+                                : forwarder.getClass().getSimpleName();
+                        errorMessages.append(forwarderName)
+                                .append(": ").append(e.getMessage()).append("\n");
 
-                    statsHelper.recordForwardFailure(forwarderName);
+                        statsHelper.recordForwardFailure(forwarderName);
+                    }
                 }
+            } finally {
+                // Ensure database helper is closed
+                statsHelper.close();
             }
 
             // Cleanup RetryableForwarders
