@@ -2,6 +2,24 @@
 <resources>
     <string name="app_name">SMS İletici</string>
 
+    <!-- Navigation -->
+    <string name="nav_dashboard">Pano</string>
+    <string name="nav_platforms">Platformlar</string>
+    <string name="nav_security">Güvenlik</string>
+    <string name="nav_monitor">İzleme</string>
+    <string name="nav_about">Hakkında</string>
+
+    <!-- Dashboard -->
+    <string name="dashboard_status_title">Durum Özeti</string>
+    <string name="dashboard_connection_status">Bağlantı</string>
+    <string name="dashboard_today_messages">Bugünkü Mesajlar</string>
+    <string name="dashboard_rate_limit">Hız Sınırı</string>
+    <string name="dashboard_quick_actions">Hızlı İşlemler</string>
+    <string name="dashboard_send_test_message">Test Mesajı Gönder</string>
+    <string name="dashboard_view_message_history">Mesaj Geçmişini Görüntüle</string>
+    <string name="dashboard_platform_settings">Platform Ayarları</string>
+    <string name="dashboard_platforms_status">Platform Durumu</string>
+
     <!-- SMS -->
     <string name="header_sms">SMS ile İletim</string>
     <string name="enable_sms">SMS Etkinleştir</string>
@@ -84,6 +102,19 @@
     <string name="filter_keywords_placeholder">reklam,kampanya,promosyon</string>
     <string name="filter_active_summary">Aktif filtreler: %s</string>
     <string name="filter_inactive_summary">Aktif içerik filtresi yok</string>
+
+    <!-- Sender Filter -->
+    <string name="header_sender_filter">Gönderen Filtresi</string>
+    <string name="enable_number_whitelist">Numara Beyaz Listesini Etkinleştir</string>
+    <string name="enable_number_whitelist_summary">Sadece beyaz listedeki numaralardan gelen mesajları ilet</string>
+    <string name="number_whitelist_title">Beyaz Liste Numaraları</string>
+    <string name="number_whitelist_summary">Telefon numaralarının virgülle ayrılmış listesi</string>
+    <string name="number_whitelist_dialog_title">Beyaz Liste Numaralarını Girin</string>
+    <string name="number_whitelist_dialog_message">Telefon numaralarını virgülle ayırarak girin. Bu listedeki numaralardan gelen mesajlar iletilecektir. Bu özellik etkinleştirilmiş ancak liste boşsa, hiçbir mesaj iletilmeyecektir.</string>
+    <string name="number_whitelist_placeholder">+905551234567,+905321234567</string>
+    <string name="whitelist_active_summary">Aktif beyaz liste: %s</string>
+    <string name="whitelist_inactive_summary">Beyaz liste devre dışı veya boş (tüm numaralara izin verilir)</string>
+    <string name="whitelist_enabled_empty_summary">Beyaz liste etkin ancak boş. Hiçbir SMS iletilmeyecek.</string>
 
     <!-- Appearance -->
     <string name="header_appearance">Görünüm</string>

@@ -16,7 +16,7 @@ This roadmap outlines the planned features and improvements for upcoming version
 
 ### **v1.15.0: Enhanced Security & Reliability**
 
-- **Number Whitelist**: Only forward SMS from specific, user-defined numbers.
+- **[DONE] Number Whitelist**: Only forward SMS from specific, user-defined numbers.
 - **Input Validation**: Stricter validation for all user-configurable settings.
 - **Better Error Messages**: Provide user-friendly and actionable error descriptions.
 - **Last Status Display**: Show the result of the last forwarding attempt in the main UI.

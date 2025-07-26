@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+### Version 1.15.0 - Sender Whitelist & Reliability
+
+✅ **Number Whitelist**:
+- ✅ **Sender Filtering**: Only forward SMS from specific, user-defined numbers.
+- ✅ **Whitelist Management**: Enable/disable the whitelist and manage the list of numbers in settings.
+- ✅ **UI Integration**: New "Sender Filter" section in preferences for easy configuration.
+- ✅ **Backup & Restore**: Whitelist settings are included in the backup/restore functionality.
+- ✅ **Multi-language Support**: Full localization for English and Turkish.
+
 ### Version 1.14.0 - PIN/Biometric Lock Security (Latest)
 
 🔒 **Application Security:**

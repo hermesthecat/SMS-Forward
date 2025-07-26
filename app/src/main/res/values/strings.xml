@@ -1,6 +1,24 @@
 <resources>
     <string name="app_name">SMS Forward</string>
 
+    <!-- Navigation -->
+    <string name="nav_dashboard">Dashboard</string>
+    <string name="nav_platforms">Platforms</string>
+    <string name="nav_security">Security</string>
+    <string name="nav_monitor">Monitor</string>
+    <string name="nav_about">About</string>
+
+    <!-- Dashboard -->
+    <string name="dashboard_status_title">Status Overview</string>
+    <string name="dashboard_connection_status">Connection</string>
+    <string name="dashboard_today_messages">Today\'s Messages</string>
+    <string name="dashboard_rate_limit">Rate Limit</string>
+    <string name="dashboard_quick_actions">Quick Actions</string>
+    <string name="dashboard_send_test_message">Send Test Message</string>
+    <string name="dashboard_view_message_history">View Message History</string>
+    <string name="dashboard_platform_settings">Platform Settings</string>
+    <string name="dashboard_platforms_status">Platforms Status</string>
+
     <!-- SMS -->
     <string name="key_enable_sms" translatable="false">key_enable_sms</string>
     <string name="header_sms">Forward via SMS</string>
@@ -103,6 +121,21 @@
     <string name="filter_keywords_placeholder">spam,promotion,advertisement</string>
     <string name="filter_active_summary">Active filters: %s</string>
     <string name="filter_inactive_summary">No content filters active</string>
+
+    <!-- Sender Filter -->
+    <string name="key_enable_number_whitelist" translatable="false">key_enable_number_whitelist</string>
+    <string name="key_number_whitelist" translatable="false">key_number_whitelist</string>
+    <string name="header_sender_filter">Sender Filter</string>
+    <string name="enable_number_whitelist">Enable Number Whitelist</string>
+    <string name="enable_number_whitelist_summary">Only forward messages from numbers in the whitelist</string>
+    <string name="number_whitelist_title">Whitelisted Numbers</string>
+    <string name="number_whitelist_summary">Comma-separated list of phone numbers</string>
+    <string name="number_whitelist_dialog_title">Enter Whitelisted Numbers</string>
+    <string name="number_whitelist_dialog_message">Enter phone numbers separated by commas. Messages from numbers in this list will be forwarded. If this is enabled but the list is empty, no messages will be forwarded.</string>
+    <string name="number_whitelist_placeholder">+1234567890,+447123456789</string>
+    <string name="whitelist_active_summary">Active whitelist: %s</string>
+    <string name="whitelist_inactive_summary">Whitelist is disabled or empty (all numbers allowed)</string>
+    <string name="whitelist_enabled_empty_summary">Whitelist is enabled but empty. No SMS will be forwarded.</string>
 
     <!-- Appearance -->
     <string name="header_appearance">Appearance</string>
@@ -284,5 +317,33 @@
     <!-- Authentication -->
     <string name="auth_no_methods">No authentication methods available</string>
     <string name="security_test_disabled">Security is disabled. Enable security first.</string>
+
+    <!-- Missing Headers and Keys -->
+    <string name="key_enable_app_security" translatable="false">key_enable_app_security</string>
+    <string name="key_security_pin_setup" translatable="false">key_security_pin_setup</string>
+    <string name="key_enable_biometric" translatable="false">key_enable_biometric</string>
+    <string name="key_authentication_timeout" translatable="false">key_authentication_timeout</string>
+    <string name="key_enable_content_filter" translatable="false">key_enable_content_filter</string>
+    <string name="key_content_filter_keywords" translatable="false">key_content_filter_keywords</string>
+    <string name="key_send_test_message" translatable="false">key_send_test_message</string>
+    <string name="key_message_queue_status" translatable="false">key_message_queue_status</string>
+    <string name="key_view_message_history" translatable="false">key_view_message_history</string>
+    <string name="key_clear_message_history" translatable="false">key_clear_message_history</string>
+    <string name="key_app_version" translatable="false">key_app_version</string>
+    <string name="key_app_info" translatable="false">key_app_info</string>
+
+    <string name="enable_app_security">Enable App Security</string>
+    <string name="enable_app_security_summary">Protect app with PIN/biometric authentication</string>
+    <string name="security_pin_setup">PIN Setup</string>
+    <string name="security_pin_setup_summary">Create or change PIN</string>
+    <string name="enable_biometric">Biometric Authentication</string>
+    <string name="enable_biometric_summary">Use fingerprint or face unlock</string>
+    <string name="authentication_timeout">Authentication Timeout</string>
+    <string name="authentication_timeout_summary">How long until re-authentication required</string>
+    <string name="security_test">Test Security</string>
+    
+    <!-- Missing Headers -->
+    <string name="header_statistics">Statistics</string>
+    <string name="header_message_history">Message History</string>
 
 </resources>

@@ -261,6 +261,9 @@ public class SettingsBackupManager {
                 key.equals(context.getString(R.string.key_email_username_style)) ||
                 key.equals(context.getString(R.string.key_enable_rate_limiting)) ||
                 key.equals(context.getString(R.string.key_filter_keywords)) ||
+                key.equals(context.getString(R.string.key_enable_number_whitelist)) ||
+                key.equals(context.getString(R.string.key_number_whitelist)) ||
+                key.equals(context.getString(R.string.key_language)) ||
                 key.equals(context.getString(R.string.key_theme_mode));
     }
 

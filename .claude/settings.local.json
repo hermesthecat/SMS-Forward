@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(gemini:*)",
+      "Bash(gradlew.bat assembleDebug:*)",
+      "Bash(./gradlew:*)",
+      "Bash(grep:*)",
+      "Bash(rm:*)"
+    ],
+    "deny": []
+  }
+}

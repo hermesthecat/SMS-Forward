@@ -12,6 +12,7 @@ import androidx.preference.PreferenceManager;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.regex.Matcher;
@@ -47,12 +48,12 @@ public class SmsReceiver extends BroadcastReceiver {
             Log.wtf(TAG, "Got empty message");
             return;
         }
-        String senderNumber = messages[0].getDisplayOriginatingAddress();
-        String messageContent = Arrays.stream(messages)
+        final String fromNumber = messages[0].getDisplayOriginatingAddress();
+        final String messageContent = Arrays.stream(messages)
                 .map(SmsMessage::getDisplayMessageBody)
                 .collect(Collectors.joining());
-        long timestamp = messages[0].getTimestampMillis();
-        Log.d(TAG, String.format("Received SMS message from %s, content: %s", senderNumber, messageContent));
+        final long timestamp = messages[0].getTimestampMillis();
+        Log.d(TAG, String.format("Received SMS message from %s, content: %s", fromNumber, messageContent));
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         boolean enableSms = preferences.getBoolean(context.getString(R.string.key_enable_sms), false);
@@ -80,8 +81,18 @@ public class SmsReceiver extends BroadcastReceiver {
 
         // Check content filter - block message if it contains filtered keywords
         if (SmsContentFilter.shouldBlockMessage(messageContent, filterKeywords)) {
-            Log.i(TAG, String.format("Message from %s blocked by content filter", senderNumber));
+            Log.i(TAG, String.format("Message from %s blocked by content filter", fromNumber));
             return; // Don't forward the message
+        }
+
+        // Number Whitelist Filtering
+        boolean whitelistEnabled = preferences.getBoolean(context.getString(R.string.key_enable_number_whitelist), false);
+        if (whitelistEnabled) {
+            String numberWhitelist = preferences.getString(context.getString(R.string.key_number_whitelist), "");
+            if (SmsNumberFilter.shouldBlockNumber(fromNumber, numberWhitelist)) {
+                Log.d(TAG, "Message from " + fromNumber + " blocked by number whitelist.");
+                return; // Stop processing, number not in whitelist
+            }
         }
 
         ArrayList<Forwarder> forwarders = new ArrayList<>(1);
@@ -133,12 +144,12 @@ public class SmsReceiver extends BroadcastReceiver {
             forwarders.add(retryableForwarder);
         }
 
-        if (senderNumber.equals(targetNumber)) {
+        if (fromNumber.equals(targetNumber)) {
             // Reverse message - check rate limit first if enabled
             if (enableRateLimiting && !rateLimiter.isForwardingAllowed()) {
                 Log.w(TAG, String.format("Rate limit exceeded for reverse SMS to %s. Current count: %d/10. " +
                         "Time until next slot: %d seconds",
-                        senderNumber, rateLimiter.getCurrentForwardCount(),
+                        fromNumber, rateLimiter.getCurrentForwardCount(),
                         rateLimiter.getTimeUntilNextSlot() / 1000));
                 return; // Skip reverse forwarding due to rate limit
             }
@@ -164,7 +175,7 @@ public class SmsReceiver extends BroadcastReceiver {
             if (enableRateLimiting && !rateLimiter.isForwardingAllowed()) {
                 Log.w(TAG, String.format("Rate limit exceeded for SMS from %s. Current count: %d/10. " +
                         "Time until next slot: %d seconds",
-                        senderNumber, rateLimiter.getCurrentForwardCount(),
+                        fromNumber, rateLimiter.getCurrentForwardCount(),
                         rateLimiter.getTimeUntilNextSlot() / 1000));
 
                 // Optionally add to queue for later processing when rate limit resets
@@ -177,7 +188,7 @@ public class SmsReceiver extends BroadcastReceiver {
                                 String forwarderConfig = MessageQueueProcessor.createForwarderConfig(
                                         retryableForwarder.getDelegate(), context);
 
-                                queueProcessor.enqueueFailedMessage(senderNumber, messageContent,
+                                queueProcessor.enqueueFailedMessage(fromNumber, messageContent,
                                         timestamp, forwarderType, forwarderConfig);
                                 Log.i(TAG, "Added rate-limited message to offline queue via " + forwarderType);
                             } catch (Exception queueError) {
@@ -193,7 +204,7 @@ public class SmsReceiver extends BroadcastReceiver {
             for (Forwarder forwarder : forwarders) {
                 forwarderExecutor.execute(() -> {
                     try {
-                        forwarder.forward(senderNumber, messageContent, timestamp);
+                        forwarder.forward(fromNumber, messageContent, timestamp);
                         // Record successful forwarding for rate limiting if enabled
                         if (enableRateLimiting) {
                             rateLimiter.recordForwarding();
@@ -209,7 +220,7 @@ public class SmsReceiver extends BroadcastReceiver {
                                 String forwarderConfig = MessageQueueProcessor.createForwarderConfig(
                                         retryableForwarder.getDelegate(), context);
 
-                                queueProcessor.enqueueFailedMessage(senderNumber, messageContent,
+                                queueProcessor.enqueueFailedMessage(fromNumber, messageContent,
                                         timestamp, forwarderType, forwarderConfig);
                                 Log.i(TAG, "Added failed message to offline queue via " + forwarderType);
                             } catch (Exception queueError) {

@@ -158,6 +158,31 @@
 
     <PreferenceCategory
         app:iconSpaceReserved="false"
+        app:title="@string/header_sender_filter">
+
+        <SwitchPreferenceCompat
+            android:key="@string/key_enable_number_whitelist"
+            android:title="@string/enable_number_whitelist"
+            android:summary="@string/enable_number_whitelist_summary"
+            android:defaultValue="false"
+            app:iconSpaceReserved="false" />
+
+        <EditTextPreference
+            android:key="@string/key_number_whitelist"
+            android:title="@string/number_whitelist_title"
+            android:summary="@string/number_whitelist_summary"
+            android:dialogTitle="@string/number_whitelist_dialog_title"
+            android:dialogMessage="@string/number_whitelist_dialog_message"
+            android:hint="@string/number_whitelist_placeholder"
+            android:defaultValue=""
+            android:inputType="textMultiLine|phone"
+            app:dependency="@string/key_enable_number_whitelist"
+            app:iconSpaceReserved="false" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
         app:title="@string/header_appearance">
 
         <ListPreference

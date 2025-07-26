@@ -14,9 +14,11 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.EditTextPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
+import androidx.preference.SwitchPreferenceCompat;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -356,6 +358,9 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
             }
+
+            // Set up number whitelist preference listener
+            setupWhitelistPreferences();
         }
 
         @Override
@@ -1063,6 +1068,13 @@ public class MainActivity extends AppCompatActivity {
                     updateMessageHistorySummary(messageHistoryPreference);
                 }
 
+                // Update number whitelist summary
+                SwitchPreferenceCompat enableWhitelistPref = findPreference(getString(R.string.key_enable_number_whitelist));
+                EditTextPreference whitelistPref = findPreference(getString(R.string.key_number_whitelist));
+                if (enableWhitelistPref != null && whitelistPref != null) {
+                    updateWhitelistSummary(whitelistPref, enableWhitelistPref.isChecked(), whitelistPref.getText());
+                }
+
             } catch (Exception e) {
                 // Ignore errors during summary refresh
             }
@@ -1569,6 +1581,44 @@ public class MainActivity extends AppCompatActivity {
                     preference.setSummary(timeoutEntries[i]);
                     break;
                 }
+            }
+        }
+
+        private void setupWhitelistPreferences() {
+            SwitchPreferenceCompat enableWhitelistPref = findPreference(getString(R.string.key_enable_number_whitelist));
+            EditTextPreference whitelistPref = findPreference(getString(R.string.key_number_whitelist));
+
+            if (enableWhitelistPref != null && whitelistPref != null) {
+                enableWhitelistPref.setOnPreferenceChangeListener((preference, newValue) -> {
+                    updateWhitelistSummary(whitelistPref, (Boolean) newValue, whitelistPref.getText());
+                    return true;
+                });
+
+                whitelistPref.setOnPreferenceChangeListener((preference, newValue) -> {
+                    String cleanedValue = SmsNumberFilter.cleanWhitelist((String) newValue);
+                    if (!newValue.equals(cleanedValue)) {
+                        ((EditTextPreference) preference).setText(cleanedValue);
+                    }
+                    updateWhitelistSummary((EditTextPreference) preference, enableWhitelistPref.isChecked(), cleanedValue);
+                    return true;
+                });
+
+                // Set initial summary
+                updateWhitelistSummary(whitelistPref, enableWhitelistPref.isChecked(), whitelistPref.getText());
+            }
+        }
+
+        private void updateWhitelistSummary(EditTextPreference preference, boolean enabled, String whitelist) {
+            if (!enabled) {
+                preference.setSummary(getString(R.string.whitelist_inactive_summary));
+                return;
+            }
+
+            String summary = SmsNumberFilter.getWhitelistSummary(whitelist);
+            if (summary != null) {
+                preference.setSummary(String.format(getString(R.string.whitelist_active_summary), summary));
+            } else {
+                preference.setSummary(getString(R.string.whitelist_enabled_empty_summary));
             }
         }
     }
