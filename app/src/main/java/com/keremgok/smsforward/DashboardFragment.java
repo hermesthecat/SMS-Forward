@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment;
 import androidx.preference.PreferenceManager;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -513,8 +514,19 @@ public class DashboardFragment extends Fragment implements
      * Navigate to platform settings (will be implemented when navigation is set up)
      */
     private void navigateToPlatformSettings() {
-        // TODO: Implement navigation to Platforms fragment when MainActivity navigation is ready
-        Toast.makeText(getContext(), "Platform settings navigation will be implemented with MainActivity integration", 
-                Toast.LENGTH_SHORT).show();
+        try {
+            MainActivity mainActivity = (MainActivity) getActivity();
+            if (mainActivity != null) {
+                // Navigate to Platforms tab using bottom navigation
+                BottomNavigationView bottomNav = mainActivity.findViewById(R.id.bottom_navigation);
+                if (bottomNav != null) {
+                    bottomNav.setSelectedItemId(R.id.nav_platforms_item);
+                } else {
+                    Toast.makeText(getContext(), "Navigation not available", Toast.LENGTH_SHORT).show();
+                }
+            }
+        } catch (Exception e) {
+            Toast.makeText(getContext(), "Unable to navigate to platform settings", Toast.LENGTH_SHORT).show();
+        }
     }
 }
