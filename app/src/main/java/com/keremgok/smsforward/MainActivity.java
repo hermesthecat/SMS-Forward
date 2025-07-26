@@ -106,8 +106,7 @@ public class MainActivity extends AppCompatActivity {
                 if (itemId == R.id.nav_dashboard_item) {
                     selectedFragment = new DashboardFragment();
                 } else if (itemId == R.id.nav_platforms_item) {
-                    // TODO: Implement PlatformsFragment
-                    selectedFragment = createPlaceholderFragment("Platforms", "Platform configuration will be implemented next");
+                    selectedFragment = new PlatformsFragment();
                 } else if (itemId == R.id.nav_security_item) {
                     // TODO: Implement SecurityFragment  
                     selectedFragment = createPlaceholderFragment("Security", "Security settings will be implemented next");

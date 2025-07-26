@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:iconSpaceReserved="false">
+
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
+        app:title="@string/header_sms">
+
+        <SwitchPreferenceCompat
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:key="@string/key_enable_sms"
+            app:iconSpaceReserved="false"
+            app:title="@string/enable_sms" />
+        <EditTextPreference
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:defaultValue=""
+            android:key="@string/key_target_sms"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/target_title_sms"
+            app:iconSpaceReserved="false"
+            app:summary="@string/target_summary_sms" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:title="@string/header_telegram"
+        app:iconSpaceReserved="false">
+
+        <SwitchPreferenceCompat
+            app:iconSpaceReserved="false"
+            android:key="@string/key_enable_telegram"
+            app:title="@string/enable_telegram" />
+        <EditTextPreference
+            android:defaultValue=""
+            android:key="@string/key_target_telegram"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/target_title_telegram"
+            app:iconSpaceReserved="false" />
+        <EditTextPreference
+            android:defaultValue=""
+            android:key="@string/key_telegram_apikey"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/title_telegram_apikey"
+            app:iconSpaceReserved="false" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:title="@string/header_web"
+        app:iconSpaceReserved="false">
+
+        <SwitchPreferenceCompat
+            app:iconSpaceReserved="false"
+            android:key="@string/key_enable_web"
+            app:title="@string/enable_web" />
+        <EditTextPreference
+            android:defaultValue=""
+            android:key="@string/key_target_web"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/target_title_web"
+            android:summary="@string/target_summary_web"
+            app:iconSpaceReserved="false" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
+        app:title="@string/header_email">
+        <SwitchPreferenceCompat
+            android:key="@string/key_enable_email"
+            app:iconSpaceReserved="false"
+            app:title="@string/enable_email" />
+        <EditTextPreference
+            android:defaultValue=""
+            android:inputType="textEmailAddress"
+            android:key="@string/key_email_from_address"
+            android:summary="@string/from_address_summary"
+            android:title="@string/from_address"
+            app:iconSpaceReserved="false" />
+        <EditTextPreference
+            android:defaultValue=""
+            android:inputType="textEmailAddress"
+            android:key="@string/key_email_to_address"
+            android:summary="@string/to_address_summary"
+            android:title="@string/to_address"
+            app:iconSpaceReserved="false" />
+        <EditTextPreference
+            android:defaultValue=""
+            android:key="@string/key_email_submit_host"
+            android:summary="@string/smtp_submission_server_summary"
+            android:title="@string/smtp_submission_server"
+            app:iconSpaceReserved="false" />
+        <EditTextPreference
+            android:defaultValue="587"
+            android:inputType="numberDecimal"
+            android:key="@string/key_email_submit_port"
+            android:summary="@string/smtp_submission_port_summary"
+            android:title="@string/smtp_submission_port"
+            app:iconSpaceReserved="false" />
+        <ListPreference
+            android:defaultValue="full"
+            android:key="@string/key_email_username_style"
+            android:title="@string/smtp_username_style"
+            android:summary="@string/smtp_username_style_summary"
+            android:entries="@array/option_smtp_username_style_titles"
+            android:entryValues="@array/option_smtp_username_style_values"
+            app:iconSpaceReserved="false"
+        />
+        <EditTextPreference
+            android:defaultValue=""
+            android:inputType="textPassword"
+            android:key="@string/key_email_submit_password"
+            android:summary="@string/smtp_password_summary"
+            android:title="@string/smtp_password"
+            app:iconSpaceReserved="false" />
+    </PreferenceCategory>
+
+</PreferenceScreen>
