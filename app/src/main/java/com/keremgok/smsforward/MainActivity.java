@@ -108,11 +108,9 @@ public class MainActivity extends AppCompatActivity {
                 } else if (itemId == R.id.nav_platforms_item) {
                     selectedFragment = new PlatformsFragment();
                 } else if (itemId == R.id.nav_security_item) {
-                    // TODO: Implement SecurityFragment  
-                    selectedFragment = createPlaceholderFragment("Security", "Security settings will be implemented next");
+                    selectedFragment = new SecurityFragment();
                 } else if (itemId == R.id.nav_monitor_item) {
-                    // TODO: Implement MonitorFragment
-                    selectedFragment = createPlaceholderFragment("Monitor", "Monitoring tools will be implemented next");
+                    selectedFragment = new MonitorFragment();
                 } else if (itemId == R.id.nav_about_item) {
                     selectedFragment = new AboutFragment();
                 }

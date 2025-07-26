@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:iconSpaceReserved="false">
+
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
+        app:title="@string/header_security">
+
+        <SwitchPreferenceCompat
+            android:key="@string/key_security_enabled"
+            android:title="@string/security_enabled_title"
+            android:summary="@string/security_enabled_summary"
+            android:defaultValue="false"
+            app:iconSpaceReserved="false" />
+
+        <Preference
+            android:key="@string/key_pin_setup"
+            android:title="@string/pin_setup_title"
+            android:summary="@string/pin_setup_summary_disabled"
+            app:iconSpaceReserved="false" />
+
+        <SwitchPreferenceCompat
+            android:key="@string/key_biometric_enabled"
+            android:title="@string/biometric_enabled_title"
+            android:summary="@string/biometric_enabled_summary"
+            android:defaultValue="false"
+            app:iconSpaceReserved="false" />
+
+        <ListPreference
+            android:key="@string/key_auth_timeout"
+            android:title="@string/auth_timeout_title"
+            android:summary="@string/auth_timeout_summary"
+            android:defaultValue="300000"
+            android:entries="@array/auth_timeout_entries"
+            android:entryValues="@array/auth_timeout_values"
+            app:iconSpaceReserved="false" />
+
+        <Preference
+            android:key="@string/key_security_test"
+            android:title="@string/security_test_title"
+            android:summary="@string/security_test_summary"
+            app:iconSpaceReserved="false" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
+        app:title="@string/header_rate_limiting">
+
+        <SwitchPreferenceCompat
+            android:key="@string/key_enable_rate_limiting"
+            android:title="@string/enable_rate_limiting"
+            android:summary="@string/rate_limiting_summary"
+            android:defaultValue="true"
+            app:iconSpaceReserved="false" />
+
+        <Preference
+            android:key="@string/key_rate_limit_status"
+            android:title="@string/rate_limit_status_title"
+            android:summary="@string/rate_limit_status_summary"
+            app:iconSpaceReserved="false" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
+        app:title="@string/header_content_filter">
+
+        <EditTextPreference
+            android:key="@string/key_filter_keywords"
+            android:title="@string/filter_keywords_title"
+            android:summary="@string/filter_keywords_summary"
+            android:dialogTitle="@string/filter_keywords_dialog_title"
+            android:dialogMessage="@string/filter_keywords_dialog_message"
+            android:hint="@string/filter_keywords_placeholder"
+            android:defaultValue=""
+            android:inputType="textMultiLine|textCapSentences"
+            app:iconSpaceReserved="false" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
+        app:title="@string/header_sender_filter">
+
+        <SwitchPreferenceCompat
+            android:key="@string/key_enable_number_whitelist"
+            android:title="@string/enable_number_whitelist"
+            android:summary="@string/enable_number_whitelist_summary"
+            android:defaultValue="false"
+            app:iconSpaceReserved="false" />
+
+        <EditTextPreference
+            android:key="@string/key_number_whitelist"
+            android:title="@string/number_whitelist_title"
+            android:summary="@string/number_whitelist_summary"
+            android:dialogTitle="@string/number_whitelist_dialog_title"
+            android:dialogMessage="@string/number_whitelist_dialog_message"
+            android:hint="@string/number_whitelist_placeholder"
+            android:defaultValue=""
+            android:inputType="textMultiLine|phone"
+            app:dependency="@string/key_enable_number_whitelist"
+            app:iconSpaceReserved="false" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

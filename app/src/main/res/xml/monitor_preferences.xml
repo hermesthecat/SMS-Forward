@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:iconSpaceReserved="false">
+
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
+        app:title="@string/header_statistics">
+
+        <Preference
+            android:key="@string/key_statistics_overview"
+            android:title="@string/statistics_overview_title"
+            android:summary="@string/statistics_overview_summary"
+            app:iconSpaceReserved="false" />
+
+        <Preference
+            android:key="@string/key_statistics_today"
+            android:title="@string/statistics_today_title"
+            android:summary="@string/statistics_today_summary"
+            app:iconSpaceReserved="false" />
+
+        <Preference
+            android:key="@string/key_statistics_total"
+            android:title="@string/statistics_total_title"
+            android:summary="@string/statistics_total_summary"
+            app:iconSpaceReserved="false" />
+
+        <Preference
+            android:key="@string/key_statistics_success_rate"
+            android:title="@string/statistics_success_rate_title"
+            android:summary="@string/statistics_success_rate_summary"
+            app:iconSpaceReserved="false" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
+        app:title="@string/header_message_history">
+
+        <Preference
+            android:key="@string/key_message_history_view"
+            android:title="@string/message_history_view_title"
+            android:summary="@string/message_history_view_summary"
+            app:iconSpaceReserved="false" />
+
+        <Preference
+            android:key="@string/key_message_history_clear"
+            android:title="@string/message_history_clear_title"
+            android:summary="@string/message_history_clear_summary"
+            app:iconSpaceReserved="false" />
+
+        <Preference
+            android:key="@string/key_message_history_export"
+            android:title="@string/message_history_export_title"
+            android:summary="@string/message_history_export_summary"
+            app:iconSpaceReserved="false" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
+        app:title="@string/header_connection_test">
+
+        <Preference
+            android:key="@string/key_test_sms"
+            android:title="@string/test_sms_title"
+            android:summary="@string/test_sms_summary"
+            app:iconSpaceReserved="false" />
+
+        <Preference
+            android:key="@string/key_test_telegram"
+            android:title="@string/test_telegram_title"
+            android:summary="@string/test_telegram_summary"
+            app:iconSpaceReserved="false" />
+
+        <Preference
+            android:key="@string/key_test_email"
+            android:title="@string/test_email_title"
+            android:summary="@string/test_email_summary"
+            app:iconSpaceReserved="false" />
+
+        <Preference
+            android:key="@string/key_test_web"
+            android:title="@string/test_web_title"
+            android:summary="@string/test_web_summary"
+            app:iconSpaceReserved="false" />
+
+        <Preference
+            android:key="@string/key_test_all_platforms"
+            android:title="@string/test_all_platforms_title"
+            android:summary="@string/test_all_platforms_summary"
+            app:iconSpaceReserved="false" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
+        app:title="@string/header_system_info">
+
+        <Preference
+            android:key="@string/key_system_permissions"
+            android:title="@string/system_permissions_title"
+            android:summary="@string/system_permissions_summary"
+            app:iconSpaceReserved="false" />
+
+        <Preference
+            android:key="@string/key_system_queue_status"
+            android:title="@string/system_queue_status_title"
+            android:summary="@string/system_queue_status_summary"
+            app:iconSpaceReserved="false" />
+
+        <Preference
+            android:key="@string/key_system_logs"
+            android:title="@string/system_logs_title"
+            android:summary="@string/system_logs_summary"
+            app:iconSpaceReserved="false" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

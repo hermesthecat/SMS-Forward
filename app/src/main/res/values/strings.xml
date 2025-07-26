@@ -345,5 +345,64 @@
     <!-- Missing Headers -->
     <string name="header_statistics">Statistics</string>
     <string name="header_message_history">Message History</string>
+    <string name="header_connection_test">Connection Test</string>
+    <string name="header_system_info">System Information</string>
+
+    <!-- Monitor Fragment - Statistics -->
+    <string name="key_statistics_overview" translatable="false">key_statistics_overview</string>
+    <string name="key_statistics_today" translatable="false">key_statistics_today</string>
+    <string name="key_statistics_total" translatable="false">key_statistics_total</string>
+    <string name="key_statistics_success_rate" translatable="false">key_statistics_success_rate</string>
+    
+    <string name="statistics_overview_title">Statistics Overview</string>
+    <string name="statistics_overview_summary">View detailed message forwarding statistics</string>
+    <string name="statistics_today_title">Today\'s Statistics</string>
+    <string name="statistics_today_summary">Messages forwarded today</string>
+    <string name="statistics_total_title">Total Statistics</string>
+    <string name="statistics_total_summary">All-time message forwarding statistics</string>
+    <string name="statistics_success_rate_title">Success Rate</string>
+    <string name="statistics_success_rate_summary">Overall forwarding success rate</string>
+
+    <!-- Monitor Fragment - Message History -->
+    <string name="key_message_history_view" translatable="false">key_message_history_view</string>
+    <string name="key_message_history_clear" translatable="false">key_message_history_clear</string>
+    <string name="key_message_history_export" translatable="false">key_message_history_export</string>
+    
+    <string name="message_history_view_title">View Message History</string>
+    <string name="message_history_view_summary">Browse recent forwarded messages</string>
+    <string name="message_history_clear_title">Clear History</string>
+    <string name="message_history_clear_summary">Delete all message history records</string>
+    <string name="message_history_export_title">Export History</string>
+    <string name="message_history_export_summary">Export message history to file</string>
+
+    <!-- Monitor Fragment - Connection Tests -->
+    <string name="key_test_sms" translatable="false">key_test_sms</string>
+    <string name="key_test_telegram" translatable="false">key_test_telegram</string>
+    <string name="key_test_email" translatable="false">key_test_email</string>
+    <string name="key_test_web" translatable="false">key_test_web</string>
+    <string name="key_test_all_platforms" translatable="false">key_test_all_platforms</string>
+    
+    <string name="test_sms_title">Test SMS</string>
+    <string name="test_sms_summary">Verify SMS forwarding configuration</string>
+    <string name="test_telegram_title">Test Telegram</string>
+    <string name="test_telegram_summary">Verify Telegram forwarding configuration</string>
+    <string name="test_email_title">Test Email</string>
+    <string name="test_email_summary">Verify Email forwarding configuration</string>
+    <string name="test_web_title">Test Web</string>
+    <string name="test_web_summary">Verify Web forwarding configuration</string>
+    <string name="test_all_platforms_title">Test All Platforms</string>
+    <string name="test_all_platforms_summary">Run configuration test for all platforms</string>
+
+    <!-- Monitor Fragment - System Information -->
+    <string name="key_system_permissions" translatable="false">key_system_permissions</string>
+    <string name="key_system_queue_status" translatable="false">key_system_queue_status</string>
+    <string name="key_system_logs" translatable="false">key_system_logs</string>
+    
+    <string name="system_permissions_title">System Permissions</string>
+    <string name="system_permissions_summary">Check required app permissions</string>
+    <string name="system_queue_status_title">Message Queue</string>
+    <string name="system_queue_status_summary">View pending message queue status</string>
+    <string name="system_logs_title">System Logs</string>
+    <string name="system_logs_summary">View app logs and diagnostics</string>
 
 </resources>
