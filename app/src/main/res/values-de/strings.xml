@@ -21,25 +21,39 @@
     <string name="dashboard_platforms_status">Plattform-Status</string>
 
     <!-- SMS -->
+    <string name="key_enable_sms" translatable="false">key_enable_sms</string>
     <string name="header_sms">Weiterleitung per SMS</string>
     <string name="enable_sms">SMS aktivieren</string>
+    <string name="key_target_sms" translatable="false">key_sms_target</string>
     <string name="target_title_sms">Ziel-Telefonnummer</string>
     <string name="target_summary_sms">Beispiel: +49 176 123 456</string>
 
     <!-- Telegram -->
+    <string name="key_enable_telegram" translatable="false">key_enable_telegram</string>
     <string name="header_telegram">Weiterleitung per Telegram</string>
     <string name="enable_telegram">Telegram aktivieren</string>
+    <string name="key_target_telegram" translatable="false">key_target_telegram</string>
+    <string name="key_telegram_apikey" translatable="false">key_telegram_apikey</string>
     <string name="target_title_telegram">Ziel-Telegram-ID</string>
     <string name="title_telegram_apikey">Telegram API-Token</string>
 
     <!-- Web -->
+    <string name="key_enable_web" translatable="false">key_enable_web</string>
     <string name="header_web">Weiterleitung per Web</string>
     <string name="enable_web">Web aktivieren</string>
+    <string name="key_target_web" translatable="false">key_target_web</string>
     <string name="target_title_web">Ziel-Web-URL</string>
     <string name="target_summary_web">Beispiel: https://site.com/api\nDiese App sendet POST-Anfrage
-        beim Empfang von SMS, Beispiel des Anfragekörpers:\n{ \"from\": \"10000\", \"message\": \"Hallo\" }</string>
+        beim Empfang von SMS, Beispiel des Anfragekörpers:\n{ "from": "10000", "message": "Hallo" }</string>
 
     <!-- Email -->
+    <string name="key_enable_email" translatable="false">key_enable_email</string>
+    <string name="key_email_from_address" translatable="false">key_email_from_address</string>
+    <string name="key_email_to_address" translatable="false">key_email_to_address</string>
+    <string name="key_email_submit_host" translatable="false">key_email_submit_host</string>
+    <string name="key_email_submit_port" translatable="false">key_email_submit_port</string>
+    <string name="key_email_submit_password" translatable="false">key_email_submit_password</string>
+    <string name="key_email_username_style" translatable="false">key_email_username_style</string>
     <string name="header_email">Weiterleitung per E-Mail</string>
     <string name="enable_email">E-Mail aktivieren</string>
     <string name="email_from_address_title">Absenderadresse</string>
@@ -70,6 +84,11 @@
     <string name="smtp_username_style_summary">Vollständige Adresse oder nur Benutzername</string>
 
     <!-- Security -->
+    <string name="key_security_enabled" translatable="false">key_security_enabled</string>
+    <string name="key_pin_setup" translatable="false">key_pin_setup</string>
+    <string name="key_biometric_enabled" translatable="false">key_biometric_enabled</string>
+    <string name="key_auth_timeout" translatable="false">key_auth_timeout</string>
+    <string name="key_security_test" translatable="false">key_security_test</string>
     <string name="header_security">Sicherheit</string>
     <string name="security_enabled_title">App-Sicherheit aktivieren</string>
     <string name="security_enabled_summary">Authentifizierung erforderlich zum Öffnen der App</string>
@@ -84,6 +103,8 @@
     <string name="security_test_summary">Sicherheitskonfiguration überprüfen</string>
 
     <!-- Rate Limiting -->
+    <string name="key_enable_rate_limiting" translatable="false">key_enable_rate_limiting</string>
+    <string name="key_rate_limit_status" translatable="false">key_rate_limit_status</string>
     <string name="header_rate_limiting">Ratenbegrenzung</string>
     <string name="enable_rate_limiting">Ratenbegrenzung aktivieren</string>
     <string name="rate_limiting_summary">Auf 10 SMS pro Minute begrenzen</string>
@@ -91,6 +112,7 @@
     <string name="rate_limit_status_summary">Nachrichten in aktueller Minute gesendet</string>
 
     <!-- Content Filter -->
+    <string name="key_filter_keywords" translatable="false">key_filter_keywords</string>
     <string name="header_content_filter">Inhaltsfilter</string>
     <string name="filter_keywords_title">Filter-Schlüsselwörter</string>
     <string name="filter_keywords_summary">Nachrichten mit diesen Wörtern blockieren</string>
@@ -99,6 +121,8 @@
     <string name="filter_keywords_placeholder">spam, werbung, promotion</string>
 
     <!-- Sender Filter -->
+    <string name="key_enable_number_whitelist" translatable="false">key_enable_number_whitelist</string>
+    <string name="key_number_whitelist" translatable="false">key_number_whitelist</string>
     <string name="header_sender_filter">Absenderfilter</string>
     <string name="enable_number_whitelist">Nummer-Whitelist aktivieren</string>
     <string name="enable_number_whitelist_summary">Nur SMS von genehmigten Nummern weiterleiten</string>
@@ -109,6 +133,10 @@
     <string name="number_whitelist_placeholder">+49176123456, +49176789012</string>
 
     <!-- Statistics -->
+    <string name="key_statistics_overview" translatable="false">key_statistics_overview</string>
+    <string name="key_statistics_today" translatable="false">key_statistics_today</string>
+    <string name="key_statistics_total" translatable="false">key_statistics_total</string>
+    <string name="key_statistics_success_rate" translatable="false">key_statistics_success_rate</string>
     <string name="header_statistics">Statistiken</string>
     <string name="statistics_overview_title">Statistik-Übersicht</string>
     <string name="statistics_overview_summary">Allgemeine Statistiken anzeigen</string>
@@ -120,6 +148,9 @@
     <string name="statistics_success_rate_summary">Prozentsatz erfolgreich gesendeter Nachrichten</string>
 
     <!-- Message History -->
+    <string name="key_message_history_view" translatable="false">key_message_history_view</string>
+    <string name="key_message_history_clear" translatable="false">key_message_history_clear</string>
+    <string name="key_message_history_export" translatable="false">key_message_history_export</string>
     <string name="header_message_history">Nachrichtenverlauf</string>
     <string name="message_history_view_title">Verlauf anzeigen</string>
     <string name="message_history_view_summary">Letzte 100 Nachrichten anzeigen</string>
@@ -129,6 +160,11 @@
     <string name="message_history_export_summary">Verlauf in Datei speichern</string>
 
     <!-- Connection Test -->
+    <string name="key_test_sms" translatable="false">key_test_sms</string>
+    <string name="key_test_telegram" translatable="false">key_test_telegram</string>
+    <string name="key_test_email" translatable="false">key_test_email</string>
+    <string name="key_test_web" translatable="false">key_test_web</string>
+    <string name="key_test_all_platforms" translatable="false">key_test_all_platforms</string>
     <string name="header_connection_test">Verbindungstest</string>
     <string name="test_sms_title">SMS testen</string>
     <string name="test_sms_summary">Testnachricht per SMS senden</string>
@@ -142,6 +178,9 @@
     <string name="test_all_platforms_summary">Testnachricht an alle aktivierten Plattformen senden</string>
 
     <!-- System Info -->
+    <string name="key_system_permissions" translatable="false">key_system_permissions</string>
+    <string name="key_system_queue_status" translatable="false">key_system_queue_status</string>
+    <string name="key_system_logs" translatable="false">key_system_logs</string>
     <string name="header_system_info">Systeminformationen</string>
     <string name="system_permissions_title">Systemberechtigungen</string>
     <string name="system_permissions_summary">Berechtigungsstatus anzeigen</string>
@@ -151,6 +190,8 @@
     <string name="system_logs_summary">App-Protokolle anzeigen</string>
 
     <!-- Appearance -->
+    <string name="key_language" translatable="false">key_language</string>
+    <string name="key_theme_mode" translatable="false">key_theme_mode</string>
     <string name="header_appearance">Erscheinungsbild</string>
     <string name="language_title">Sprache</string>
     <string name="language_summary">App-Sprache ändern</string>
@@ -158,6 +199,8 @@
     <string name="theme_mode_summary">Hell, dunkel oder Systemmodus</string>
 
     <!-- Backup -->
+    <string name="key_export_settings" translatable="false">key_export_settings</string>
+    <string name="key_import_settings" translatable="false">key_import_settings</string>
     <string name="header_backup">Sicherung</string>
     <string name="export_settings_title">Einstellungen exportieren</string>
     <string name="export_settings_summary">Einstellungen in Datei speichern</string>
@@ -165,30 +208,37 @@
     <string name="import_settings_summary">Einstellungen aus Datei laden</string>
 
     <!-- About -->
+    <string name="key_about" translatable="false">key_about</string>
     <string name="header_about">Über</string>
     <string name="about_title">App-Informationen</string>
     <string name="about_summary">Version, Lizenz und Informationen</string>
 
     <!-- Test & Debug -->
+    <string name="key_test_message" translatable="false">key_test_message</string>
     <string name="header_test">Test &amp; Debug</string>
     <string name="test_message_title">Testnachricht senden</string>
     <string name="test_message_summary">Eine Testnachricht senden, um die Weiterleitungseinrichtung zu überprüfen</string>
 
     <!-- Queue Status -->
+    <string name="key_queue_status" translatable="false">key_queue_status</string>
     <string name="queue_status_title">Nachrichten-Warteschlangen-Status</string>
     <string name="queue_status_summary">Offline-Nachrichten-Warteschlangen-Statistiken anzeigen</string>
 
     <!-- Connection Status -->
+    <string name="key_connection_status" translatable="false">key_connection_status</string>
     <string name="connection_status_title">Verbindungsstatus</string>
     <string name="connection_status_summary">Aktueller Netzwerkverbindungsstatus</string>
 
     <!-- Message Counter -->
+    <string name="key_message_counter" translatable="false">key_message_counter</string>
     <string name="message_counter_title">Nachrichtenzähler</string>
     <string name="message_counter_summary">Tägliche und gesamte weitergeleitete Nachrichten-Statistiken anzeigen</string>
 
     <!-- Message History Alternative Names -->
+    <string name="key_message_history" translatable="false">key_message_history</string>
     <string name="message_history_title">Nachrichtenverlauf</string>
     <string name="message_history_summary">Letzte 100 weitergeleitete Nachrichten anzeigen</string>
+    <string name="key_clear_history" translatable="false">key_clear_history</string>
     <string name="clear_history_title">Verlauf löschen</string>
     <string name="clear_history_summary">Alle Verlaufseinträge löschen</string>
 
@@ -223,7 +273,7 @@
     <string name="about_description_title">Beschreibung</string>
     <string name="about_description_text">SMS Weiterleitung ist eine minimale, effiziente Android-Anwendung zur Weiterleitung von SMS-Nachrichten über mehrere Plattformen einschließlich SMS, Telegram, E-Mail und Web-APIs</string>
     <string name="about_features_title">Hauptfunktionen</string>
-    <string name="about_features_text">• Multiplattform-Weiterleitung\n• Automatischer Wiederholungsmechanismus\n• Offline-Nachrichten-Warteschlange\n• Ratenbegrenzungsschutz\n• Nachrichtenverlaufs-Verfolgung\n• Mehrsprachige Unterstützung\n• Dunkles Design\n• Einstellungen-Sicherung/Wiederherstellung</string>
+    <string name="about_features_text">• Multiplattform-Weiterleitung\\n• Automatischer Wiederholungsmechanismus\\n• Offline-Nachrichten-Warteschlange\\n• Ratenbegrenzungsschutz\\n• Nachrichtenverlaufs-Verfolgung\\n• Mehrsprachige Unterstützung\\n• Dunkles Design\\n• Einstellungen-Sicherung/Wiederherstellung</string>
     <string name="about_build_info_title">Build-Informationen</string>
     <string name="about_package_name">Paket: %s</string>
     <string name="about_min_sdk">Minimum Android: API %d</string>
@@ -263,10 +313,10 @@
     <string name="biometric_auth_failed">Biometrische Authentifizierung fehlgeschlagen</string>
 
     <!-- Message Formats -->
-    <string name="sms_message_format">Von %1$s:\n%2$s\nEmpfangen um: %3$s</string>
-    <string name="telegram_message_format">Nachricht von %1$s:\n%2$s\nEmpfangen um: %3$s</string>
+    <string name="sms_message_format">Von %1$s:\\n%2$s\\nEmpfangen um: %3$s</string>
+    <string name="telegram_message_format">Nachricht von %1$s:\\n%2$s\\nEmpfangen um: %3$s</string>
     <string name="email_subject_format">SMS von: %1$s</string>
-    <string name="email_body_format">%1$s\n\nEmpfangen um: %2$s</string>
+    <string name="email_body_format">%1$s\\n\\nEmpfangen um: %2$s</string>
 
     <!-- Additional Biometric Strings -->
     <string name="biometric_enabled_success">Biometrische Authentifizierung aktiviert</string>

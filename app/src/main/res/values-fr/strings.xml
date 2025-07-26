@@ -21,25 +21,39 @@
     <string name="dashboard_platforms_status">Statut des plateformes</string>
 
     <!-- SMS -->
+    <string name="key_enable_sms" translatable="false">key_enable_sms</string>
     <string name="header_sms">Transfert par SMS</string>
     <string name="enable_sms">Activer SMS</string>
+    <string name="key_target_sms" translatable="false">key_sms_target</string>
     <string name="target_title_sms">Numéro de téléphone cible</string>
     <string name="target_summary_sms">Exemple : +33 6 12 34 56 78</string>
 
     <!-- Telegram -->
+    <string name="key_enable_telegram" translatable="false">key_enable_telegram</string>
     <string name="header_telegram">Transfert par Telegram</string>
     <string name="enable_telegram">Activer Telegram</string>
+    <string name="key_target_telegram" translatable="false">key_target_telegram</string>
+    <string name="key_telegram_apikey" translatable="false">key_telegram_apikey</string>
     <string name="target_title_telegram">ID Telegram cible</string>
     <string name="title_telegram_apikey">Token API Telegram</string>
 
     <!-- Web -->
+    <string name="key_enable_web" translatable="false">key_enable_web</string>
     <string name="header_web">Transfert par Web</string>
     <string name="enable_web">Activer Web</string>
+    <string name="key_target_web" translatable="false">key_target_web</string>
     <string name="target_title_web">URL Web cible</string>
     <string name="target_summary_web">Exemple : https://site.com/api\nCette app enverra une requête POST
         à la réception d\'un SMS, exemple du corps de requête :\n{ "from": "10000", "message": "Bonjour" }</string>
 
     <!-- Email -->
+    <string name="key_enable_email" translatable="false">key_enable_email</string>
+    <string name="key_email_from_address" translatable="false">key_email_from_address</string>
+    <string name="key_email_to_address" translatable="false">key_email_to_address</string>
+    <string name="key_email_submit_host" translatable="false">key_email_submit_host</string>
+    <string name="key_email_submit_port" translatable="false">key_email_submit_port</string>
+    <string name="key_email_submit_password" translatable="false">key_email_submit_password</string>
+    <string name="key_email_username_style" translatable="false">key_email_username_style</string>
     <string name="header_email">Transfert par E-mail</string>
     <string name="enable_email">Activer E-mail</string>
     <string name="email_from_address_title">Adresse d\'expédition</string>
@@ -55,8 +69,27 @@
     <string name="email_username_style_title">Style de nom d\'utilisateur</string>
     <string name="email_username_style_summary">Adresse complète ou nom d\'utilisateur seulement</string>
 
+    <!-- Email - Alternative naming (referenced in XML) -->
+    <string name="from_address">Adresse d\'expédition</string>
+    <string name="from_address_summary">Votre adresse e-mail</string>
+    <string name="to_address">Adresse de destination</string>
+    <string name="to_address_summary">E-mail de destination</string>
+    <string name="smtp_submission_server">Serveur SMTP</string>
+    <string name="smtp_submission_server_summary">smtp.gmail.com</string>
+    <string name="smtp_submission_port">Port SMTP</string>
+    <string name="smtp_submission_port_summary">587</string>
+    <string name="smtp_password">Mot de passe</string>
+    <string name="smtp_password_summary">Mot de passe d\'application</string>
+    <string name="smtp_username_style">Style de nom d\'utilisateur</string>
+    <string name="smtp_username_style_summary">Adresse complète ou nom d\'utilisateur seulement</string>
+
     <!-- Security -->
-    <string name="header_security">Authentification</string>
+    <string name="key_security_enabled" translatable="false">key_security_enabled</string>
+    <string name="key_pin_setup" translatable="false">key_pin_setup</string>
+    <string name="key_biometric_enabled" translatable="false">key_biometric_enabled</string>
+    <string name="key_auth_timeout" translatable="false">key_auth_timeout</string>
+    <string name="key_security_test" translatable="false">key_security_test</string>
+    <string name="header_security">Sécurité</string>
     <string name="security_enabled_title">Activer la sécurité de l\'application</string>
     <string name="security_enabled_summary">Authentification requise pour ouvrir l\'application</string>
     <string name="pin_setup_title">Configurer le PIN</string>
@@ -70,6 +103,8 @@
     <string name="security_test_summary">Vérifier la configuration de sécurité</string>
 
     <!-- Rate Limiting -->
+    <string name="key_enable_rate_limiting" translatable="false">key_enable_rate_limiting</string>
+    <string name="key_rate_limit_status" translatable="false">key_rate_limit_status</string>
     <string name="header_rate_limiting">Limite de débit</string>
     <string name="enable_rate_limiting">Activer la limite de débit</string>
     <string name="rate_limiting_summary">Limiter à 10 SMS par minute</string>
@@ -77,6 +112,7 @@
     <string name="rate_limit_status_summary">Messages envoyés dans la minute actuelle</string>
 
     <!-- Content Filter -->
+    <string name="key_filter_keywords" translatable="false">key_filter_keywords</string>
     <string name="header_content_filter">Filtre de contenu</string>
     <string name="filter_keywords_title">Mots-clés de filtre</string>
     <string name="filter_keywords_summary">Bloquer les messages contenant ces mots</string>
@@ -85,6 +121,8 @@
     <string name="filter_keywords_placeholder">spam, publicité, promotion</string>
 
     <!-- Sender Filter -->
+    <string name="key_enable_number_whitelist" translatable="false">key_enable_number_whitelist</string>
+    <string name="key_number_whitelist" translatable="false">key_number_whitelist</string>
     <string name="header_sender_filter">Filtre d\'expéditeur</string>
     <string name="enable_number_whitelist">Activer la liste blanche des numéros</string>
     <string name="enable_number_whitelist_summary">Transférer uniquement les SMS des numéros approuvés</string>
@@ -95,6 +133,10 @@
     <string name="number_whitelist_placeholder">+33612345678, +33687901234</string>
 
     <!-- Statistics -->
+    <string name="key_statistics_overview" translatable="false">key_statistics_overview</string>
+    <string name="key_statistics_today" translatable="false">key_statistics_today</string>
+    <string name="key_statistics_total" translatable="false">key_statistics_total</string>
+    <string name="key_statistics_success_rate" translatable="false">key_statistics_success_rate</string>
     <string name="header_statistics">Statistiques</string>
     <string name="statistics_overview_title">Aperçu des statistiques</string>
     <string name="statistics_overview_summary">Afficher les statistiques générales</string>
@@ -106,6 +148,9 @@
     <string name="statistics_success_rate_summary">Pourcentage de messages envoyés avec succès</string>
 
     <!-- Message History -->
+    <string name="key_message_history_view" translatable="false">key_message_history_view</string>
+    <string name="key_message_history_clear" translatable="false">key_message_history_clear</string>
+    <string name="key_message_history_export" translatable="false">key_message_history_export</string>
     <string name="header_message_history">Historique des messages</string>
     <string name="message_history_view_title">Voir l\'historique</string>
     <string name="message_history_view_summary">Afficher les 100 derniers messages</string>
@@ -115,6 +160,11 @@
     <string name="message_history_export_summary">Sauvegarder l\'historique dans un fichier</string>
 
     <!-- Connection Test -->
+    <string name="key_test_sms" translatable="false">key_test_sms</string>
+    <string name="key_test_telegram" translatable="false">key_test_telegram</string>
+    <string name="key_test_email" translatable="false">key_test_email</string>
+    <string name="key_test_web" translatable="false">key_test_web</string>
+    <string name="key_test_all_platforms" translatable="false">key_test_all_platforms</string>
     <string name="header_connection_test">Test de connexion</string>
     <string name="test_sms_title">Tester SMS</string>
     <string name="test_sms_summary">Envoyer un message de test par SMS</string>
@@ -128,6 +178,9 @@
     <string name="test_all_platforms_summary">Envoyer un message de test à toutes les plateformes activées</string>
 
     <!-- System Info -->
+    <string name="key_system_permissions" translatable="false">key_system_permissions</string>
+    <string name="key_system_queue_status" translatable="false">key_system_queue_status</string>
+    <string name="key_system_logs" translatable="false">key_system_logs</string>
     <string name="header_system_info">Informations système</string>
     <string name="system_permissions_title">Autorisations système</string>
     <string name="system_permissions_summary">Voir le statut des autorisations</string>
@@ -137,6 +190,8 @@
     <string name="system_logs_summary">Voir les journaux de l\'application</string>
 
     <!-- Appearance -->
+    <string name="key_language" translatable="false">key_language</string>
+    <string name="key_theme_mode" translatable="false">key_theme_mode</string>
     <string name="header_appearance">Apparence</string>
     <string name="language_title">Langue</string>
     <string name="language_summary">Changer la langue de l\'application</string>
@@ -144,6 +199,8 @@
     <string name="theme_mode_summary">Mode clair, sombre ou système</string>
 
     <!-- Backup -->
+    <string name="key_export_settings" translatable="false">key_export_settings</string>
+    <string name="key_import_settings" translatable="false">key_import_settings</string>
     <string name="header_backup">Sauvegarde</string>
     <string name="export_settings_title">Exporter les paramètres</string>
     <string name="export_settings_summary">Sauvegarder les paramètres dans un fichier</string>
@@ -151,9 +208,39 @@
     <string name="import_settings_summary">Charger les paramètres depuis un fichier</string>
 
     <!-- About -->
+    <string name="key_about" translatable="false">key_about</string>
     <string name="header_about">À propos</string>
     <string name="about_title">Informations de l\'application</string>
     <string name="about_summary">Version, licence et informations</string>
+
+    <!-- Test & Debug -->
+    <string name="key_test_message" translatable="false">key_test_message</string>
+    <string name="header_test">Test et Débogage</string>
+    <string name="test_message_title">Envoyer Message de Test</string>
+    <string name="test_message_summary">Envoyer un message de test pour vérifier la configuration de transfert</string>
+
+    <!-- Queue Status -->
+    <string name="key_queue_status" translatable="false">key_queue_status</string>
+    <string name="queue_status_title">Statut de la File d\'Attente des Messages</string>
+    <string name="queue_status_summary">Voir les statistiques de la file d\'attente des messages hors ligne</string>
+
+    <!-- Connection Status -->
+    <string name="key_connection_status" translatable="false">key_connection_status</string>
+    <string name="connection_status_title">Statut de Connexion</string>
+    <string name="connection_status_summary">Statut actuel de la connectivité réseau</string>
+
+    <!-- Message Counter -->
+    <string name="key_message_counter" translatable="false">key_message_counter</string>
+    <string name="message_counter_title">Compteur de Messages</string>
+    <string name="message_counter_summary">Voir les statistiques quotidiennes et totales des messages transférés</string>
+
+    <!-- Message History Alternative Names -->
+    <string name="key_message_history" translatable="false">key_message_history</string>
+    <string name="message_history_title">Historique des Messages</string>
+    <string name="message_history_summary">Voir les 100 derniers messages transférés</string>
+    <string name="key_clear_history" translatable="false">key_clear_history</string>
+    <string name="clear_history_title">Effacer l\'Historique</string>
+    <string name="clear_history_summary">Supprimer tous les enregistrements d\'historique des messages</string>
 
     <!-- Messages -->
     <string name="test_message_sent">Message de test envoyé avec succès</string>
@@ -164,6 +251,34 @@
     <string name="settings_imported">Paramètres importés avec succès</string>
     <string name="settings_export_error">Erreur lors de l\'exportation des paramètres</string>
     <string name="settings_import_error">Erreur lors de l\'importation des paramètres</string>
+
+    <!-- Export/Import Alternative Names -->
+    <string name="export_success">Paramètres exportés avec succès</string>
+    <string name="export_error">Erreur lors de l\'exportation des paramètres : %s</string>
+    <string name="import_success">Paramètres importés avec succès : %s</string>
+    <string name="import_error">Erreur lors de l\'importation des paramètres : %s</string>
+
+    <!-- Language Change -->
+    <string name="language_restart_title">Langue Modifiée</string>
+    <string name="language_restart_message">L\'application va redémarrer pour appliquer le nouveau paramètre de langue</string>
+
+    <!-- About - Extended -->
+    <string name="about_app_name">Transfert SMS</string>
+    <string name="about_version_title">Version</string>
+    <string name="about_version_format">%1$s (%2$d)</string>
+    <string name="about_developer_title">Développeur</string>
+    <string name="about_developer_name">Kerem Gök</string>
+    <string name="about_license_title">Licence</string>
+    <string name="about_license_name">Licence MIT</string>
+    <string name="about_description_title">Description</string>
+    <string name="about_description_text">Transfert SMS est une application Android minimale et efficace pour transférer des messages SMS sur plusieurs plateformes, y compris SMS, Telegram, E-mail et API Web</string>
+    <string name="about_features_title">Fonctionnalités Principales</string>
+    <string name="about_features_text">• Transfert multi-plateformes\\n• Mécanisme de nouvelle tentative automatique\\n• File d\'attente de messages hors ligne\\n• Protection de limite de débit\\n• Suivi de l\'historique des messages\\n• Support multi-langues\\n• Thème mode sombre\\n• Sauvegarde/restauration des paramètres</string>
+    <string name="about_build_info_title">Informations de Compilation</string>
+    <string name="about_package_name">Package : %s</string>
+    <string name="about_min_sdk">Android Minimum : API %d</string>
+    <string name="about_target_sdk">Android Cible : API %d</string>
+    <string name="about_build_time">Temps de Compilation : %s</string>
 
     <!-- Authentication -->
     <string name="enter_pin">Saisir le PIN</string>
@@ -178,6 +293,105 @@
     <string name="biometric_prompt_title">Authentification biométrique</string>
     <string name="biometric_prompt_subtitle">Utilisez votre empreinte digitale ou votre visage pour vous authentifier</string>
     <string name="biometric_error">Erreur d\'authentification biométrique</string>
+
+    <!-- Extended Authentication -->
+    <string name="auth_no_methods">Aucune méthode d\'authentification disponible</string>
+    <string name="pin_auth_title">Saisir le PIN</string>
+    <string name="pin_auth_message">Saisissez votre PIN pour accéder à Transfert SMS</string>
+    <string name="pin_auth_hint">Saisir le PIN</string>
+    <string name="pin_auth_verify">Déverrouiller</string>
+    <string name="pin_auth_cancel">Annuler</string>
+    <string name="pin_auth_invalid">PIN incorrect. Veuillez réessayer</string>
+
+    <!-- Biometric Status -->
+    <string name="biometric_available">L\'authentification biométrique est disponible</string>
+    <string name="biometric_no_hardware">Aucun matériel biométrique disponible</string>
+    <string name="biometric_hw_unavailable">Le matériel biométrique n\'est actuellement pas disponible</string>
+    <string name="biometric_none_enrolled">Aucune identification biométrique enregistrée</string>
+    <string name="biometric_unavailable">L\'authentification biométrique n\'est pas disponible</string>
+    <string name="biometric_prompt_cancel">Utiliser le PIN</string>
+    <string name="biometric_auth_failed">L\'authentification biométrique a échoué</string>
+
+    <!-- Message Formats -->
+    <string name="sms_message_format">De %1$s :\\n%2$s\\nReçu à : %3$s</string>
+    <string name="telegram_message_format">Message de %1$s :\\n%2$s\\nReçu à : %3$s</string>
+    <string name="email_subject_format">SMS de : %1$s</string>
+    <string name="email_body_format">%1$s\\n\\nReçu à : %2$s</string>
+
+    <!-- Additional Biometric Strings -->
+    <string name="biometric_enabled_success">Authentification biométrique activée</string>
+    <string name="biometric_enable_failed">Échec de l\'activation de l\'authentification biométrique</string>
+    <string name="biometric_disabled">Authentification biométrique désactivée</string>
+
+    <!-- Rate Limiting Status -->
+    <string name="rate_limit_seconds">%d secondes</string>
+    <string name="rate_limit_available_now">disponible maintenant</string>
+    <string name="rate_limit_status_format">Actuel : %1$d/10 | Prochain créneau : %2$s</string>
+
+    <!-- Filter Status -->
+    <string name="filter_active_summary">Filtres actifs : %s</string>
+    <string name="filter_inactive_summary">Aucun filtre de contenu actif</string>
+
+    <!-- Whitelist Status -->
+    <string name="whitelist_active_summary">Liste blanche active : %s</string>
+    <string name="whitelist_inactive_summary">La liste blanche est désactivée ou vide (tous les numéros autorisés)</string>
+    <string name="whitelist_enabled_empty_summary">La liste blanche est activée mais vide. Aucun SMS ne sera transféré</string>
+
+    <!-- PIN Setup Extended -->
+    <string name="pin_setup_existing_title">PIN Déjà Configuré</string>
+    <string name="pin_setup_existing_message">Un PIN est déjà configuré. Que souhaitez-vous faire ?</string>
+    <string name="pin_setup_change">Changer le PIN</string>
+    <string name="pin_setup_remove">Supprimer le PIN</string>
+    <string name="pin_setup_cancel">Annuler</string>
+    <string name="pin_setup_new_title">Créer un PIN</string>
+    <string name="pin_setup_new_message">Créez un PIN à 4 chiffres pour protéger votre application Transfert SMS</string>
+    <string name="pin_setup_create">Créer un PIN</string>
+
+    <!-- PIN Creation -->
+    <string name="pin_create_title">Créer un Nouveau PIN</string>
+    <string name="pin_create_message">Saisissez un PIN à 4 chiffres pour protéger l\'accès à l\'application</string>
+    <string name="pin_create_hint">Saisir un PIN à 4 chiffres</string>
+    <string name="pin_create_confirm">Suivant</string>
+    <string name="pin_create_cancel">Annuler</string>
+    <string name="pin_create_too_short">Le PIN doit comporter au moins 4 chiffres</string>
+    <string name="pin_create_success">PIN créé avec succès !</string>
+    <string name="pin_create_failed">Échec de la création du PIN. Veuillez réessayer</string>
+
+    <!-- PIN Confirmation -->
+    <string name="pin_confirm_hint">Confirmer le PIN</string>
+    <string name="pin_confirm_verify">Créer le PIN</string>
+    <string name="pin_confirm_cancel">Retour</string>
+    <string name="pin_confirm_mismatch">Les PINs ne correspondent pas. Veuillez réessayer</string>
+
+    <!-- PIN Change -->
+    <string name="pin_change_title">Changer le PIN</string>
+    <string name="pin_change_message">Saisissez votre PIN actuel pour continuer</string>
+    <string name="pin_change_current_hint">PIN Actuel</string>
+    <string name="pin_change_verify">Continuer</string>
+    <string name="pin_change_cancel">Annuler</string>
+    <string name="pin_change_wrong_current">PIN actuel incorrect</string>
+
+    <!-- PIN Removal -->
+    <string name="pin_remove_title">Supprimer le PIN</string>
+    <string name="pin_remove_message">Saisissez votre PIN actuel pour supprimer la protection par PIN</string>
+    <string name="pin_remove_hint">PIN Actuel</string>
+    <string name="pin_remove_confirm">Supprimer le PIN</string>
+    <string name="pin_remove_cancel">Annuler</string>
+    <string name="pin_remove_wrong">PIN incorrect</string>
+    <string name="pin_remove_success">Protection par PIN supprimée</string>
+
+    <!-- Security Test -->
+    <string name="security_test_disabled">La sécurité est désactivée. Activez d\'abord la sécurité</string>
+
+    <!-- Queue Status -->
+    <string name="queue_empty">Aucun message en file d\'attente</string>
+    <string name="queue_stats_format">Total : %1$d | En attente : %2$d | Échoué : %3$d</string>
+
+    <!-- Theme -->
+    <string name="theme_system_fallback">Le mode système utilise l\'économiseur de batterie sur Android 9 et antérieur</string>
+
+    <!-- Retry Mechanism -->
+    <string name="retry_mechanism_info">Nouvelle tentative automatique activée pour toutes les méthodes de transfert (3 tentatives avec retour exponentiel)</string>
 
     <!-- Permissions -->
     <string name="permission_sms_title">Autorisation SMS</string>

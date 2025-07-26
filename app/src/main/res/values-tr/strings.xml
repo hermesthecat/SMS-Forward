@@ -21,157 +21,248 @@
     <string name="dashboard_platforms_status">Platform Durumu</string>
 
     <!-- SMS -->
+    <string name="key_enable_sms" translatable="false">key_enable_sms</string>
     <string name="header_sms">SMS ile İletim</string>
     <string name="enable_sms">SMS Etkinleştir</string>
+    <string name="key_target_sms" translatable="false">key_sms_target</string>
     <string name="target_title_sms">Hedef telefon numarası</string>
     <string name="target_summary_sms">Örnek: +90 555 123 4567</string>
 
     <!-- Telegram -->
+    <string name="key_enable_telegram" translatable="false">key_enable_telegram</string>
     <string name="header_telegram">Telegram ile İletim</string>
     <string name="enable_telegram">Telegram Etkinleştir</string>
+    <string name="key_target_telegram" translatable="false">key_target_telegram</string>
+    <string name="key_telegram_apikey" translatable="false">key_telegram_apikey</string>
     <string name="target_title_telegram">Hedef Telegram ID</string>
     <string name="title_telegram_apikey">Telegram API anahtarı</string>
 
     <!-- Web -->
+    <string name="key_enable_web" translatable="false">key_enable_web</string>
     <string name="header_web">Web ile İletim</string>
     <string name="enable_web">Web Etkinleştir</string>
+    <string name="key_target_web" translatable="false">key_target_web</string>
     <string name="target_title_web">Hedef Web URL</string>
     <string name="target_summary_web">Örnek: https://site.com/api\nBu uygulama SMS alındığında POST
         isteği gönderecek, istek gövdesi örneği:\n{ "from": "10000", "message": "Merhaba" }</string>
 
     <!-- Email -->
+    <string name="key_enable_email" translatable="false">key_enable_email</string>
+    <string name="key_email_from_address" translatable="false">key_email_from_address</string>
+    <string name="key_email_to_address" translatable="false">key_email_to_address</string>
+    <string name="key_email_submit_host" translatable="false">key_email_submit_host</string>
+    <string name="key_email_submit_port" translatable="false">key_email_submit_port</string>
+    <string name="key_email_submit_password" translatable="false">key_email_submit_password</string>
+    <string name="key_email_username_style" translatable="false">key_email_username_style</string>
     <string name="header_email">E-posta ile İletim</string>
     <string name="enable_email">E-posta Etkinleştir</string>
+    <string name="email_from_address_title">Gönderen adresi</string>
+    <string name="email_from_address_summary">E-posta adresiniz</string>
+    <string name="email_to_address_title">Alıcı adresi</string>
+    <string name="email_to_address_summary">Hedef e-posta</string>
+    <string name="email_submit_host_title">SMTP sunucusu</string>
+    <string name="email_submit_host_summary">smtp.gmail.com</string>
+    <string name="email_submit_port_title">SMTP portu</string>
+    <string name="email_submit_port_summary">587</string>
+    <string name="email_submit_password_title">Şifre</string>
+    <string name="email_submit_password_summary">Uygulama şifresi</string>
+    <string name="email_username_style_title">Kullanıcı adı stili</string>
+    <string name="email_username_style_summary">Tam adres veya sadece kullanıcı adı</string>
+
+    <!-- Email - Alternative naming (referenced in XML) -->
     <string name="from_address">Gönderen adresi</string>
-    <string name="from_address_summary">Örnek: gonderici@ornek.com</string>
+    <string name="from_address_summary">E-posta adresiniz</string>
     <string name="to_address">Alıcı adresi</string>
-    <string name="to_address_summary">Örnek: alici@ornek.com</string>
+    <string name="to_address_summary">Hedef e-posta</string>
     <string name="smtp_submission_server">SMTP sunucusu</string>
-    <string name="smtp_submission_server_summary">Örnek: smtp.ornek.com</string>
+    <string name="smtp_submission_server_summary">smtp.gmail.com</string>
     <string name="smtp_submission_port">SMTP portu</string>
-    <string name="smtp_submission_port_summary">Genellikle 465 veya 587</string>
+    <string name="smtp_submission_port_summary">587</string>
     <string name="smtp_password">Şifre</string>
-    <string name="smtp_password_summary">SMTP kimlik doğrulaması için şifre</string>
+    <string name="smtp_password_summary">Uygulama şifresi</string>
     <string name="smtp_username_style">Kullanıcı adı stili</string>
-    <string name="smtp_username_style_summary">Tam adres veya yerel kısım</string>
+    <string name="smtp_username_style_summary">Tam adres veya sadece kullanıcı adı</string>
+
+    <!-- Security -->
+    <string name="key_security_enabled" translatable="false">key_security_enabled</string>
+    <string name="key_pin_setup" translatable="false">key_pin_setup</string>
+    <string name="key_biometric_enabled" translatable="false">key_biometric_enabled</string>
+    <string name="key_auth_timeout" translatable="false">key_auth_timeout</string>
+    <string name="key_security_test" translatable="false">key_security_test</string>
+    <string name="header_security">Güvenlik</string>
+    <string name="security_enabled_title">Uygulama güvenliğini etkinleştir</string>
+    <string name="security_enabled_summary">Uygulama açmak için kimlik doğrulama gerektir</string>
+    <string name="pin_setup_title">PIN Kurulumu</string>
+    <string name="pin_setup_summary_disabled">PIN ayarlanmamış</string>
+    <string name="pin_setup_summary_enabled">PIN ayarlandı</string>
+    <string name="biometric_enabled_title">Biyometrik kimlik doğrulamayı etkinleştir</string>
+    <string name="biometric_enabled_summary">Parmak izi veya yüz tanıma kullan</string>
+    <string name="auth_timeout_title">Kimlik doğrulama zaman aşımı</string>
+    <string name="auth_timeout_summary">Tekrar kimlik doğrulama gerekene kadar geçen süre</string>
+    <string name="security_test_title">Kimlik doğrulamayı test et</string>
+    <string name="security_test_summary">Güvenlik yapılandırmasını doğrula</string>
+
+    <!-- Rate Limiting -->
+    <string name="key_enable_rate_limiting" translatable="false">key_enable_rate_limiting</string>
+    <string name="key_rate_limit_status" translatable="false">key_rate_limit_status</string>
+    <string name="header_rate_limiting">Hız Sınırlaması</string>
+    <string name="enable_rate_limiting">Hız sınırlamasını etkinleştir</string>
+    <string name="rate_limiting_summary">Dakikada 10 SMS ile sınırla</string>
+    <string name="rate_limit_status_title">Hız sınırı durumu</string>
+    <string name="rate_limit_status_summary">Mevcut dakikada gönderilen mesajlar</string>
+
+    <!-- Content Filter -->
+    <string name="key_filter_keywords" translatable="false">key_filter_keywords</string>
+    <string name="header_content_filter">İçerik Filtresi</string>
+    <string name="filter_keywords_title">Filtre anahtar kelimeleri</string>
+    <string name="filter_keywords_summary">Bu kelimeleri içeren mesajları engelle</string>
+    <string name="filter_keywords_dialog_title">Filtre anahtar kelimeleri</string>
+    <string name="filter_keywords_dialog_message">Anahtar kelimeleri virgülle ayırarak girin</string>
+    <string name="filter_keywords_placeholder">spam, reklam, promosyon</string>
+
+    <!-- Sender Filter -->
+    <string name="key_enable_number_whitelist" translatable="false">key_enable_number_whitelist</string>
+    <string name="key_number_whitelist" translatable="false">key_number_whitelist</string>
+    <string name="header_sender_filter">Gönderen Filtresi</string>
+    <string name="enable_number_whitelist">Numara beyaz listesini etkinleştir</string>
+    <string name="enable_number_whitelist_summary">Sadece onaylanmış numaralardan SMS ilet</string>
+    <string name="number_whitelist_title">Numara beyaz listesi</string>
+    <string name="number_whitelist_summary">İletim için onaylanmış numaralar</string>
+    <string name="number_whitelist_dialog_title">Numara beyaz listesi</string>
+    <string name="number_whitelist_dialog_message">Numaraları virgülle ayırarak girin</string>
+    <string name="number_whitelist_placeholder">+905551234567, +905557890123</string>
+
+    <!-- Statistics -->
+    <string name="key_statistics_overview" translatable="false">key_statistics_overview</string>
+    <string name="key_statistics_today" translatable="false">key_statistics_today</string>
+    <string name="key_statistics_total" translatable="false">key_statistics_total</string>
+    <string name="key_statistics_success_rate" translatable="false">key_statistics_success_rate</string>
+    <string name="header_statistics">İstatistikler</string>
+    <string name="statistics_overview_title">İstatistik özeti</string>
+    <string name="statistics_overview_summary">Genel istatistikleri görüntüle</string>
+    <string name="statistics_today_title">Bugünün istatistikleri</string>
+    <string name="statistics_today_summary">Bugün işlenen mesajlar</string>
+    <string name="statistics_total_title">Toplam istatistikler</string>
+    <string name="statistics_total_summary">Tüm işlenen mesajlar</string>
+    <string name="statistics_success_rate_title">Başarı oranı</string>
+    <string name="statistics_success_rate_summary">Başarıyla gönderilen mesajların yüzdesi</string>
+
+    <!-- Message History -->
+    <string name="key_message_history_view" translatable="false">key_message_history_view</string>
+    <string name="key_message_history_clear" translatable="false">key_message_history_clear</string>
+    <string name="key_message_history_export" translatable="false">key_message_history_export</string>
+    <string name="header_message_history">Mesaj Geçmişi</string>
+    <string name="message_history_view_title">Geçmişi görüntüle</string>
+    <string name="message_history_view_summary">Son 100 mesajı göster</string>
+    <string name="message_history_clear_title">Geçmişi temizle</string>
+    <string name="message_history_clear_summary">Tüm geçmiş kayıtlarını kaldır</string>
+    <string name="message_history_export_title">Geçmişi dışa aktar</string>
+    <string name="message_history_export_summary">Geçmişi dosyaya kaydet</string>
+
+    <!-- Connection Test -->
+    <string name="key_test_sms" translatable="false">key_test_sms</string>
+    <string name="key_test_telegram" translatable="false">key_test_telegram</string>
+    <string name="key_test_email" translatable="false">key_test_email</string>
+    <string name="key_test_web" translatable="false">key_test_web</string>
+    <string name="key_test_all_platforms" translatable="false">key_test_all_platforms</string>
+    <string name="header_connection_test">Bağlantı Testi</string>
+    <string name="test_sms_title">SMS Test Et</string>
+    <string name="test_sms_summary">SMS ile test mesajı gönder</string>
+    <string name="test_telegram_title">Telegram Test Et</string>
+    <string name="test_telegram_summary">Telegram ile test mesajı gönder</string>
+    <string name="test_email_title">E-posta Test Et</string>
+    <string name="test_email_summary">E-posta ile test mesajı gönder</string>
+    <string name="test_web_title">Web Test Et</string>
+    <string name="test_web_summary">Web ile test mesajı gönder</string>
+    <string name="test_all_platforms_title">Tüm platformları test et</string>
+    <string name="test_all_platforms_summary">Etkinleştirilmiş tüm platformlara test mesajı gönder</string>
+
+    <!-- System Info -->
+    <string name="key_system_permissions" translatable="false">key_system_permissions</string>
+    <string name="key_system_queue_status" translatable="false">key_system_queue_status</string>
+    <string name="key_system_logs" translatable="false">key_system_logs</string>
+    <string name="header_system_info">Sistem Bilgileri</string>
+    <string name="system_permissions_title">Sistem izinleri</string>
+    <string name="system_permissions_summary">İzin durumunu görüntüle</string>
+    <string name="system_queue_status_title">Kuyruk durumu</string>
+    <string name="system_queue_status_summary">Kuyruktaki mesajları görüntüle</string>
+    <string name="system_logs_title">Sistem günlükleri</string>
+    <string name="system_logs_summary">Uygulama günlüklerini görüntüle</string>
+
+    <!-- Appearance -->
+    <string name="key_language" translatable="false">key_language</string>
+    <string name="key_theme_mode" translatable="false">key_theme_mode</string>
+    <string name="header_appearance">Görünüm</string>
+    <string name="language_title">Dil</string>
+    <string name="language_summary">Uygulama dilini değiştir</string>
+    <string name="theme_mode_title">Tema</string>
+    <string name="theme_mode_summary">Açık, koyu veya sistem modu</string>
+
+    <!-- Backup -->
+    <string name="key_export_settings" translatable="false">key_export_settings</string>
+    <string name="key_import_settings" translatable="false">key_import_settings</string>
+    <string name="header_backup">Yedekleme</string>
+    <string name="export_settings_title">Ayarları dışa aktar</string>
+    <string name="export_settings_summary">Ayarları dosyaya kaydet</string>
+    <string name="import_settings_title">Ayarları içe aktar</string>
+    <string name="import_settings_summary">Ayarları dosyadan yükle</string>
+
+    <!-- About -->
+    <string name="key_about" translatable="false">key_about</string>
+    <string name="header_about">Hakkında</string>
+    <string name="about_title">Uygulama bilgileri</string>
+    <string name="about_summary">Sürüm, lisans ve bilgiler</string>
 
     <!-- Test & Debug -->
+    <string name="key_test_message" translatable="false">key_test_message</string>
     <string name="header_test">Test ve Hata Ayıklama</string>
     <string name="test_message_title">Test Mesajı Gönder</string>
     <string name="test_message_summary">İletim kurulumunu doğrulamak için test mesajı gönder</string>
-    <string name="test_message_sent">Test mesajı başarıyla gönderildi!</string>
-    <string name="test_message_error">Test mesajı gönderme başarısız: %s</string>
-    <string name="test_message_no_forwarders">Hiçbir iletici etkinleştirilmemiş. Lütfen en az bir
-        iletim yöntemini etkinleştirin.</string>
 
-    <!-- Retry Mechanism -->
-    <string name="retry_mechanism_info">Tüm iletim yöntemleri için otomatik yeniden deneme etkin
-        (üstel geri çekilme ile 3 deneme)</string>
-
-    <!-- Offline Message Queue -->
+    <!-- Queue Status -->
+    <string name="key_queue_status" translatable="false">key_queue_status</string>
     <string name="queue_status_title">Mesaj Kuyruğu Durumu</string>
     <string name="queue_status_summary">Çevrimdışı mesaj kuyruğu istatistiklerini görüntüle</string>
-    <string name="queue_stats_format">Toplam: %1$d | Bekleyen: %2$d | Başarısız: %3$d</string>
-    <string name="queue_empty">Kuyrukta mesaj yok</string>
 
     <!-- Connection Status -->
+    <string name="key_connection_status" translatable="false">key_connection_status</string>
     <string name="connection_status_title">Bağlantı Durumu</string>
     <string name="connection_status_summary">Mevcut ağ bağlantısı durumu</string>
 
     <!-- Message Counter -->
+    <string name="key_message_counter" translatable="false">key_message_counter</string>
     <string name="message_counter_title">Mesaj Sayacı</string>
-    <string name="message_counter_summary">Günlük ve toplam iletilen mesaj istatistiklerini
-        görüntüle</string>
+    <string name="message_counter_summary">Günlük ve toplam iletilen mesaj istatistiklerini görüntüle</string>
 
-    <!-- Rate Limiting -->
-    <string name="header_rate_limiting">Hız Sınırlaması</string>
-    <string name="enable_rate_limiting">Hız Sınırlaması Etkinleştir</string>
-    <string name="rate_limiting_summary">Dakikada 10 SMS ile sınırlayarak spam\'ı önle</string>
-    <string name="rate_limit_status_title">Hız Sınırı Durumu</string>
-    <string name="rate_limit_status_summary">Mevcut hız sınırlaması durumunu görüntüle</string>
-    <string name="rate_limit_status_format">Mevcut: %1$d/10 | Sonraki slot: %2$s</string>
-    <string name="rate_limit_available_now">şimdi mevcut</string>
-    <string name="rate_limit_seconds">%d saniye</string>
-
-    <!-- Content Filter -->
-    <string name="header_content_filter">İçerik Filtresi</string>
-    <string name="filter_keywords_title">Engellenen Kelimeler</string>
-    <string name="filter_keywords_summary">Bu kelimeleri içeren mesajları engelle (virgülle ayrılmış)</string>
-    <string name="filter_keywords_dialog_title">Engellenecek kelimeleri girin</string>
-    <string name="filter_keywords_dialog_message">Kelimeleri virgülle ayırarak girin. Bu kelimelerden herhangi birini içeren mesajlar yönlendirilmeyecek.\n\nÖrnek: reklam,kampanya,promosyon</string>
-    <string name="filter_keywords_placeholder">reklam,kampanya,promosyon</string>
-    <string name="filter_active_summary">Aktif filtreler: %s</string>
-    <string name="filter_inactive_summary">Aktif içerik filtresi yok</string>
-
-    <!-- Sender Filter -->
-    <string name="header_sender_filter">Gönderen Filtresi</string>
-    <string name="enable_number_whitelist">Numara Beyaz Listesini Etkinleştir</string>
-    <string name="enable_number_whitelist_summary">Sadece beyaz listedeki numaralardan gelen mesajları ilet</string>
-    <string name="number_whitelist_title">Beyaz Liste Numaraları</string>
-    <string name="number_whitelist_summary">Telefon numaralarının virgülle ayrılmış listesi</string>
-    <string name="number_whitelist_dialog_title">Beyaz Liste Numaralarını Girin</string>
-    <string name="number_whitelist_dialog_message">Telefon numaralarını virgülle ayırarak girin. Bu listedeki numaralardan gelen mesajlar iletilecektir. Bu özellik etkinleştirilmiş ancak liste boşsa, hiçbir mesaj iletilmeyecektir.</string>
-    <string name="number_whitelist_placeholder">+905551234567,+905321234567</string>
-    <string name="whitelist_active_summary">Aktif beyaz liste: %s</string>
-    <string name="whitelist_inactive_summary">Beyaz liste devre dışı veya boş (tüm numaralara izin verilir)</string>
-    <string name="whitelist_enabled_empty_summary">Beyaz liste etkin ancak boş. Hiçbir SMS iletilmeyecek.</string>
-
-    <!-- Appearance -->
-    <string name="header_appearance">Görünüm</string>
-    <string name="theme_mode_title">Tema</string>
-    <string name="theme_mode_summary">Açık, koyu veya sistem teması seç</string>
-    <string name="theme_system_fallback">Sistem modu Android 9 ve altında pil tasarrufu kullanır</string>
-
-    <!-- Language -->
-    <string name="language_title">Dil</string>
-    <string name="language_summary">Uygulama dilini seçin</string>
-    <string name="language_restart_required">Dil değişikliğinin etkili olması için uygulama yeniden
-        başlatılmalıdır</string>
-    <string name="language_restart_title">Dil Değiştirildi</string>
-    <string name="language_restart_message">Yeni dil ayarının uygulanması için uygulama yeniden başlatılacak.</string>
-    <string name="connection_online">%1$s Çevrimiçi (%2$s)</string>
-    <string name="connection_offline">🔴 Çevrimdışı</string>
-    <string name="connection_unknown">❓ Bilinmiyor</string>
-    <string name="connection_quality_good">Ağ Kalitesi: İyi</string>
-    <string name="connection_quality_moderate">Ağ Kalitesi: Orta</string>
-    <string name="connection_quality_poor">Ağ Kalitesi: Zayıf</string>
-    <string name="connection_can_forward">✅ Mesaj iletmeye hazır</string>
-    <string name="connection_cannot_forward">❌ Mesaj iletilemez (çevrimdışı)</string>
-
-    <!-- Backup & Restore -->
-    <string name="header_backup">Yedekleme ve Geri Yükleme</string>
-    <string name="export_settings_title">Ayarları Dışa Aktar</string>
-    <string name="export_settings_summary">Konfigürasyonunuzu bir dosyaya yedekleyin</string>
-    <string name="import_settings_title">Ayarları İçe Aktar</string>
-    <string name="import_settings_summary">Yedek dosyasından konfigürasyonu geri yükleyin</string>
-    <string name="export_success">Ayarlar başarıyla dışa aktarıldı!</string>
-    <string name="export_error">Ayarları dışa aktarma başarısız: %s</string>
-    <string name="import_success">%s</string>
-    <string name="import_error">İçe aktarma başarısız: %s</string>
-    <string name="backup_file_description">SMS İletici Ayarları Yedeği</string>
-
-    <!-- Message History -->
+    <!-- Message History Alternative Names -->
+    <string name="key_message_history" translatable="false">key_message_history</string>
     <string name="message_history_title">Mesaj Geçmişi</string>
     <string name="message_history_summary">Son 100 iletilen mesajı görüntüle</string>
+    <string name="key_clear_history" translatable="false">key_clear_history</string>
     <string name="clear_history_title">Geçmişi Temizle</string>
     <string name="clear_history_summary">Tüm mesaj geçmişi kayıtlarını sil</string>
-    <string name="clear_history_confirmation">Tüm mesaj geçmişini silmek istediğinizden emin
-        misiniz? Bu işlem geri alınamaz.</string>
-    <string name="history_cleared">Mesaj geçmişi başarıyla temizlendi</string>
-    <string name="history_empty">Mesaj geçmişi mevcut değil</string>
-    <string name="history_stats_format" formatted="false">Toplam: %1$d | Başarılı: %2$d (%.1f%%) |
-        Başarısız: %3$d</string>
 
-    <!-- Message Formats -->
-    <string name="sms_message_format">%1$s\'den:\n%2$s\nAlındığı zaman: %3$s</string>
-    <string name="telegram_message_format">%1$s\'den mesaj:\n%2$s\nAlındığı zaman: %3$s</string>
-    <string name="email_subject_format">SMS: %1$s</string>
-    <string name="email_body_format">%1$s\n\nAlındığı zaman: %2$s</string>
+    <!-- Messages -->
+    <string name="test_message_sent">Test mesajı başarıyla gönderildi</string>
+    <string name="test_message_error">Test mesajı gönderme hatası: %s</string>
+    <string name="test_message_no_forwarders">Gönderim için etkinleştirilmiş platform yok</string>
+    <string name="history_empty">Mesaj geçmişi yok</string>
+    <string name="settings_exported">Ayarlar başarıyla dışa aktarıldı</string>
+    <string name="settings_imported">Ayarlar başarıyla içe aktarıldı</string>
+    <string name="settings_export_error">Ayarları dışa aktarma hatası</string>
+    <string name="settings_import_error">Ayarları içe aktarma hatası</string>
 
-    <!-- About -->
-    <string name="header_about">Hakkında</string>
-    <string name="about_title">SMS İletici Hakkında</string>
-    <string name="about_summary">Uygulama sürümü, geliştirici bilgileri ve lisans</string>
+    <!-- Export/Import Alternative Names -->
+    <string name="export_success">Ayarlar başarıyla dışa aktarıldı</string>
+    <string name="export_error">Ayarları dışa aktarma hatası: %s</string>
+    <string name="import_success">Ayarlar başarıyla içe aktarıldı: %s</string>
+    <string name="import_error">Ayarları içe aktarma hatası: %s</string>
+
+    <!-- Language Change -->
+    <string name="language_restart_title">Dil Değiştirildi</string>
+    <string name="language_restart_message">Yeni dil ayarını uygulamak için uygulama yeniden başlatılacak</string>
+
+    <!-- About - Extended -->
     <string name="about_app_name">SMS İletici</string>
     <string name="about_version_title">Sürüm</string>
     <string name="about_version_format">%1$s (%2$d)</string>
@@ -180,70 +271,101 @@
     <string name="about_license_title">Lisans</string>
     <string name="about_license_name">MIT Lisansı</string>
     <string name="about_description_title">Açıklama</string>
-    <string name="about_description_text">SMS İletici, SMS mesajlarını SMS, Telegram, E-posta ve Web
-        API\'leri dahil olmak üzere birden fazla platform arasında iletmek için minimal ve verimli
-        bir Android uygulamasıdır.</string>
+    <string name="about_description_text">SMS İletici, SMS mesajlarını SMS, Telegram, E-posta ve Web API\'leri dahil olmak üzere birden fazla platform arasında iletmek için minimal ve verimli bir Android uygulamasıdır</string>
     <string name="about_features_title">Temel Özellikler</string>
-    <string name="about_features_text">• Çoklu platform iletimi\n• Otomatik yeniden deneme\n•
-        Çevrimdışı mesaj kuyruğu\n• Hız sınırlaması koruması\n• Mesaj geçmişi takibi\n• Çoklu dil
-        desteği\n• Karanlık mod teması\n• Ayar yedekleme/geri yükleme</string>
+    <string name="about_features_text">• Çoklu platform iletimi\\n• Otomatik yeniden deneme mekanizması\\n• Çevrimdışı mesaj kuyruğu\\n• Hız sınırlaması koruması\\n• Mesaj geçmişi takibi\\n• Çoklu dil desteği\\n• Karanlık mod teması\\n• Ayar yedekleme/geri yükleme</string>
     <string name="about_build_info_title">Yapı Bilgileri</string>
     <string name="about_package_name">Paket: %s</string>
     <string name="about_min_sdk">Minimum Android: API %d</string>
     <string name="about_target_sdk">Hedef Android: API %d</string>
     <string name="about_build_time">Yapı Zamanı: %s</string>
 
-    <!-- Security & Privacy -->
-    <string name="header_security">Güvenlik ve Gizlilik</string>
-    
-    <string name="security_enabled_title">Uygulama Güvenliğini Etkinleştir</string>
-    <string name="security_enabled_summary">Uygulama erişimini PIN veya biyometrik kimlik doğrulama ile koru</string>
+    <!-- Authentication -->
+    <string name="enter_pin">PIN Girin</string>
+    <string name="pin_setup_title_dialog">PIN Kurulumu</string>
+    <string name="pin_setup_message">4-8 haneli PIN girin</string>
+    <string name="pin_confirm_title">PIN\'i Onayla</string>
+    <string name="pin_confirm_message">PIN\'i tekrar girin</string>
+    <string name="pin_mismatch">PIN\'ler eşleşmiyor</string>
+    <string name="pin_too_short">PIN çok kısa (minimum 4 hane)</string>
+    <string name="pin_too_long">PIN çok uzun (maksimum 8 hane)</string>
+    <string name="authentication_failed">Kimlik doğrulama başarısız</string>
+    <string name="biometric_prompt_title">Biyometrik kimlik doğrulama</string>
+    <string name="biometric_prompt_subtitle">Kimlik doğrulaması için parmak izinizi veya yüzünüzü kullanın</string>
+    <string name="biometric_error">Biyometrik kimlik doğrulama hatası</string>
 
-    <string name="pin_setup_title">PIN Kurulumu</string>
-    <string name="pin_setup_summary_enabled">PIN koruması etkinleştirildi</string>
-    <string name="pin_setup_summary_disabled">PIN ayarlanmamış - oluşturmak için dokunun</string>
-    
-    <string name="biometric_enabled_title">Biyometrik Kimlik Doğrulama</string>
-    <string name="biometric_enabled_summary">Parmak izi veya yüz tanıma kullan</string>
-    
-    <string name="auth_timeout_title">Kimlik Doğrulama Zaman Aşımı</string>
-    <string name="auth_timeout_summary">Yeniden kimlik doğrulama gerekene kadar ne kadar süre</string>
-    
-    <string name="security_test_title">Güvenlik Testi</string>
-    <string name="security_test_summary">Mevcut kimlik doğrulama ayarlarını test et</string>
+    <!-- Extended Authentication -->
+    <string name="auth_no_methods">Kimlik doğrulama yöntemi mevcut değil</string>
+    <string name="pin_auth_title">PIN Girin</string>
+    <string name="pin_auth_message">SMS İletici\'ye erişmek için PIN\'inizi girin</string>
+    <string name="pin_auth_hint">PIN Girin</string>
+    <string name="pin_auth_verify">Kilidi Aç</string>
+    <string name="pin_auth_cancel">İptal</string>
+    <string name="pin_auth_invalid">Yanlış PIN. Lütfen tekrar deneyin</string>
 
-    <!-- PIN Setup Dialogs -->
+    <!-- Biometric Status -->
+    <string name="biometric_available">Biyometrik kimlik doğrulama kullanılabilir</string>
+    <string name="biometric_no_hardware">Biyometrik donanım mevcut değil</string>
+    <string name="biometric_hw_unavailable">Biyometrik donanım şu anda kullanılamıyor</string>
+    <string name="biometric_none_enrolled">Biyometrik kimlik bilgisi kayıtlı değil</string>
+    <string name="biometric_unavailable">Biyometrik kimlik doğrulama kullanılamıyor</string>
+    <string name="biometric_prompt_cancel">PIN Kullan</string>
+    <string name="biometric_auth_failed">Biyometrik kimlik doğrulama başarısız</string>
+
+    <!-- Message Formats -->
+    <string name="sms_message_format">%1$s\'den:\\n%2$s\\nAlındığı zaman: %3$s</string>
+    <string name="telegram_message_format">%1$s\'den mesaj:\\n%2$s\\nAlındığı zaman: %3$s</string>
+    <string name="email_subject_format">SMS: %1$s</string>
+    <string name="email_body_format">%1$s\\n\\nAlındığı zaman: %2$s</string>
+
+    <!-- Additional Biometric Strings -->
+    <string name="biometric_enabled_success">Biyometrik kimlik doğrulama etkinleştirildi</string>
+    <string name="biometric_enable_failed">Biyometrik kimlik doğrulama etkinleştirme başarısız</string>
+    <string name="biometric_disabled">Biyometrik kimlik doğrulama devre dışı bırakıldı</string>
+
+    <!-- Rate Limiting Status -->
+    <string name="rate_limit_seconds">%d saniye</string>
+    <string name="rate_limit_available_now">şimdi mevcut</string>
+    <string name="rate_limit_status_format">Mevcut: %1$d/10 | Sonraki slot: %2$s</string>
+
+    <!-- Filter Status -->
+    <string name="filter_active_summary">Aktif filtreler: %s</string>
+    <string name="filter_inactive_summary">Aktif içerik filtresi yok</string>
+
+    <!-- Whitelist Status -->
+    <string name="whitelist_active_summary">Aktif beyaz liste: %s</string>
+    <string name="whitelist_inactive_summary">Beyaz liste devre dışı veya boş (tüm numaralara izin verilir)</string>
+    <string name="whitelist_enabled_empty_summary">Beyaz liste etkin ancak boş. Hiçbir SMS iletilmeyecek</string>
+
+    <!-- PIN Setup Extended -->
     <string name="pin_setup_existing_title">PIN Zaten Ayarlanmış</string>
     <string name="pin_setup_existing_message">Bir PIN zaten yapılandırılmış. Ne yapmak istiyorsunuz?</string>
     <string name="pin_setup_change">PIN\'i Değiştir</string>
     <string name="pin_setup_remove">PIN\'i Kaldır</string>
     <string name="pin_setup_cancel">İptal</string>
-    
     <string name="pin_setup_new_title">PIN Oluştur</string>
-    <string name="pin_setup_new_message">SMS İletici uygulamanızı korumak için 4 haneli bir PIN oluşturun.</string>
+    <string name="pin_setup_new_message">SMS İletici uygulamanızı korumak için 4 haneli bir PIN oluşturun</string>
     <string name="pin_setup_create">PIN Oluştur</string>
 
     <!-- PIN Creation -->
     <string name="pin_create_title">Yeni PIN Oluştur</string>
-    <string name="pin_create_message">Uygulama erişimini korumak için 4 haneli bir PIN girin:</string>
+    <string name="pin_create_message">Uygulama erişimini korumak için 4 haneli bir PIN girin</string>
     <string name="pin_create_hint">4 haneli PIN girin</string>
     <string name="pin_create_confirm">İleri</string>
     <string name="pin_create_cancel">İptal</string>
     <string name="pin_create_too_short">PIN en az 4 haneli olmalıdır</string>
     <string name="pin_create_success">PIN başarıyla oluşturuldu!</string>
-    <string name="pin_create_failed">PIN oluşturma başarısız. Lütfen tekrar deneyin.</string>
+    <string name="pin_create_failed">PIN oluşturma başarısız. Lütfen tekrar deneyin</string>
 
     <!-- PIN Confirmation -->
-    <string name="pin_confirm_title">PIN\'i Onayla</string>
-    <string name="pin_confirm_message">Onaylamak için PIN\'inizi tekrar girin:</string>
     <string name="pin_confirm_hint">PIN\'i Onayla</string>
     <string name="pin_confirm_verify">PIN Oluştur</string>
     <string name="pin_confirm_cancel">Geri</string>
-    <string name="pin_confirm_mismatch">PIN\'ler eşleşmiyor. Lütfen tekrar deneyin.</string>
+    <string name="pin_confirm_mismatch">PIN\'ler eşleşmiyor. Lütfen tekrar deneyin</string>
 
     <!-- PIN Change -->
     <string name="pin_change_title">PIN\'i Değiştir</string>
-    <string name="pin_change_message">Devam etmek için mevcut PIN\'inizi girin:</string>
+    <string name="pin_change_message">Devam etmek için mevcut PIN\'inizi girin</string>
     <string name="pin_change_current_hint">Mevcut PIN</string>
     <string name="pin_change_verify">Devam Et</string>
     <string name="pin_change_cancel">İptal</string>
@@ -251,39 +373,51 @@
 
     <!-- PIN Removal -->
     <string name="pin_remove_title">PIN\'i Kaldır</string>
-    <string name="pin_remove_message">PIN korumasını kaldırmak için mevcut PIN\'inizi girin:</string>
+    <string name="pin_remove_message">PIN korumasını kaldırmak için mevcut PIN\'inizi girin</string>
     <string name="pin_remove_hint">Mevcut PIN</string>
     <string name="pin_remove_confirm">PIN\'i Kaldır</string>
     <string name="pin_remove_cancel">İptal</string>
     <string name="pin_remove_wrong">Yanlış PIN</string>
     <string name="pin_remove_success">PIN koruması kaldırıldı</string>
 
-    <!-- PIN Authentication -->
-    <string name="pin_auth_title">PIN Girin</string>
-    <string name="pin_auth_message">SMS İletici\'ye erişmek için PIN\'inizi girin:</string>
-    <string name="pin_auth_hint">PIN Girin</string>
-    <string name="pin_auth_verify">Kilidi Aç</string>
-    <string name="pin_auth_cancel">İptal</string>
-    <string name="pin_auth_invalid">Yanlış PIN. Lütfen tekrar deneyin.</string>
+    <!-- Security Test -->
+    <string name="security_test_disabled">Güvenlik devre dışı. Önce güvenliği etkinleştirin</string>
 
-    <!-- Biometric Authentication -->
-    <string name="biometric_available">Biyometrik kimlik doğrulama kullanılabilir</string>
-    <string name="biometric_no_hardware">Biyometrik donanım mevcut değil</string>
-    <string name="biometric_hw_unavailable">Biyometrik donanım şu anda kullanılamıyor</string>
-    <string name="biometric_none_enrolled">Biyometrik kimlik bilgisi kayıtlı değil</string>
-    <string name="biometric_unavailable">Biyometrik kimlik doğrulama kullanılamıyor</string>
-    
-    <string name="biometric_prompt_title">SMS İletici Kimlik Doğrulama</string>
-    <string name="biometric_prompt_subtitle">Kilidi açmak için parmak izinizi veya yüzünüzü kullanın</string>
-    <string name="biometric_prompt_cancel">PIN Kullan</string>
-    
-    <string name="biometric_enabled_success">Biyometrik kimlik doğrulama etkinleştirildi</string>
-    <string name="biometric_enable_failed">Biyometrik kimlik doğrulama etkinleştirme başarısız</string>
-    <string name="biometric_disabled">Biyometrik kimlik doğrulama devre dışı bırakıldı</string>
-    <string name="biometric_auth_failed">Biyometrik kimlik doğrulama başarısız</string>
+    <!-- Queue Status -->
+    <string name="queue_empty">Kuyrukta mesaj yok</string>
+    <string name="queue_stats_format">Toplam: %1$d | Bekleyen: %2$d | Başarısız: %3$d</string>
 
-    <!-- Authentication -->
-    <string name="auth_no_methods">Kimlik doğrulama yöntemi mevcut değil</string>
-    <string name="security_test_disabled">Güvenlik devre dışı. Önce güvenliği etkinleştirin.</string>
+    <!-- Theme -->
+    <string name="theme_system_fallback">Sistem modu Android 9 ve altında pil tasarrufu kullanır</string>
 
-</resources> 
+    <!-- Retry Mechanism -->
+    <string name="retry_mechanism_info">Tüm iletim yöntemleri için otomatik yeniden deneme etkin (üstel geri çekilme ile 3 deneme)</string>
+
+    <!-- Permissions -->
+    <string name="permission_sms_title">SMS İzni</string>
+    <string name="permission_sms_message">Bu uygulama gelen SMS\'leri okumak için izin gerektirir</string>
+    <string name="permission_granted">İzin verildi</string>
+    <string name="permission_denied">İzin reddedildi</string>
+
+    <!-- Network -->
+    <string name="network_connected">Bağlı</string>
+    <string name="network_disconnected">Bağlantı kesildi</string>
+    <string name="network_wifi">WiFi</string>
+    <string name="network_mobile">Mobil veri</string>
+    <string name="network_unknown">Bilinmiyor</string>
+
+    <!-- Common -->
+    <string name="ok">Tamam</string>
+    <string name="cancel">İptal</string>
+    <string name="save">Kaydet</string>
+    <string name="delete">Sil</string>
+    <string name="yes">Evet</string>
+    <string name="no">Hayır</string>
+    <string name="enabled">Etkinleştirildi</string>
+    <string name="disabled">Devre dışı</string>
+    <string name="loading">Yükleniyor...</string>
+    <string name="error">Hata</string>
+    <string name="success">Başarılı</string>
+    <string name="warning">Uyarı</string>
+    <string name="info">Bilgi</string>
+</resources>

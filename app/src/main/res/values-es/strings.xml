@@ -21,25 +21,39 @@
     <string name="dashboard_platforms_status">Estado de Plataformas</string>
 
     <!-- SMS -->
+    <string name="key_enable_sms" translatable="false">key_enable_sms</string>
     <string name="header_sms">Reenvío por SMS</string>
     <string name="enable_sms">Habilitar SMS</string>
+    <string name="key_target_sms" translatable="false">key_sms_target</string>
     <string name="target_title_sms">Número de teléfono destino</string>
     <string name="target_summary_sms">Ejemplo: +34 666 123 456</string>
 
     <!-- Telegram -->
+    <string name="key_enable_telegram" translatable="false">key_enable_telegram</string>
     <string name="header_telegram">Reenvío por Telegram</string>
     <string name="enable_telegram">Habilitar Telegram</string>
+    <string name="key_target_telegram" translatable="false">key_target_telegram</string>
+    <string name="key_telegram_apikey" translatable="false">key_telegram_apikey</string>
     <string name="target_title_telegram">ID de Telegram destino</string>
     <string name="title_telegram_apikey">Token API de Telegram</string>
 
     <!-- Web -->
+    <string name="key_enable_web" translatable="false">key_enable_web</string>
     <string name="header_web">Reenvío por Web</string>
     <string name="enable_web">Habilitar Web</string>
+    <string name="key_target_web" translatable="false">key_target_web</string>
     <string name="target_title_web">URL Web destino</string>
     <string name="target_summary_web">Ejemplo: https://sitio.com/api\nEsta app enviará solicitud POST
-        al recibir SMS, ejemplo del cuerpo de solicitud:\n{ \"from\": \"10000\", \"message\": \"Hola\" }</string>
+        al recibir SMS, ejemplo del cuerpo de solicitud:\n{ "from": "10000", "message": "Hola" }</string>
 
     <!-- Email -->
+    <string name="key_enable_email" translatable="false">key_enable_email</string>
+    <string name="key_email_from_address" translatable="false">key_email_from_address</string>
+    <string name="key_email_to_address" translatable="false">key_email_to_address</string>
+    <string name="key_email_submit_host" translatable="false">key_email_submit_host</string>
+    <string name="key_email_submit_port" translatable="false">key_email_submit_port</string>
+    <string name="key_email_submit_password" translatable="false">key_email_submit_password</string>
+    <string name="key_email_username_style" translatable="false">key_email_username_style</string>
     <string name="header_email">Reenvío por Email</string>
     <string name="enable_email">Habilitar Email</string>
     <string name="email_from_address_title">Dirección de envío</string>
@@ -70,6 +84,11 @@
     <string name="smtp_username_style_summary">Dirección completa o nombre de usuario solamente</string>
 
     <!-- Security -->
+    <string name="key_security_enabled" translatable="false">key_security_enabled</string>
+    <string name="key_pin_setup" translatable="false">key_pin_setup</string>
+    <string name="key_biometric_enabled" translatable="false">key_biometric_enabled</string>
+    <string name="key_auth_timeout" translatable="false">key_auth_timeout</string>
+    <string name="key_security_test" translatable="false">key_security_test</string>
     <string name="header_security">Seguridad</string>
     <string name="security_enabled_title">Habilitar seguridad de aplicación</string>
     <string name="security_enabled_summary">Requiere autenticación para abrir la aplicación</string>
@@ -84,6 +103,8 @@
     <string name="security_test_summary">Verificar configuración de seguridad</string>
 
     <!-- Rate Limiting -->
+    <string name="key_enable_rate_limiting" translatable="false">key_enable_rate_limiting</string>
+    <string name="key_rate_limit_status" translatable="false">key_rate_limit_status</string>
     <string name="header_rate_limiting">Límite de Velocidad</string>
     <string name="enable_rate_limiting">Habilitar límite de velocidad</string>
     <string name="rate_limiting_summary">Limitar a 10 SMS por minuto</string>
@@ -91,6 +112,7 @@
     <string name="rate_limit_status_summary">Mensajes enviados en el minuto actual</string>
 
     <!-- Content Filter -->
+    <string name="key_filter_keywords" translatable="false">key_filter_keywords</string>
     <string name="header_content_filter">Filtro de Contenido</string>
     <string name="filter_keywords_title">Palabras clave de filtro</string>
     <string name="filter_keywords_summary">Bloquear mensajes que contengan estas palabras</string>
@@ -99,6 +121,8 @@
     <string name="filter_keywords_placeholder">spam, publicidad, promoción</string>
 
     <!-- Sender Filter -->
+    <string name="key_enable_number_whitelist" translatable="false">key_enable_number_whitelist</string>
+    <string name="key_number_whitelist" translatable="false">key_number_whitelist</string>
     <string name="header_sender_filter">Filtro de Remitente</string>
     <string name="enable_number_whitelist">Habilitar lista blanca de números</string>
     <string name="enable_number_whitelist_summary">Solo reenviar SMS de números aprobados</string>
@@ -109,6 +133,10 @@
     <string name="number_whitelist_placeholder">+34666123456, +34666789012</string>
 
     <!-- Statistics -->
+    <string name="key_statistics_overview" translatable="false">key_statistics_overview</string>
+    <string name="key_statistics_today" translatable="false">key_statistics_today</string>
+    <string name="key_statistics_total" translatable="false">key_statistics_total</string>
+    <string name="key_statistics_success_rate" translatable="false">key_statistics_success_rate</string>
     <string name="header_statistics">Estadísticas</string>
     <string name="statistics_overview_title">Resumen de estadísticas</string>
     <string name="statistics_overview_summary">Ver estadísticas generales</string>
@@ -120,6 +148,9 @@
     <string name="statistics_success_rate_summary">Porcentaje de mensajes enviados exitosamente</string>
 
     <!-- Message History -->
+    <string name="key_message_history_view" translatable="false">key_message_history_view</string>
+    <string name="key_message_history_clear" translatable="false">key_message_history_clear</string>
+    <string name="key_message_history_export" translatable="false">key_message_history_export</string>
     <string name="header_message_history">Historial de Mensajes</string>
     <string name="message_history_view_title">Ver historial</string>
     <string name="message_history_view_summary">Mostrar últimos 100 mensajes</string>
@@ -129,6 +160,11 @@
     <string name="message_history_export_summary">Guardar historial en archivo</string>
 
     <!-- Connection Test -->
+    <string name="key_test_sms" translatable="false">key_test_sms</string>
+    <string name="key_test_telegram" translatable="false">key_test_telegram</string>
+    <string name="key_test_email" translatable="false">key_test_email</string>
+    <string name="key_test_web" translatable="false">key_test_web</string>
+    <string name="key_test_all_platforms" translatable="false">key_test_all_platforms</string>
     <string name="header_connection_test">Prueba de Conexión</string>
     <string name="test_sms_title">Probar SMS</string>
     <string name="test_sms_summary">Enviar mensaje de prueba por SMS</string>
@@ -142,6 +178,9 @@
     <string name="test_all_platforms_summary">Enviar mensaje de prueba a todas las plataformas habilitadas</string>
 
     <!-- System Info -->
+    <string name="key_system_permissions" translatable="false">key_system_permissions</string>
+    <string name="key_system_queue_status" translatable="false">key_system_queue_status</string>
+    <string name="key_system_logs" translatable="false">key_system_logs</string>
     <string name="header_system_info">Información del Sistema</string>
     <string name="system_permissions_title">Permisos del sistema</string>
     <string name="system_permissions_summary">Ver estado de permisos</string>
@@ -151,6 +190,8 @@
     <string name="system_logs_summary">Ver registros de la aplicación</string>
 
     <!-- Appearance -->
+    <string name="key_language" translatable="false">key_language</string>
+    <string name="key_theme_mode" translatable="false">key_theme_mode</string>
     <string name="header_appearance">Apariencia</string>
     <string name="language_title">Idioma</string>
     <string name="language_summary">Cambiar idioma de la aplicación</string>
@@ -158,6 +199,8 @@
     <string name="theme_mode_summary">Modo claro, oscuro o del sistema</string>
 
     <!-- Backup -->
+    <string name="key_export_settings" translatable="false">key_export_settings</string>
+    <string name="key_import_settings" translatable="false">key_import_settings</string>
     <string name="header_backup">Copia de Seguridad</string>
     <string name="export_settings_title">Exportar configuración</string>
     <string name="export_settings_summary">Guardar configuración en archivo</string>
@@ -165,32 +208,39 @@
     <string name="import_settings_summary">Cargar configuración desde archivo</string>
 
     <!-- About -->
+    <string name="key_about" translatable="false">key_about</string>
     <string name="header_about">Acerca de</string>
     <string name="about_title">Información de la aplicación</string>
     <string name="about_summary">Versión, licencia e información</string>
 
     <!-- Test & Debug -->
+    <string name="key_test_message" translatable="false">key_test_message</string>
     <string name="header_test">Prueba y Depuración</string>
     <string name="test_message_title">Enviar Mensaje de Prueba</string>
     <string name="test_message_summary">Enviar un mensaje de prueba para verificar la configuración de reenvío</string>
 
     <!-- Queue Status -->
+    <string name="key_queue_status" translatable="false">key_queue_status</string>
     <string name="queue_status_title">Estado de Cola de Mensajes</string>
     <string name="queue_status_summary">Ver estadísticas de cola de mensajes sin conexión</string>
 
     <!-- Connection Status -->
+    <string name="key_connection_status" translatable="false">key_connection_status</string>
     <string name="connection_status_title">Estado de Conexión</string>
     <string name="connection_status_summary">Estado actual de conectividad de red</string>
 
     <!-- Message Counter -->
+    <string name="key_message_counter" translatable="false">key_message_counter</string>
     <string name="message_counter_title">Contador de Mensajes</string>
     <string name="message_counter_summary">Ver estadísticas diarias y totales de mensajes reenviados</string>
 
     <!-- Message History Alternative Names -->
+    <string name="key_message_history" translatable="false">key_message_history</string>
     <string name="message_history_title">Historial de Mensajes</string>
     <string name="message_history_summary">Ver últimos 100 mensajes reenviados</string>
+    <string name="key_clear_history" translatable="false">key_clear_history</string>
     <string name="clear_history_title">Limpiar Historial</string>
-    <string name="clear_history_summary">Eliminar todos los registros de historial</string>
+    <string name="clear_history_summary">Eliminar todos los registros de historial de mensajes</string>
 
     <!-- Messages -->
     <string name="test_message_sent">Mensaje de prueba enviado exitosamente</string>
@@ -223,7 +273,7 @@
     <string name="about_description_title">Descripción</string>
     <string name="about_description_text">Reenvío SMS es una aplicación Android mínima y eficiente para reenviar mensajes SMS a múltiples plataformas incluyendo SMS, Telegram, Email y APIs Web</string>
     <string name="about_features_title">Características Principales</string>
-    <string name="about_features_text">• Reenvío multiplataforma\n• Mecanismo de reintento automático\n• Cola de mensajes sin conexión\n• Protección de límite de velocidad\n• Seguimiento de historial de mensajes\n• Soporte multiidioma\n• Tema modo oscuro\n• Copia de seguridad/restauración de configuración</string>
+    <string name="about_features_text">• Reenvío multiplataforma\\n• Mecanismo de reintento automático\\n• Cola de mensajes sin conexión\\n• Protección de límite de velocidad\\n• Seguimiento de historial de mensajes\\n• Soporte multiidioma\\n• Tema modo oscuro\\n• Copia de seguridad/restauración de configuración</string>
     <string name="about_build_info_title">Información de Compilación</string>
     <string name="about_package_name">Paquete: %s</string>
     <string name="about_min_sdk">Android Mínimo: API %d</string>
@@ -263,10 +313,10 @@
     <string name="biometric_auth_failed">La autenticación biométrica falló</string>
 
     <!-- Message Formats -->
-    <string name="sms_message_format">De %1$s:\n%2$s\nRecibido en: %3$s</string>
-    <string name="telegram_message_format">Mensaje de %1$s:\n%2$s\nRecibido en: %3$s</string>
+    <string name="sms_message_format">De %1$s:\\n%2$s\\nRecibido en: %3$s</string>
+    <string name="telegram_message_format">Mensaje de %1$s:\\n%2$s\\nRecibido en: %3$s</string>
     <string name="email_subject_format">SMS de: %1$s</string>
-    <string name="email_body_format">%1$s\n\nRecibido en: %2$s</string>
+    <string name="email_body_format">%1$s\\n\\nRecibido en: %2$s</string>
 
     <!-- Additional Biometric Strings -->
     <string name="biometric_enabled_success">Autenticación biométrica habilitada</string>
