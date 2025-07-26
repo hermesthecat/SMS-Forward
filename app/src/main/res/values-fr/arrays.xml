@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="option_smtp_username_style_titles">
+        <item>Adresse RFC822 complète</item>
+        <item>Partie locale seulement</item>
+    </string-array>
+
+    <!-- Theme mode options -->
+    <string-array name="theme_mode_entries">
+        <item>🌞 Clair</item>
+        <item>🌙 Sombre</item>
+        <item>🔄 Système par défaut</item>
+    </string-array>
+
+    <!-- Language options -->
+    <string-array name="language_entries">
+        <item>🇺🇸 English</item>
+        <item>🇹🇷 Türkçe</item>
+        <item>🇪🇸 Español</item>
+        <item>🇩🇪 Deutsch</item>
+        <item>🇫🇷 Français</item>
+        <item>🌐 Système par défaut</item>
+    </string-array>
+
+    <!-- Authentication timeout options -->
+    <string-array name="auth_timeout_entries">
+        <item>🕐 1 minute</item>
+        <item>🕐 5 minutes</item>
+        <item>🕐 15 minutes</item>
+        <item>🕐 30 minutes</item>
+        <item>🕐 1 heure</item>
+        <item>🕐 Aucun délai</item>
+    </string-array>
+</resources>

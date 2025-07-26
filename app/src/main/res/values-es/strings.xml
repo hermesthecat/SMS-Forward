@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Reenvío SMS</string>
+
+    <!-- Navigation -->
+    <string name="nav_dashboard">Panel</string>
+    <string name="nav_platforms">Plataformas</string>
+    <string name="nav_security">Seguridad</string>
+    <string name="nav_monitor">Monitor</string>
+    <string name="nav_about">Acerca de</string>
+
+    <!-- Dashboard -->
+    <string name="dashboard_status_title">Resumen de Estado</string>
+    <string name="dashboard_connection_status">Conexión</string>
+    <string name="dashboard_today_messages">Mensajes de Hoy</string>
+    <string name="dashboard_rate_limit">Límite de Velocidad</string>
+    <string name="dashboard_quick_actions">Acciones Rápidas</string>
+    <string name="dashboard_send_test_message">Enviar Mensaje de Prueba</string>
+    <string name="dashboard_view_message_history">Ver Historial de Mensajes</string>
+    <string name="dashboard_platform_settings">Configuración de Plataformas</string>
+    <string name="dashboard_platforms_status">Estado de Plataformas</string>
+
+    <!-- SMS -->
+    <string name="header_sms">Reenvío por SMS</string>
+    <string name="enable_sms">Habilitar SMS</string>
+    <string name="target_title_sms">Número de teléfono destino</string>
+    <string name="target_summary_sms">Ejemplo: +34 666 123 456</string>
+
+    <!-- Telegram -->
+    <string name="header_telegram">Reenvío por Telegram</string>
+    <string name="enable_telegram">Habilitar Telegram</string>
+    <string name="target_title_telegram">ID de Telegram destino</string>
+    <string name="title_telegram_apikey">Token API de Telegram</string>
+
+    <!-- Web -->
+    <string name="header_web">Reenvío por Web</string>
+    <string name="enable_web">Habilitar Web</string>
+    <string name="target_title_web">URL Web destino</string>
+    <string name="target_summary_web">Ejemplo: https://sitio.com/api\nEsta app enviará solicitud POST
+        al recibir SMS, ejemplo del cuerpo de solicitud:\n{ "from": "10000", "message": "Hola" }</string>
+
+    <!-- Email -->
+    <string name="header_email">Reenvío por Email</string>
+    <string name="enable_email">Habilitar Email</string>
+    <string name="email_from_address_title">Dirección de envío</string>
+    <string name="email_from_address_summary">Tu dirección de email</string>
+    <string name="email_to_address_title">Dirección de destino</string>
+    <string name="email_to_address_summary">Email de destino</string>
+    <string name="email_submit_host_title">Servidor SMTP</string>
+    <string name="email_submit_host_summary">smtp.gmail.com</string>
+    <string name="email_submit_port_title">Puerto SMTP</string>
+    <string name="email_submit_port_summary">587</string>
+    <string name="email_submit_password_title">Contraseña</string>
+    <string name="email_submit_password_summary">Contraseña de aplicación</string>
+    <string name="email_username_style_title">Estilo de nombre de usuario</string>
+    <string name="email_username_style_summary">Dirección completa o nombre de usuario solamente</string>
+
+    <!-- Security -->
+    <string name="header_security">Autenticación</string>
+    <string name="security_enabled_title">Habilitar seguridad de aplicación</string>
+    <string name="security_enabled_summary">Requiere autenticación para abrir la aplicación</string>
+    <string name="pin_setup_title">Configurar PIN</string>
+    <string name="pin_setup_summary_disabled">PIN no configurado</string>
+    <string name="pin_setup_summary_enabled">PIN configurado</string>
+    <string name="biometric_enabled_title">Habilitar autenticación biométrica</string>
+    <string name="biometric_enabled_summary">Usar huella digital o reconocimiento facial</string>
+    <string name="auth_timeout_title">Tiempo de espera de autenticación</string>
+    <string name="auth_timeout_summary">Tiempo antes de requerir autenticación nuevamente</string>
+    <string name="security_test_title">Probar autenticación</string>
+    <string name="security_test_summary">Verificar configuración de seguridad</string>
+
+    <!-- Rate Limiting -->
+    <string name="header_rate_limiting">Límite de Velocidad</string>
+    <string name="enable_rate_limiting">Habilitar límite de velocidad</string>
+    <string name="rate_limiting_summary">Limitar a 10 SMS por minuto</string>
+    <string name="rate_limit_status_title">Estado del límite de velocidad</string>
+    <string name="rate_limit_status_summary">Mensajes enviados en el minuto actual</string>
+
+    <!-- Content Filter -->
+    <string name="header_content_filter">Filtro de Contenido</string>
+    <string name="filter_keywords_title">Palabras clave de filtro</string>
+    <string name="filter_keywords_summary">Bloquear mensajes que contengan estas palabras</string>
+    <string name="filter_keywords_dialog_title">Filtrar palabras clave</string>
+    <string name="filter_keywords_dialog_message">Ingrese palabras clave separadas por comas</string>
+    <string name="filter_keywords_placeholder">spam, publicidad, promoción</string>
+
+    <!-- Sender Filter -->
+    <string name="header_sender_filter">Filtro de Remitente</string>
+    <string name="enable_number_whitelist">Habilitar lista blanca de números</string>
+    <string name="enable_number_whitelist_summary">Solo reenviar SMS de números aprobados</string>
+    <string name="number_whitelist_title">Lista blanca de números</string>
+    <string name="number_whitelist_summary">Números autorizados para reenvío</string>
+    <string name="number_whitelist_dialog_title">Lista blanca de números</string>
+    <string name="number_whitelist_dialog_message">Ingrese números separados por comas</string>
+    <string name="number_whitelist_placeholder">+34666123456, +34666789012</string>
+
+    <!-- Statistics -->
+    <string name="header_statistics">Estadísticas</string>
+    <string name="statistics_overview_title">Resumen de estadísticas</string>
+    <string name="statistics_overview_summary">Ver estadísticas generales</string>
+    <string name="statistics_today_title">Estadísticas de hoy</string>
+    <string name="statistics_today_summary">Mensajes procesados hoy</string>
+    <string name="statistics_total_title">Estadísticas totales</string>
+    <string name="statistics_total_summary">Todos los mensajes procesados</string>
+    <string name="statistics_success_rate_title">Tasa de éxito</string>
+    <string name="statistics_success_rate_summary">Porcentaje de mensajes enviados exitosamente</string>
+
+    <!-- Message History -->
+    <string name="header_message_history">Historial de Mensajes</string>
+    <string name="message_history_view_title">Ver historial</string>
+    <string name="message_history_view_summary">Mostrar últimos 100 mensajes</string>
+    <string name="message_history_clear_title">Limpiar historial</string>
+    <string name="message_history_clear_summary">Eliminar todos los registros de historial</string>
+    <string name="message_history_export_title">Exportar historial</string>
+    <string name="message_history_export_summary">Guardar historial en archivo</string>
+
+    <!-- Connection Test -->
+    <string name="header_connection_test">Prueba de Conexión</string>
+    <string name="test_sms_title">Probar SMS</string>
+    <string name="test_sms_summary">Enviar mensaje de prueba por SMS</string>
+    <string name="test_telegram_title">Probar Telegram</string>
+    <string name="test_telegram_summary">Enviar mensaje de prueba por Telegram</string>
+    <string name="test_email_title">Probar Email</string>
+    <string name="test_email_summary">Enviar mensaje de prueba por Email</string>
+    <string name="test_web_title">Probar Web</string>
+    <string name="test_web_summary">Enviar mensaje de prueba por Web</string>
+    <string name="test_all_platforms_title">Probar todas las plataformas</string>
+    <string name="test_all_platforms_summary">Enviar mensaje de prueba a todas las plataformas habilitadas</string>
+
+    <!-- System Info -->
+    <string name="header_system_info">Información del Sistema</string>
+    <string name="system_permissions_title">Permisos del sistema</string>
+    <string name="system_permissions_summary">Ver estado de permisos</string>
+    <string name="system_queue_status_title">Estado de cola</string>
+    <string name="system_queue_status_summary">Ver mensajes en cola</string>
+    <string name="system_logs_title">Registros del sistema</string>
+    <string name="system_logs_summary">Ver registros de la aplicación</string>
+
+    <!-- Appearance -->
+    <string name="header_appearance">Apariencia</string>
+    <string name="language_title">Idioma</string>
+    <string name="language_summary">Cambiar idioma de la aplicación</string>
+    <string name="theme_mode_title">Tema</string>
+    <string name="theme_mode_summary">Modo claro, oscuro o del sistema</string>
+
+    <!-- Backup -->
+    <string name="header_backup">Copia de Seguridad</string>
+    <string name="export_settings_title">Exportar configuración</string>
+    <string name="export_settings_summary">Guardar configuración en archivo</string>
+    <string name="import_settings_title">Importar configuración</string>
+    <string name="import_settings_summary">Cargar configuración desde archivo</string>
+
+    <!-- About -->
+    <string name="header_about">Acerca de</string>
+    <string name="about_title">Información de la aplicación</string>
+    <string name="about_summary">Versión, licencia e información</string>
+
+    <!-- Messages -->
+    <string name="test_message_sent">Mensaje de prueba enviado exitosamente</string>
+    <string name="test_message_error">Error al enviar mensaje de prueba: %s</string>
+    <string name="test_message_no_forwarders">No hay plataformas habilitadas para envío</string>
+    <string name="history_empty">No hay historial de mensajes</string>
+    <string name="settings_exported">Configuración exportada exitosamente</string>
+    <string name="settings_imported">Configuración importada exitosamente</string>
+    <string name="settings_export_error">Error al exportar configuración</string>
+    <string name="settings_import_error">Error al importar configuración</string>
+
+    <!-- Authentication -->
+    <string name="enter_pin">Ingrese PIN</string>
+    <string name="pin_setup_title_dialog">Configurar PIN</string>
+    <string name="pin_setup_message">Ingrese un PIN de 4-8 dígitos</string>
+    <string name="pin_confirm_title">Confirmar PIN</string>
+    <string name="pin_confirm_message">Ingrese el PIN nuevamente</string>
+    <string name="pin_mismatch">Los PINs no coinciden</string>
+    <string name="pin_too_short">PIN demasiado corto (mínimo 4 dígitos)</string>
+    <string name="pin_too_long">PIN demasiado largo (máximo 8 dígitos)</string>
+    <string name="authentication_failed">Autenticación fallida</string>
+    <string name="biometric_prompt_title">Autenticación biométrica</string>
+    <string name="biometric_prompt_subtitle">Use su huella digital o rostro para autenticarse</string>
+    <string name="biometric_error">Error de autenticación biométrica</string>
+
+    <!-- Permissions -->
+    <string name="permission_sms_title">Permiso SMS</string>
+    <string name="permission_sms_message">Esta aplicación necesita permiso para leer SMS entrantes</string>
+    <string name="permission_granted">Permiso concedido</string>
+    <string name="permission_denied">Permiso denegado</string>
+
+    <!-- Network -->
+    <string name="network_connected">Conectado</string>
+    <string name="network_disconnected">Desconectado</string>
+    <string name="network_wifi">WiFi</string>
+    <string name="network_mobile">Datos móviles</string>
+    <string name="network_unknown">Desconocido</string>
+
+    <!-- Common -->
+    <string name="ok">Aceptar</string>
+    <string name="cancel">Cancelar</string>
+    <string name="save">Guardar</string>
+    <string name="delete">Eliminar</string>
+    <string name="yes">Sí</string>
+    <string name="no">No</string>
+    <string name="enabled">Habilitado</string>
+    <string name="disabled">Deshabilitado</string>
+    <string name="loading">Cargando...</string>
+    <string name="error">Error</string>
+    <string name="success">Éxito</string>
+    <string name="warning">Advertencia</string>
+    <string name="info">Información</string>
+</resources>

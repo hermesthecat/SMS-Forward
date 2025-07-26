@@ -21,11 +21,17 @@
     <string-array name="language_entries">
         <item>🇺🇸 English</item>
         <item>🇹🇷 Türkçe</item>
+        <item>🇪🇸 Español</item>
+        <item>🇩🇪 Deutsch</item>
+        <item>🇫🇷 Français</item>
         <item>🌐 Sistem varsayılanı</item>
     </string-array>
     <string-array name="language_values">
         <item>en</item>
         <item>tr</item>
+        <item>es</item>
+        <item>de</item>
+        <item>fr</item>
         <item>system</item>
     </string-array>
 
