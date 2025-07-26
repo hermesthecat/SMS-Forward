@@ -1,0 +1,8 @@
+3:    <string-array name="option_smtp_username_style_titles">
+7:    <string-array name="option_smtp_username_style_values">
+13:    <string-array name="theme_mode_entries">
+18:    <string-array name="theme_mode_values">
+25:    <string-array name="language_entries">
+30:    <string-array name="language_values">
+37:    <string-array name="auth_timeout_entries">
+45:    <string-array name="auth_timeout_values">
