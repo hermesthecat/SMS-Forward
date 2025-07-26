@@ -60,8 +60,11 @@ public class DashboardFragment extends Fragment implements
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // Initialize UI components
+        // Initialize UI components first
         initializeUIComponents(view);
+
+        // Set initial loading states
+        setLoadingStates();
 
         // Initialize core components
         initializeCoreComponents();
@@ -69,8 +72,8 @@ public class DashboardFragment extends Fragment implements
         // Set up button listeners
         setupButtonListeners();
 
-        // Update all status displays
-        updateAllStatuses();
+        // Update all status displays asynchronously to improve loading performance
+        view.post(this::updateAllStatuses);
     }
 
     @Override
@@ -192,6 +195,33 @@ public class DashboardFragment extends Fragment implements
 
         if (platformSettingsButton != null) {
             platformSettingsButton.setOnClickListener(v -> navigateToPlatformSettings());
+        }
+    }
+
+    /**
+     * Set initial loading states for UI elements
+     */
+    private void setLoadingStates() {
+        if (connectionStatusText != null) {
+            connectionStatusText.setText("🔄 Loading...");
+        }
+        if (todayMessagesText != null) {
+            todayMessagesText.setText("...");
+        }
+        if (rateLimitText != null) {
+            rateLimitText.setText(".../10");
+        }
+        if (smsStatusText != null) {
+            smsStatusText.setText("🔄 Loading...");
+        }
+        if (telegramStatusText != null) {
+            telegramStatusText.setText("🔄 Loading...");
+        }
+        if (emailStatusText != null) {
+            emailStatusText.setText("🔄 Loading...");
+        }
+        if (webStatusText != null) {
+            webStatusText.setText("🔄 Loading...");
         }
     }
 

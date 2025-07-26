@@ -81,8 +81,11 @@ public class SecurityFragment extends BasePreferenceFragment {
 
     @Override
     protected void cleanupResources() {
-        // No specific cleanup needed for Security fragment
-        // Base class handles SharedPreferences cleanup
+        // Clean up SecurityManager resources
+        if (securityManager != null) {
+            // SecurityManager doesn't currently have cleanup method, but good practice
+            securityManager = null;
+        }
     }
 
     /**

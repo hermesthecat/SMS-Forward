@@ -44,6 +44,22 @@ public abstract class BasePreferenceFragment extends PreferenceFragmentCompat
     }
 
     @Override
+    public void onStop() {
+        super.onStop();
+        // Clear any cached references to help with memory optimization during fragment switches
+        clearCachedReferences();
+    }
+
+    /**
+     * Clear cached references to optimize memory during fragment switches.
+     * Override in child fragments if they have specific cached data to clear.
+     */
+    protected void clearCachedReferences() {
+        // Base implementation does nothing, child fragments can override
+        // This is called when fragment is no longer visible to user
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
         // Clean up any resources to prevent memory leaks
