@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:iconSpaceReserved="false">
+
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
+        app:title="@string/header_appearance">
+
+        <ListPreference
+            android:key="@string/key_language"
+            android:title="@string/language_title"
+            android:summary="@string/language_summary"
+            android:defaultValue="system"
+            android:entries="@array/language_entries"
+            android:entryValues="@array/language_values"
+            app:iconSpaceReserved="false" />
+
+        <ListPreference
+            android:key="@string/key_theme_mode"
+            android:title="@string/theme_mode_title"
+            android:summary="@string/theme_mode_summary"
+            android:defaultValue="system"
+            android:entries="@array/theme_mode_entries"
+            android:entryValues="@array/theme_mode_values"
+            app:iconSpaceReserved="false" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
+        app:title="@string/header_backup">
+
+        <Preference
+            android:key="@string/key_export_settings"
+            android:title="@string/export_settings_title"
+            android:summary="@string/export_settings_summary"
+            app:iconSpaceReserved="false" />
+
+        <Preference
+            android:key="@string/key_import_settings"
+            android:title="@string/import_settings_title"
+            android:summary="@string/import_settings_summary"
+            app:iconSpaceReserved="false" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
+        app:title="@string/header_about">
+
+        <Preference
+            android:key="@string/key_about"
+            android:title="@string/about_title"
+            android:summary="@string/about_summary"
+            app:iconSpaceReserved="false" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>
