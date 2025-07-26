@@ -1,10 +1,12 @@
 # Multi-Screen UI Refactoring Tasks
 
 ## Overview
+
 Transform SMS Forward app from single-screen preferences to modern multi-screen navigation with bottom tabs.
 
 **Target Architecture:**
-```
+
+```bash
 MainActivity (Bottom Navigation)
 ├─ 🏠 Dashboard - Status overview, quick actions, platform status
 ├─ ⚙️ Platforms - SMS/Telegram/Email/Web configurations
@@ -18,6 +20,7 @@ MainActivity (Bottom Navigation)
 ## Phase 1: Preparation & Analysis 🔍
 
 ### 1.1 Codebase Analysis
+
 - [ ] **Document current MainActivity structure**
   - [ ] List all preference categories in `root_preferences.xml`
   - [ ] Map preference keys to their usage in Java code
@@ -37,8 +40,10 @@ MainActivity (Bottom Navigation)
   - [ ] List network status, rate limiter, and other singleton dependencies
 
 ### 1.2 Resource Mapping
+
 - [ ] **Create Fragment-to-Preference Mapping**
-  ```
+
+  ```text
   DashboardFragment:
   - Real-time status display (no direct preferences)
   - Quick action buttons
@@ -76,6 +81,7 @@ MainActivity (Bottom Navigation)
 ## Phase 2: Foundation Setup 🏗️
 
 ### 2.1 Base Infrastructure
+
 - [ ] **Create Base Fragment Classes**
   - [ ] Create `BasePreferenceFragment` extending `PreferenceFragmentCompat`
     - [ ] Add common preference update methods
@@ -96,6 +102,7 @@ MainActivity (Bottom Navigation)
   - [ ] **GIT PUSH**: `git push origin main`
 
 ### 2.2 Resource Preparation
+
 - [ ] **Clean String Resources**
   - [ ] Remove all duplicate string entries
   - [ ] Create missing string resources for fragment headers
@@ -116,6 +123,7 @@ MainActivity (Bottom Navigation)
   - [ ] **GIT PUSH**: `git push origin main`
 
 ### 2.3 Layout Foundation
+
 - [ ] **Backup Original Layout**
   - [ ] Copy `activity_main.xml` to `activity_main_backup.xml`
   - [ ] Document current layout structure
@@ -134,6 +142,7 @@ MainActivity (Bottom Navigation)
 ## Phase 3: Fragment Development 📱
 
 ### 3.1 Dashboard Fragment (Highest Priority)
+
 - [ ] **Create Layout**
   - [ ] Design `fragment_dashboard.xml` with status cards
   - [ ] Add connection status display
@@ -164,6 +173,7 @@ MainActivity (Bottom Navigation)
   - [ ] Verify no memory leaks
 
 ### 3.2 Platforms Fragment (Medium Priority)
+
 - [ ] **Create Preference XML**
   - [ ] Extract platform preferences from `root_preferences.xml`
   - [ ] Create `platforms_preferences.xml`
@@ -189,6 +199,7 @@ MainActivity (Bottom Navigation)
   - [ ] Test input validation
 
 ### 3.3 Security Fragment (Medium Priority)
+
 - [ ] **Create Preference XML**
   - [ ] Extract security preferences from `root_preferences.xml`
   - [ ] Create `security_preferences.xml`
@@ -216,6 +227,7 @@ MainActivity (Bottom Navigation)
   - [ ] Verify security state persistence
 
 ### 3.4 Monitor Fragment (Low Priority)
+
 - [ ] **Create Preference XML**
   - [ ] Extract monitoring preferences from `root_preferences.xml`
   - [ ] Create `monitor_preferences.xml`
@@ -241,6 +253,7 @@ MainActivity (Bottom Navigation)
   - [ ] Test history clearing
 
 ### 3.5 About Fragment (Low Priority)
+
 - [ ] **Create Preference XML**
   - [ ] Extract about/appearance preferences from `root_preferences.xml`
   - [ ] Create `about_preferences.xml`
@@ -270,6 +283,7 @@ MainActivity (Bottom Navigation)
 ## Phase 4: MainActivity Integration 🔄
 
 ### 4.1 Navigation Setup
+
 - [ ] **Backup Current MainActivity**
   - [ ] Copy `MainActivity.java` to `MainActivity_backup.java`
   - [ ] Document current initialization flow
@@ -286,6 +300,7 @@ MainActivity (Bottom Navigation)
   - [ ] **GIT PUSH**: `git push origin main`
 
 ### 4.2 Fragment Registration
+
 - [ ] **Register All Fragments**
   - [ ] Add fragment instances to navigation
   - [ ] Set default fragment (Dashboard)
@@ -297,6 +312,7 @@ MainActivity (Bottom Navigation)
   - [ ] **GIT PUSH**: `git push origin main`
 
 ### 4.3 Integration Testing
+
 - [ ] **Individual Fragment Tests**
   - [ ] Test each fragment loads correctly
   - [ ] Test navigation between fragments
@@ -310,6 +326,7 @@ MainActivity (Bottom Navigation)
   - [ ] Test database updates across fragments
 
 ### 4.4 Compilation & Testing
+
 - [ ] **Build Tests**
   - [ ] Run `gradlew assembleDebug`
   - [ ] **FIX CRITICAL ERRORS**: Address any compilation failures systematically
@@ -328,6 +345,7 @@ MainActivity (Bottom Navigation)
 ## Phase 5: Migration & Cleanup 🧹
 
 ### 5.1 Preference Migration
+
 - [ ] **Existing Data Compatibility**
   - [ ] Verify all existing preferences still work
   - [ ] Test upgrade from single-screen version
@@ -335,6 +353,7 @@ MainActivity (Bottom Navigation)
   - [ ] Test backup/restore across versions
 
 ### 5.2 Performance Optimization
+
 - [ ] **Memory Management**
   - [ ] Add fragment lifecycle cleanup
   - [ ] Remove static references
@@ -348,6 +367,7 @@ MainActivity (Bottom Navigation)
   - [ ] Optimize memory usage during fragment switches
 
 ### 5.3 Code Cleanup
+
 - [ ] **Remove Dead Code**
   - [ ] Remove old `SettingsFragment` if fully migrated
   - [ ] Clean up unused string resources
@@ -365,6 +385,7 @@ MainActivity (Bottom Navigation)
 ## Phase 6: Testing & Validation ✅
 
 ### 6.1 Functional Testing
+
 - [ ] **Core Functionality**
   - [ ] Test SMS forwarding still works
   - [ ] Test all platform configurations
@@ -373,6 +394,7 @@ MainActivity (Bottom Navigation)
   - [ ] Test app restart/resume
 
 ### 6.2 UI/UX Testing
+
 - [ ] **Navigation Testing**
   - [ ] Test bottom navigation tabs
   - [ ] Test fragment transitions
@@ -386,6 +408,7 @@ MainActivity (Bottom Navigation)
   - [ ] Test with different themes
 
 ### 6.3 Regression Testing
+
 - [ ] **Existing Features**
   - [ ] All original preferences work
   - [ ] Message forwarding works identically
@@ -401,6 +424,7 @@ MainActivity (Bottom Navigation)
 ## Rollback Strategy 🔙
 
 ### Emergency Rollback Checklist
+
 - [ ] **Restore Original Files**
   - [ ] Restore `MainActivity_backup.java` → `MainActivity.java`
   - [ ] Restore `activity_main_backup.xml` → `activity_main.xml`
@@ -413,6 +437,7 @@ MainActivity (Bottom Navigation)
   - [ ] Verify original functionality
 
 ### Partial Rollback Strategy
+
 - [ ] **Individual Fragment Rollback**
   - [ ] Remove specific fragment
   - [ ] Update navigation to skip removed fragment
@@ -424,6 +449,7 @@ MainActivity (Bottom Navigation)
 ## Risk Mitigation 🛡️
 
 ### High-Risk Areas
+
 1. **String Resource Conflicts**
    - Risk: Duplicate keys causing build failures
    - Mitigation: Use string inventory and validation scripts
@@ -441,6 +467,7 @@ MainActivity (Bottom Navigation)
    - Mitigation: Preserve exact authentication logic
 
 ### Testing Checkpoints
+
 - [ ] **After each fragment creation**: Compile and test in isolation
 - [ ] **After MainActivity changes**: Test navigation basics
 - [ ] **After full integration**: Complete functional test
@@ -451,12 +478,14 @@ MainActivity (Bottom Navigation)
 ## Success Criteria ✨
 
 ### MVP (Minimum Viable Product)
+
 - [ ] All fragments load without crashes
 - [ ] Navigation between fragments works
 - [ ] All original functionality preserved
 - [ ] Build succeeds and APK installs
 
 ### Full Success
+
 - [ ] Improved user experience over single-screen
 - [ ] All preferences work identically to original
 - [ ] Performance equal or better than original
@@ -464,6 +493,7 @@ MainActivity (Bottom Navigation)
 - [ ] Code is cleaner and more maintainable
 
 ### Excellence Criteria
+
 - [ ] Smooth animations between fragments
 - [ ] Real-time status updates in Dashboard
 - [ ] Consistent design language across fragments
@@ -475,6 +505,7 @@ MainActivity (Bottom Navigation)
 ## Progress Tracking
 
 ### Completion Status
+
 - [ ] Phase 1: Preparation & Analysis (0/12 tasks)
 - [ ] Phase 2: Foundation Setup (0/8 tasks)
 - [ ] Phase 3: Fragment Development (0/25 tasks)
@@ -485,6 +516,7 @@ MainActivity (Bottom Navigation)
 **Total Progress: 0/75 tasks completed**
 
 ### Time Estimates
+
 - Phase 1: 2-3 hours (Analysis & Planning)
 - Phase 2: 1-2 hours (Foundation)
 - Phase 3: 6-8 hours (Fragment Development)
@@ -499,6 +531,7 @@ MainActivity (Bottom Navigation)
 ## Notes & Lessons Learned
 
 ### From Previous Attempt
+
 1. **String management is critical** - Duplicate strings caused most build failures
 2. **Resource dependencies are complex** - Arrays, strings, and layouts are interconnected
 3. **Incremental approach works better** - Trying to do everything at once leads to issues
@@ -506,6 +539,7 @@ MainActivity (Bottom Navigation)
 5. **Rollback strategy is crucial** - Always have a way back to working state
 
 ### Common Build Error Patterns & Solutions
+
 1. **"Found item String/xxx more than one time"**
    - Solution: Use `grep -n "string name=\"xxx\"" values/strings.xml` to find duplicates
    - Remove duplicate entries, keep only one definition
@@ -527,12 +561,14 @@ MainActivity (Bottom Navigation)
    - Verify class dependencies and access modifiers
 
 ### Build Testing Strategy
+
 - **After each file creation**: Run `gradlew assembleDebug`
 - **Fix errors immediately**: Don't accumulate errors
 - **Test incrementally**: One fragment at a time
 - **Keep working backup**: Always have rollback option
 
 ### Best Practices
+
 - Create one fragment at a time and test it
 - Use existing string resources where possible
 - Keep original functionality intact during migration
@@ -541,12 +577,14 @@ MainActivity (Bottom Navigation)
 - **CRITICAL**: Run build test after every major change, not at the end
 
 ### Git Commit Strategy
+
 - **Commit after each successful build** - Never commit broken code
 - **Use descriptive commit messages** - Explain what was added/changed
 - **Push after each major milestone** - Keep remote repository updated
 - **Commit frequently** - Small, focused commits are easier to rollback
 - **Always test before commit** - Run `gradlew assembleDebug` first
 - **Example commit flow**:
+
   ```bash
   # After successful build test
   git add .
