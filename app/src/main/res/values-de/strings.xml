@@ -6,17 +6,17 @@
     <string name="nav_dashboard">Dashboard</string>
     <string name="nav_platforms">Plattformen</string>
     <string name="nav_security">Sicherheit</string>
-    <string name="nav_monitor">Überwachen</string>
+    <string name="nav_monitor">Monitor</string>
     <string name="nav_about">Über</string>
 
     <!-- Dashboard -->
     <string name="dashboard_status_title">Status-Übersicht</string>
     <string name="dashboard_connection_status">Verbindung</string>
     <string name="dashboard_today_messages">Heutige Nachrichten</string>
-    <string name="dashboard_rate_limit">Geschwindigkeitslimit</string>
+    <string name="dashboard_rate_limit">Ratenbegrenzung</string>
     <string name="dashboard_quick_actions">Schnellaktionen</string>
-    <string name="dashboard_send_test_message">Test-Nachricht senden</string>
-    <string name="dashboard_view_message_history">Nachrichten-Verlauf anzeigen</string>
+    <string name="dashboard_send_test_message">Testnachricht senden</string>
+    <string name="dashboard_view_message_history">Nachrichtenverlauf anzeigen</string>
     <string name="dashboard_platform_settings">Plattform-Einstellungen</string>
     <string name="dashboard_platforms_status">Plattform-Status</string>
 
@@ -24,27 +24,27 @@
     <string name="header_sms">Weiterleitung per SMS</string>
     <string name="enable_sms">SMS aktivieren</string>
     <string name="target_title_sms">Ziel-Telefonnummer</string>
-    <string name="target_summary_sms">Beispiel: +49 176 12345678</string>
+    <string name="target_summary_sms">Beispiel: +49 176 123 456</string>
 
     <!-- Telegram -->
     <string name="header_telegram">Weiterleitung per Telegram</string>
     <string name="enable_telegram">Telegram aktivieren</string>
-    <string name="target_title_telegram">Ziel-Telegram ID</string>
-    <string name="title_telegram_apikey">Telegram API Token</string>
+    <string name="target_title_telegram">Ziel-Telegram-ID</string>
+    <string name="title_telegram_apikey">Telegram API-Token</string>
 
     <!-- Web -->
     <string name="header_web">Weiterleitung per Web</string>
     <string name="enable_web">Web aktivieren</string>
-    <string name="target_title_web">Ziel-Web URL</string>
+    <string name="target_title_web">Ziel-Web-URL</string>
     <string name="target_summary_web">Beispiel: https://site.com/api\nDiese App sendet POST-Anfrage
-        beim Empfang von SMS, Beispiel-Anfragekörper:\n{ "from": "10000", "message": "Hallo" }</string>
+        beim Empfang von SMS, Beispiel des Anfragekörpers:\n{ \"from\": \"10000\", \"message\": \"Hallo\" }</string>
 
     <!-- Email -->
     <string name="header_email">Weiterleitung per E-Mail</string>
     <string name="enable_email">E-Mail aktivieren</string>
     <string name="email_from_address_title">Absenderadresse</string>
     <string name="email_from_address_summary">Ihre E-Mail-Adresse</string>
-    <string name="email_to_address_title">Zieladresse</string>
+    <string name="email_to_address_title">Empfängeradresse</string>
     <string name="email_to_address_summary">Ziel-E-Mail</string>
     <string name="email_submit_host_title">SMTP-Server</string>
     <string name="email_submit_host_summary">smtp.gmail.com</string>
@@ -55,42 +55,56 @@
     <string name="email_username_style_title">Benutzername-Stil</string>
     <string name="email_username_style_summary">Vollständige Adresse oder nur Benutzername</string>
 
+    <!-- Email - Alternative naming (referenced in XML) -->
+    <string name="from_address">Absenderadresse</string>
+    <string name="from_address_summary">Ihre E-Mail-Adresse</string>
+    <string name="to_address">Empfängeradresse</string>
+    <string name="to_address_summary">Ziel-E-Mail</string>
+    <string name="smtp_submission_server">SMTP-Server</string>
+    <string name="smtp_submission_server_summary">smtp.gmail.com</string>
+    <string name="smtp_submission_port">SMTP-Port</string>
+    <string name="smtp_submission_port_summary">587</string>
+    <string name="smtp_password">Passwort</string>
+    <string name="smtp_password_summary">App-Passwort</string>
+    <string name="smtp_username_style">Benutzername-Stil</string>
+    <string name="smtp_username_style_summary">Vollständige Adresse oder nur Benutzername</string>
+
     <!-- Security -->
-    <string name="header_security">Authentifizierung</string>
+    <string name="header_security">Sicherheit</string>
     <string name="security_enabled_title">App-Sicherheit aktivieren</string>
-    <string name="security_enabled_summary">Authentifizierung zum Öffnen der App erforderlich</string>
+    <string name="security_enabled_summary">Authentifizierung erforderlich zum Öffnen der App</string>
     <string name="pin_setup_title">PIN einrichten</string>
-    <string name="pin_setup_summary_disabled">PIN nicht eingerichtet</string>
-    <string name="pin_setup_summary_enabled">PIN eingerichtet</string>
+    <string name="pin_setup_summary_disabled">PIN nicht gesetzt</string>
+    <string name="pin_setup_summary_enabled">PIN gesetzt</string>
     <string name="biometric_enabled_title">Biometrische Authentifizierung aktivieren</string>
     <string name="biometric_enabled_summary">Fingerabdruck oder Gesichtserkennung verwenden</string>
     <string name="auth_timeout_title">Authentifizierungs-Timeout</string>
-    <string name="auth_timeout_summary">Zeit vor erneuter Authentifizierung</string>
+    <string name="auth_timeout_summary">Zeit bis zur erneuten Authentifizierung erforderlich</string>
     <string name="security_test_title">Authentifizierung testen</string>
-    <string name="security_test_summary">Sicherheitseinstellungen überprüfen</string>
+    <string name="security_test_summary">Sicherheitskonfiguration überprüfen</string>
 
     <!-- Rate Limiting -->
-    <string name="header_rate_limiting">Geschwindigkeitslimit</string>
-    <string name="enable_rate_limiting">Geschwindigkeitslimit aktivieren</string>
+    <string name="header_rate_limiting">Ratenbegrenzung</string>
+    <string name="enable_rate_limiting">Ratenbegrenzung aktivieren</string>
     <string name="rate_limiting_summary">Auf 10 SMS pro Minute begrenzen</string>
-    <string name="rate_limit_status_title">Geschwindigkeitslimit-Status</string>
-    <string name="rate_limit_status_summary">Nachrichten in der aktuellen Minute gesendet</string>
+    <string name="rate_limit_status_title">Ratenbegrenzungs-Status</string>
+    <string name="rate_limit_status_summary">Nachrichten in aktueller Minute gesendet</string>
 
     <!-- Content Filter -->
     <string name="header_content_filter">Inhaltsfilter</string>
     <string name="filter_keywords_title">Filter-Schlüsselwörter</string>
     <string name="filter_keywords_summary">Nachrichten mit diesen Wörtern blockieren</string>
-    <string name="filter_keywords_dialog_title">Filter-Schlüsselwörter</string>
+    <string name="filter_keywords_dialog_title">Schlüsselwörter filtern</string>
     <string name="filter_keywords_dialog_message">Schlüsselwörter durch Kommas getrennt eingeben</string>
     <string name="filter_keywords_placeholder">spam, werbung, promotion</string>
 
     <!-- Sender Filter -->
-    <string name="header_sender_filter">Absender-Filter</string>
-    <string name="enable_number_whitelist">Nummern-Whitelist aktivieren</string>
+    <string name="header_sender_filter">Absenderfilter</string>
+    <string name="enable_number_whitelist">Nummer-Whitelist aktivieren</string>
     <string name="enable_number_whitelist_summary">Nur SMS von genehmigten Nummern weiterleiten</string>
-    <string name="number_whitelist_title">Nummern-Whitelist</string>
+    <string name="number_whitelist_title">Nummer-Whitelist</string>
     <string name="number_whitelist_summary">Genehmigte Nummern für Weiterleitung</string>
-    <string name="number_whitelist_dialog_title">Nummern-Whitelist</string>
+    <string name="number_whitelist_dialog_title">Nummer-Whitelist</string>
     <string name="number_whitelist_dialog_message">Nummern durch Kommas getrennt eingeben</string>
     <string name="number_whitelist_placeholder">+49176123456, +49176789012</string>
 
@@ -117,23 +131,23 @@
     <!-- Connection Test -->
     <string name="header_connection_test">Verbindungstest</string>
     <string name="test_sms_title">SMS testen</string>
-    <string name="test_sms_summary">Test-Nachricht per SMS senden</string>
+    <string name="test_sms_summary">Testnachricht per SMS senden</string>
     <string name="test_telegram_title">Telegram testen</string>
-    <string name="test_telegram_summary">Test-Nachricht per Telegram senden</string>
+    <string name="test_telegram_summary">Testnachricht per Telegram senden</string>
     <string name="test_email_title">E-Mail testen</string>
-    <string name="test_email_summary">Test-Nachricht per E-Mail senden</string>
+    <string name="test_email_summary">Testnachricht per E-Mail senden</string>
     <string name="test_web_title">Web testen</string>
-    <string name="test_web_summary">Test-Nachricht per Web senden</string>
+    <string name="test_web_summary">Testnachricht per Web senden</string>
     <string name="test_all_platforms_title">Alle Plattformen testen</string>
-    <string name="test_all_platforms_summary">Test-Nachricht an alle aktivierten Plattformen senden</string>
+    <string name="test_all_platforms_summary">Testnachricht an alle aktivierten Plattformen senden</string>
 
     <!-- System Info -->
     <string name="header_system_info">Systeminformationen</string>
-    <string name="system_permissions_title">System-Berechtigungen</string>
+    <string name="system_permissions_title">Systemberechtigungen</string>
     <string name="system_permissions_summary">Berechtigungsstatus anzeigen</string>
     <string name="system_queue_status_title">Warteschlangen-Status</string>
     <string name="system_queue_status_summary">Nachrichten in der Warteschlange anzeigen</string>
-    <string name="system_logs_title">System-Protokolle</string>
+    <string name="system_logs_title">Systemprotokolle</string>
     <string name="system_logs_summary">App-Protokolle anzeigen</string>
 
     <!-- Appearance -->
@@ -141,7 +155,7 @@
     <string name="language_title">Sprache</string>
     <string name="language_summary">App-Sprache ändern</string>
     <string name="theme_mode_title">Design</string>
-    <string name="theme_mode_summary">Hell, dunkel oder System-Standard</string>
+    <string name="theme_mode_summary">Hell, dunkel oder Systemmodus</string>
 
     <!-- Backup -->
     <string name="header_backup">Sicherung</string>
@@ -155,15 +169,66 @@
     <string name="about_title">App-Informationen</string>
     <string name="about_summary">Version, Lizenz und Informationen</string>
 
+    <!-- Test & Debug -->
+    <string name="header_test">Test &amp; Debug</string>
+    <string name="test_message_title">Testnachricht senden</string>
+    <string name="test_message_summary">Eine Testnachricht senden, um die Weiterleitungseinrichtung zu überprüfen</string>
+
+    <!-- Queue Status -->
+    <string name="queue_status_title">Nachrichten-Warteschlangen-Status</string>
+    <string name="queue_status_summary">Offline-Nachrichten-Warteschlangen-Statistiken anzeigen</string>
+
+    <!-- Connection Status -->
+    <string name="connection_status_title">Verbindungsstatus</string>
+    <string name="connection_status_summary">Aktueller Netzwerkverbindungsstatus</string>
+
+    <!-- Message Counter -->
+    <string name="message_counter_title">Nachrichtenzähler</string>
+    <string name="message_counter_summary">Tägliche und gesamte weitergeleitete Nachrichten-Statistiken anzeigen</string>
+
+    <!-- Message History Alternative Names -->
+    <string name="message_history_title">Nachrichtenverlauf</string>
+    <string name="message_history_summary">Letzte 100 weitergeleitete Nachrichten anzeigen</string>
+    <string name="clear_history_title">Verlauf löschen</string>
+    <string name="clear_history_summary">Alle Verlaufseinträge löschen</string>
+
     <!-- Messages -->
-    <string name="test_message_sent">Test-Nachricht erfolgreich gesendet</string>
-    <string name="test_message_error">Fehler beim Senden der Test-Nachricht: %s</string>
-    <string name="test_message_no_forwarders">Keine Plattformen für das Senden aktiviert</string>
-    <string name="history_empty">Kein Nachrichtenverlauf vorhanden</string>
+    <string name="test_message_sent">Testnachricht erfolgreich gesendet</string>
+    <string name="test_message_error">Fehler beim Senden der Testnachricht: %s</string>
+    <string name="test_message_no_forwarders">Keine Plattformen zum Senden aktiviert</string>
+    <string name="history_empty">Kein Nachrichtenverlauf</string>
     <string name="settings_exported">Einstellungen erfolgreich exportiert</string>
     <string name="settings_imported">Einstellungen erfolgreich importiert</string>
     <string name="settings_export_error">Fehler beim Exportieren der Einstellungen</string>
     <string name="settings_import_error">Fehler beim Importieren der Einstellungen</string>
+
+    <!-- Export/Import Alternative Names -->
+    <string name="export_success">Einstellungen erfolgreich exportiert</string>
+    <string name="export_error">Fehler beim Exportieren der Einstellungen: %s</string>
+    <string name="import_success">Einstellungen erfolgreich importiert: %s</string>
+    <string name="import_error">Fehler beim Importieren der Einstellungen: %s</string>
+
+    <!-- Language Change -->
+    <string name="language_restart_title">Sprache geändert</string>
+    <string name="language_restart_message">Die App wird neu gestartet, um die neue Spracheinstellung anzuwenden</string>
+
+    <!-- About - Extended -->
+    <string name="about_app_name">SMS Weiterleitung</string>
+    <string name="about_version_title">Version</string>
+    <string name="about_version_format">%1$s (%2$d)</string>
+    <string name="about_developer_title">Entwickler</string>
+    <string name="about_developer_name">Kerem Gök</string>
+    <string name="about_license_title">Lizenz</string>
+    <string name="about_license_name">MIT-Lizenz</string>
+    <string name="about_description_title">Beschreibung</string>
+    <string name="about_description_text">SMS Weiterleitung ist eine minimale, effiziente Android-Anwendung zur Weiterleitung von SMS-Nachrichten über mehrere Plattformen einschließlich SMS, Telegram, E-Mail und Web-APIs</string>
+    <string name="about_features_title">Hauptfunktionen</string>
+    <string name="about_features_text">• Multiplattform-Weiterleitung\n• Automatischer Wiederholungsmechanismus\n• Offline-Nachrichten-Warteschlange\n• Ratenbegrenzungsschutz\n• Nachrichtenverlaufs-Verfolgung\n• Mehrsprachige Unterstützung\n• Dunkles Design\n• Einstellungen-Sicherung/Wiederherstellung</string>
+    <string name="about_build_info_title">Build-Informationen</string>
+    <string name="about_package_name">Paket: %s</string>
+    <string name="about_min_sdk">Minimum Android: API %d</string>
+    <string name="about_target_sdk">Ziel Android: API %d</string>
+    <string name="about_build_time">Build-Zeit: %s</string>
 
     <!-- Authentication -->
     <string name="enter_pin">PIN eingeben</string>
@@ -177,7 +242,106 @@
     <string name="authentication_failed">Authentifizierung fehlgeschlagen</string>
     <string name="biometric_prompt_title">Biometrische Authentifizierung</string>
     <string name="biometric_prompt_subtitle">Verwenden Sie Ihren Fingerabdruck oder Ihr Gesicht zur Authentifizierung</string>
-    <string name="biometric_error">Fehler bei biometrischer Authentifizierung</string>
+    <string name="biometric_error">Biometrischer Authentifizierungsfehler</string>
+
+    <!-- Extended Authentication -->
+    <string name="auth_no_methods">Keine Authentifizierungsmethoden verfügbar</string>
+    <string name="pin_auth_title">PIN eingeben</string>
+    <string name="pin_auth_message">Geben Sie Ihre PIN ein, um auf SMS Weiterleitung zuzugreifen</string>
+    <string name="pin_auth_hint">PIN eingeben</string>
+    <string name="pin_auth_verify">Entsperren</string>
+    <string name="pin_auth_cancel">Abbrechen</string>
+    <string name="pin_auth_invalid">Falsche PIN. Bitte versuchen Sie es erneut</string>
+
+    <!-- Biometric Status -->
+    <string name="biometric_available">Biometrische Authentifizierung ist verfügbar</string>
+    <string name="biometric_no_hardware">Keine biometrische Hardware verfügbar</string>
+    <string name="biometric_hw_unavailable">Biometrische Hardware ist derzeit nicht verfügbar</string>
+    <string name="biometric_none_enrolled">Keine biometrischen Anmeldedaten registriert</string>
+    <string name="biometric_unavailable">Biometrische Authentifizierung ist nicht verfügbar</string>
+    <string name="biometric_prompt_cancel">PIN verwenden</string>
+    <string name="biometric_auth_failed">Biometrische Authentifizierung fehlgeschlagen</string>
+
+    <!-- Message Formats -->
+    <string name="sms_message_format">Von %1$s:\n%2$s\nEmpfangen um: %3$s</string>
+    <string name="telegram_message_format">Nachricht von %1$s:\n%2$s\nEmpfangen um: %3$s</string>
+    <string name="email_subject_format">SMS von: %1$s</string>
+    <string name="email_body_format">%1$s\n\nEmpfangen um: %2$s</string>
+
+    <!-- Additional Biometric Strings -->
+    <string name="biometric_enabled_success">Biometrische Authentifizierung aktiviert</string>
+    <string name="biometric_enable_failed">Aktivierung der biometrischen Authentifizierung fehlgeschlagen</string>
+    <string name="biometric_disabled">Biometrische Authentifizierung deaktiviert</string>
+
+    <!-- Rate Limiting Status -->
+    <string name="rate_limit_seconds">%d Sekunden</string>
+    <string name="rate_limit_available_now">jetzt verfügbar</string>
+    <string name="rate_limit_status_format">Aktuell: %1$d/10 | Nächster Slot: %2$s</string>
+
+    <!-- Filter Status -->
+    <string name="filter_active_summary">Aktive Filter: %s</string>
+    <string name="filter_inactive_summary">Keine Inhaltsfilter aktiv</string>
+
+    <!-- Whitelist Status -->
+    <string name="whitelist_active_summary">Aktive Whitelist: %s</string>
+    <string name="whitelist_inactive_summary">Whitelist ist deaktiviert oder leer (alle Nummern erlaubt)</string>
+    <string name="whitelist_enabled_empty_summary">Whitelist ist aktiviert, aber leer. Keine SMS werden weitergeleitet</string>
+
+    <!-- PIN Setup Extended -->
+    <string name="pin_setup_existing_title">PIN bereits gesetzt</string>
+    <string name="pin_setup_existing_message">Eine PIN ist bereits konfiguriert. Was möchten Sie tun?</string>
+    <string name="pin_setup_change">PIN ändern</string>
+    <string name="pin_setup_remove">PIN entfernen</string>
+    <string name="pin_setup_cancel">Abbrechen</string>
+    <string name="pin_setup_new_title">PIN erstellen</string>
+    <string name="pin_setup_new_message">Erstellen Sie eine 4-stellige PIN zum Schutz Ihrer SMS Weiterleitung App</string>
+    <string name="pin_setup_create">PIN erstellen</string>
+
+    <!-- PIN Creation -->
+    <string name="pin_create_title">Neue PIN erstellen</string>
+    <string name="pin_create_message">Geben Sie eine 4-stellige PIN ein, um den App-Zugang zu schützen</string>
+    <string name="pin_create_hint">4-stellige PIN eingeben</string>
+    <string name="pin_create_confirm">Weiter</string>
+    <string name="pin_create_cancel">Abbrechen</string>
+    <string name="pin_create_too_short">PIN muss mindestens 4 Stellen haben</string>
+    <string name="pin_create_success">PIN erfolgreich erstellt!</string>
+    <string name="pin_create_failed">PIN-Erstellung fehlgeschlagen. Bitte versuchen Sie es erneut</string>
+
+    <!-- PIN Confirmation -->
+    <string name="pin_confirm_hint">PIN bestätigen</string>
+    <string name="pin_confirm_verify">PIN erstellen</string>
+    <string name="pin_confirm_cancel">Zurück</string>
+    <string name="pin_confirm_mismatch">PINs stimmen nicht überein. Bitte versuchen Sie es erneut</string>
+
+    <!-- PIN Change -->
+    <string name="pin_change_title">PIN ändern</string>
+    <string name="pin_change_message">Geben Sie Ihre aktuelle PIN ein, um fortzufahren</string>
+    <string name="pin_change_current_hint">Aktuelle PIN</string>
+    <string name="pin_change_verify">Weiter</string>
+    <string name="pin_change_cancel">Abbrechen</string>
+    <string name="pin_change_wrong_current">Falsche aktuelle PIN</string>
+
+    <!-- PIN Removal -->
+    <string name="pin_remove_title">PIN entfernen</string>
+    <string name="pin_remove_message">Geben Sie Ihre aktuelle PIN ein, um den PIN-Schutz zu entfernen</string>
+    <string name="pin_remove_hint">Aktuelle PIN</string>
+    <string name="pin_remove_confirm">PIN entfernen</string>
+    <string name="pin_remove_cancel">Abbrechen</string>
+    <string name="pin_remove_wrong">Falsche PIN</string>
+    <string name="pin_remove_success">PIN-Schutz entfernt</string>
+
+    <!-- Security Test -->
+    <string name="security_test_disabled">Sicherheit ist deaktiviert. Aktivieren Sie zuerst die Sicherheit</string>
+
+    <!-- Queue Status -->
+    <string name="queue_empty">Keine Nachrichten in der Warteschlange</string>
+    <string name="queue_stats_format">Gesamt: %1$d | Ausstehend: %2$d | Fehlgeschlagen: %3$d</string>
+
+    <!-- Theme -->
+    <string name="theme_system_fallback">Systemmodus verwendet Energiesparmodus unter Android 9 und früher</string>
+
+    <!-- Retry Mechanism -->
+    <string name="retry_mechanism_info">Automatische Wiederholung für alle Weiterleitungsmethoden aktiviert (3 Versuche mit exponentieller Verzögerung)</string>
 
     <!-- Permissions -->
     <string name="permission_sms_title">SMS-Berechtigung</string>
@@ -188,8 +352,8 @@
     <!-- Network -->
     <string name="network_connected">Verbunden</string>
     <string name="network_disconnected">Getrennt</string>
-    <string name="network_wifi">WLAN</string>
-    <string name="network_mobile">Mobilfunk</string>
+    <string name="network_wifi">WiFi</string>
+    <string name="network_mobile">Mobile Daten</string>
     <string name="network_unknown">Unbekannt</string>
 
     <!-- Common -->
@@ -201,7 +365,7 @@
     <string name="no">Nein</string>
     <string name="enabled">Aktiviert</string>
     <string name="disabled">Deaktiviert</string>
-    <string name="loading">Laden...</string>
+    <string name="loading">Lädt...</string>
     <string name="error">Fehler</string>
     <string name="success">Erfolg</string>
     <string name="warning">Warnung</string>

@@ -37,7 +37,7 @@
     <string name="enable_web">Habilitar Web</string>
     <string name="target_title_web">URL Web destino</string>
     <string name="target_summary_web">Ejemplo: https://sitio.com/api\nEsta app enviará solicitud POST
-        al recibir SMS, ejemplo del cuerpo de solicitud:\n{ "from": "10000", "message": "Hola" }</string>
+        al recibir SMS, ejemplo del cuerpo de solicitud:\n{ \"from\": \"10000\", \"message\": \"Hola\" }</string>
 
     <!-- Email -->
     <string name="header_email">Reenvío por Email</string>
@@ -55,8 +55,22 @@
     <string name="email_username_style_title">Estilo de nombre de usuario</string>
     <string name="email_username_style_summary">Dirección completa o nombre de usuario solamente</string>
 
+    <!-- Email - Alternative naming (referenced in XML) -->
+    <string name="from_address">Dirección de envío</string>
+    <string name="from_address_summary">Tu dirección de email</string>
+    <string name="to_address">Dirección de destino</string>
+    <string name="to_address_summary">Email de destino</string>
+    <string name="smtp_submission_server">Servidor SMTP</string>
+    <string name="smtp_submission_server_summary">smtp.gmail.com</string>
+    <string name="smtp_submission_port">Puerto SMTP</string>
+    <string name="smtp_submission_port_summary">587</string>
+    <string name="smtp_password">Contraseña</string>
+    <string name="smtp_password_summary">Contraseña de aplicación</string>
+    <string name="smtp_username_style">Estilo de nombre de usuario</string>
+    <string name="smtp_username_style_summary">Dirección completa o nombre de usuario solamente</string>
+
     <!-- Security -->
-    <string name="header_security">Autenticación</string>
+    <string name="header_security">Seguridad</string>
     <string name="security_enabled_title">Habilitar seguridad de aplicación</string>
     <string name="security_enabled_summary">Requiere autenticación para abrir la aplicación</string>
     <string name="pin_setup_title">Configurar PIN</string>
@@ -155,6 +169,29 @@
     <string name="about_title">Información de la aplicación</string>
     <string name="about_summary">Versión, licencia e información</string>
 
+    <!-- Test & Debug -->
+    <string name="header_test">Prueba y Depuración</string>
+    <string name="test_message_title">Enviar Mensaje de Prueba</string>
+    <string name="test_message_summary">Enviar un mensaje de prueba para verificar la configuración de reenvío</string>
+
+    <!-- Queue Status -->
+    <string name="queue_status_title">Estado de Cola de Mensajes</string>
+    <string name="queue_status_summary">Ver estadísticas de cola de mensajes sin conexión</string>
+
+    <!-- Connection Status -->
+    <string name="connection_status_title">Estado de Conexión</string>
+    <string name="connection_status_summary">Estado actual de conectividad de red</string>
+
+    <!-- Message Counter -->
+    <string name="message_counter_title">Contador de Mensajes</string>
+    <string name="message_counter_summary">Ver estadísticas diarias y totales de mensajes reenviados</string>
+
+    <!-- Message History Alternative Names -->
+    <string name="message_history_title">Historial de Mensajes</string>
+    <string name="message_history_summary">Ver últimos 100 mensajes reenviados</string>
+    <string name="clear_history_title">Limpiar Historial</string>
+    <string name="clear_history_summary">Eliminar todos los registros de historial</string>
+
     <!-- Messages -->
     <string name="test_message_sent">Mensaje de prueba enviado exitosamente</string>
     <string name="test_message_error">Error al enviar mensaje de prueba: %s</string>
@@ -164,6 +201,34 @@
     <string name="settings_imported">Configuración importada exitosamente</string>
     <string name="settings_export_error">Error al exportar configuración</string>
     <string name="settings_import_error">Error al importar configuración</string>
+
+    <!-- Export/Import Alternative Names -->
+    <string name="export_success">Configuración exportada exitosamente</string>
+    <string name="export_error">Error al exportar configuración: %s</string>
+    <string name="import_success">Configuración importada exitosamente: %s</string>
+    <string name="import_error">Error al importar configuración: %s</string>
+
+    <!-- Language Change -->
+    <string name="language_restart_title">Idioma Cambiado</string>
+    <string name="language_restart_message">La aplicación se reiniciará para aplicar la nueva configuración de idioma</string>
+
+    <!-- About - Extended -->
+    <string name="about_app_name">Reenvío SMS</string>
+    <string name="about_version_title">Versión</string>
+    <string name="about_version_format">%1$s (%2$d)</string>
+    <string name="about_developer_title">Desarrollador</string>
+    <string name="about_developer_name">Kerem Gök</string>
+    <string name="about_license_title">Licencia</string>
+    <string name="about_license_name">Licencia MIT</string>
+    <string name="about_description_title">Descripción</string>
+    <string name="about_description_text">Reenvío SMS es una aplicación Android mínima y eficiente para reenviar mensajes SMS a múltiples plataformas incluyendo SMS, Telegram, Email y APIs Web</string>
+    <string name="about_features_title">Características Principales</string>
+    <string name="about_features_text">• Reenvío multiplataforma\n• Mecanismo de reintento automático\n• Cola de mensajes sin conexión\n• Protección de límite de velocidad\n• Seguimiento de historial de mensajes\n• Soporte multiidioma\n• Tema modo oscuro\n• Copia de seguridad/restauración de configuración</string>
+    <string name="about_build_info_title">Información de Compilación</string>
+    <string name="about_package_name">Paquete: %s</string>
+    <string name="about_min_sdk">Android Mínimo: API %d</string>
+    <string name="about_target_sdk">Android Objetivo: API %d</string>
+    <string name="about_build_time">Tiempo de Compilación: %s</string>
 
     <!-- Authentication -->
     <string name="enter_pin">Ingrese PIN</string>
@@ -178,6 +243,105 @@
     <string name="biometric_prompt_title">Autenticación biométrica</string>
     <string name="biometric_prompt_subtitle">Use su huella digital o rostro para autenticarse</string>
     <string name="biometric_error">Error de autenticación biométrica</string>
+
+    <!-- Extended Authentication -->
+    <string name="auth_no_methods">No hay métodos de autenticación disponibles</string>
+    <string name="pin_auth_title">Ingrese PIN</string>
+    <string name="pin_auth_message">Ingrese su PIN para acceder a Reenvío SMS</string>
+    <string name="pin_auth_hint">Ingrese PIN</string>
+    <string name="pin_auth_verify">Desbloquear</string>
+    <string name="pin_auth_cancel">Cancelar</string>
+    <string name="pin_auth_invalid">PIN incorrecto. Intente nuevamente</string>
+
+    <!-- Biometric Status -->
+    <string name="biometric_available">La autenticación biométrica está disponible</string>
+    <string name="biometric_no_hardware">No hay hardware biométrico disponible</string>
+    <string name="biometric_hw_unavailable">El hardware biométrico no está disponible actualmente</string>
+    <string name="biometric_none_enrolled">No hay credenciales biométricas registradas</string>
+    <string name="biometric_unavailable">La autenticación biométrica no está disponible</string>
+    <string name="biometric_prompt_cancel">Usar PIN</string>
+    <string name="biometric_auth_failed">La autenticación biométrica falló</string>
+
+    <!-- Message Formats -->
+    <string name="sms_message_format">De %1$s:\n%2$s\nRecibido en: %3$s</string>
+    <string name="telegram_message_format">Mensaje de %1$s:\n%2$s\nRecibido en: %3$s</string>
+    <string name="email_subject_format">SMS de: %1$s</string>
+    <string name="email_body_format">%1$s\n\nRecibido en: %2$s</string>
+
+    <!-- Additional Biometric Strings -->
+    <string name="biometric_enabled_success">Autenticación biométrica habilitada</string>
+    <string name="biometric_enable_failed">Error al habilitar autenticación biométrica</string>
+    <string name="biometric_disabled">Autenticación biométrica deshabilitada</string>
+
+    <!-- Rate Limiting Status -->
+    <string name="rate_limit_seconds">%d segundos</string>
+    <string name="rate_limit_available_now">disponible ahora</string>
+    <string name="rate_limit_status_format">Actual: %1$d/10 | Próximo espacio: %2$s</string>
+
+    <!-- Filter Status -->
+    <string name="filter_active_summary">Filtros activos: %s</string>
+    <string name="filter_inactive_summary">No hay filtros de contenido activos</string>
+
+    <!-- Whitelist Status -->
+    <string name="whitelist_active_summary">Lista blanca activa: %s</string>
+    <string name="whitelist_inactive_summary">La lista blanca está deshabilitada o vacía (todos los números permitidos)</string>
+    <string name="whitelist_enabled_empty_summary">La lista blanca está habilitada pero vacía. No se reenviarán SMS</string>
+
+    <!-- PIN Setup Extended -->
+    <string name="pin_setup_existing_title">PIN Ya Configurado</string>
+    <string name="pin_setup_existing_message">Ya hay un PIN configurado. ¿Qué le gustaría hacer?</string>
+    <string name="pin_setup_change">Cambiar PIN</string>
+    <string name="pin_setup_remove">Eliminar PIN</string>
+    <string name="pin_setup_cancel">Cancelar</string>
+    <string name="pin_setup_new_title">Crear PIN</string>
+    <string name="pin_setup_new_message">Crear un PIN de 4 dígitos para proteger su aplicación Reenvío SMS</string>
+    <string name="pin_setup_create">Crear PIN</string>
+
+    <!-- PIN Creation -->
+    <string name="pin_create_title">Crear Nuevo PIN</string>
+    <string name="pin_create_message">Ingrese un PIN de 4 dígitos para proteger el acceso a la aplicación</string>
+    <string name="pin_create_hint">Ingrese PIN de 4 dígitos</string>
+    <string name="pin_create_confirm">Siguiente</string>
+    <string name="pin_create_cancel">Cancelar</string>
+    <string name="pin_create_too_short">El PIN debe tener al menos 4 dígitos</string>
+    <string name="pin_create_success">¡PIN creado exitosamente!</string>
+    <string name="pin_create_failed">Error al crear PIN. Intente nuevamente</string>
+
+    <!-- PIN Confirmation -->
+    <string name="pin_confirm_hint">Confirmar PIN</string>
+    <string name="pin_confirm_verify">Crear PIN</string>
+    <string name="pin_confirm_cancel">Atrás</string>
+    <string name="pin_confirm_mismatch">Los PINs no coinciden. Intente nuevamente</string>
+
+    <!-- PIN Change -->
+    <string name="pin_change_title">Cambiar PIN</string>
+    <string name="pin_change_message">Ingrese su PIN actual para continuar</string>
+    <string name="pin_change_current_hint">PIN Actual</string>
+    <string name="pin_change_verify">Continuar</string>
+    <string name="pin_change_cancel">Cancelar</string>
+    <string name="pin_change_wrong_current">PIN actual incorrecto</string>
+
+    <!-- PIN Removal -->
+    <string name="pin_remove_title">Eliminar PIN</string>
+    <string name="pin_remove_message">Ingrese su PIN actual para eliminar la protección de PIN</string>
+    <string name="pin_remove_hint">PIN Actual</string>
+    <string name="pin_remove_confirm">Eliminar PIN</string>
+    <string name="pin_remove_cancel">Cancelar</string>
+    <string name="pin_remove_wrong">PIN incorrecto</string>
+    <string name="pin_remove_success">Protección de PIN eliminada</string>
+
+    <!-- Security Test -->
+    <string name="security_test_disabled">La seguridad está deshabilitada. Habilite la seguridad primero</string>
+
+    <!-- Queue Status -->
+    <string name="queue_empty">No hay mensajes en cola</string>
+    <string name="queue_stats_format">Total: %1$d | Pendientes: %2$d | Fallidos: %3$d</string>
+
+    <!-- Theme -->
+    <string name="theme_system_fallback">El modo sistema usa ahorro de batería en Android 9 e inferior</string>
+
+    <!-- Retry Mechanism -->
+    <string name="retry_mechanism_info">Reintento automático habilitado para todos los métodos de reenvío (3 intentos con retroceso exponencial)</string>
 
     <!-- Permissions -->
     <string name="permission_sms_title">Permiso SMS</string>

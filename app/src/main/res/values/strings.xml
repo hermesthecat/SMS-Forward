@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">SMS Forward</string>
 
@@ -25,7 +26,7 @@
     <string name="enable_sms">Enable SMS</string>
     <string name="key_target_sms" translatable="false">key_sms_target</string>
     <string name="target_title_sms">Target phone number</string>
-    <string name="target_summary_sms">Example: +86 10000</string>
+    <string name="target_summary_sms">Example: +1 555 123 4567</string>
 
     <!-- Telegram -->
     <string name="key_enable_telegram" translatable="false">key_enable_telegram</string>
@@ -55,39 +56,173 @@
     <string name="key_email_username_style" translatable="false">key_email_username_style</string>
     <string name="header_email">Forward via Email</string>
     <string name="enable_email">Enable Email</string>
+    <string name="email_from_address_title">Sender address</string>
+    <string name="email_from_address_summary">Your email address</string>
+    <string name="email_to_address_title">Recipient address</string>
+    <string name="email_to_address_summary">Destination email</string>
+    <string name="email_submit_host_title">SMTP server</string>
+    <string name="email_submit_host_summary">smtp.gmail.com</string>
+    <string name="email_submit_port_title">SMTP port</string>
+    <string name="email_submit_port_summary">587</string>
+    <string name="email_submit_password_title">Password</string>
+    <string name="email_submit_password_summary">App password</string>
+    <string name="email_username_style_title">Username style</string>
+    <string name="email_username_style_summary">Full address or username only</string>
+
+    <!-- Email - Alternative naming (referenced in XML) -->
     <string name="from_address">Sender address</string>
-    <string name="from_address_summary">Example: from@example.com</string>
+    <string name="from_address_summary">Your email address</string>
     <string name="to_address">Recipient address</string>
-    <string name="to_address_summary">Example: to@example.com</string>
-    <string name="smtp_submission_server">SMTP submission server</string>
-    <string name="smtp_submission_server_summary">Example: smtp.example.com</string>
-    <string name="smtp_submission_port">SMTP submission port</string>
-    <string name="smtp_submission_port_summary">Usually 465 or 587</string>
+    <string name="to_address_summary">Destination email</string>
+    <string name="smtp_submission_server">SMTP server</string>
+    <string name="smtp_submission_server_summary">smtp.gmail.com</string>
+    <string name="smtp_submission_port">SMTP port</string>
+    <string name="smtp_submission_port_summary">587</string>
     <string name="smtp_password">Password</string>
-    <string name="smtp_password_summary">Password for SMTP authentication</string>
+    <string name="smtp_password_summary">App password</string>
     <string name="smtp_username_style">Username style</string>
-    <string name="smtp_username_style_summary">Full address or local part</string>
+    <string name="smtp_username_style_summary">Full address or username only</string>
+
+    <!-- Security -->
+    <string name="key_security_enabled" translatable="false">key_security_enabled</string>
+    <string name="key_pin_setup" translatable="false">key_pin_setup</string>
+    <string name="key_biometric_enabled" translatable="false">key_biometric_enabled</string>
+    <string name="key_auth_timeout" translatable="false">key_auth_timeout</string>
+    <string name="key_security_test" translatable="false">key_security_test</string>
+    <string name="header_security">Security</string>
+    <string name="security_enabled_title">Enable app security</string>
+    <string name="security_enabled_summary">Require authentication to open app</string>
+    <string name="pin_setup_title">Setup PIN</string>
+    <string name="pin_setup_summary_disabled">PIN not set</string>
+    <string name="pin_setup_summary_enabled">PIN set</string>
+    <string name="biometric_enabled_title">Enable biometric authentication</string>
+    <string name="biometric_enabled_summary">Use fingerprint or face recognition</string>
+    <string name="auth_timeout_title">Authentication timeout</string>
+    <string name="auth_timeout_summary">Time before requiring authentication again</string>
+    <string name="security_test_title">Test authentication</string>
+    <string name="security_test_summary">Verify security configuration</string>
+
+    <!-- Rate Limiting -->
+    <string name="key_enable_rate_limiting" translatable="false">key_enable_rate_limiting</string>
+    <string name="key_rate_limit_status" translatable="false">key_rate_limit_status</string>
+    <string name="header_rate_limiting">Rate Limiting</string>
+    <string name="enable_rate_limiting">Enable rate limiting</string>
+    <string name="rate_limiting_summary">Limit to 10 SMS per minute</string>
+    <string name="rate_limit_status_title">Rate limit status</string>
+    <string name="rate_limit_status_summary">Messages sent in current minute</string>
+
+    <!-- Content Filter -->
+    <string name="key_filter_keywords" translatable="false">key_filter_keywords</string>
+    <string name="header_content_filter">Content Filter</string>
+    <string name="filter_keywords_title">Filter keywords</string>
+    <string name="filter_keywords_summary">Block messages containing these words</string>
+    <string name="filter_keywords_dialog_title">Filter keywords</string>
+    <string name="filter_keywords_dialog_message">Enter keywords separated by commas</string>
+    <string name="filter_keywords_placeholder">spam, advertisement, promotion</string>
+
+    <!-- Sender Filter -->
+    <string name="key_enable_number_whitelist" translatable="false">key_enable_number_whitelist</string>
+    <string name="key_number_whitelist" translatable="false">key_number_whitelist</string>
+    <string name="header_sender_filter">Sender Filter</string>
+    <string name="enable_number_whitelist">Enable number whitelist</string>
+    <string name="enable_number_whitelist_summary">Only forward SMS from approved numbers</string>
+    <string name="number_whitelist_title">Number whitelist</string>
+    <string name="number_whitelist_summary">Approved numbers for forwarding</string>
+    <string name="number_whitelist_dialog_title">Number whitelist</string>
+    <string name="number_whitelist_dialog_message">Enter numbers separated by commas</string>
+    <string name="number_whitelist_placeholder">+1555123456, +1555789012</string>
+
+    <!-- Statistics -->
+    <string name="key_statistics_overview" translatable="false">key_statistics_overview</string>
+    <string name="key_statistics_today" translatable="false">key_statistics_today</string>
+    <string name="key_statistics_total" translatable="false">key_statistics_total</string>
+    <string name="key_statistics_success_rate" translatable="false">key_statistics_success_rate</string>
+    <string name="header_statistics">Statistics</string>
+    <string name="statistics_overview_title">Statistics overview</string>
+    <string name="statistics_overview_summary">View general statistics</string>
+    <string name="statistics_today_title">Today\'s statistics</string>
+    <string name="statistics_today_summary">Messages processed today</string>
+    <string name="statistics_total_title">Total statistics</string>
+    <string name="statistics_total_summary">All processed messages</string>
+    <string name="statistics_success_rate_title">Success rate</string>
+    <string name="statistics_success_rate_summary">Percentage of successfully sent messages</string>
+
+    <!-- Message History -->
+    <string name="key_message_history_view" translatable="false">key_message_history_view</string>
+    <string name="key_message_history_clear" translatable="false">key_message_history_clear</string>
+    <string name="key_message_history_export" translatable="false">key_message_history_export</string>
+    <string name="header_message_history">Message History</string>
+    <string name="message_history_view_title">View history</string>
+    <string name="message_history_view_summary">Show last 100 messages</string>
+    <string name="message_history_clear_title">Clear history</string>
+    <string name="message_history_clear_summary">Remove all history records</string>
+    <string name="message_history_export_title">Export history</string>
+    <string name="message_history_export_summary">Save history to file</string>
+
+    <!-- Connection Test -->
+    <string name="key_test_sms" translatable="false">key_test_sms</string>
+    <string name="key_test_telegram" translatable="false">key_test_telegram</string>
+    <string name="key_test_email" translatable="false">key_test_email</string>
+    <string name="key_test_web" translatable="false">key_test_web</string>
+    <string name="key_test_all_platforms" translatable="false">key_test_all_platforms</string>
+    <string name="header_connection_test">Connection Test</string>
+    <string name="test_sms_title">Test SMS</string>
+    <string name="test_sms_summary">Send test message via SMS</string>
+    <string name="test_telegram_title">Test Telegram</string>
+    <string name="test_telegram_summary">Send test message via Telegram</string>
+    <string name="test_email_title">Test Email</string>
+    <string name="test_email_summary">Send test message via Email</string>
+    <string name="test_web_title">Test Web</string>
+    <string name="test_web_summary">Send test message via Web</string>
+    <string name="test_all_platforms_title">Test all platforms</string>
+    <string name="test_all_platforms_summary">Send test message to all enabled platforms</string>
+
+    <!-- System Info -->
+    <string name="key_system_permissions" translatable="false">key_system_permissions</string>
+    <string name="key_system_queue_status" translatable="false">key_system_queue_status</string>
+    <string name="key_system_logs" translatable="false">key_system_logs</string>
+    <string name="header_system_info">System Information</string>
+    <string name="system_permissions_title">System permissions</string>
+    <string name="system_permissions_summary">View permissions status</string>
+    <string name="system_queue_status_title">Queue status</string>
+    <string name="system_queue_status_summary">View queued messages</string>
+    <string name="system_logs_title">System logs</string>
+    <string name="system_logs_summary">View app logs</string>
+
+    <!-- Appearance -->
+    <string name="key_language" translatable="false">key_language</string>
+    <string name="key_theme_mode" translatable="false">key_theme_mode</string>
+    <string name="header_appearance">Appearance</string>
+    <string name="language_title">Language</string>
+    <string name="language_summary">Change app language</string>
+    <string name="theme_mode_title">Theme</string>
+    <string name="theme_mode_summary">Light, dark, or system mode</string>
+
+    <!-- Backup -->
+    <string name="key_export_settings" translatable="false">key_export_settings</string>
+    <string name="key_import_settings" translatable="false">key_import_settings</string>
+    <string name="header_backup">Backup</string>
+    <string name="export_settings_title">Export settings</string>
+    <string name="export_settings_summary">Save settings to file</string>
+    <string name="import_settings_title">Import settings</string>
+    <string name="import_settings_summary">Load settings from file</string>
+
+    <!-- About -->
+    <string name="key_about" translatable="false">key_about</string>
+    <string name="header_about">About</string>
+    <string name="about_title">App information</string>
+    <string name="about_summary">Version, license, and information</string>
 
     <!-- Test & Debug -->
     <string name="key_test_message" translatable="false">key_test_message</string>
     <string name="header_test">Test &amp; Debug</string>
     <string name="test_message_title">Send Test Message</string>
     <string name="test_message_summary">Send a test message to verify forwarding setup</string>
-    <string name="test_message_sent">Test message sent successfully!</string>
-    <string name="test_message_error">Failed to send test message: %s</string>
-    <string name="test_message_no_forwarders">No forwarders enabled. Please enable at least one
-        forwarding method.</string>
 
-    <!-- Retry Mechanism -->
-    <string name="retry_mechanism_info">Automatic retry enabled for all forwarding methods (3
-        attempts with exponential backoff)</string>
-
-    <!-- Offline Message Queue -->
+    <!-- Queue Status -->
     <string name="key_queue_status" translatable="false">key_queue_status</string>
     <string name="queue_status_title">Message Queue Status</string>
     <string name="queue_status_summary">View offline message queue statistics</string>
-    <string name="queue_stats_format">Total: %1$d | Pending: %2$d | Failed: %3$d</string>
-    <string name="queue_empty">No messages in queue</string>
 
     <!-- Connection Status -->
     <string name="key_connection_status" translatable="false">key_connection_status</string>
@@ -95,110 +230,39 @@
     <string name="connection_status_summary">Current network connectivity status</string>
 
     <!-- Message Counter -->
-    <string name="key_message_counter">message_counter</string>
+    <string name="key_message_counter" translatable="false">key_message_counter</string>
     <string name="message_counter_title">Message Counter</string>
     <string name="message_counter_summary">View daily and total forwarded message statistics</string>
 
-    <!-- Rate Limiting -->
-    <string name="key_enable_rate_limiting" translatable="false">key_enable_rate_limiting</string>
-    <string name="header_rate_limiting">Rate Limiting</string>
-    <string name="enable_rate_limiting">Enable Rate Limiting</string>
-    <string name="rate_limiting_summary">Prevent spam by limiting to 10 SMS forwards per minute</string>
-    <string name="key_rate_limit_status" translatable="false">key_rate_limit_status</string>
-    <string name="rate_limit_status_title">Rate Limit Status</string>
-    <string name="rate_limit_status_summary">View current rate limiting status</string>
-    <string name="rate_limit_status_format">Current: %1$d/10 | Next slot: %2$s</string>
-    <string name="rate_limit_available_now">available now</string>
-    <string name="rate_limit_seconds">%d seconds</string>
-
-    <!-- Content Filter -->
-    <string name="key_filter_keywords" translatable="false">key_filter_keywords</string>
-    <string name="header_content_filter">Content Filter</string>
-    <string name="filter_keywords_title">Block Keywords</string>
-    <string name="filter_keywords_summary">Block messages containing these keywords (comma-separated)</string>
-    <string name="filter_keywords_dialog_title">Enter keywords to block</string>
-    <string name="filter_keywords_dialog_message">Enter keywords separated by commas. Messages containing any of these words will not be forwarded.\n\nExample: spam,promotion,advertisement</string>
-    <string name="filter_keywords_placeholder">spam,promotion,advertisement</string>
-    <string name="filter_active_summary">Active filters: %s</string>
-    <string name="filter_inactive_summary">No content filters active</string>
-
-    <!-- Sender Filter -->
-    <string name="key_enable_number_whitelist" translatable="false">key_enable_number_whitelist</string>
-    <string name="key_number_whitelist" translatable="false">key_number_whitelist</string>
-    <string name="header_sender_filter">Sender Filter</string>
-    <string name="enable_number_whitelist">Enable Number Whitelist</string>
-    <string name="enable_number_whitelist_summary">Only forward messages from numbers in the whitelist</string>
-    <string name="number_whitelist_title">Whitelisted Numbers</string>
-    <string name="number_whitelist_summary">Comma-separated list of phone numbers</string>
-    <string name="number_whitelist_dialog_title">Enter Whitelisted Numbers</string>
-    <string name="number_whitelist_dialog_message">Enter phone numbers separated by commas. Messages from numbers in this list will be forwarded. If this is enabled but the list is empty, no messages will be forwarded.</string>
-    <string name="number_whitelist_placeholder">+1234567890,+447123456789</string>
-    <string name="whitelist_active_summary">Active whitelist: %s</string>
-    <string name="whitelist_inactive_summary">Whitelist is disabled or empty (all numbers allowed)</string>
-    <string name="whitelist_enabled_empty_summary">Whitelist is enabled but empty. No SMS will be forwarded.</string>
-
-    <!-- Appearance -->
-    <string name="header_appearance">Appearance</string>
-    <string name="key_theme_mode">theme_mode</string>
-    <string name="theme_mode_title">Theme</string>
-    <string name="theme_mode_summary">Choose light, dark, or system theme</string>
-    <string name="theme_system_fallback">System mode uses battery saver on Android 9 and below</string>
-
-    <!-- Language -->
-    <string name="key_language">language</string>
-    <string name="language_title">Language</string>
-    <string name="language_summary">Choose app language</string>
-    <string name="language_restart_required">App restart required for language change to take effect</string>
-    <string name="language_restart_title">Language Changed</string>
-    <string name="language_restart_message">The app will restart to apply the new language setting.</string>
-    <string name="connection_online">%1$s Online (%2$s)</string>
-    <string name="connection_offline">🔴 Offline</string>
-    <string name="connection_unknown">❓ Unknown</string>
-    <string name="connection_quality_good">Network Quality: Good</string>
-    <string name="connection_quality_moderate">Network Quality: Moderate</string>
-    <string name="connection_quality_poor">Network Quality: Poor</string>
-    <string name="connection_can_forward">✅ Ready to forward messages</string>
-    <string name="connection_cannot_forward">❌ Cannot forward messages (offline)</string>
-
-    <!-- Backup & Restore -->
-    <string name="header_backup">Backup &amp; Restore</string>
-    <string name="key_export_settings" translatable="false">key_export_settings</string>
-    <string name="key_import_settings" translatable="false">key_import_settings</string>
-    <string name="export_settings_title">Export Settings</string>
-    <string name="export_settings_summary">Backup your configuration to a file</string>
-    <string name="import_settings_title">Import Settings</string>
-    <string name="import_settings_summary">Restore configuration from a backup file</string>
-    <string name="export_success">Settings exported successfully!</string>
-    <string name="export_error">Failed to export settings: %s</string>
-    <string name="import_success">%s</string>
-    <string name="import_error">Import failed: %s</string>
-    <string name="backup_file_description">SMS Forward Settings Backup</string>
-
-    <!-- Message History -->
+    <!-- Message History Alternative Names -->
     <string name="key_message_history" translatable="false">key_message_history</string>
-    <string name="key_clear_history" translatable="false">key_clear_history</string>
     <string name="message_history_title">Message History</string>
     <string name="message_history_summary">View last 100 forwarded messages</string>
+    <string name="key_clear_history" translatable="false">key_clear_history</string>
     <string name="clear_history_title">Clear History</string>
     <string name="clear_history_summary">Delete all message history records</string>
-    <string name="clear_history_confirmation">Are you sure you want to delete all message history?
-        This action cannot be undone.</string>
-    <string name="history_cleared">Message history cleared successfully</string>
-    <string name="history_empty">No message history available</string>
-    <string name="history_stats_format" formatted="false">Total: %1$d | Success: %2$d (%.1f%%) |
-        Failed: %3$d</string>
 
-    <!-- Message Formats -->
-    <string name="sms_message_format">From %1$s:\n%2$s\nReceived at: %3$s</string>
-    <string name="telegram_message_format">Message from %1$s:\n%2$s\nReceived at: %3$s</string>
-    <string name="email_subject_format">SMS from: %1$s</string>
-    <string name="email_body_format">%1$s\n\nReceived at: %2$s</string>
+    <!-- Messages -->
+    <string name="test_message_sent">Test message sent successfully</string>
+    <string name="test_message_error">Error sending test message: %s</string>
+    <string name="test_message_no_forwarders">No platforms enabled for sending</string>
+    <string name="history_empty">No message history</string>
+    <string name="settings_exported">Settings exported successfully</string>
+    <string name="settings_imported">Settings imported successfully</string>
+    <string name="settings_export_error">Error exporting settings</string>
+    <string name="settings_import_error">Error importing settings</string>
 
-    <!-- About -->
-    <string name="header_about">About</string>
-    <string name="key_about" translatable="false">key_about</string>
-    <string name="about_title">About SMS Forward</string>
-    <string name="about_summary">App version, developer info, and license</string>
+    <!-- Export/Import Alternative Names -->
+    <string name="export_success">Settings exported successfully</string>
+    <string name="export_error">Error exporting settings: %s</string>
+    <string name="import_success">Settings imported successfully: %s</string>
+    <string name="import_error">Error importing settings: %s</string>
+
+    <!-- Language Change -->
+    <string name="language_restart_title">Language Changed</string>
+    <string name="language_restart_message">The app will restart to apply the new language setting</string>
+
+    <!-- About - Extended -->
     <string name="about_app_name">SMS Forward</string>
     <string name="about_version_title">Version</string>
     <string name="about_version_format">%1$s (%2$d)</string>
@@ -207,75 +271,101 @@
     <string name="about_license_title">License</string>
     <string name="about_license_name">MIT License</string>
     <string name="about_description_title">Description</string>
-    <string name="about_description_text">SMS Forward is a minimal, efficient Android application
-        for forwarding SMS messages across multiple platforms including SMS, Telegram, Email, and
-        Web APIs.</string>
+    <string name="about_description_text">SMS Forward is a minimal, efficient Android application for forwarding SMS messages across multiple platforms including SMS, Telegram, Email, and Web APIs</string>
     <string name="about_features_title">Key Features</string>
-    <string name="about_features_text">• Multi-platform forwarding\n• Automatic retry mechanism\n•
-        Offline message queue\n• Rate limiting protection\n• Message history tracking\n•
-        Multi-language support\n• Dark mode theme\n• Settings backup/restore</string>
+    <string name="about_features_text">• Multi-platform forwarding\\n• Automatic retry mechanism\\n• Offline message queue\\n• Rate limiting protection\\n• Message history tracking\\n• Multi-language support\\n• Dark mode theme\\n• Settings backup/restore</string>
     <string name="about_build_info_title">Build Information</string>
     <string name="about_package_name">Package: %s</string>
     <string name="about_min_sdk">Minimum Android: API %d</string>
     <string name="about_target_sdk">Target Android: API %d</string>
     <string name="about_build_time">Build Time: %s</string>
 
-    <!-- Security & Privacy -->
-    <string name="header_security">Security &amp; Privacy</string>
-    <string name="key_security_enabled" translatable="false">key_security_enabled</string>
-    <string name="key_pin_setup" translatable="false">key_pin_setup</string>
-    <string name="key_biometric_enabled" translatable="false">key_biometric_enabled</string>
-    <string name="key_auth_timeout" translatable="false">key_auth_timeout</string>
-    <string name="key_security_test" translatable="false">key_security_test</string>
+    <!-- Authentication -->
+    <string name="enter_pin">Enter PIN</string>
+    <string name="pin_setup_title_dialog">Setup PIN</string>
+    <string name="pin_setup_message">Enter a 4-8 digit PIN</string>
+    <string name="pin_confirm_title">Confirm PIN</string>
+    <string name="pin_confirm_message">Enter PIN again</string>
+    <string name="pin_mismatch">PINs do not match</string>
+    <string name="pin_too_short">PIN too short (minimum 4 digits)</string>
+    <string name="pin_too_long">PIN too long (maximum 8 digits)</string>
+    <string name="authentication_failed">Authentication failed</string>
+    <string name="biometric_prompt_title">Biometric authentication</string>
+    <string name="biometric_prompt_subtitle">Use your fingerprint or face to authenticate</string>
+    <string name="biometric_error">Biometric authentication error</string>
 
-    <string name="security_enabled_title">Enable App Security</string>
-    <string name="security_enabled_summary">Protect app access with PIN or biometric authentication</string>
+    <!-- Extended Authentication -->
+    <string name="auth_no_methods">No authentication methods available</string>
+    <string name="pin_auth_title">Enter PIN</string>
+    <string name="pin_auth_message">Enter your PIN to access SMS Forward</string>
+    <string name="pin_auth_hint">Enter PIN</string>
+    <string name="pin_auth_verify">Unlock</string>
+    <string name="pin_auth_cancel">Cancel</string>
+    <string name="pin_auth_invalid">Incorrect PIN. Please try again</string>
 
-    <string name="pin_setup_title">PIN Setup</string>
-    <string name="pin_setup_summary_enabled">PIN protection is enabled</string>
-    <string name="pin_setup_summary_disabled">No PIN set - tap to create</string>
-    
-    <string name="biometric_enabled_title">Biometric Authentication</string>
-    <string name="biometric_enabled_summary">Use fingerprint or face unlock</string>
-    
-    <string name="auth_timeout_title">Authentication Timeout</string>
-    <string name="auth_timeout_summary">How long until re-authentication is required</string>
-    
-    <string name="security_test_title">Test Security</string>
-    <string name="security_test_summary">Test current authentication settings</string>
+    <!-- Biometric Status -->
+    <string name="biometric_available">Biometric authentication is available</string>
+    <string name="biometric_no_hardware">No biometric hardware available</string>
+    <string name="biometric_hw_unavailable">Biometric hardware is currently unavailable</string>
+    <string name="biometric_none_enrolled">No biometric credentials enrolled</string>
+    <string name="biometric_unavailable">Biometric authentication is not available</string>
+    <string name="biometric_prompt_cancel">Use PIN</string>
+    <string name="biometric_auth_failed">Biometric authentication failed</string>
 
-    <!-- PIN Setup Dialogs -->
+    <!-- Message Formats -->
+    <string name="sms_message_format">From %1$s:\\n%2$s\\nReceived at: %3$s</string>
+    <string name="telegram_message_format">Message from %1$s:\\n%2$s\\nReceived at: %3$s</string>
+    <string name="email_subject_format">SMS from: %1$s</string>
+    <string name="email_body_format">%1$s\\n\\nReceived at: %2$s</string>
+
+    <!-- Additional Biometric Strings -->
+    <string name="biometric_enabled_success">Biometric authentication enabled</string>
+    <string name="biometric_enable_failed">Failed to enable biometric authentication</string>
+    <string name="biometric_disabled">Biometric authentication disabled</string>
+
+    <!-- Rate Limiting Status -->
+    <string name="rate_limit_seconds">%d seconds</string>
+    <string name="rate_limit_available_now">available now</string>
+    <string name="rate_limit_status_format">Current: %1$d/10 | Next slot: %2$s</string>
+
+    <!-- Filter Status -->
+    <string name="filter_active_summary">Active filters: %s</string>
+    <string name="filter_inactive_summary">No content filters active</string>
+
+    <!-- Whitelist Status -->
+    <string name="whitelist_active_summary">Active whitelist: %s</string>
+    <string name="whitelist_inactive_summary">Whitelist is disabled or empty (all numbers allowed)</string>
+    <string name="whitelist_enabled_empty_summary">Whitelist is enabled but empty. No SMS will be forwarded</string>
+
+    <!-- PIN Setup Extended -->
     <string name="pin_setup_existing_title">PIN Already Set</string>
     <string name="pin_setup_existing_message">A PIN is already configured. What would you like to do?</string>
     <string name="pin_setup_change">Change PIN</string>
     <string name="pin_setup_remove">Remove PIN</string>
     <string name="pin_setup_cancel">Cancel</string>
-    
     <string name="pin_setup_new_title">Create PIN</string>
-    <string name="pin_setup_new_message">Create a 4-digit PIN to protect your SMS Forward app.</string>
+    <string name="pin_setup_new_message">Create a 4-digit PIN to protect your SMS Forward app</string>
     <string name="pin_setup_create">Create PIN</string>
 
     <!-- PIN Creation -->
     <string name="pin_create_title">Create New PIN</string>
-    <string name="pin_create_message">Enter a 4-digit PIN to protect app access:</string>
+    <string name="pin_create_message">Enter a 4-digit PIN to protect app access</string>
     <string name="pin_create_hint">Enter 4-digit PIN</string>
     <string name="pin_create_confirm">Next</string>
     <string name="pin_create_cancel">Cancel</string>
     <string name="pin_create_too_short">PIN must be at least 4 digits</string>
     <string name="pin_create_success">PIN created successfully!</string>
-    <string name="pin_create_failed">Failed to create PIN. Please try again.</string>
+    <string name="pin_create_failed">Failed to create PIN. Please try again</string>
 
     <!-- PIN Confirmation -->
-    <string name="pin_confirm_title">Confirm PIN</string>
-    <string name="pin_confirm_message">Re-enter your PIN to confirm:</string>
     <string name="pin_confirm_hint">Confirm PIN</string>
     <string name="pin_confirm_verify">Create PIN</string>
     <string name="pin_confirm_cancel">Back</string>
-    <string name="pin_confirm_mismatch">PINs do not match. Please try again.</string>
+    <string name="pin_confirm_mismatch">PINs do not match. Please try again</string>
 
     <!-- PIN Change -->
     <string name="pin_change_title">Change PIN</string>
-    <string name="pin_change_message">Enter your current PIN to continue:</string>
+    <string name="pin_change_message">Enter your current PIN to continue</string>
     <string name="pin_change_current_hint">Current PIN</string>
     <string name="pin_change_verify">Continue</string>
     <string name="pin_change_cancel">Cancel</string>
@@ -283,126 +373,51 @@
 
     <!-- PIN Removal -->
     <string name="pin_remove_title">Remove PIN</string>
-    <string name="pin_remove_message">Enter your current PIN to remove PIN protection:</string>
+    <string name="pin_remove_message">Enter your current PIN to remove PIN protection</string>
     <string name="pin_remove_hint">Current PIN</string>
     <string name="pin_remove_confirm">Remove PIN</string>
     <string name="pin_remove_cancel">Cancel</string>
     <string name="pin_remove_wrong">Incorrect PIN</string>
     <string name="pin_remove_success">PIN protection removed</string>
 
-    <!-- PIN Authentication -->
-    <string name="pin_auth_title">Enter PIN</string>
-    <string name="pin_auth_message">Enter your PIN to access SMS Forward:</string>
-    <string name="pin_auth_hint">Enter PIN</string>
-    <string name="pin_auth_verify">Unlock</string>
-    <string name="pin_auth_cancel">Cancel</string>
-    <string name="pin_auth_invalid">Incorrect PIN. Please try again.</string>
+    <!-- Security Test -->
+    <string name="security_test_disabled">Security is disabled. Enable security first</string>
 
-    <!-- Biometric Authentication -->
-    <string name="biometric_available">Biometric authentication is available</string>
-    <string name="biometric_no_hardware">No biometric hardware available</string>
-    <string name="biometric_hw_unavailable">Biometric hardware is currently unavailable</string>
-    <string name="biometric_none_enrolled">No biometric credentials enrolled</string>
-    <string name="biometric_unavailable">Biometric authentication is not available</string>
-    
-    <string name="biometric_prompt_title">SMS Forward Authentication</string>
-    <string name="biometric_prompt_subtitle">Use your fingerprint or face to unlock</string>
-    <string name="biometric_prompt_cancel">Use PIN</string>
-    
-    <string name="biometric_enabled_success">Biometric authentication enabled</string>
-    <string name="biometric_enable_failed">Failed to enable biometric authentication</string>
-    <string name="biometric_disabled">Biometric authentication disabled</string>
-    <string name="biometric_auth_failed">Biometric authentication failed</string>
+    <!-- Queue Status -->
+    <string name="queue_empty">No messages in queue</string>
+    <string name="queue_stats_format">Total: %1$d | Pending: %2$d | Failed: %3$d</string>
 
-    <!-- Authentication -->
-    <string name="auth_no_methods">No authentication methods available</string>
-    <string name="security_test_disabled">Security is disabled. Enable security first.</string>
+    <!-- Theme -->
+    <string name="theme_system_fallback">System mode uses battery saver on Android 9 and below</string>
 
-    <!-- Missing Headers and Keys -->
-    <string name="key_enable_app_security" translatable="false">key_enable_app_security</string>
-    <string name="key_security_pin_setup" translatable="false">key_security_pin_setup</string>
-    <string name="key_enable_biometric" translatable="false">key_enable_biometric</string>
-    <string name="key_authentication_timeout" translatable="false">key_authentication_timeout</string>
-    <string name="key_enable_content_filter" translatable="false">key_enable_content_filter</string>
-    <string name="key_content_filter_keywords" translatable="false">key_content_filter_keywords</string>
-    <string name="key_send_test_message" translatable="false">key_send_test_message</string>
-    <string name="key_message_queue_status" translatable="false">key_message_queue_status</string>
-    <string name="key_view_message_history" translatable="false">key_view_message_history</string>
-    <string name="key_clear_message_history" translatable="false">key_clear_message_history</string>
-    <string name="key_app_version" translatable="false">key_app_version</string>
-    <string name="key_app_info" translatable="false">key_app_info</string>
+    <!-- Retry Mechanism -->
+    <string name="retry_mechanism_info">Automatic retry enabled for all forwarding methods (3 attempts with exponential backoff)</string>
 
-    <string name="enable_app_security">Enable App Security</string>
-    <string name="enable_app_security_summary">Protect app with PIN/biometric authentication</string>
-    <string name="security_pin_setup">PIN Setup</string>
-    <string name="security_pin_setup_summary">Create or change PIN</string>
-    <string name="enable_biometric">Biometric Authentication</string>
-    <string name="enable_biometric_summary">Use fingerprint or face unlock</string>
-    <string name="authentication_timeout">Authentication Timeout</string>
-    <string name="authentication_timeout_summary">How long until re-authentication required</string>
-    <string name="security_test">Test Security</string>
-    
-    <!-- Missing Headers -->
-    <string name="header_statistics">Statistics</string>
-    <string name="header_message_history">Message History</string>
-    <string name="header_connection_test">Connection Test</string>
-    <string name="header_system_info">System Information</string>
+    <!-- Permissions -->
+    <string name="permission_sms_title">SMS Permission</string>
+    <string name="permission_sms_message">This app needs permission to read incoming SMS</string>
+    <string name="permission_granted">Permission granted</string>
+    <string name="permission_denied">Permission denied</string>
 
-    <!-- Monitor Fragment - Statistics -->
-    <string name="key_statistics_overview" translatable="false">key_statistics_overview</string>
-    <string name="key_statistics_today" translatable="false">key_statistics_today</string>
-    <string name="key_statistics_total" translatable="false">key_statistics_total</string>
-    <string name="key_statistics_success_rate" translatable="false">key_statistics_success_rate</string>
-    
-    <string name="statistics_overview_title">Statistics Overview</string>
-    <string name="statistics_overview_summary">View detailed message forwarding statistics</string>
-    <string name="statistics_today_title">Today\'s Statistics</string>
-    <string name="statistics_today_summary">Messages forwarded today</string>
-    <string name="statistics_total_title">Total Statistics</string>
-    <string name="statistics_total_summary">All-time message forwarding statistics</string>
-    <string name="statistics_success_rate_title">Success Rate</string>
-    <string name="statistics_success_rate_summary">Overall forwarding success rate</string>
+    <!-- Network -->
+    <string name="network_connected">Connected</string>
+    <string name="network_disconnected">Disconnected</string>
+    <string name="network_wifi">WiFi</string>
+    <string name="network_mobile">Mobile data</string>
+    <string name="network_unknown">Unknown</string>
 
-    <!-- Monitor Fragment - Message History -->
-    <string name="key_message_history_view" translatable="false">key_message_history_view</string>
-    <string name="key_message_history_clear" translatable="false">key_message_history_clear</string>
-    <string name="key_message_history_export" translatable="false">key_message_history_export</string>
-    
-    <string name="message_history_view_title">View Message History</string>
-    <string name="message_history_view_summary">Browse recent forwarded messages</string>
-    <string name="message_history_clear_title">Clear History</string>
-    <string name="message_history_clear_summary">Delete all message history records</string>
-    <string name="message_history_export_title">Export History</string>
-    <string name="message_history_export_summary">Export message history to file</string>
-
-    <!-- Monitor Fragment - Connection Tests -->
-    <string name="key_test_sms" translatable="false">key_test_sms</string>
-    <string name="key_test_telegram" translatable="false">key_test_telegram</string>
-    <string name="key_test_email" translatable="false">key_test_email</string>
-    <string name="key_test_web" translatable="false">key_test_web</string>
-    <string name="key_test_all_platforms" translatable="false">key_test_all_platforms</string>
-    
-    <string name="test_sms_title">Test SMS</string>
-    <string name="test_sms_summary">Verify SMS forwarding configuration</string>
-    <string name="test_telegram_title">Test Telegram</string>
-    <string name="test_telegram_summary">Verify Telegram forwarding configuration</string>
-    <string name="test_email_title">Test Email</string>
-    <string name="test_email_summary">Verify Email forwarding configuration</string>
-    <string name="test_web_title">Test Web</string>
-    <string name="test_web_summary">Verify Web forwarding configuration</string>
-    <string name="test_all_platforms_title">Test All Platforms</string>
-    <string name="test_all_platforms_summary">Run configuration test for all platforms</string>
-
-    <!-- Monitor Fragment - System Information -->
-    <string name="key_system_permissions" translatable="false">key_system_permissions</string>
-    <string name="key_system_queue_status" translatable="false">key_system_queue_status</string>
-    <string name="key_system_logs" translatable="false">key_system_logs</string>
-    
-    <string name="system_permissions_title">System Permissions</string>
-    <string name="system_permissions_summary">Check required app permissions</string>
-    <string name="system_queue_status_title">Message Queue</string>
-    <string name="system_queue_status_summary">View pending message queue status</string>
-    <string name="system_logs_title">System Logs</string>
-    <string name="system_logs_summary">View app logs and diagnostics</string>
-
+    <!-- Common -->
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="save">Save</string>
+    <string name="delete">Delete</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="enabled">Enabled</string>
+    <string name="disabled">Disabled</string>
+    <string name="loading">Loading...</string>
+    <string name="error">Error</string>
+    <string name="success">Success</string>
+    <string name="warning">Warning</string>
+    <string name="info">Information</string>
 </resources>
