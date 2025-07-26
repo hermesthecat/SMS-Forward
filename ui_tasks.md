@@ -83,6 +83,8 @@ MainActivity (Bottom Navigation)
     - [ ] Add common UI update methods
   - [ ] **BUILD TEST**: Run `gradlew assembleDebug` to test base class compilation
   - [ ] **FIX ERRORS**: Fix any base class compilation issues
+  - [ ] **GIT COMMIT**: `git add . && git commit -m "Add BasePreferenceFragment with common functionality"`
+  - [ ] **GIT PUSH**: `git push origin main`
 
 - [ ] **Setup Navigation Infrastructure**
   - [ ] Create `menu/bottom_navigation_menu.xml` with proper icons
@@ -90,6 +92,8 @@ MainActivity (Bottom Navigation)
   - [ ] Add Turkish translations for navigation strings
   - [ ] **BUILD TEST**: Run `gradlew assembleDebug` to test menu resource loading
   - [ ] **FIX ERRORS**: Fix any menu/string resource issues
+  - [ ] **GIT COMMIT**: `git add . && git commit -m "Add bottom navigation menu and string resources"`
+  - [ ] **GIT PUSH**: `git push origin main`
 
 ### 2.2 Resource Preparation
 - [ ] **Clean String Resources**
@@ -99,6 +103,8 @@ MainActivity (Bottom Navigation)
   - [ ] **BUILD TEST**: Run `gradlew assembleDebug` to catch string conflicts
   - [ ] **FIX ERRORS**: Fix any "Found item String/xxx more than one time" errors
   - [ ] Validate all string references compile
+  - [ ] **GIT COMMIT**: `git add . && git commit -m "Clean string resources and fix duplicates"`
+  - [ ] **GIT PUSH**: `git push origin main`
 
 - [ ] **Add Missing Arrays**
   - [ ] Create `authentication_timeout_entries` and `authentication_timeout_values`
@@ -106,6 +112,8 @@ MainActivity (Bottom Navigation)
   - [ ] Add any missing ListPreference arrays
   - [ ] **BUILD TEST**: Run `gradlew assembleDebug` to test array loading
   - [ ] **FIX ERRORS**: Fix any "resource array/xxx not found" errors
+  - [ ] **GIT COMMIT**: `git add . && git commit -m "Add missing array resources for ListPreferences"`
+  - [ ] **GIT PUSH**: `git push origin main`
 
 ### 2.3 Layout Foundation
 - [ ] **Backup Original Layout**
@@ -118,6 +126,8 @@ MainActivity (Bottom Navigation)
   - [ ] **BUILD TEST**: Run `gradlew assembleDebug` to test layout compilation
   - [ ] **FIX ERRORS**: Fix any layout reference errors (R.id.xxx not found)
   - [ ] Test layout loading without fragments
+  - [ ] **GIT COMMIT**: `git add . && git commit -m "Update main layout for bottom navigation"`
+  - [ ] **GIT PUSH**: `git push origin main`
 
 ---
 
@@ -133,6 +143,8 @@ MainActivity (Bottom Navigation)
   - [ ] Add quick action buttons
   - [ ] **BUILD TEST**: Run `gradlew assembleDebug` to test layout compilation
   - [ ] **FIX ERRORS**: Fix any string/layout reference errors
+  - [ ] **GIT COMMIT**: `git add . && git commit -m "Add Dashboard fragment layout with status cards"`
+  - [ ] **GIT PUSH**: `git push origin main`
 
 - [ ] **Implement Fragment**
   - [ ] Create `DashboardFragment.java`
@@ -142,6 +154,8 @@ MainActivity (Bottom Navigation)
   - [ ] **BUILD TEST**: Run `gradlew assembleDebug` to test Java compilation
   - [ ] **FIX ERRORS**: Fix import errors, method not found, constructor issues
   - [ ] Test fragment in isolation
+  - [ ] **GIT COMMIT**: `git add . && git commit -m "Implement Dashboard fragment with status updates"`
+  - [ ] **GIT PUSH**: `git push origin main`
 
 - [ ] **Integration Test**
   - [ ] Load fragment in temporary activity
@@ -156,6 +170,8 @@ MainActivity (Bottom Navigation)
   - [ ] Group by platform (SMS, Telegram, Email, Web)
   - [ ] **BUILD TEST**: Run `gradlew assembleDebug` to test XML loading
   - [ ] **FIX ERRORS**: Fix any "resource string/xxx not found" errors in XML
+  - [ ] **GIT COMMIT**: `git add . && git commit -m "Add Platforms fragment preferences XML"`
+  - [ ] **GIT PUSH**: `git push origin main`
 
 - [ ] **Implement Fragment**
   - [ ] Create `PlatformsFragment.java` extending base class
@@ -164,6 +180,8 @@ MainActivity (Bottom Navigation)
   - [ ] Add preference change listeners
   - [ ] **BUILD TEST**: Run `gradlew assembleDebug` to test fragment compilation
   - [ ] **FIX ERRORS**: Fix any "resource xml/xxx not found" or import errors
+  - [ ] **GIT COMMIT**: `git add . && git commit -m "Implement Platforms fragment with preference handling"`
+  - [ ] **GIT PUSH**: `git push origin main`
 
 - [ ] **Validation**
   - [ ] Test each platform's enable/disable functionality
@@ -177,6 +195,8 @@ MainActivity (Bottom Navigation)
   - [ ] Group: Authentication, Rate Limiting, Filters
   - [ ] **BUILD TEST**: Run `gradlew assembleDebug` to test XML loading
   - [ ] **FIX ERRORS**: Fix any array/string resource not found errors
+  - [ ] **GIT COMMIT**: `git add . && git commit -m "Add Security fragment preferences XML"`
+  - [ ] **GIT PUSH**: `git push origin main`
 
 - [ ] **Implement Fragment**
   - [ ] Create `SecurityFragment.java`
@@ -186,6 +206,8 @@ MainActivity (Bottom Navigation)
   - [ ] Add filter configuration
   - [ ] **BUILD TEST**: Run `gradlew assembleDebug` to test compilation
   - [ ] **FIX ERRORS**: Fix any SecurityManager integration issues
+  - [ ] **GIT COMMIT**: `git add . && git commit -m "Implement Security fragment with authentication"`
+  - [ ] **GIT PUSH**: `git push origin main`
 
 - [ ] **Security Integration**
   - [ ] Test PIN creation flow
@@ -200,6 +222,8 @@ MainActivity (Bottom Navigation)
   - [ ] Group: Testing, Statistics, History
   - [ ] **BUILD TEST**: Run `gradlew assembleDebug` to test XML loading
   - [ ] **FIX ERRORS**: Fix any missing string/array resources
+  - [ ] **GIT COMMIT**: `git add . && git commit -m "Add Monitor fragment preferences XML"`
+  - [ ] **GIT PUSH**: `git push origin main`
 
 - [ ] **Implement Fragment**
   - [ ] Create `MonitorFragment.java`
@@ -208,6 +232,8 @@ MainActivity (Bottom Navigation)
   - [ ] Add history display
   - [ ] **BUILD TEST**: Run `gradlew assembleDebug` to test compilation
   - [ ] **FIX ERRORS**: Fix any database helper integration issues
+  - [ ] **GIT COMMIT**: `git add . && git commit -m "Implement Monitor fragment with statistics"`
+  - [ ] **GIT PUSH**: `git push origin main`
 
 - [ ] **Functionality Test**
   - [ ] Test message sending
@@ -221,6 +247,8 @@ MainActivity (Bottom Navigation)
   - [ ] Group: Appearance, Backup, About
   - [ ] **BUILD TEST**: Run `gradlew assembleDebug` to test XML loading
   - [ ] **FIX ERRORS**: Fix any missing string resources for appearance/backup
+  - [ ] **GIT COMMIT**: `git add . && git commit -m "Add About fragment preferences XML"`
+  - [ ] **GIT PUSH**: `git push origin main`
 
 - [ ] **Implement Fragment**
   - [ ] Create `AboutFragment.java`
@@ -229,6 +257,8 @@ MainActivity (Bottom Navigation)
   - [ ] Add app info display
   - [ ] **BUILD TEST**: Run `gradlew assembleDebug` to test compilation
   - [ ] **FIX ERRORS**: Fix any ThemeManager/LanguageManager integration issues
+  - [ ] **GIT COMMIT**: `git add . && git commit -m "Implement About fragment with theme/backup"`
+  - [ ] **GIT PUSH**: `git push origin main`
 
 - [ ] **Feature Test**
   - [ ] Test theme switching
@@ -252,6 +282,8 @@ MainActivity (Bottom Navigation)
   - [ ] Add navigation helper methods
   - [ ] **BUILD TEST**: Run `gradlew assembleDebug` to test MainActivity compilation
   - [ ] **FIX ERRORS**: Fix any "cannot find symbol" errors for R.id.xxx, imports
+  - [ ] **GIT COMMIT**: `git add . && git commit -m "Update MainActivity for bottom navigation support"`
+  - [ ] **GIT PUSH**: `git push origin main`
 
 ### 4.2 Fragment Registration
 - [ ] **Register All Fragments**
@@ -261,6 +293,8 @@ MainActivity (Bottom Navigation)
   - [ ] **BUILD TEST**: Run `gradlew assembleDebug` to test fragment registration
   - [ ] **FIX ERRORS**: Fix any fragment instantiation or navigation issues
   - [ ] Test fragment switching
+  - [ ] **GIT COMMIT**: `git add . && git commit -m "Register all fragments in navigation system"`
+  - [ ] **GIT PUSH**: `git push origin main`
 
 ### 4.3 Integration Testing
 - [ ] **Individual Fragment Tests**
@@ -286,6 +320,8 @@ MainActivity (Bottom Navigation)
   - [ ] Test APK installation
   - [ ] Test basic app functionality
   - [ ] **FULL INTEGRATION BUILD**: Run `gradlew assembleDebug` for final validation
+  - [ ] **GIT COMMIT**: `git add . && git commit -m "Complete multi-screen UI integration"`
+  - [ ] **GIT PUSH**: `git push origin main`
 
 ---
 
@@ -356,6 +392,9 @@ MainActivity (Bottom Navigation)
   - [ ] Security features unchanged
   - [ ] Backup/restore compatibility
   - [ ] Language switching works
+  - [ ] **FINAL VALIDATION BUILD**: Run `gradlew assembleDebug` for release validation
+  - [ ] **GIT COMMIT**: `git add . && git commit -m "Complete multi-screen UI refactoring - all tests passed"`
+  - [ ] **GIT PUSH**: `git push origin main`
 
 ---
 
@@ -500,3 +539,17 @@ MainActivity (Bottom Navigation)
 - Test build after each significant change
 - Document dependencies before making changes
 - **CRITICAL**: Run build test after every major change, not at the end
+
+### Git Commit Strategy
+- **Commit after each successful build** - Never commit broken code
+- **Use descriptive commit messages** - Explain what was added/changed
+- **Push after each major milestone** - Keep remote repository updated
+- **Commit frequently** - Small, focused commits are easier to rollback
+- **Always test before commit** - Run `gradlew assembleDebug` first
+- **Example commit flow**:
+  ```bash
+  # After successful build test
+  git add .
+  git commit -m "Add Dashboard fragment layout with status cards"
+  git push origin main
+  ```
